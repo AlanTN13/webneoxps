@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Rellax from "rellax";
 
 // ---------------------------------------------
-// Nexops – Minimal, polished landing sin framer-motion
-// Use in a Vite + Tailwind project como src/App.jsx
+// Nexops – Landing React + Parallax (Rellax)
+// Vite + Tailwind — sin framer-motion
 // ---------------------------------------------
 
 const Section = ({ id, className = "", children }) => (
@@ -62,11 +63,31 @@ const NavBar = () => (
 );
 
 const Hero = () => (
-  <Section className="bg-gradient-to-b from-white to-slate-50">
-    <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 lg:grid-cols-2">
+  <Section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50">
+    {/* Capas decorativas con parallax */}
+    <div className="pointer-events-none absolute inset-0 z-0">
+      <div
+        className="rellax will-change-transform absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-400/40 blur-xl"
+        data-rellax-speed="-4"
+        aria-hidden
+      />
+      <div
+        className="rellax will-change-transform absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-purple-400/40 blur-xl"
+        data-rellax-speed="4"
+        aria-hidden
+      />
+      <div
+        className="rellax will-change-transform absolute left-[10%] top-1/2 h-48 w-[75%] -translate-y-1/2 rotate-6 rounded-3xl bg-gradient-to-r from-indigo-300/40 to-purple-300/40"
+        data-rellax-speed="-2"
+        aria-hidden
+      />
+    </div>
+
+    {/* Contenido por encima de las burbujas */}
+    <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 lg:grid-cols-2">
       <div>
         <Pill>
-          <span className="h-2 w-2 rounded-full bg-emerald-500"/> Listo para implementar
+          <span className="h-2 w-2 rounded-full bg-emerald-500" /> Listo para implementar
         </Pill>
         <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Agentes de IA y automatización que <span className="text-indigo-600">ahorran horas</span> y escalan tu operación
@@ -87,8 +108,9 @@ const Hero = () => (
           <div className="flex items-center gap-2"><Star/> Implementación en semanas</div>
         </div>
       </div>
+
       <div className="relative">
-        <div className="absolute -inset-6 -z-10 rounded-3xl bg-indigo-50 blur-2xl"/>
+        <div className="absolute -inset-6 -z-10 rounded-3xl bg-indigo-50 blur-2xl" />
         <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-xl">
           <div className="grid grid-cols-2 gap-3">
             <Card>
@@ -114,6 +136,7 @@ const Hero = () => (
   </Section>
 );
 
+
 const Logos = () => (
   <Section className="py-10">
     <div className="mx-auto max-w-7xl px-4">
@@ -138,30 +161,12 @@ const Servicios = () => (
       </div>
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[
-          {
-            title: "Agentes de IA",
-            points: ["Atención automatizada 24/7","Rutas de intención","Memoria y contexto"],
-          },
-          {
-            title: "Automatización de procesos",
-            points: ["n8n / Apps Script","Integraciones via API","Validaciones y aprobaciones"],
-          },
-          {
-            title: "CRM & Omnicanal",
-            points: ["Kommo + WhatsApp Business","Embudos y SLA","Reportes por equipo"],
-          },
-          {
-            title: "Data & Analytics",
-            points: ["GA4 / Looker Studio","Eventos y conversiones","KPIs en tiempo real"],
-          },
-          {
-            title: "UX & Front ligero",
-            points: ["Landings en React","Formularios inteligentes","Componentes reutilizables"],
-          },
-          {
-            title: "Soporte & Escalado",
-            points: ["Monitoreo y alertas","Runbooks y playbooks","Capacitación al equipo"],
-          },
+          { title: "Agentes de IA", points: ["Atención automatizada 24/7","Rutas de intención","Memoria y contexto"] },
+          { title: "Automatización de procesos", points: ["n8n / Apps Script","Integraciones via API","Validaciones y aprobaciones"] },
+          { title: "CRM & Omnicanal", points: ["Kommo + WhatsApp Business","Embudos y SLA","Reportes por equipo"] },
+          { title: "Data & Analytics", points: ["GA4 / Looker Studio","Eventos y conversiones","KPIs en tiempo real"] },
+          { title: "UX & Front ligero", points: ["Landings en React","Formularios inteligentes","Componentes reutilizables"] },
+          { title: "Soporte & Escalado", points: ["Monitoreo y alertas","Runbooks y playbooks","Capacitación al equipo"] },
         ].map(({ title, points }) => (
           <Card key={title}>
             <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
@@ -272,6 +277,13 @@ const Footer = () => (
 );
 
 export default function App() {
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (prefersReduced.matches || window.innerWidth < 640) return; // desactiva en mobile o si el usuario prefiere menos movimiento
+    const r = new Rellax(".rellax", { center: false });
+    return () => r.destroy();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white text-slate-900 antialiased">
       <NavBar />
