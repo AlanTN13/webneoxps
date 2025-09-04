@@ -46,16 +46,34 @@ const Logo = () => (
 );
 
 const NavBar = () => (
-  <div className="sticky top-0 z-40 w-full border-b border-slate-100/80 bg-white/80 backdrop-blur">
+  <div className="sticky top-0 z-40 w-full border-b border-slate-100 bg-white backdrop-blur">
     <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-      <Logo />
-      <nav className="hidden items-center gap-6 text-sm text-slate-600 sm:flex">
-        <a href="#servicios" className="hover:text-slate-900">Servicios</a>
-        <a href="#proceso" className="hover:text-slate-900">Proceso</a>
-        <a href="#casos" className="hover:text-slate-900">Casos</a>
-        <a href="#contacto" className="hover:text-slate-900">Contacto</a>
-      </nav>
-      <a href="#contacto" className="inline-flex items-center rounded-xl bg-indigo-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <div className="rounded-xl bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
+        <Logo />
+      </div>
+      <nav className="hidden items-center gap-6 text-sm text-slate-600 sm:flex group">
+  <a href="#servicios" className="relative hover:text-indigo-600 transition">
+    Servicios
+    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+  </a>
+  <a href="#proceso" className="relative hover:text-indigo-600 transition">
+    Proceso
+    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+  </a>
+  <a href="#casos" className="relative hover:text-indigo-600 transition">
+    Casos
+    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+  </a>
+  <a href="#contacto" className="relative hover:text-indigo-600 transition">
+    Contacto
+    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+  </a>
+</nav>
+
+      <a
+        href="#contacto"
+        className="inline-flex items-center rounded-xl bg-indigo-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
         Hablemos
       </a>
     </div>
