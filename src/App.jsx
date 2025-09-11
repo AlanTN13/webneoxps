@@ -5,7 +5,7 @@ import brandLogo from "./assets/logo-nexops.svg";
 
 // ---------------------------------------------
 // Nexops – Landing React + Parallax (Rellax)
-// Vite + Tailwind — sin framer-motion
+// Vite + Tailwind —
 // ---------------------------------------------
 
 const Section = ({ id, className = "", children }) => (
@@ -41,52 +41,23 @@ const ArrowRight = () => (
 );
 
 /* Logo */
-
-// Marca en SVG
-const LogoMark = ({ className = "h-10 w-10" }) => (
-  <svg
-    viewBox="0 0 48 48"
-    className={className}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <polygon
-      points="24,2 42,12 42,36 24,46 6,36 6,12"
-      stroke="#4F46E5"
-      strokeWidth="2.4"
-      fill="none"
-      strokeLinejoin="round"
-    />
-    <path d="M14 18v12" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="14" cy="16" r="2" fill="#4F46E5"/>
-    <circle cx="14" cy="32" r="2" fill="#4F46E5"/>
-
-    <path d="M24 12v8l6 6v4" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="24" cy="10" r="2" fill="#4F46E5"/>
-    <circle cx="30" cy="26" r="2" fill="#4F46E5"/>
-    <circle cx="30" cy="32" r="2" fill="#4F46E5"/>
-
-    <path d="M18 22h6" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="26" cy="22" r="2" fill="#4F46E5"/>
-  </svg>
-);
-
 const Brand = () => (
-  <div className="flex items-center gap-1">
+  <a
+    href="/"
+    className="flex items-center gap-1 group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md"
+  >
     <img src={brandLogo} alt="NexOps" className="h-12 w-12 -ml-1 shrink-0" />
-    <span className="text-xl font-semibold tracking-tight text-slate-900">NexOps</span>
-  </div>
+    <span className="text-xl font-semibold tracking-tight text-slate-900 group-hover:text-indigo-700">
+      NexOps
+    </span>
+  </a>
 );
 
-// Si preferís seguir usando <Logo />, descomentá la línea de abajo:
-// const Logo = Brand;
 
 // NavBar
 const NavBar = () => (
   <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur border-b border-slate-100 h-[72px]">
     <div className="mx-auto max-w-7xl flex h-full items-center justify-between px-6">
-      {/* Reemplazamos Logo por Brand para evitar el error */}
       <Brand />
 
       <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
@@ -106,6 +77,7 @@ const NavBar = () => (
   </header>
 );
 
+/* HERO PRAGMÁTICO */
 const Hero = () => (
   <Section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50">
     {/* Capas decorativas con parallax */}
@@ -133,45 +105,51 @@ const Hero = () => (
         <Pill>
           <span className="h-2 w-2 rounded-full bg-emerald-500" /> Listo para implementar
         </Pill>
+
         <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Agentes de IA y automatización que <span className="text-indigo-600">ahorran horas</span> y escalan tu operación
+          Reduce tus costos y libere horas clave con automatización inteligente
         </h1>
+
         <p className="mt-4 max-w-xl text-slate-600">
-          En Nexops integramos tus canales, estandarizamos procesos y desplegamos agentes inteligentes para que tu equipo se enfoque en lo importante.
+          Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA que eliminan tareas manuales y escalan tu operación en semanas, no meses.
         </p>
+
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <a href="#contacto" className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700">
-            Agendar una reunión <ArrowRight />
+            Quiero automatizar ahora <ArrowRight />
           </a>
           <a href="#servicios" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-slate-300">
             Ver servicios
           </a>
         </div>
-        <div className="mt-8 flex items-center gap-6 text-xs text-slate-500">
+
+        <div className="mt-8 flex flex-wrap items-center gap-6 text-xs text-slate-500">
           <div className="flex items-center gap-2"><Star/> 100+ automatizaciones</div>
           <div className="flex items-center gap-2"><Star/> Implementación en semanas</div>
+          <div className="flex items-center gap-2"><Star/> Sin desarrolladores internos</div>
         </div>
       </div>
 
+      {/* Tarjetas del hero (ampliadas) */}
       <div className="relative">
         <div className="absolute -inset-6 -z-10 rounded-3xl bg-indigo-50 blur-2xl" />
         <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-xl">
           <div className="grid grid-cols-2 gap-3">
             <Card>
               <p className="text-sm font-semibold text-slate-900">Bots de atención</p>
-              <p className="mt-1 text-sm text-slate-600">WhatsApp, IG y Web con handoff a humanos.</p>
+              <p className="mt-1 text-sm text-slate-600">WhatsApp, IG y Web 24/7 con handoff a humanos.</p>
             </Card>
             <Card>
-              <p className="text-sm font-semibold text-slate-900">RPA & Flujos</p>
-              <p className="mt-1 text-sm text-slate-600">n8n, Apps Script y webhooks.</p>
+              <p className="text-sm font-semibold text-slate-900">Automatización (RPA)</p>
+              <p className="mt-1 text-sm text-slate-600">n8n, Make, Apps Script y webhooks.</p>
             </Card>
             <Card>
               <p className="text-sm font-semibold text-slate-900">Integraciones</p>
-              <p className="mt-1 text-sm text-slate-600">Kommo, Sheets, Power Apps, CRMs.</p>
+              <p className="mt-1 text-sm text-slate-600">Microsoft 365, Google Workspace, Kommo, Power Apps, Sheets, CRMs, Odoo y sistemas propios.</p>
             </Card>
             <Card>
               <p className="text-sm font-semibold text-slate-900">Analítica</p>
-              <p className="mt-1 text-sm text-slate-600">GA4, dashboards y KPIs en tiempo real.</p>
+              <p className="mt-1 text-sm text-slate-600">GA4, Looker Studio, Power BI, Tableau y KPI's en tiempo real.</p>
             </Card>
           </div>
         </div>
@@ -195,6 +173,7 @@ const Logos = () => (
   </Section>
 );
 
+/* SERVICIOS (ajustado a ecosistema) */
 const Servicios = () => (
   <Section id="servicios" className="bg-slate-50/60">
     <div className="mx-auto max-w-7xl px-4">
@@ -202,14 +181,57 @@ const Servicios = () => (
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Servicios</h2>
         <p className="mt-3 text-slate-600">Implementamos punta a punta, de la idea al resultado medible.</p>
       </div>
+
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[
-          { title: "Agentes de IA", points: ["Atención automatizada 24/7","Rutas de intención","Memoria y contexto"] },
-          { title: "Automatización de procesos", points: ["n8n / Apps Script","Integraciones via API","Validaciones y aprobaciones"] },
-          { title: "CRM & Omnicanal", points: ["Kommo + WhatsApp Business","Embudos y SLA","Reportes por equipo"] },
-          { title: "Data & Analytics", points: ["GA4 / Looker Studio","Eventos y conversiones","KPIs en tiempo real"] },
-          { title: "UX & Front ligero", points: ["Landings en React","Formularios inteligentes","Componentes reutilizables"] },
-          { title: "Soporte & Escalado", points: ["Monitoreo y alertas","Runbooks y playbooks","Capacitación al equipo"] },
+          {
+            title: "Agentes de IA",
+            points: [
+              "Atención automatizada 24/7",
+              "Rutas de intención y memoria",
+              "Handoff eficiente al equipo"
+            ],
+          },
+          {
+            title: "Automatización de procesos (RPA)",
+            points: [
+              "n8n / Make / Apps Script",
+              "Integraciones vía API y webhooks",
+              "Validaciones, aprobaciones y SLAs"
+            ],
+          },
+          {
+            title: "Integraciones & Ecosistema",
+            points: [
+              "Microsoft 365 y Google Workspace",
+              "Kommo, Power Apps, Sheets, CRMs",
+              "Odoo y sistemas custom / legacy"
+            ],
+          },
+          {
+            title: "Data & Analytics",
+            points: [
+              "GA4 / Looker Studio / Power BI / Tableau",
+              "Eventos, conversiones y trazabilidad",
+              "KPIs y dashboards en tiempo real"
+            ],
+          },
+          {
+            title: "UX & Front ligero",
+            points: [
+              "Landings en React",
+              "Formularios inteligentes",
+              "Componentes reutilizables"
+            ],
+          },
+          {
+            title: "Soporte & Escalado",
+            points: [
+              "Monitoreo y alertas",
+              "Runbooks y playbooks",
+              "Capacitación al equipo"
+            ],
+          },
         ].map(({ title, points }) => (
           <Card key={title}>
             <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
@@ -305,8 +327,6 @@ const CTA = () => (
 const Footer = () => (
   <footer className="border-t border-slate-100 bg-white">
     <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
-      
-      {/* Marca */}
       <div className="flex items-center text-sm text-slate-500">
         <img src={brandLogo} alt="NexOps" className="h-5 w-5 shrink-0 mr-1" />
         <span className="font-semibold text-slate-800 mr-2">NexOps</span>
@@ -315,7 +335,6 @@ const Footer = () => (
         </span>
       </div>
 
-      {/* Links */}
       <nav className="flex items-center gap-4 text-sm text-slate-500">
         <a href="#servicios" className="hover:text-slate-900">Servicios</a>
         <a href="#proceso" className="hover:text-slate-900">Proceso</a>
