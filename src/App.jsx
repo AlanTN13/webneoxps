@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import Rellax from "rellax";
+import brandLogo from "./assets/logo-nexops.svg";
+
 
 // ---------------------------------------------
 // Nexops – Landing React + Parallax (Rellax)
@@ -28,7 +30,7 @@ const Check = () => (
 
 const Star = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
   </svg>
 );
 
@@ -38,46 +40,70 @@ const ArrowRight = () => (
   </svg>
 );
 
-const Logo = () => (
-  <div className="flex items-center gap-2">
-    <div className="h-8 w-8 rounded-xl bg-indigo-600" />
-    <span className="font-semibold tracking-tight">Nexops</span>
+/* Logo */
+
+// Marca en SVG
+const LogoMark = ({ className = "h-10 w-10" }) => (
+  <svg
+    viewBox="0 0 48 48"
+    className={className}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <polygon
+      points="24,2 42,12 42,36 24,46 6,36 6,12"
+      stroke="#4F46E5"
+      strokeWidth="2.4"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <path d="M14 18v12" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="14" cy="16" r="2" fill="#4F46E5"/>
+    <circle cx="14" cy="32" r="2" fill="#4F46E5"/>
+
+    <path d="M24 12v8l6 6v4" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="24" cy="10" r="2" fill="#4F46E5"/>
+    <circle cx="30" cy="26" r="2" fill="#4F46E5"/>
+    <circle cx="30" cy="32" r="2" fill="#4F46E5"/>
+
+    <path d="M18 22h6" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="26" cy="22" r="2" fill="#4F46E5"/>
+  </svg>
+);
+
+const Brand = () => (
+  <div className="flex items-center gap-1">
+    <img src={brandLogo} alt="NexOps" className="h-12 w-12 -ml-1 shrink-0" />
+    <span className="text-xl font-semibold tracking-tight text-slate-900">NexOps</span>
   </div>
 );
 
+// Si preferís seguir usando <Logo />, descomentá la línea de abajo:
+// const Logo = Brand;
+
+// NavBar
 const NavBar = () => (
-  <div className="sticky top-0 z-40 w-full border-b border-slate-100 bg-white backdrop-blur">
-    <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-      <div className="rounded-xl bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
-        <Logo />
-      </div>
-      <nav className="hidden items-center gap-6 text-sm text-slate-600 sm:flex group">
-  <a href="#servicios" className="relative hover:text-indigo-600 transition">
-    Servicios
-    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-  </a>
-  <a href="#proceso" className="relative hover:text-indigo-600 transition">
-    Proceso
-    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-  </a>
-  <a href="#casos" className="relative hover:text-indigo-600 transition">
-    Casos
-    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-  </a>
-  <a href="#contacto" className="relative hover:text-indigo-600 transition">
-    Contacto
-    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-  </a>
-</nav>
+  <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur border-b border-slate-100 h-[72px]">
+    <div className="mx-auto max-w-7xl flex h-full items-center justify-between px-6">
+      {/* Reemplazamos Logo por Brand para evitar el error */}
+      <Brand />
+
+      <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
+        <a href="#servicios" className="hover:text-indigo-600">Servicios</a>
+        <a href="#proceso"   className="hover:text-indigo-600">Proceso</a>
+        <a href="#casos"     className="hover:text-indigo-600">Casos</a>
+        <a href="#contacto"  className="hover:text-indigo-600">Contacto</a>
+      </nav>
 
       <a
         href="#contacto"
-        className="inline-flex items-center rounded-xl bg-indigo-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="inline-flex items-center rounded-xl bg-indigo-600 px-5 py-2.5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       >
         Hablemos
       </a>
     </div>
-  </div>
+  </header>
 );
 
 const Hero = () => (
@@ -101,7 +127,7 @@ const Hero = () => (
       />
     </div>
 
-    {/* Contenido por encima de las burbujas */}
+    {/* Contenido */}
     <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 lg:grid-cols-2">
       <div>
         <Pill>
@@ -153,7 +179,6 @@ const Hero = () => (
     </div>
   </Section>
 );
-
 
 const Logos = () => (
   <Section className="py-10">
@@ -257,7 +282,7 @@ const Casos = () => (
 
 const CTA = () => (
   <Section id="contacto" className="relative">
-    <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(79,70,229,0.08),transparent)]"/>
+    <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(79,70,229,0.08),transparent)]" />
     <div className="mx-auto max-w-7xl px-4">
       <div className="grid grid-cols-1 gap-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:grid-cols-3">
         <div className="sm:col-span-2">
@@ -280,10 +305,17 @@ const CTA = () => (
 const Footer = () => (
   <footer className="border-t border-slate-100 bg-white">
     <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
-      <div className="flex items-center gap-2 text-sm text-slate-500">
-        <div className="h-6 w-6 rounded-lg bg-indigo-600" />
-        © {new Date().getFullYear()} Nexops. Todos los derechos reservados.
+      
+      {/* Marca */}
+      <div className="flex items-center text-sm text-slate-500">
+        <img src={brandLogo} alt="NexOps" className="h-5 w-5 shrink-0 mr-1" />
+        <span className="font-semibold text-slate-800 mr-2">NexOps</span>
+        <span className="text-slate-500">
+          © {new Date().getFullYear()} NexOps. Todos los derechos reservados.
+        </span>
       </div>
+
+      {/* Links */}
       <nav className="flex items-center gap-4 text-sm text-slate-500">
         <a href="#servicios" className="hover:text-slate-900">Servicios</a>
         <a href="#proceso" className="hover:text-slate-900">Proceso</a>
@@ -297,7 +329,7 @@ const Footer = () => (
 export default function App() {
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (prefersReduced.matches || window.innerWidth < 640) return; // desactiva en mobile o si el usuario prefiere menos movimiento
+    if (prefersReduced.matches || window.innerWidth < 640) return;
     const r = new Rellax(".rellax", { center: false });
     return () => r.destroy();
   }, []);
