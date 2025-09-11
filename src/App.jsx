@@ -1,12 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Rellax from "rellax";
 import brandLogo from "./assets/logo-nexops.svg";
 
+/* =========================
+   Helpers WOW (sin librerías)
+   ========================= */
 
-// ---------------------------------------------
-// Nexops – Landing React + Parallax (Rellax)
-// Vite + Tailwind —
-// ---------------------------------------------
+// 1) Counter para KPIs
+const MetricCounter = ({ to = 100, suffix = "", duration = 1400, className = "" }) => {
+  const [val, setVal] = useState(0);
+  const startRef = useRef(null);
+
+  useEffect(() => {
+    let raf;
+    const step = (t) => {
+      if (!startRef.current) startRef.current = t;
+      const p = Math.min((t - startRef.current) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      setVal(Math.floor(eased * to));
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [to, duration]);
+
+  return <span className={className}>{val.toLocaleString()}{suffix}</span>;
+};
+
+// 2) Scroll reveal con IntersectionObserver
+const useReveal = (selector = "[data-reveal]") => {
+  useEffect(() => {
+    const els = document.querySelectorAll(selector);
+    els.forEach((el) => {
+      el.classList.add("opacity-0", "translate-y-4");
+      el.style.transition = "opacity .6s ease, transform .6s ease";
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) {
+          target.classList.remove("opacity-0", "translate-y-4");
+          target.classList.add("opacity-100", "translate-y-0");
+          io.unobserve(target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [selector]);
+};
+
+/* ============
+   Layout bits
+   ============ */
 
 const Section = ({ id, className = "", children }) => (
   <section id={id} className={`py-16 sm:py-24 ${className}`}>{children}</section>
@@ -19,7 +66,12 @@ const Pill = ({ children }) => (
 );
 
 const Card = ({ children, className = "" }) => (
-  <div className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md ${className}`}>{children}</div>
+  <div
+    data-reveal
+    className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition will-change-transform hover:shadow-xl hover:-translate-y-0.5 hover:border-slate-300 ${className}`}
+  >
+    {children}
+  </div>
 );
 
 const Check = () => (
@@ -40,33 +92,35 @@ const ArrowRight = () => (
   </svg>
 );
 
-/* Logo */
+/* =========
+   Branding
+   ========= */
+
 const Brand = () => (
   <a
     href="/"
-    className="flex items-center gap-1 group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md"
+    className="flex items-center gap-2 group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md"
   >
-    <img src={brandLogo} alt="NexOps" className="h-12 w-12 -ml-1 shrink-0" />
+    <img src={brandLogo} alt="NexOps" className="h-10 w-10 -ml-1 shrink-0" />
     <span className="text-xl font-semibold tracking-tight text-slate-900 group-hover:text-indigo-700">
       NexOps
     </span>
   </a>
 );
 
-
-// NavBar
+/* =======
+   NavBar
+   ======= */
 const NavBar = () => (
-  <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur border-b border-slate-100 h-[72px]">
+  <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur border-b border-slate-100 h-[72px]">
     <div className="mx-auto max-w-7xl flex h-full items-center justify-between px-6">
       <Brand />
-
       <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
         <a href="#servicios" className="hover:text-indigo-600">Servicios</a>
         <a href="#proceso"   className="hover:text-indigo-600">Proceso</a>
         <a href="#casos"     className="hover:text-indigo-600">Casos</a>
         <a href="#contacto"  className="hover:text-indigo-600">Contacto</a>
       </nav>
-
       <a
         href="#contacto"
         className="inline-flex items-center rounded-xl bg-indigo-600 px-5 py-2.5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -77,37 +131,50 @@ const NavBar = () => (
   </header>
 );
 
-/* HERO PRAGMÁTICO */
+/* =============
+   HERO WOW
+   ============= */
 const Hero = () => (
   <Section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50">
-    {/* Capas decorativas con parallax */}
+    {/* Gradiente animado + burbujas parallax */}
+    <style>{`
+      @keyframes glow {
+        0% { transform: translateY(0px) translateX(0px) scale(1); opacity:.55;}
+        50% { transform: translateY(-10px) translateX(6px) scale(1.03); opacity:.75;}
+        100% { transform: translateY(0px) translateX(0px) scale(1); opacity:.55;}
+      }
+    `}</style>
+
     <div className="pointer-events-none absolute inset-0 z-0">
       <div
-        className="rellax will-change-transform absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-400/40 blur-xl"
+        className="rellax will-change-transform absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-400/40 blur-2xl"
         data-rellax-speed="-4"
         aria-hidden
+        style={{ animation: "glow 8s ease-in-out infinite" }}
       />
       <div
-        className="rellax will-change-transform absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-purple-400/40 blur-xl"
+        className="rellax will-change-transform absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-purple-400/40 blur-2xl"
         data-rellax-speed="4"
         aria-hidden
+        style={{ animation: "glow 9s ease-in-out infinite" }}
       />
       <div
         className="rellax will-change-transform absolute left-[10%] top-1/2 h-48 w-[75%] -translate-y-1/2 rotate-6 rounded-3xl bg-gradient-to-r from-indigo-300/40 to-purple-300/40"
         data-rellax-speed="-2"
         aria-hidden
+        style={{ animation: "glow 10s ease-in-out infinite" }}
       />
     </div>
 
     {/* Contenido */}
     <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 lg:grid-cols-2">
-      <div>
+      <div data-reveal>
         <Pill>
-          <span className="h-2 w-2 rounded-full bg-emerald-500" /> Listo para implementar
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Agentes de IA en producción
         </Pill>
 
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Reduce tus costos y libere horas clave con automatización inteligente
+        <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl leading-tight">
+          Reducí costos y <span className="text-indigo-600">liberá horas</span> con automatización inteligente
         </h1>
 
         <p className="mt-4 max-w-xl text-slate-600">
@@ -115,23 +182,33 @@ const Hero = () => (
         </p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <a href="#contacto" className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700">
+          <a href="#contacto" className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-medium text-white hover:bg-indigo-700">
             Quiero automatizar ahora <ArrowRight />
           </a>
-          <a href="#servicios" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-slate-300">
+          <a href="#servicios" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:border-slate-300">
             Ver servicios
           </a>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-6 text-xs text-slate-500">
-          <div className="flex items-center gap-2"><Star/> 100+ automatizaciones</div>
-          <div className="flex items-center gap-2"><Star/> Implementación en semanas</div>
-          <div className="flex items-center gap-2"><Star/> Sin desarrolladores internos</div>
+        {/* KPIs con contador */}
+        <div className="mt-8 grid grid-cols-3 gap-6 text-center">
+          <div data-reveal>
+            <MetricCounter to={100} suffix="+" className="text-2xl font-bold text-slate-900"/>
+            <p className="text-xs text-slate-500">automatizaciones</p>
+          </div>
+          <div data-reveal>
+            <MetricCounter to={3} suffix=" semanas" className="text-2xl font-bold text-slate-900"/>
+            <p className="text-xs text-slate-500">implementación promedio</p>
+          </div>
+          <div data-reveal>
+            <MetricCounter to={20} suffix="+" className="text-2xl font-bold text-slate-900"/>
+            <p className="text-xs text-slate-500">empresas activas</p>
+          </div>
         </div>
       </div>
 
-      {/* Tarjetas del hero (ampliadas) */}
-      <div className="relative">
+      {/* Tarjetas del hero ampliadas */}
+      <div className="relative" data-reveal>
         <div className="absolute -inset-6 -z-10 rounded-3xl bg-indigo-50 blur-2xl" />
         <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-xl">
           <div className="grid grid-cols-2 gap-3">
@@ -145,11 +222,15 @@ const Hero = () => (
             </Card>
             <Card>
               <p className="text-sm font-semibold text-slate-900">Integraciones</p>
-              <p className="mt-1 text-sm text-slate-600">Microsoft 365, Google Workspace, Kommo, Power Apps, Sheets, CRMs, Odoo y sistemas propios.</p>
+              <p className="mt-1 text-sm text-slate-600">
+                Microsoft 365, Google Workspace, Kommo, Power Apps, Sheets, CRMs, Odoo y sistemas propios.
+              </p>
             </Card>
             <Card>
               <p className="text-sm font-semibold text-slate-900">Analítica</p>
-              <p className="mt-1 text-sm text-slate-600">GA4, Looker Studio, Power BI, Tableau y KPI's en tiempo real.</p>
+              <p className="mt-1 text-sm text-slate-600">
+                GA4, Looker Studio, Power BI, Tableau y KPIs en tiempo real.
+              </p>
             </Card>
           </div>
         </div>
@@ -158,13 +239,21 @@ const Hero = () => (
   </Section>
 );
 
+/* =========
+   Logos
+   ========= */
 const Logos = () => (
-  <Section className="py-10">
+  <Section className="py-12 bg-white">
     <div className="mx-auto max-w-7xl px-4">
       <p className="text-center text-xs uppercase tracking-wider text-slate-500">Equipos que confían en nosotros</p>
-      <div className="mt-6 grid grid-cols-2 items-center gap-6 opacity-70 sm:grid-cols-4 lg:grid-cols-6">
+      <div className="mt-6 grid grid-cols-2 items-center gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {["GlobalTrip","Endotec","Carestino","Nexlabs","Kommo","n8n"].map((name) => (
-          <div key={name} className="flex items-center justify-center rounded-xl border border-slate-100 bg-white py-3 text-sm font-medium text-slate-500">
+          <div
+            key={name}
+            data-reveal
+            className="flex items-center justify-center rounded-xl border border-slate-100 bg-white py-3 text-sm font-medium text-slate-500
+                       transition hover:shadow-md hover:text-slate-700"
+          >
             {name}
           </div>
         ))}
@@ -173,11 +262,13 @@ const Logos = () => (
   </Section>
 );
 
-/* SERVICIOS (ajustado a ecosistema) */
+/* =======================
+   Servicios (ecosistema)
+   ======================= */
 const Servicios = () => (
   <Section id="servicios" className="bg-slate-50/60">
     <div className="mx-auto max-w-7xl px-4">
-      <div className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-2xl text-center" data-reveal>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Servicios</h2>
         <p className="mt-3 text-slate-600">Implementamos punta a punta, de la idea al resultado medible.</p>
       </div>
@@ -247,10 +338,13 @@ const Servicios = () => (
   </Section>
 );
 
+/* ========
+   Proceso
+   ======== */
 const Proceso = () => (
   <Section id="proceso">
     <div className="mx-auto max-w-7xl px-4">
-      <div className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-2xl text-center" data-reveal>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Cómo trabajamos</h2>
         <p className="mt-3 text-slate-600">Sprints cortos, entregables reales y foco en ROI.</p>
       </div>
@@ -276,10 +370,13 @@ const Proceso = () => (
   </Section>
 );
 
+/* =====
+   Casos
+   ===== */
 const Casos = () => (
   <Section id="casos" className="bg-slate-50/60">
     <div className="mx-auto max-w-7xl px-4">
-      <div className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-2xl text-center" data-reveal>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Casos recientes</h2>
         <p className="mt-3 text-slate-600">Resultados concretos en semanas, no meses.</p>
       </div>
@@ -302,16 +399,19 @@ const Casos = () => (
   </Section>
 );
 
+/* ===
+   CTA
+   === */
 const CTA = () => (
   <Section id="contacto" className="relative">
     <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(79,70,229,0.08),transparent)]" />
     <div className="mx-auto max-w-7xl px-4">
       <div className="grid grid-cols-1 gap-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:grid-cols-3">
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2" data-reveal>
           <h3 className="text-2xl font-semibold text-slate-900">¿Listo para empezar?</h3>
           <p className="mt-1 text-slate-600">Agendá una llamada de 25 minutos para revisar tu caso y armar un plan express.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3" data-reveal>
           <a href="#" className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-medium text-white hover:bg-indigo-700">
             Agendar en Calendly
           </a>
@@ -324,17 +424,17 @@ const CTA = () => (
   </Section>
 );
 
+/* ======
+   Footer
+   ====== */
 const Footer = () => (
   <footer className="border-t border-slate-100 bg-white">
     <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
       <div className="flex items-center text-sm text-slate-500">
         <img src={brandLogo} alt="NexOps" className="h-5 w-5 shrink-0 mr-1" />
         <span className="font-semibold text-slate-800 mr-2">NexOps</span>
-        <span className="text-slate-500">
-          © {new Date().getFullYear()} NexOps. Todos los derechos reservados.
-        </span>
+        <span className="text-slate-500">© {new Date().getFullYear()} NexOps. Todos los derechos reservados.</span>
       </div>
-
       <nav className="flex items-center gap-4 text-sm text-slate-500">
         <a href="#servicios" className="hover:text-slate-900">Servicios</a>
         <a href="#proceso" className="hover:text-slate-900">Proceso</a>
@@ -346,12 +446,15 @@ const Footer = () => (
 );
 
 export default function App() {
+  // Rellax + Scroll Reveal
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (prefersReduced.matches || window.innerWidth < 640) return;
-    const r = new Rellax(".rellax", { center: false });
-    return () => r.destroy();
+    if (!prefersReduced.matches && window.innerWidth >= 640) {
+      const r = new Rellax(".rellax", { center: false });
+      return () => r.destroy();
+    }
   }, []);
+  useReveal(); // activa reveal en todo lo que tenga data-reveal
 
   return (
     <div className="min-h-screen bg-white text-slate-900 antialiased">
