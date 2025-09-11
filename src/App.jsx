@@ -68,11 +68,13 @@ const Pill = ({ children }) => (
 const Card = ({ children, className = "" }) => (
   <div
     data-reveal
-    className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition will-change-transform hover:shadow-xl hover:-translate-y-0.5 hover:border-slate-300 ${className}`}
+    className={`group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition will-change-transform
+                hover:shadow-xl hover:-translate-y-0.5 hover:border-slate-300 ${className}`}
   >
     {children}
   </div>
 );
+
 
 const Check = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
@@ -89,6 +91,44 @@ const Star = () => (
 const ArrowRight = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+/* ==== ICONOS PERSONALIZADOS ==== */
+
+const IconBot = () => (
+  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
+    <rect x="4" y="6.5" width="16" height="11" rx="5" />
+    <rect x="11.25" y="3" width="1.5" height="3" rx="0.75" />
+    <circle cx="12" cy="2.2" r="1.1" />
+    <circle cx="9" cy="12" r="1.4" fill="white"/>
+    <circle cx="15" cy="12" r="1.4" fill="white"/>
+    <rect x="8.5" y="14.2" width="7" height="1.6" rx="0.8" fill="white"/>
+  </svg>
+);
+
+const IconGear = () => (
+  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
+    <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.63l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 14 2h-4a.5.5 0 0 0-.5.42l-.36 2.54c-.6.24-1.15.56-1.66.94l-2.39-.96a.5.5 0 0 0-.6.22L2.97 8.1a.5.5 0 0 0 .12.63l2.03 1.58c-.04.3-.06.61-.06.94s.02.64.06.94l-2.03 1.58a.5.5 0 0 0-.12.63l1.92 3.32c.14.24.43.34.68.22l2.39-.96c.5.38 1.05.7 1.66.94l.36 2.54c.04.26.25.42.5.42h4c.25 0 .46-.16.5-.42l.36-2.54c.6-.24 1.15-.56 1.66-.94l2.39.96c.25.12.54.02.68-.22l1.92-3.32a.5.5 0 0 0-.12-.63l-2.03-1.58ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/>
+  </svg>
+);
+
+const IconNodes = () => (
+  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
+    <circle cx="6" cy="12" r="2.2"/>
+    <circle cx="12" cy="6" r="2.2"/>
+    <circle cx="12" cy="18" r="2.2"/>
+    <circle cx="18" cy="12" r="2.2"/>
+    <rect x="6.9" y="10.9" width="10.2" height="2.2" rx="1.1" />
+    <rect x="10.9" y="6.9" width="2.2" height="10.2" rx="1.1" />
+  </svg>
+);
+
+const IconBars = () => (
+  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
+    <rect x="3" y="12" width="3.5" height="8" rx="1"/>
+    <rect x="9.25" y="8.5" width="3.5" height="11.5" rx="1"/>
+    <rect x="15.5" y="5" width="3.5" height="15" rx="1"/>
   </svg>
 );
 
@@ -169,14 +209,15 @@ const Hero = () => (
     {/* Contenido */}
     <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 lg:grid-cols-2">
       <div data-reveal>
-        <Pill>
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Agentes de IA en producción
-        </Pill>
+      <Pill>
+      <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Listo para implementar
+      </Pill>
 
-        <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl leading-tight">
-          Reducí costos y <span className="text-indigo-600">liberá horas</span> con automatización inteligente
-        </h1>
+      <h1 className="mt-1 text-2xl sm:mt-2 sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+       Reduce costos y <span className="text-indigo-600">libera horas</span> con automatización inteligente
+      </h1>
 
+    
         <p className="mt-4 max-w-xl text-slate-600">
           Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA que eliminan tareas manuales y escalan tu operación en semanas, no meses.
         </p>
@@ -211,28 +252,57 @@ const Hero = () => (
       <div className="relative" data-reveal>
         <div className="absolute -inset-6 -z-10 rounded-3xl bg-indigo-50 blur-2xl" />
         <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-xl">
-          <div className="grid grid-cols-2 gap-3">
-            <Card>
-              <p className="text-sm font-semibold text-slate-900">Bots de atención</p>
-              <p className="mt-1 text-sm text-slate-600">WhatsApp, IG y Web 24/7 con handoff a humanos.</p>
-            </Card>
-            <Card>
-              <p className="text-sm font-semibold text-slate-900">Automatización (RPA)</p>
-              <p className="mt-1 text-sm text-slate-600">n8n, Make, Apps Script y webhooks.</p>
-            </Card>
-            <Card>
-              <p className="text-sm font-semibold text-slate-900">Integraciones</p>
-              <p className="mt-1 text-sm text-slate-600">
-                Microsoft 365, Google Workspace, Kommo, Power Apps, Sheets, CRMs, Odoo y sistemas propios.
-              </p>
-            </Card>
-            <Card>
-              <p className="text-sm font-semibold text-slate-900">Analítica</p>
-              <p className="mt-1 text-sm text-slate-600">
-                GA4, Looker Studio, Power BI, Tableau y KPIs en tiempo real.
-              </p>
-            </Card>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <Card>
+    <div className="flex items-center gap-2 mb-2">
+      <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-sky-100 text-sky-600">
+        <IconBot />
+      </span>
+      <p className="text-sm font-semibold text-slate-900">Bots de atención</p>
+    </div>
+    <p className="text-sm text-slate-600">
+      WhatsApp, IG y Web 24/7 con handoff a humanos.
+    </p>
+  </Card>
+
+  <Card>
+  <div className="flex items-center gap-2 mb-2">
+    <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+      <IconGear />
+    </span>
+    <p className="text-sm font-semibold text-slate-900">Automatización (RPA)</p>
+  </div>
+  <p className="text-sm text-slate-600">
+    n8n, Make, Apps Script y webhooks.
+  </p>
+</Card>
+
+
+  <Card>
+    <div className="flex items-center gap-2 mb-2">
+      <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+        <IconNodes />
+      </span>
+      <p className="text-sm font-semibold text-slate-900">Integraciones</p>
+    </div>
+    <p className="text-sm text-slate-600">
+      Microsoft 365, Google Workspace, Kommo, Power Apps, Sheets, CRMs, Odoo y sistemas propios.
+    </p>
+  </Card>
+
+  <Card>
+    <div className="flex items-center gap-2 mb-2">
+      <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+        <IconBars />
+      </span>
+      <p className="text-sm font-semibold text-slate-900">Analítica</p>
+    </div>
+    <p className="text-sm text-slate-600">
+      GA4, Looker Studio, Power BI, Tableau y KPIs en tiempo real.
+    </p>
+  </Card>
+</div>
+
         </div>
       </div>
     </div>
