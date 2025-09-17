@@ -1,12 +1,12 @@
-export default function App() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-4xl font-bold text-blue-400">
-        🚀 Tailwind está funcionando
-      </h1>
-      <p className="mt-4 text-lg text-gray-300">
-        Ahora podés armar tu web con estilos pro ✨
-      </p>
-    </div>
-  )
+/* Carrusel infinito */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* hay dos strips iguales */
+}
+.marquee-track {
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+@media (max-width: 768px) {
+  .marquee-track { animation-duration: 18s; }
 }
