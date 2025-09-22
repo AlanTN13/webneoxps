@@ -4,7 +4,10 @@ import brandLogo from "./assets/logo-nexops.svg";
 
 import "./index.css";
 import "./App.css";
+
 import IntegrationsMarquee from "./components/IntegrationsMarquee";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
+
 
 /* =========================
    Helpers WOW (sin librerías)
@@ -438,28 +441,33 @@ const Footer = () => (
 /* =========
    App
    ========= */
-export default function App() {
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!prefersReduced.matches && window.innerWidth >= 640) {
-      const r = new Rellax(".rellax", { center: false });
-      return () => r.destroy();
-    }
-  }, []);
 
-  useReveal(); // activa reveal en todo lo que tenga data-reveal
+   export default function App() {
+    useEffect(() => {
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (!prefersReduced.matches && window.innerWidth >= 640) {
+        const r = new Rellax(".rellax", { center: false });
+        return () => r.destroy();
+      }
+    }, []);
+  
+    useReveal();
+  
+    return (
+      <div className="min-h-screen bg-white text-slate-900 antialiased">
+        <NavBar />
+        <Hero />
+        <Logos />
+        <Servicios />
+        <Proceso />
+        <Casos />
+        <CTA />
+        <Footer />
+  
+        {/* 👇 WhatsApp flotante al final */}
+        <FloatingWhatsApp phone="5491132106711" />
+      </div>
+    );
+  }
+  
 
-  return (
-    <div className="min-h-screen bg-white text-slate-900 antialiased">
-      <NavBar />
-      <Hero />
-      {/* 👉 Carrusel arriba de “Equipos que confían…” */}
-      <Logos />
-      <Servicios />
-      <Proceso />
-      <Casos />
-      <CTA />
-      <Footer />
-    </div>
-  );
-}
