@@ -10,3 +10,24 @@
 @media (max-width: 768px) {
   .marquee-track { animation-duration: 18s; }
 }
+
+
+/* Pinta todos los logos con un color uniforme usando el SVG como máscara */
+.logo-mask{
+  background-color: #9ca3af;           /* gris uniforme (slate-400) */
+  opacity:.9;
+  transition: background-color .2s ease, opacity .2s ease;
+
+  -webkit-mask-image: var(--logo);
+  mask-image: var(--logo);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.logo-mask:hover{
+  background-color:#111827;            /* slate-900 al hover */
+  opacity:1;
+}

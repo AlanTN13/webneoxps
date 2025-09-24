@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import Rellax from "rellax";
 import brandLogo from "./assets/logo-nexops.svg";
 
+
 import "./index.css";
 import "./App.css";
 
+import ClientsMarquee from "./components/ClientsMarquee";
 import IntegrationsMarquee from "./components/IntegrationsMarquee";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
@@ -231,29 +233,21 @@ const Hero = () => (
 /* =========
    Logos
    ========= */
-const Logos = () => (
-  <Section className="py-12 bg-white">
-    <div className="mx-auto max-w-7xl px-4">
-      {/* 👉 Carrusel de integraciones va ANTES del título */}
-      <IntegrationsMarquee />
-
-      <p className="text-center text-xs uppercase tracking-wider text-slate-500 mt-10">
-        Equipos que confían en nosotros
-      </p>
-      <div className="mt-6 grid grid-cols-2 items-center gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {["GlobalTrip","Endotec","Carestino","Nexlabs","Kommo","n8n"].map((name) => (
-          <div
-            key={name}
-            data-reveal
-            className="flex items-center justify-center rounded-xl border border-slate-100 bg-white py-3 text-sm font-medium text-slate-500 transition hover:shadow-md hover:text-slate-700"
-          >
-            {name}
-          </div>
-        ))}
+   const Logos = () => (
+    <Section className="py-12 bg-white">
+      <div className="mx-auto max-w-7xl px-4">
+        <IntegrationsMarquee />
+  
+        <p className="text-center text-xs uppercase tracking-wider text-slate-500 mt-10">
+          Equipos que confían en nosotros
+        </p>
+  
+        {/* 👇 Reemplazá lo que había (grilla con nombres) por esto */}
+        <ClientsMarquee />
       </div>
-    </div>
-  </Section>
-);
+    </Section>
+  );
+  
 
 /* =======================
    Servicios (ecosistema)
