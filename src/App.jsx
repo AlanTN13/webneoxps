@@ -243,9 +243,10 @@ const Hero = () => (
       <div className="mx-auto max-w-7xl px-4">
         <IntegrationsMarquee />
   
-        <p className="text-center text-xs uppercase tracking-wider text-slate-500 mt-10">
-          Equipos que confían en nosotros
-        </p>
+        <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-800 mt-10">
+         Equipos que confían en nosotros
+        </h2>
+
   
         {/* 👇 Reemplazá lo que había (grilla con nombres) por esto */}
         <ClientsMarquee />
