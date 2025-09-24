@@ -9,6 +9,11 @@ import "./App.css";
 import ClientsMarquee from "./components/ClientsMarquee";
 import IntegrationsMarquee from "./components/IntegrationsMarquee";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import ServicesOverview from "./components/ServicesOverview";
+import { Database, BarChart3, Cpu, Bot, Workflow, Cable, Zap, Monitor } from "lucide-react";
+
+
+
 
 
 /* =========================
@@ -248,82 +253,7 @@ const Hero = () => (
     </Section>
   );
   
-
-/* =======================
-   Servicios (ecosistema)
-   ======================= */
-const Servicios = () => (
-  <Section id="servicios" className="bg-slate-50/60">
-    <div className="mx-auto max-w-7xl px-4">
-      <div className="mx-auto max-w-2xl text-center" data-reveal>
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Servicios</h2>
-        <p className="mt-3 text-slate-600">Implementamos punta a punta, de la idea al resultado medible.</p>
-      </div>
-
-      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          {
-            title: "Agentes de IA",
-            points: [
-              "Atención automatizada 24/7",
-              "Rutas de intención y memoria",
-              "Handoff eficiente al equipo"
-            ],
-          },
-          {
-            title: "Automatización de procesos (RPA)",
-            points: [
-              "n8n / Make / Apps Script",
-              "Integraciones vía API y webhooks",
-              "Validaciones, aprobaciones y SLAs"
-            ],
-          },
-          {
-            title: "Integraciones & Ecosistema",
-            points: [
-              "Microsoft 365 y Google Workspace",
-              "Kommo, Power Apps, Sheets, CRMs",
-              "Odoo y sistemas custom / legacy"
-            ],
-          },
-          {
-            title: "Data & Analytics",
-            points: [
-              "GA4 / Looker Studio / Power BI / Tableau",
-              "Eventos, conversiones y trazabilidad",
-              "KPIs y dashboards en tiempo real"
-            ],
-          },
-          {
-            title: "UX & Front ligero",
-            points: [
-              "Landings en React",
-              "Formularios inteligentes",
-              "Componentes reutilizables"
-            ],
-          },
-          {
-            title: "Soporte & Escalado",
-            points: [
-              "Monitoreo y alertas",
-              "Runbooks y playbooks",
-              "Capacitación al equipo"
-            ],
-          },
-        ].map(({ title, points }) => (
-          <Card key={title}>
-            <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-            <ul className="mt-4 space-y-2 text-sm text-slate-600">
-              {points.map((p) => (
-                <li key={p} className="flex items-start gap-2"><Check/><span>{p}</span></li>
-              ))}
-            </ul>
-          </Card>
-        ))}
-      </div>
-    </div>
-  </Section>
-);
+<ServicesOverview />
 
 /* ========
    Proceso
@@ -452,7 +382,7 @@ const Footer = () => (
         <NavBar />
         <Hero />
         <Logos />
-        <Servicios />
+        <ServicesOverview />
         <Proceso />
         <Casos />
         <CTA />
