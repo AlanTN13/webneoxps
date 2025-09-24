@@ -11,6 +11,8 @@ import IntegrationsMarquee from "./components/IntegrationsMarquee";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import ServicesOverview from "./components/ServicesOverview";
 import { Database, BarChart3, Cpu, Bot, Workflow, Cable, Zap, Monitor } from "lucide-react";
+import HowWeWork from "./components/HowWeWork";
+
 
 
 
@@ -69,175 +71,166 @@ const useReveal = (selector = "[data-reveal]") => {
    Layout bits
    ============ */
 
-const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`py-16 sm:py-24 ${className}`}>{children}</section>
-);
-
-const Pill = ({ children }) => (
-  <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/60 bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm">
-    {children}
-  </span>
-);
-
-const Card = ({ children, className = "" }) => (
-  <div
-    data-reveal
-    className={`group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition will-change-transform
-                hover:shadow-xl hover:-translate-y-0.5 hover:border-slate-300 ${className}`}
-  >
-    {children}
-  </div>
-);
-
-const Check = () => (
-  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const ArrowRight = () => (
-  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-/* =========
-   Branding
-   ========= */
-
-const Brand = () => (
-  <a href="/" className="flex items-center gap-2 group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md">
-    <img src={brandLogo} alt="NexOps" className="h-10 w-10 -ml-1 shrink-0" />
-    <span className="text-xl font-semibold tracking-tight text-slate-900 group-hover:text-indigo-700">NexOps</span>
-  </a>
-);
-
-/* =======
-   NavBar
-   ======= */
-const NavBar = () => (
-  <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur border-b border-slate-100 h-[72px]">
-    <div className="mx-auto max-w-7xl flex h-full items-center justify-between px-6">
-      <Brand />
-      <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
-        <a href="#servicios" className="hover:text-indigo-600">Servicios</a>
-        <a href="#proceso"   className="hover:text-indigo-600">Proceso</a>
-        <a href="#casos"     className="hover:text-indigo-600">Casos</a>
-        <a href="#contacto"  className="hover:text-indigo-600">Contacto</a>
-      </nav>
-      <a
-        href="#contacto"
-        className="inline-flex items-center rounded-xl bg-indigo-600 px-5 py-2.5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      >
-        Hablemos
-      </a>
+   const Section = ({ id, className = "", children }) => (
+    <section id={id} className={`py-16 sm:py-24 ${className}`}>{children}</section>
+  );
+  
+  const Pill = ({ children }) => (
+    <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/60 bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm">
+      {children}
+    </span>
+  );
+  
+  const Card = ({ children, className = "" }) => (
+    <div
+      data-reveal
+      className={`group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition will-change-transform
+                  hover:shadow-xl hover:-translate-y-0.5 hover:border-slate-300 ${className}`}
+    >
+      {children}
     </div>
-  </header>
-);
-
-/* =============
-   HERO
-   ============= */
-const Hero = () => (
-  <Section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50">
-    <style>{`
-      @keyframes glow {
-        0% { transform: translateY(0px) translateX(0px) scale(1); opacity:.55;}
-        50% { transform: translateY(-10px) translateX(6px) scale(1.03); opacity:.75;}
-        100% { transform: translateY(0px) translateX(0px) scale(1); opacity:.55;}
-      }
-    `}</style>
-
-    <div className="pointer-events-none absolute inset-0 z-0">
-      <div className="rellax will-change-transform absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-400/40 blur-2xl" data-rellax-speed="-4" />
-      <div className="rellax will-change-transform absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-purple-400/40 blur-2xl" data-rellax-speed="4" />
-      <div className="rellax will-change-transform absolute left-[10%] top-1/2 h-48 w-[75%] -translate-y-1/2 rotate-6 rounded-3xl bg-gradient-to-r from-indigo-300/40 to-purple-300/40" data-rellax-speed="-2" />
-    </div>
-
-    <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 lg:grid-cols-2">
-      <div data-reveal>
-        <Pill><span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Listo para implementar</Pill>
-
-        <h1 className="mt-1 text-2xl sm:mt-2 sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          Reduce costos y <span className="text-indigo-600">libera horas</span> con automatización inteligente
-        </h1>
-
-        <p className="mt-4 max-w-xl text-slate-600">
-          Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA que eliminan tareas manuales y escalan tu operación en semanas, no meses.
-        </p>
-
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <a href="#contacto" className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-medium text-white hover:bg-indigo-700">
-            Quiero automatizar ahora <ArrowRight />
-          </a>
-          <a href="#servicios" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:border-slate-300">
-            Ver servicios
-          </a>
+  );
+  
+  const Check = () => (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  
+  const ArrowRight = () => (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  
+  /* =========
+     Branding
+     ========= */
+  
+  const Brand = () => (
+    <a href="/" className="flex items-center gap-2 group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] rounded-md">
+      <img src={brandLogo} alt="NexOps" className="h-10 w-10 -ml-1 shrink-0" />
+      <span className="text-xl font-semibold tracking-tight text-slate-900 group-hover:text-[#4F46E5]">NexOps</span>
+    </a>
+  );
+  
+  /* =======
+     NavBar
+     ======= */
+  const NavBar = () => (
+    <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur border-b border-slate-100 h-[72px]">
+      <div className="mx-auto max-w-7xl flex h-full items-center justify-between px-6">
+        <Brand />
+        <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
+          <a href="#servicios" className="hover:text-[#4F46E5]">Servicios</a>
+          <a href="#proceso"   className="hover:text-[#4F46E5]">Proceso</a>
+          <a href="#casos"     className="hover:text-[#4F46E5]">Casos</a>
+          <a href="#contacto"  className="hover:text-[#4F46E5]">Contacto</a>
+        </nav>
+  
+        <a
+          href="https://api.whatsapp.com/send?phone=5491132106711&text=Hola!%20Quiero%20escalar%20mi%20empresa%20🚀"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#4F46E5] px-4 py-2 text-white font-semibold shadow-sm hover:bg-[#4338CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#4F46E5]"
+        >
+          Hablemos
+        </a>
+      </div>
+    </header>
+  );
+  
+  /* =============
+     HERO
+     ============= */
+  
+  const Hero = () => (
+    <Section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50">
+      {/* blobs */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="rellax will-change-transform absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#4F46E5]/30 blur-2xl" data-rellax-speed="-4" />
+        <div className="rellax will-change-transform absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-[#4F46E5]/25 blur-2xl" data-rellax-speed="4" />
+        <div className="rellax will-change-transform absolute left-[10%] top-1/2 h-48 w-[75%] -translate-y-1/2 rotate-6 rounded-3xl bg-gradient-to-r from-[#B6A6FF]/40 to-[#E3DDFD]/40" data-rellax-speed="-2" />
+      </div>
+  
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 lg:grid-cols-2">
+        {/* Izquierda */}
+        <div data-reveal>
+          <Pill>
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Listo para implementar
+          </Pill>
+  
+          <h1 className="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Reduce costos y <span className="text-[#4F46E5]">libera horas</span> con automatización inteligente
+          </h1>
+  
+          <p className="mt-4 max-w-xl text-slate-600">
+            Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA que eliminan tareas manuales y escalan tu operación en semanas, no meses.
+          </p>
+  
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="https://api.whatsapp.com/send?phone=5491132106711&text=Hola!%20Quiero%20escalar%20mi%20empresa%20🚀"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4F46E5] px-5 py-3 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
+            >
+              Quiero automatizar ahora →
+            </a>
+            <a
+              href="#servicios"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-slate-700 hover:bg-slate-50"
+            >
+              Ver servicios
+            </a>
+          </div>
+  
+          {/* KPIs */}
+          <div className="mt-8 grid grid-cols-3 gap-6 text-center">
+            <div data-reveal>
+              <MetricCounter to={100} suffix="+" className="text-2xl font-bold text-slate-900" />
+              <p className="text-xs text-slate-500">automatizaciones</p>
+            </div>
+            <div data-reveal>
+              <MetricCounter to={3} suffix=" semanas" className="text-2xl font-bold text-slate-900" />
+              <p className="text-xs text-slate-500">implementación promedio</p>
+            </div>
+            <div data-reveal>
+              <MetricCounter to={20} suffix="+" className="text-2xl font-bold text-slate-900" />
+              <p className="text-xs text-slate-500">empresas activas</p>
+            </div>
+          </div>
         </div>
-
-        {/* KPIs con contador */}
-        <div className="mt-8 grid grid-cols-3 gap-6 text-center">
-          <div data-reveal>
-            <MetricCounter to={100} suffix="+" className="text-2xl font-bold text-slate-900"/>
-            <p className="text-xs text-slate-500">automatizaciones</p>
-          </div>
-          <div data-reveal>
-            <MetricCounter to={3} suffix=" semanas" className="text-2xl font-bold text-slate-900"/>
-            <p className="text-xs text-slate-500">implementación promedio</p>
-          </div>
-          <div data-reveal>
-            <MetricCounter to={20} suffix="+" className="text-2xl font-bold text-slate-900"/>
-            <p className="text-xs text-slate-500">empresas activas</p>
+  
+        {/* Derecha: demo chat */}
+        <div className="relative">
+          <div className="absolute -inset-10 bg-gradient-to-br from-[#B6A6FF]/40 via-white to-[#E3DDFD]/35 blur-2xl rounded-[40px]" />
+          <div className="relative rounded-2xl border border-slate-200 bg-white/80 backdrop-blur p-5 shadow-lg">
+            <div className="mb-3 text-sm text-slate-500">Agente de atención · WhatsApp</div>
+            <div className="space-y-3">
+              <div className="max-w-[80%] rounded-2xl bg-slate-100 px-4 py-3 text-slate-800">
+                Hola 👋 ¿me ayudan a calificar leads desde la web?
+              </div>
+              <div className="ml-auto max-w-[85%] rounded-2xl bg-[#4F46E5] px-4 py-3 text-white">
+                Sí. Integramos tu formulario y CRM.<br />Te entrego leads calificados + alerta al equipo.
+              </div>
+              <div className="max-w-[75%] rounded-2xl bg-slate-100 px-4 py-3 text-slate-800">
+                ¿Y métricas?
+              </div>
+              <div className="ml-auto max-w-[85%] rounded-2xl bg-[#4F46E5] px-4 py-3 text-white">
+                Tablero en tiempo real con KPIs de respuesta y conversión.
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </Section>
+  );
 
-      {/* Tarjetas del hero */}
-      <div className="relative" data-reveal>
-        <div className="absolute -inset-6 -z-10 rounded-3xl bg-indigo-50 blur-2xl" />
-        <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Card>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-sky-100 text-sky-600" />
-                <p className="text-sm font-semibold text-slate-900">Bots de atención</p>
-              </div>
-              <p className="text-sm text-slate-600">WhatsApp, IG y Web 24/7 con handoff a humanos.</p>
-            </Card>
-
-            <Card>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-indigo-100 text-indigo-600" />
-                <p className="text-sm font-semibold text-slate-900">Automatización (RPA)</p>
-              </div>
-              <p className="text-sm text-slate-600">n8n, Make, Apps Script y webhooks.</p>
-            </Card>
-
-            <Card>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-600" />
-                <p className="text-sm font-semibold text-slate-900">Integraciones</p>
-              </div>
-              <p className="text-sm text-slate-600">Microsoft 365, Google Workspace, Kommo, Power Apps, Sheets, CRMs, Odoo y propios.</p>
-            </Card>
-
-            <Card>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-amber-100 text-amber-600" />
-                <p className="text-sm font-semibold text-slate-900">Analítica</p>
-              </div>
-              <p className="text-sm text-slate-600">GA4, Looker Studio, Power BI, Tableau y KPIs en tiempo real.</p>
-            </Card>
-          </div>
-        </div>
-      </div>
-    </div>
-  </Section>
-);
-
-/* =========
+  /* =========
    Logos
    ========= */
+
    const Logos = () => (
     <Section className="py-12 bg-white">
       <div className="mx-auto max-w-7xl px-4">
@@ -254,39 +247,11 @@ const Hero = () => (
     </Section>
   );
   
-<ServicesOverview />
+  {/* ===== Servicios ===== */}
+  <ServicesOverview />
 
-/* ========
-   Proceso
-   ======== */
-const Proceso = () => (
-  <Section id="proceso">
-    <div className="mx-auto max-w-7xl px-4">
-      <div className="mx-auto max-w-2xl text-center" data-reveal>
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Cómo trabajamos</h2>
-        <p className="mt-3 text-slate-600">Sprints cortos, entregables reales y foco en ROI.</p>
-      </div>
-      <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-4">
-        {[
-          { step: "01", title: "Descubrimiento", desc: "Relevamos procesos, canales y datos." },
-          { step: "02", title: "Diseño", desc: "Arquitectura + backlog priorizado." },
-          { step: "03", title: "Implementación", desc: "Agentes, flujos y QA con usuarios." },
-          { step: "04", title: "Medición", desc: "KPIs, tuning y escalado continuo." },
-        ].map(({ step, title, desc }) => (
-          <Card key={step}>
-            <div className="flex items-start gap-4">
-              <span className="rounded-xl bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700">{step}</span>
-              <div>
-                <p className="font-semibold text-slate-900">{title}</p>
-                <p className="mt-1 text-sm text-slate-600">{desc}</p>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  </Section>
-);
+{/* ===== Proceso ===== */}
+<HowWeWork />
 
 /* =====
    Casos
@@ -384,7 +349,7 @@ const Footer = () => (
         <Hero />
         <Logos />
         <ServicesOverview />
-        <Proceso />
+        <HowWeWork />
         <Casos />
         <CTA />
         <Footer />
