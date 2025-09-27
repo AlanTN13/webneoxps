@@ -31,3 +31,11 @@
   background-color:#111827;            /* slate-900 al hover */
   opacity:1;
 }
+
+/* Calendly full width */
+.calendly-inline-widget,
+.calendly-inline-widget iframe {
+  width: 100% !important;
+  min-width: 0 !important;
+  border: 0 !important;
+}
