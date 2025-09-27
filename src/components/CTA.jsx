@@ -11,7 +11,7 @@ export default function CTA() {
         <div className="text-center mb-8">
           <h3 className="text-2xl font-semibold text-slate-900">¿Listo para empezar?</h3>
           <p className="mt-1 text-slate-600">
-            Agendá una llamada de 25 minutos para revisar tu caso y armar un plan express.
+            Agendá una llamada de 30 minutos para revisar tu caso y armar un plan express.
           </p>
         </div>
 
