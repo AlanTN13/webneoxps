@@ -35,7 +35,6 @@ export default function Noticias() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Categorías únicas
   const categories = Array.from(
     new Set(
       (posts || [])
@@ -44,7 +43,6 @@ export default function Noticias() {
     )
   );
 
-  // Posts a mostrar (filtrados por categoría si hay una activa)
   const visiblePosts =
     activeCategory && activeCategory !== "ALL"
       ? posts.filter((p) => p.category === activeCategory)
@@ -54,52 +52,49 @@ export default function Noticias() {
     <Layout>
       <main className="bg-slate-50 min-h-screen">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          
           {/* Encabezado */}
           <header className="mb-10 sm:mb-12">
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
               NEXOPS BLOG
             </p>
+
             <h1 className="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">
-            Tendencias, innovación y automatización para negocios
+              Tendencias, innovación y automatización para negocios
             </h1>
+
             <p className="mt-3 max-w-2xl text-sm sm:text-base text-slate-600">
-            Lo mejor del mundo tech explicado simple: casos reales, noticias y aprendizajes.
+              Proyectos recientes, ideas y aprendizajes.
             </p>
 
-            {/* Categorías como filtros */}
+            {/* Categorías */}
             {categories.length > 0 && (
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                {/* Pill "Todas" */}
                 <button
                   type="button"
-                  onClick={() =>
-                    setActiveCategory(activeCategory === null ? null : null)
-                  }
-                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition
-                    ${
-                      activeCategory === null
-                        ? "bg-slate-900 text-white border-slate-900"
-                        : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
-                    }`}
+                  onClick={() => setActiveCategory(null)}
+                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition ${
+                    activeCategory === null
+                      ? "bg-slate-900 text-white border-slate-900"
+                      : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                  }`}
                 >
                   Todas
                 </button>
 
                 {categories.map((cat) => {
                   const isActive = activeCategory === cat;
+
                   return (
                     <button
                       key={cat}
                       type="button"
-                      onClick={() =>
-                        setActiveCategory(isActive ? null : cat)
-                      }
-                      className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition
-                        ${
-                          isActive
-                            ? "bg-indigo-600 text-white border-indigo-600"
-                            : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
-                        }`}
+                      onClick={() => setActiveCategory(isActive ? null : cat)}
+                      className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition ${
+                        isActive
+                          ? "bg-indigo-600 text-white border-indigo-600"
+                          : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                      }`}
                     >
                       {cat}
                     </button>
@@ -109,6 +104,7 @@ export default function Noticias() {
             )}
           </header>
 
+          {/* Listado */}
           {loading ? (
             <p className="text-sm text-slate-500">Cargando noticias…</p>
           ) : visiblePosts.length === 0 ? (
