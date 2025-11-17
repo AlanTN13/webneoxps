@@ -15,7 +15,6 @@ export default function Footer() {
         <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
         <a href="/#servicios" className="hover:text-[#4F46E5]">Servicios</a>
         <a href="/#proceso" className="hover:text-slate-900">Proceso</a>
-        <a href="/noticias"   className="hover:text-[#4F46E5]">Blog</a>
         <a href="/#contacto"  className="hover:text-[#4F46E5]">Contacto</a>
         </nav>
       </div>

@@ -1,12 +1,13 @@
 {
-  "rewrites": [
-    {
-      "source": "/noticias",
-      "destination": "/"
-    },
-    {
-      "source": "/noticias/:slug",
-      "destination": "/"
-    }
-  ]
-}
+    "rewrites": [
+      {
+        "source": "/noticias",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/noticias/:slug",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  
