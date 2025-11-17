@@ -31,28 +31,36 @@ export default function Noticias() {
   useEffect(() => {
     client
       .fetch(NEWS_LIST_QUERY)
-      .then((data) => setPosts(data || []))
+      .then((data) => {
+        // pequeño log por si algo falla en prod
+        console.log("[Noticias] posts recibidos:", data?.length || 0);
+        setPosts(data || []);
+      })
+      .catch((err) => {
+        console.error("[Noticias] Error al traer posts de Sanity:", err);
+        setPosts([]);
+      })
       .finally(() => setLoading(false));
   }, []);
 
+  // Categorías únicas
   const categories = Array.from(
     new Set(
       (posts || [])
-        .map((p) => p.category)
+        .map((p) => p.category || "")
         .filter(Boolean)
     )
   );
 
-  const visiblePosts =
-    activeCategory && activeCategory !== "ALL"
-      ? posts.filter((p) => p.category === activeCategory)
-      : posts;
+  // Posts visibles (filtrados por categoría si hay una activa)
+  const visiblePosts = activeCategory
+    ? posts.filter((p) => p.category === activeCategory)
+    : posts;
 
   return (
     <Layout>
       <main className="bg-slate-50 min-h-screen">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          
           {/* Encabezado */}
           <header className="mb-10 sm:mb-12">
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
@@ -67,34 +75,38 @@ export default function Noticias() {
               Proyectos recientes, ideas y aprendizajes.
             </p>
 
-            {/* Categorías */}
+            {/* Categorías como filtros */}
             {categories.length > 0 && (
               <div className="mt-4 flex flex-wrap items-center gap-2">
+                {/* Pill "Todas" */}
                 <button
                   type="button"
                   onClick={() => setActiveCategory(null)}
-                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition ${
-                    activeCategory === null
-                      ? "bg-slate-900 text-white border-slate-900"
-                      : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
-                  }`}
+                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition
+                    ${
+                      activeCategory === null
+                        ? "bg-slate-900 text-white border-slate-900"
+                        : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                    }`}
                 >
                   Todas
                 </button>
 
                 {categories.map((cat) => {
                   const isActive = activeCategory === cat;
-
                   return (
                     <button
                       key={cat}
                       type="button"
-                      onClick={() => setActiveCategory(isActive ? null : cat)}
-                      className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition ${
-                        isActive
-                          ? "bg-indigo-600 text-white border-indigo-600"
-                          : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
-                      }`}
+                      onClick={() =>
+                        setActiveCategory(isActive ? null : cat)
+                      }
+                      className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition
+                        ${
+                          isActive
+                            ? "bg-indigo-600 text-white border-indigo-600"
+                            : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                        }`}
                     >
                       {cat}
                     </button>
