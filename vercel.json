@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/noticias",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/noticias/:slug",
-      "destination": "/index.html"
+      "destination": "/"
     }
   ]
 }
