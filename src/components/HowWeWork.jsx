@@ -34,7 +34,12 @@ const steps = [
 
 export default function HowWeWork() {
   return (
-    <section className="w-full py-24 bg-white">
+    // 👇 id para que /#proceso apunte acá
+    // scroll-mt-* para que el header sticky no tape el título
+    <section
+      id="proceso"
+      className="w-full py-24 bg-white scroll-mt-28 sm:scroll-mt-32"
+    >
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-center text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
           Cómo trabajamos
@@ -45,11 +50,16 @@ export default function HowWeWork() {
 
         <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
-            <div key={s.n} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div
+              key={s.n}
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
               <div className="h-10 w-10 rounded-xl bg-violet-100 flex items-center justify-center">
                 {s.icon}
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-slate-900">{s.t}</h3>
+              <h3 className="mt-4 text-lg font-semibold text-slate-900">
+                {s.t}
+              </h3>
               <p className="mt-1 text-slate-600">{s.d}</p>
               <p className="mt-3 text-sm text-slate-500">{s.e}</p>
             </div>

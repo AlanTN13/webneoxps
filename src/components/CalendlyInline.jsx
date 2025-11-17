@@ -1,35 +1,36 @@
 // components/CalendlyInline.jsx
-import { useEffect, useRef, useState } from "react";
+import React from "react";
 
-export default function CalendlyInline({ url = "https://calendly.com/nexopstech-info/30min" }) {
-  const ref = useRef(null);
-  const [height, setHeight] = useState(980); // desktop por defecto
+export default function CalendlyInline({
+  url = "https://calendly.com/nexopstech-info/30min",
+  height = 820,
+}) {
+  // Evitamos romper en build si no existe window
+  const embedDomain =
+    typeof window !== "undefined" ? window.location.hostname : "localhost";
 
-  useEffect(() => {
-    const resize = () => {
-      const w = window.innerWidth;
-      if (w >= 1280) setHeight(980);       // xl
-      else if (w >= 1024) setHeight(940);  // lg
-      else if (w >= 640) setHeight(900);   // sm-md
-      else setHeight(860);                 // mobile
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
-  }, []);
+  const src = `${url}?embed_domain=${embedDomain}&embed_type=Inline&hide_gdpr_banner=1`;
 
-  useEffect(() => {
-    const JS  = "https://assets.calendly.com/assets/external/widget.js";
-    const CSS = "https://assets.calendly.com/assets/external/widget.css";
-    if (!document.querySelector(`link[href="${CSS}"]`)) {
-      const link = document.createElement("link"); link.rel = "stylesheet"; link.href = CSS;
-      document.head.appendChild(link);
-    }
-    const init = () => ref.current && window.Calendly?.initInlineWidget({ url, parentElement: ref.current });
-    if (window.Calendly) init();
-    else { const s = document.createElement("script"); s.src = JS; s.async = true; s.onload = init; document.body.appendChild(s); }
-    return () => { if (ref.current) ref.current.innerHTML = ""; };
-  }, [url]);
-
-  return <div ref={ref} style={{ width: "100%", minWidth: 0, height }} />;
+  return (
+    <div
+      style={{
+        width: "100%",
+        minWidth: 0,
+        borderRadius: "24px",
+        overflow: "hidden",
+        boxShadow: "0 18px 45px rgba(15,23,42,0.16)",
+        background: "white",
+      }}
+    >
+      <iframe
+        src={src}
+        width="100%"
+        height={height}
+        frameBorder="0"
+        title="Agenda NexOps"
+        style={{ border: "0" }}
+        loading="lazy"
+      />
+    </div>
+  );
 }
