@@ -1,75 +1,83 @@
-// src/components/Header.jsx
-import { useState } from "react";
-import brandLogo from "../assets/logo-nexops.png";
+import React, { useState } from "react";
+import brandLogo from "../assets/logo-nexops.svg";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
-      <div className="mx-auto max-w-7xl px-4 flex items-center justify-between h-16">
-
+    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur border-b border-slate-200">
+      <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-3">
         {/* LOGO */}
-        <a href="/" className="flex items-center gap-2">
-          <img src={brandLogo} alt="NexOps" className="h-7 w-auto" />
-          <span className="font-semibold text-slate-800 text-lg">NexOps</span>
-        </a>
+        <div className="flex items-center gap-2">
+          <img src={brandLogo} alt="NexOps" className="h-6 w-auto" />
+          <span className="font-semibold text-slate-900 text-lg">NexOps</span>
+        </div>
 
-        {/* NAV DESKTOP */}
-        <nav className="hidden md:flex items-center gap-8 text-slate-600 text-base">
+        {/* MENU DESKTOP */}
+        <nav className="hidden md:flex items-center gap-10 text-slate-600 font-medium">
           <a href="#servicios" className="hover:text-[#4F46E5]">Servicios</a>
           <a href="#proceso" className="hover:text-[#4F46E5]">Proceso</a>
           <a href="/noticias" className="hover:text-[#4F46E5]">Noticias</a>
           <a href="#contacto" className="hover:text-[#4F46E5]">Contacto</a>
         </nav>
 
-        {/* CTA DESKTOP */}
+        {/* BOTÓN DESKTOP */}
         <a
-          href="https://api.whatsapp.com/send?phone=5491132106711&text=Hola!%20Quiero%20hablar%20con%20NexOps"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center rounded-xl bg-[#4F46E5] text-white px-5 py-2.5 font-semibold hover:bg-[#4338CA]"
+          href="https://api.whatsapp.com/send?phone=5491132106711&text=Hola!%20Quiero%20automatizar%20mi%20empresa%20🚀"
+          className="hidden md:inline-flex rounded-xl bg-[#4F46E5] text-white px-5 py-2 font-semibold shadow-sm"
         >
           Hablemos
         </a>
 
-        {/* BOTÓN MOBILE */}
+        {/* ICONO MOBILE */}
         <button
-          className="md:hidden p-2 rounded-lg border border-slate-300 text-slate-700"
-          onClick={() => setOpen(!open)}
+          className="md:hidden p-2"
+          onClick={() => setOpen(true)}
         >
-          {/* Hamburguesa */}
-          {!open ? (
-            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          ) : (
-            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 6l12 12M6 18L18 6" />
-            </svg>
-          )}
+          <span className="text-3xl">☰</span>
         </button>
       </div>
 
-      {/* MENU MOBILE */}
+      {/* DRAWER MOBILE */}
       {open && (
-        <div className="md:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-4 animate-fadeIn">
-          <a href="#servicios" onClick={() => setOpen(false)} className="block text-slate-700 text-lg">Servicios</a>
-          <a href="#proceso" onClick={() => setOpen(false)} className="block text-slate-700 text-lg">Proceso</a>
-          <a href="/noticias" onClick={() => setOpen(false)} className="block text-slate-700 text-lg">Noticias</a>
-          <a href="#contacto" onClick={() => setOpen(false)} className="block text-slate-700 text-lg">Contacto</a>
+        <div className="fixed inset-0 z-50 bg-white animate-fadeIn flex flex-col">
+          {/* HEADER DEL DRAWER */}
+          <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
+            <div className="flex items-center gap-2">
+              <img src={brandLogo} alt="NexOps" className="h-6" />
+              <span className="font-semibold text-lg">NexOps</span>
+            </div>
 
-          <a
-            href="https://api.whatsapp.com/send?phone=5491132106711&text=Hola!%20Necesito%20hablar%20con%20NexOps"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block text-center rounded-xl bg-[#4F46E5] text-white py-3 font-semibold mt-2"
-            onClick={() => setOpen(false)}
-          >
-            Hablemos
-          </a>
+            <button onClick={() => setOpen(false)}>
+              <span className="text-3xl">×</span>
+            </button>
+          </div>
+
+          {/* LINKS */}
+          <div className="flex flex-col px-6 py-6 gap-6 text-lg font-medium text-slate-800">
+            <a href="#servicios" onClick={() => setOpen(false)}>Servicios</a>
+            <a href="#proceso" onClick={() => setOpen(false)}>Proceso</a>
+            <a href="/noticias" onClick={() => setOpen(false)}>Noticias</a>
+            <a href="#contacto" onClick={() => setOpen(false)}>Contacto</a>
+          </div>
+
+          {/* FOOTER DEL DRAWER */}
+          <div className="mt-auto px-6 py-6 text-sm text-slate-500">
+            © {new Date().getFullYear()} NexOps. Todos los derechos reservados.
+          </div>
         </div>
       )}
+
+      {/* ANIMACIÓN */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.25s ease-out;
+        }
+      `}</style>
     </header>
   );
 }
