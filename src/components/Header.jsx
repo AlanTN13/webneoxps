@@ -1,118 +1,137 @@
 // src/components/Header.jsx
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import brandLogo from "../assets/logo-nexops.svg";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // para poder usar createPortal sin romper nada
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // bloquear scroll cuando el menú está abierto
+  useEffect(() => {
+    if (!mounted) return;
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [open, mounted]);
+
+  const closeMenu = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur border-b border-slate-200">
-      <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-3">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <img src={brandLogo} alt="NexOps" className="h-6 w-auto" />
+    <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur border-b border-slate-200">
+      <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+        {/* Logo + nombre */}
+        <a href="/" className="flex items-center gap-2">
+          <img src={brandLogo} className="h-6 w-auto" alt="NexOps" />
           <span className="font-semibold text-slate-900 text-lg">NexOps</span>
-        </div>
+        </a>
 
-        {/* Nav desktop */}
-        <nav className="hidden md:flex items-center gap-10 text-slate-600 font-medium">
-          <a href="#servicios" className="hover:text-[#4F46E5]">
+        {/* Navegación desktop */}
+        <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
+          <a href="/#servicios" className="hover:text-slate-900">
             Servicios
           </a>
-          <a href="#proceso" className="hover:text-[#4F46E5]">
+          <a href="/#proceso" className="hover:text-slate-900">
             Proceso
           </a>
-          <a href="/noticias" className="hover:text-[#4F46E5]">
+          <a href="/noticias" className="hover:text-slate-900">
             Noticias
           </a>
-          <a href="#contacto" className="hover:text-[#4F46E5]">
+          <a href="/#contacto" className="hover:text-slate-900">
             Contacto
           </a>
         </nav>
 
-        {/* Botón desktop */}
+        {/* CTA desktop */}
         <a
-          href="https://api.whatsapp.com/send?phone=5491132106711&text=Hola!%20Quiero%20automatizar%20mi%20empresa%20🚀"
-          className="hidden md:inline-flex rounded-xl bg-[#4F46E5] text-white px-5 py-2 font-semibold shadow-sm"
+          href="https://calendly.com/nexopstech-info/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-2.5 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
         >
           Hablemos
         </a>
 
-        {/* Hamburguesa mobile */}
+        {/* Botón menú mobile */}
         <button
-          className="md:hidden p-2"
+          className="sm:hidden text-slate-700 text-3xl"
           onClick={() => setOpen(true)}
           aria-label="Abrir menú"
         >
-          <span className="block h-0.5 w-6 bg-slate-900 mb-1" />
-          <span className="block h-0.5 w-6 bg-slate-900 mb-1" />
-          <span className="block h-0.5 w-6 bg-slate-900" />
+          ☰
         </button>
       </div>
 
-      {/* Drawer mobile */}
-      {open && (
-        <div className="fixed inset-0 z-50">
-          {/* Fondo oscuro (toca afuera para cerrar) */}
-          <div
-            className="absolute inset-0 bg-slate-900/50"
-            onClick={() => setOpen(false)}
-          />
-
-          {/* Panel blanco: ocupa 3/4 de ancho en mobile */}
-          <div className="absolute inset-y-0 right-0 w-full max-w-xs bg-white shadow-xl flex flex-col animate-slideIn">
-            {/* Top drawer */}
+      {/* OVERLAY MOBILE en PORTAL */}
+      {mounted &&
+        open &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] flex flex-col bg-white">
+            {/* Top bar */}
             <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
               <div className="flex items-center gap-2">
-                <img src={brandLogo} alt="NexOps" className="h-6 w-auto" />
-                <span className="font-semibold text-lg text-slate-900">
+                <img src={brandLogo} className="h-6 w-auto" alt="NexOps" />
+                <span className="font-semibold text-slate-900 text-lg">
                   NexOps
                 </span>
               </div>
               <button
-                onClick={() => setOpen(false)}
+                className="text-3xl text-slate-700"
+                onClick={closeMenu}
                 aria-label="Cerrar menú"
-                className="p-1"
               >
-                <span className="text-3xl leading-none text-slate-700">×</span>
+                ✕
               </button>
             </div>
 
+            {/* Banda título */}
+            <div className="px-6 py-3 border-b border-slate-200/80 text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">
+              NexOps Menu
+            </div>
+
             {/* Links */}
-            <nav className="flex flex-col px-6 py-6 gap-5 text-lg font-medium text-slate-800">
-              <a href="#servicios" onClick={() => setOpen(false)}>
+            <nav className="flex-1 flex flex-col px-6 py-4 text-lg text-slate-800 gap-1">
+              <a
+                href="/#servicios"
+                onClick={closeMenu}
+                className="py-3 border-b border-slate-200/60"
+              >
                 Servicios
               </a>
-              <a href="#proceso" onClick={() => setOpen(false)}>
+              <a
+                href="/#proceso"
+                onClick={closeMenu}
+                className="py-3 border-b border-slate-200/60"
+              >
                 Proceso
               </a>
-              <a href="/noticias" onClick={() => setOpen(false)}>
+              <a
+                href="/noticias"
+                onClick={closeMenu}
+                className="py-3 border-b border-slate-200/60"
+              >
                 Noticias
               </a>
-              <a href="#contacto" onClick={() => setOpen(false)}>
+              <a
+                href="/#contacto"
+                onClick={closeMenu}
+                className="py-3 border-b border-slate-200/60"
+              >
                 Contacto
               </a>
             </nav>
-
-            {/* Footer chiquito dentro del menú */}
-            <div className="mt-auto px-6 py-4 text-xs text-slate-500 border-t border-slate-100">
-              © {new Date().getFullYear()} NexOps. Todos los derechos
-              reservados.
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Animación slide-in */}
-      <style>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        .animate-slideIn {
-          animation: slideIn 0.25s ease-out;
-        }
-      `}</style>
+          </div>,
+          document.body
+        )}
     </header>
   );
 }
