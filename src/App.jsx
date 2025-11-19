@@ -126,13 +126,11 @@ const Hero = () => (
         </Pill>
 
         <h1 className="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          Reduce costos y <span className="text-[#4F46E5]">libera horas</span> con
-          automatización inteligente
+          Reduce costos y <span className="text-[#4F46E5]">libera horas</span> con automatización inteligente
         </h1>
 
         <p className="mt-4 max-w-xl text-slate-600">
-          Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA
-          que eliminan tareas manuales y escalan tu operación en semanas, no meses.
+          Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA que eliminan tareas manuales y escalan tu operación en semanas, no meses.
         </p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -154,6 +152,7 @@ const Hero = () => (
 
         {/* KPIs */}
         <div className="mt-8 grid grid-cols-3 gap-6 text-center">
+          {/* 100+ automatizaciones */}
           <div data-reveal>
             <MetricCounter
               to={100}
@@ -162,14 +161,22 @@ const Hero = () => (
             />
             <p className="text-xs text-slate-500">automatizaciones</p>
           </div>
+
+          {/* 3 semanas (mobile-friendly) */}
           <div data-reveal>
-            <MetricCounter
-              to={3}
-              suffix=" semanas"
-              className="text-2xl font-bold text-slate-900"
-            />
+            <div className="flex items-baseline justify-center gap-1">
+              <MetricCounter
+                to={3}
+                className="text-2xl font-bold text-slate-900"
+              />
+              <span className="text-sm font-semibold text-slate-900">
+                semanas
+              </span>
+            </div>
             <p className="text-xs text-slate-500">implementación promedio</p>
           </div>
+
+          {/* 20+ empresas activas */}
           <div data-reveal>
             <MetricCounter
               to={20}
@@ -181,25 +188,96 @@ const Hero = () => (
         </div>
       </div>
 
-      {/* Derecha: demo chat */}
-      <div className="relative">
+      {/* Derecha: panel UI nuevo */}
+      <div className="relative" data-reveal>
         <div className="absolute -inset-10 bg-gradient-to-br from-[#B6A6FF]/40 via-white to-[#E3DDFD]/35 blur-2xl rounded-[40px]" />
-        <div className="relative rounded-2xl border border-slate-200 bg-white/80 backdrop-blur p-5 shadow-lg">
-          <div className="mb-3 text-sm text-slate-500">Agente de atención · WhatsApp</div>
-          <div className="space-y-3">
-            <div className="max-w-[80%] rounded-2xl bg-slate-100 px-4 py-3 text-slate-800">
-              Hola 👋 ¿me ayudan a calificar leads desde la web?
+
+        <div className="relative rounded-2xl border border-slate-200 bg-white/80 backdrop-blur p-6 shadow-lg">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">
+                Panel de automatización
+              </p>
+              <p className="text-sm font-semibold text-slate-800">
+                Resultados en tiempo real
+              </p>
             </div>
-            <div className="ml-auto max-w-[85%] rounded-2xl bg-[#4F46E5] px-4 py-3 text-white">
-              Sí. Integramos tu formulario y CRM.
-              <br />
-              Te entrego leads calificados + alerta al equipo.
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Operando 24/7
+            </span>
+          </div>
+
+          {/* KPIs grandes */}
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="rounded-xl bg-slate-900 text-white px-4 py-3">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-300">
+                Tiempo operativo
+              </p>
+              <p className="mt-1 text-2xl font-bold">-40%</p>
+              <p className="mt-1 text-[11px] text-slate-300">
+                Menos tareas manuales
+              </p>
             </div>
-            <div className="max-w-[75%] rounded-2xl bg-slate-100 px-4 py-3 text-slate-800">
-              ¿Y métricas?
+
+            <div className="rounded-xl bg-[#4F46E5]/10 text-slate-900 px-4 py-3 border border-[#4F46E5]/20">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
+                Conversión de leads
+              </p>
+              <p className="mt-1 text-2xl font-bold">+28%</p>
+              <p className="mt-1 text-[11px] text-slate-500">
+                Respuesta más rápida
+              </p>
             </div>
-            <div className="ml-auto max-w-[85%] rounded-2xl bg-[#4F46E5] px-4 py-3 text-white">
-              Tablero en tiempo real con KPIs de respuesta y conversión.
+          </div>
+
+          {/* Mini gráfico */}
+          <div className="mb-4 rounded-xl bg-slate-50 px-4 py-3">
+            <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2">
+              <span>Automatizaciones por día</span>
+              <span>Últimos 7 días</span>
+            </div>
+            <div className="flex items-end gap-1 h-16">
+              <div className="flex-1 rounded-full bg-slate-200 h-4" />
+              <div className="flex-1 rounded-full bg-slate-200 h-7" />
+              <div className="flex-1 rounded-full bg-slate-200 h-6" />
+              <div className="flex-1 rounded-full bg-[#4F46E5]/70 h-12" />
+              <div className="flex-1 rounded-full bg-slate-200 h-8" />
+              <div className="flex-1 rounded-full bg-slate-200 h-10" />
+              <div className="flex-1 rounded-full bg-slate-200 h-9" />
+            </div>
+          </div>
+
+          {/* Lista corta */}
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                <span className="font-medium text-slate-900">
+                  Calificación de leads web
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500">Activo</span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-indigo-500" />
+                <span className="font-medium text-slate-900">
+                  Seguimiento WhatsApp
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500">Activo</span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                <span className="font-medium text-slate-900">
+                  Alertas a CRM / equipo
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500">En prueba</span>
             </div>
           </div>
         </div>
