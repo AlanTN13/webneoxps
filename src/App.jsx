@@ -85,16 +85,6 @@ const Pill = ({ children }) => (
   </span>
 );
 
-const Card = ({ children, className = "" }) => (
-  <div
-    data-reveal
-    className={`group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition will-change-transform
-                hover:shadow-xl hover:-translate-y-0.5 hover:border-slate-300 ${className}`}
-  >
-    {children}
-  </div>
-);
-
 /* =============
    HERO
    ============= */
@@ -126,11 +116,13 @@ const Hero = () => (
         </Pill>
 
         <h1 className="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          Reduce costos y <span className="text-[#4F46E5]">libera horas</span> con automatización inteligente
+          Reduce costos y <span className="text-[#4F46E5]">libera horas</span> con
+          automatización inteligente
         </h1>
 
         <p className="mt-4 max-w-xl text-slate-600">
-          Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA que eliminan tareas manuales y escalan tu operación en semanas, no meses.
+          Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA
+          que eliminan tareas manuales y escalan tu operación en semanas, no meses.
         </p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -152,7 +144,6 @@ const Hero = () => (
 
         {/* KPIs */}
         <div className="mt-8 grid grid-cols-3 gap-6 text-center">
-          {/* 100+ automatizaciones */}
           <div data-reveal>
             <MetricCounter
               to={100}
@@ -162,21 +153,14 @@ const Hero = () => (
             <p className="text-xs text-slate-500">automatizaciones</p>
           </div>
 
-          {/* 3 semanas (mobile-friendly) */}
           <div data-reveal>
             <div className="flex items-baseline justify-center gap-1">
-              <MetricCounter
-                to={3}
-                className="text-2xl font-bold text-slate-900"
-              />
-              <span className="text-sm font-semibold text-slate-900">
-                semanas
-              </span>
+              <MetricCounter to={3} className="text-2xl font-bold text-slate-900" />
+              <span className="text-sm font-semibold text-slate-900">semanas</span>
             </div>
             <p className="text-xs text-slate-500">implementación promedio</p>
           </div>
 
-          {/* 20+ empresas activas */}
           <div data-reveal>
             <MetricCounter
               to={20}
@@ -215,9 +199,7 @@ const Hero = () => (
                 Tiempo operativo
               </p>
               <p className="mt-1 text-2xl font-bold">-40%</p>
-              <p className="mt-1 text-[11px] text-slate-300">
-                Menos tareas manuales
-              </p>
+              <p className="mt-1 text-[11px] text-slate-300">Menos tareas manuales</p>
             </div>
 
             <div className="rounded-xl bg-[#4F46E5]/10 text-slate-900 px-4 py-3 border border-[#4F46E5]/20">
@@ -225,59 +207,90 @@ const Hero = () => (
                 Conversión de leads
               </p>
               <p className="mt-1 text-2xl font-bold">+28%</p>
-              <p className="mt-1 text-[11px] text-slate-500">
-                Respuesta más rápida
-              </p>
+              <p className="mt-1 text-[11px] text-slate-500">Respuesta más rápida</p>
             </div>
           </div>
 
-          {/* Mini gráfico */}
-          <div className="mb-4 rounded-xl bg-slate-50 px-4 py-3">
-            <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2">
-              <span>Automatizaciones por día</span>
-              <span>Últimos 7 días</span>
-            </div>
-            <div className="flex items-end gap-1 h-16">
-              <div className="flex-1 rounded-full bg-slate-200 h-4" />
-              <div className="flex-1 rounded-full bg-slate-200 h-7" />
-              <div className="flex-1 rounded-full bg-slate-200 h-6" />
-              <div className="flex-1 rounded-full bg-[#4F46E5]/70 h-12" />
-              <div className="flex-1 rounded-full bg-slate-200 h-8" />
-              <div className="flex-1 rounded-full bg-slate-200 h-10" />
-              <div className="flex-1 rounded-full bg-slate-200 h-9" />
-            </div>
-          </div>
+          {/* Mini panel dividido: gráfico + estados */}
+          <div className="mb-4 rounded-xl bg-slate-50 px-4 py-4">
+            <div className="flex flex-col md:flex-row items-start gap-6">
+              {/* IZQUIERDA: GRÁFICO */}
+              <div className="flex-1 w-full">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2">
+                  <span>Automatizaciones por día</span>
+                  <span>Promedio 7 días: 132</span>
+                </div>
 
-          {/* Lista corta */}
-          <div className="space-y-2 text-sm">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                <span className="font-medium text-slate-900">
-                  Calificación de leads web
-                </span>
+                <svg
+                  viewBox="0 0 280 80"
+                  className="w-full h-[70px]"
+                  preserveAspectRatio="none"
+                >
+                  {/* línea con picos */}
+                  <path
+                    d="M0 55 L40 50 L80 62 L120 45 L160 65 L200 48 L240 60 L280 52"
+                    fill="none"
+                    stroke="#4F46E5"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* puntos */}
+                  {[0, 40, 80, 120, 160, 200, 240, 280].map((x, i) => {
+                    const ys = [55, 50, 62, 45, 65, 48, 60, 52];
+                    return (
+                      <circle
+                        key={i}
+                        cx={x}
+                        cy={ys[i]}
+                        r="4"
+                        fill="#4F46E5"
+                        stroke="#ffffff"
+                        strokeWidth="2"
+                      />
+                    );
+                  })}
+                </svg>
               </div>
-              <span className="text-[11px] text-slate-500">Activo</span>
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-indigo-500" />
-                <span className="font-medium text-slate-900">
-                  Seguimiento WhatsApp
-                </span>
-              </div>
-              <span className="text-[11px] text-slate-500">Activo</span>
-            </div>
+              {/* DERECHA: ESTADOS */}
+              <div className="flex-1 w-full space-y-3 text-sm md:mt-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    <span className="font-medium text-slate-900">
+                      Calificación de leads web
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-medium text-emerald-600">
+                    Activo
+                  </span>
+                </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                <span className="font-medium text-slate-900">
-                  Alertas a CRM / equipo
-                </span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-indigo-500" />
+                    <span className="font-medium text-slate-900">
+                      Seguimiento WhatsApp
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-medium text-emerald-600">
+                    Activo
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                    <span className="font-medium text-slate-900">
+                      Alertas a CRM / equipo
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-medium text-amber-500">
+                    En prueba
+                  </span>
+                </div>
               </div>
-              <span className="text-[11px] text-slate-500">En prueba</span>
             </div>
           </div>
         </div>
@@ -307,6 +320,7 @@ const Logos = () => (
    ========= */
 
 export default function App() {
+  // Parallax
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!prefersReduced.matches && window.innerWidth >= 640) {
@@ -320,9 +334,13 @@ export default function App() {
   return (
     <Layout>
       <Hero />
-      <Logos />
+      {/* Lo que hacemos en NexOps */}
       <ServicesOverview />
+      {/* Integrado a las mejores herramientas + logos */}
+      <Logos />
+      {/* Proceso */}
       <HowWeWork />
+      {/* CTA final */}
       <CTA />
     </Layout>
   );

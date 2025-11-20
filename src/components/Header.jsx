@@ -28,42 +28,45 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur border-b border-slate-200">
-      <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-4 py-3 flex items-center">
         {/* Logo + nombre */}
         <a href="/" className="flex items-center gap-2">
           <img src={brandLogo} className="h-6 w-auto" alt="NexOps" />
           <span className="font-semibold text-slate-900 text-lg">NexOps</span>
         </a>
 
-        {/* Navegación desktop */}
-        <nav className="hidden sm:flex items-center gap-8 text-base text-slate-600">
-          <a href="/#servicios" className="hover:text-slate-900">
-            Servicios
-          </a>
-          <a href="/#proceso" className="hover:text-slate-900">
-            Proceso
-          </a>
-          <a href="/noticias" className="hover:text-slate-900">
-            Noticias
-          </a>
-          <a href="/#contacto" className="hover:text-slate-900">
-            Contacto
-          </a>
-        </nav>
+        {/* Wrapper derecha: nav + CTA (desktop) */}
+        <div className="ml-auto hidden sm:flex items-center gap-8">
+          {/* Navegación desktop */}
+          <nav className="flex items-center gap-8 text-base text-slate-600">
+            <a href="/#servicios" className="hover:text-slate-900">
+              Servicios
+            </a>
+            <a href="/#proceso" className="hover:text-slate-900">
+              Proceso
+            </a>
+            <a href="/noticias" className="hover:text-slate-900">
+              Noticias
+            </a>
+            <a href="/#contacto" className="hover:text-slate-900">
+              Contacto
+            </a>
+          </nav>
 
-        {/* CTA desktop */}
-        <a
-          href="https://calendly.com/nexopstech-info/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden sm:inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-2.5 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
-        >
-          Hablemos
-        </a>
+          {/* CTA desktop */}
+          <a
+            href="https://calendly.com/nexopstech-info/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-2.5 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
+          >
+            Hablemos
+          </a>
+        </div>
 
         {/* Botón menú mobile */}
         <button
-          className="sm:hidden text-slate-700 text-3xl"
+          className="sm:hidden ml-auto text-slate-700 text-3xl"
           onClick={() => setOpen(true)}
           aria-label="Abrir menú"
         >
@@ -135,3 +138,4 @@ export default function Header() {
     </header>
   );
 }
+
