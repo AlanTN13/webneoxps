@@ -1,7 +1,7 @@
 // src/main.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import App from "./App.jsx";
 
@@ -20,9 +20,27 @@ import FrontEndUX from "./pages/servicios/FrontEndUX.jsx";
 
 import "./index.css";
 
+// 👇 Nuevo: resetea el scroll en cada cambio de ruta
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant", // podés probar "smooth" si querés animación
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
+      {/* 👇 Lo ponemos acá para que escuche todos los cambios de ruta */}
+      <ScrollToTop />
+
       <Routes>
         {/* Landing principal */}
         <Route path="/" element={<App />} />
@@ -61,7 +79,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/noticias/:slug" element={<Detalle />} />
 
-        {/* Fallback: cualquier otra ruta vuelve al home */}
+        {/* Fallback */}
         <Route path="*" element={<App />} />
       </Routes>
     </BrowserRouter>
