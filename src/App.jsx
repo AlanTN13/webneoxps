@@ -226,7 +226,6 @@ const Hero = () => (
                   className="w-full h-[70px]"
                   preserveAspectRatio="none"
                 >
-                  {/* línea con picos */}
                   <path
                     d="M0 55 L40 50 L80 62 L120 45 L160 65 L200 48 L240 60 L280 52"
                     fill="none"
@@ -235,7 +234,6 @@ const Hero = () => (
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  {/* puntos */}
                   {[0, 40, 80, 120, 160, 200, 240, 280].map((x, i) => {
                     const ys = [55, 50, 62, 45, 65, 48, 60, 52];
                     return (
@@ -334,13 +332,9 @@ export default function App() {
   return (
     <Layout>
       <Hero />
-      {/* Lo que hacemos en NexOps */}
       <ServicesOverview />
-      {/* Integrado a las mejores herramientas + logos */}
       <Logos />
-      {/* Proceso */}
       <HowWeWork />
-      {/* CTA final */}
       <CTA />
     </Layout>
   );
