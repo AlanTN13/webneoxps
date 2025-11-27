@@ -7,17 +7,26 @@ import { client } from "../../lib/sanity/client";
 import { urlForImage } from "../../lib/sanity/image";
 import { PortableText } from "@portabletext/react";
 
+// --- (2) Imágenes internas estilizadas ---
 const portableComponents = {
   types: {
     image: ({ value }) => (
-      <figure className="my-8">
+      <figure className="my-10 w-full flex flex-col items-center">
         <img
-          src={urlForImage(value).width(1200).url()}
+          src={urlForImage(value).width(1600).url()}
           alt={value.alt || ""}
-          className="rounded-xl mx-auto"
+          className="
+            rounded-2xl
+            mx-auto
+            w-full
+            max-w-[768px]    /* 🔥 mismo ancho que el texto */
+            h-[300px]       /* 🔥 más baja */
+            object-cover    /* rellena sin deformar */
+            shadow-sm
+          "
         />
         {value.caption && (
-          <figcaption className="mt-2 text-center text-sm text-slate-500">
+          <figcaption className="mt-3 text-center text-sm text-slate-500">
             {value.caption}
           </figcaption>
         )}
@@ -43,7 +52,7 @@ export default function Detalle() {
       .then(setPost);
   }, [slug]);
 
-  if (!post)
+  if (!post) {
     return (
       <Layout>
         <div className="max-w-3xl mx-auto py-20 px-4 text-slate-600">
@@ -51,6 +60,7 @@ export default function Detalle() {
         </div>
       </Layout>
     );
+  }
 
   return (
     <Layout>
@@ -68,13 +78,15 @@ export default function Detalle() {
           {post.title}
         </h1>
 
-        {/* Contenido estilo “Medium” */}
+        {/* Contenido */}
         <div
           className="
-            prose prose-lg prose-slate mt-10 mx-auto
+            prose
+            prose-lg
+            prose-slate
+            mt-10 mx-auto
             leading-relaxed
-            prose-headings:font-sans prose-headings:text-slate-900 prose-headings:font-semibold
-            prose-p:font-serif prose-li:font-serif prose-blockquote:font-serif
+            prose-headings:text-slate-900
             prose-img:rounded-xl
           "
         >
