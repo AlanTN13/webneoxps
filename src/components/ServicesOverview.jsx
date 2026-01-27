@@ -32,10 +32,10 @@ const servicesData = [
     id: "marketing",
     title: "Captación & Mkt",
     icon: <Megaphone />,
-    color: "from-violet-500 to-violet-600",
+    color: "from-violet-200 to-violet-400",
     gradId: "grad-marketing",
-    gradColors: ["#a78bfa", "#7c3aed"],
-    bgColor: "bg-violet-600",
+    gradColors: ["#ede9fe", "#a78bfa"],
+    bgColor: "bg-violet-400",
     textColor: "text-violet-600",
     objective: "Atraer clientes potenciales y vincularlos al proceso comercial.",
     description: "Implementamos un sistema de captación donde los clientes potenciales ingresan directamente al CRM, listos para ser trabajados por el equipo comercial.",
@@ -57,16 +57,17 @@ const servicesData = [
       "Canal de adquisición en funcionamiento",
       "Métricas de conversión configuradas",
     ],
+    number: "1",
     whatsappMessage: "¡Hola! Me gustaría solicitar información sobre Captación & Mkt",
   },
   {
     id: "ventas",
     title: "Ventas & CRM",
     icon: <ShoppingCart />,
-    color: "from-indigo-500 to-indigo-600",
+    color: "from-indigo-200 to-indigo-500",
     gradId: "grad-ventas",
-    gradColors: ["#818cf8", "#4f46e5"],
-    bgColor: "bg-indigo-600",
+    gradColors: ["#e0e7ff", "#818cf8"],
+    bgColor: "bg-indigo-500",
     textColor: "text-indigo-600",
     objective: "Centralizar clientes y oportunidades en un solo sistema.",
     description: "Unificamos clientes potenciales, oportunidades y tareas para que el equipo comercial trabaje con orden, seguimiento y trazabilidad real.",
@@ -80,25 +81,26 @@ const servicesData = [
     ],
     incluye: [
       "Pipeline de ventas con etapas definidas",
-      "Clientes potenciales integrados desde distintos canales",
-      "Tareas y recordatorios de seguimiento",
+      "Leads que entran solos (web / WhatsApp / email)",
+      "Recordatorios y tareas para seguimiento",
       "Métricas comerciales para control y mejora",
     ],
     entregables: [
       "CRM configurado según el proceso comercial",
       "Guía de uso para el equipo de ventas",
     ],
+    number: "2",
     whatsappMessage: "¡Hola! Me gustaría solicitar información sobre Ventas & CRM",
   },
   {
     id: "operacion",
-    title: "Operación & Postventa",
+    title: "Operación",
     icon: <TrendingUp />,
-    color: "from-indigo-600 to-violet-700",
+    color: "from-indigo-600 to-indigo-800",
     gradId: "grad-operacion",
-    gradColors: ["#6366f1", "#6d28d9"],
-    bgColor: "bg-indigo-700",
-    textColor: "text-indigo-700",
+    gradColors: ["#4f46e5", "#312e81"],
+    bgColor: "bg-indigo-800",
+    textColor: "text-indigo-900",
     objective: "Ejecutar lo vendido con control y seguimiento.",
     description: "Conectamos la venta con la operación para que presupuestos, estados y ejecución se mantengan sincronizados entre áreas.",
     highlightIcon: <RefreshCw className="w-5 h-5 text-indigo-500" />,
@@ -119,17 +121,18 @@ const servicesData = [
       "Modelo de estados operativos",
       "Tablero de seguimiento",
     ],
-    whatsappMessage: "¡Hola! Me gustaría solicitar información sobre Operación & Postventa",
+    number: "3",
+    whatsappMessage: "¡Hola! Me gustaría solicitar información sobre Operación",
   },
   {
     id: "automatizacion",
     title: "Automatización",
     icon: <Settings />,
-    color: "from-violet-600 to-indigo-800",
+    color: "from-violet-800 to-violet-950",
     gradId: "grad-automatizacion",
-    gradColors: ["#7c3aed", "#3730a3"],
-    bgColor: "bg-violet-700",
-    textColor: "text-violet-700",
+    gradColors: ["#6d28d9", "#2e1065"],
+    bgColor: "bg-slate-900",
+    textColor: "text-slate-900",
     objective: "Reducir fricción entre áreas y eliminar tareas manuales.",
     description: "Automatizamos los puntos de conexión entre captación, ventas y operación para que el sistema funcione de punta a punta, con menos intervención manual.",
     highlightIcon: <Zap className="w-5 h-5 text-indigo-500" />,
@@ -150,6 +153,7 @@ const servicesData = [
       "Automatizaciones activas",
       "Documentación de los flujos",
     ],
+    number: "4",
     whatsappMessage: "¡Hola! Me gustaría solicitar información sobre Automatización",
   },
 ];
@@ -167,7 +171,14 @@ const SEGMENTS = {
 };
 
 export default function ServicesOverview() {
-  const [activeTab, setActiveTab] = useState("ventas");
+  const [activeTab, setActiveTab] = useState("marketing");
+  const [hasPlayedIntro, setHasPlayedIntro] = useState(false);
+
+  React.useEffect(() => {
+    // Breve animación inicial para señalar interactividad
+    const timer = setTimeout(() => setHasPlayedIntro(true), 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const activeService = useMemo(
     () => servicesData.find((s) => s.id === activeTab),
@@ -231,7 +242,10 @@ export default function ServicesOverview() {
                 </div>
 
                 <div className="text-center">
-                  <span className={`block text-[14px] font-bold tracking-tight ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`block text-[11px] font-black uppercase tracking-widest leading-none ${isActive ? 'text-white' : 'text-slate-400'}`}>
+                    Módulo {s.number}
+                  </span>
+                  <span className={`block mt-1.5 text-[14px] font-bold tracking-tight ${isActive ? 'text-white' : 'text-slate-900'}`}>
                     {s.title}
                   </span>
                 </div>
@@ -260,9 +274,6 @@ export default function ServicesOverview() {
                   </span>
                   <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1 text-center leading-tight">
                     Sistema Operativo
-                  </span>
-                  <span className="text-[8px] text-slate-300 font-bold tracking-widest mt-2 uppercase">
-                    CRM • Datos • Auto
                   </span>
                 </div>
               </div>
@@ -296,21 +307,33 @@ export default function ServicesOverview() {
                 <g className="cursor-pointer">
                   {servicesData.map((s) => {
                     const isActive = activeTab === s.id;
+                    const isFirst = s.id === 'marketing';
+
                     return (
                       <React.Fragment key={s.id}>
-                        <path
+                        <motion.path
                           d={SEGMENTS[s.id]}
                           fill={`url(#${s.gradId})`}
-                          className="transition-all duration-500 stroke-white stroke-[3px]"
+                          className="transition-all duration-300 stroke-white stroke-[3px]"
                           onClick={() => setActiveTab(s.id)}
+                          animate={isFirst && !hasPlayedIntro ? {
+                            filter: [
+                              'brightness(1) saturate(1)',
+                              'brightness(1.4) saturate(1.2)',
+                              'brightness(1) saturate(1)'
+                            ],
+                            transition: { duration: 1.8, delay: 0.8, ease: "easeInOut" }
+                          } : {
+                            filter: isActive ? 'brightness(1.08) saturate(1.1)' : 'brightness(0.96) saturate(0.9)',
+                            strokeWidth: isActive ? 4 : 3,
+                          }}
+                          whileHover={{
+                            filter: 'brightness(1.05) saturate(1.05)',
+                            transition: { duration: 0.2 }
+                          }}
                           style={{
                             transformBox: "fill-box",
                             transformOrigin: "center",
-                            transform: isActive ? "scale(1.02)" : "scale(1)",
-                            opacity: isActive ? 1 : 0.75,
-                            filter: isActive
-                              ? 'brightness(1.05) drop-shadow(0 0 20px rgba(99, 102, 241, 0.3))'
-                              : 'brightness(0.92) saturate(0.9)',
                           }}
                         />
                         {/* Inner glow overlay for active */}
@@ -352,19 +375,24 @@ export default function ServicesOverview() {
 
               {/* Category Labels & Icons Overlay - Enterprise Style */}
               <div className="absolute inset-0 z-30 pointer-events-none">
-                {/* Ventas & CRM - Top Right (Now moved here) */}
-                <div className="absolute" style={{ left: "75%", top: "32%", transform: "translate(-50%, -50%)" }}>
-                  <div
-                    className="px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:scale-105"
+                {/* Ventas & CRM - Top Right */}
+                <div className="absolute" style={{ left: "61%", top: "33%", transform: "translate(0, -50%)" }}>
+                  <motion.div
+                    animate={activeTab === "ventas" ? { x: 4 } : { x: 0 }}
+                    className="group px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:shadow-xl shadow-lg"
                     onClick={() => setActiveTab("ventas")}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.92)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+                      background: activeTab === "ventas" ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.95)',
+                      borderColor: activeTab === "ventas" ? 'rgba(99, 102, 241, 0.6)' : 'rgba(255, 255, 255, 0.4)',
                     }}
                   >
-                    <span className="text-slate-900 font-bold text-sm whitespace-nowrap tracking-tight">Ventas & CRM</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-[11px] font-bold text-white shadow-md">2</span>
+                      <span className={`text-slate-900 text-sm whitespace-nowrap tracking-tight transition-all duration-300 ${activeTab === 'ventas' ? 'font-black' : 'font-semibold group-hover:font-bold'}`}>
+                        {servicesData.find(s => s.id === 'ventas')?.title}
+                      </span>
+                    </div>
+                  </motion.div>
                 </div>
 
                 {/* Ventas Icons */}
@@ -439,19 +467,24 @@ export default function ServicesOverview() {
                   </AnimatePresence>
                 )}
 
-                {/* Marketing - Top Left (Now moved here) */}
-                <div className="absolute" style={{ left: "25%", top: "32%", transform: "translate(-50%, -50%)" }}>
-                  <div
-                    className="px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:scale-105"
+                {/* Marketing - Top Left */}
+                <div className="absolute" style={{ left: "39%", top: "33%", transform: "translate(-100%, -50%)" }}>
+                  <motion.div
+                    animate={activeTab === "marketing" ? { x: -4 } : { x: 0 }}
+                    className="group px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:shadow-xl shadow-lg"
                     onClick={() => setActiveTab("marketing")}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.92)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+                      background: activeTab === "marketing" ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.95)',
+                      borderColor: activeTab === "marketing" ? 'rgba(139, 92, 246, 0.6)' : 'rgba(255, 255, 255, 0.4)',
                     }}
                   >
-                    <span className="text-slate-900 font-bold text-sm whitespace-nowrap tracking-tight">Captación & Mkt</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-violet-600 text-[11px] font-bold text-white shadow-md">1</span>
+                      <span className={`text-slate-900 text-sm whitespace-nowrap tracking-tight transition-all duration-300 ${activeTab === 'marketing' ? 'font-black' : 'font-semibold group-hover:font-bold'}`}>
+                        {servicesData.find(s => s.id === 'marketing')?.title}
+                      </span>
+                    </div>
+                  </motion.div>
                 </div>
 
                 {/* Marketing Icons */}
@@ -527,18 +560,23 @@ export default function ServicesOverview() {
                 )}
 
                 {/* Operación - Bottom Left */}
-                <div className="absolute" style={{ left: "28%", top: "70%", transform: "translate(-50%, -50%)" }}>
-                  <div
-                    className="px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:scale-105"
+                <div className="absolute" style={{ left: "39%", top: "67%", transform: "translate(-100%, -50%)" }}>
+                  <motion.div
+                    animate={activeTab === "operacion" ? { x: -4 } : { x: 0 }}
+                    className="group px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:shadow-xl shadow-lg"
                     onClick={() => setActiveTab("operacion")}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.92)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+                      background: activeTab === "operacion" ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.95)',
+                      borderColor: activeTab === "operacion" ? 'rgba(99, 102, 241, 0.6)' : 'rgba(255, 255, 255, 0.4)',
                     }}
                   >
-                    <span className="text-slate-900 font-bold text-sm whitespace-nowrap tracking-tight">Operación & Postventa</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-[11px] font-bold text-white shadow-md">3</span>
+                      <span className={`text-slate-900 text-sm whitespace-nowrap tracking-tight transition-all duration-300 ${activeTab === 'operacion' ? 'font-black' : 'font-semibold group-hover:font-bold'}`}>
+                        {servicesData.find(s => s.id === 'operacion')?.title}
+                      </span>
+                    </div>
+                  </motion.div>
                 </div>
 
                 {/* Operación Icons */}
@@ -614,18 +652,23 @@ export default function ServicesOverview() {
                 )}
 
                 {/* Automatización - Bottom Right */}
-                <div className="absolute" style={{ left: "69%", top: "70%", transform: "translate(-50%, -50%)" }}>
-                  <div
-                    className="px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:scale-105"
+                <div className="absolute" style={{ left: "61%", top: "67%", transform: "translate(0, -50%)" }}>
+                  <motion.div
+                    animate={activeTab === "automatizacion" ? { x: 4 } : { x: 0 }}
+                    className="group px-5 py-2.5 rounded-full pointer-events-auto cursor-pointer backdrop-blur-md border transition-all duration-300 hover:shadow-xl shadow-lg"
                     onClick={() => setActiveTab("automatizacion")}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.92)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+                      background: activeTab === "automatizacion" ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.95)',
+                      borderColor: activeTab === "automatizacion" ? 'rgba(139, 92, 246, 0.6)' : 'rgba(255, 255, 255, 0.4)',
                     }}
                   >
-                    <span className="text-slate-900 font-bold text-sm whitespace-nowrap tracking-tight">Automatización</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-violet-600 text-[11px] font-bold text-white shadow-sm">4</span>
+                      <span className={`text-slate-900 text-sm whitespace-nowrap tracking-tight transition-all duration-300 ${activeTab === 'automatizacion' ? 'font-black' : 'font-semibold group-hover:font-bold'}`}>
+                        {servicesData.find(s => s.id === 'automatizacion')?.title}
+                      </span>
+                    </div>
+                  </motion.div>
                 </div>
 
                 {/* Automatización Icons */}
