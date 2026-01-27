@@ -8,9 +8,9 @@ export default defineType({
   fields: [
     defineField({
       name: "title",
-      title: "Título",
+      title: "Título (máximo 95 caracteres)",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().max(95).error("El título debe tener máximo 95 caracteres"),
     }),
 
     defineField({
@@ -45,6 +45,7 @@ export default defineType({
       type: "text",
       rows: 3,
       description: "Texto corto que se muestra en la tarjeta del listado.",
+      validation: (Rule) => Rule.max(160),
     }),
 
     defineField({

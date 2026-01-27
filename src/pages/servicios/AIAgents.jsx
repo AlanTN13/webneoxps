@@ -1,5 +1,6 @@
 // src/pages/servicios/AIAgents.jsx
 import Layout from "../../components/Layout";
+import { CALENDLY_LINK } from "../../config/constants";
 
 export default function AIAgents() {
   return (
@@ -227,9 +228,9 @@ export default function AIAgents() {
                         Canales
                       </p>
                       <p className="mt-2 text-xs text-slate-700 leading-relaxed">
-                        WhatsApp  
-                        <br /> Web  
-                        <br /> Email  
+                        WhatsApp
+                        <br /> Web
+                        <br /> Email
                       </p>
                     </div>
 
@@ -273,7 +274,7 @@ export default function AIAgents() {
                 </p>
 
                 <a
-                  href="https://calendly.com/nexopstech-info/30min"
+                  href={CALENDLY_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"

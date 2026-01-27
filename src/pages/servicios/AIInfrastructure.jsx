@@ -1,5 +1,6 @@
 // src/pages/servicios/AIInfrastructure.jsx
 import Layout from "../../components/Layout";
+import { CALENDLY_LINK_45MIN } from "../../config/constants";
 
 export default function AIInfrastructure() {
   return (
@@ -289,7 +290,7 @@ export default function AIInfrastructure() {
                 </p>
 
                 <a
-                  href="https://calendly.com/nexopstech-info/45min"
+                  href={CALENDLY_LINK_45MIN}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"

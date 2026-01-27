@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import whatsappLogo from "../assets/whatsapp.svg"; // 👈 Punto 2: importamos el logo
+import whatsappLogo from "../assets/whatsapp.svg";
+import { CONTACT_INFO } from "../config/constants";
 
 export default function FloatingWhatsApp({
   phone,
-  message = "¡Hola! Quiero hacer una consulta 🚀",
+  message = CONTACT_INFO.WHATSAPP_MESSAGE_DEFAULT,
 }) {
   const href = useMemo(() => {
     const encoded = encodeURIComponent(message);
@@ -44,11 +45,11 @@ export default function FloatingWhatsApp({
       }}
     >
       {/* 👇 Punto 2: reemplazamos el svg por la imagen importada */}
-      <img 
-        src={whatsappLogo} 
-        alt="WhatsApp" 
-        width="28" 
-        height="28" 
+      <img
+        src={whatsappLogo}
+        alt="WhatsApp"
+        width="28"
+        height="28"
         style={{ pointerEvents: "none" }}
       />
     </a>

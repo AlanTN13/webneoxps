@@ -1,5 +1,6 @@
 // src/pages/servicios/DataVisualization.jsx
 import Layout from "../../components/Layout";
+import { CALENDLY_LINK } from "../../config/constants";
 
 export default function DataVisualization() {
   return (
@@ -275,7 +276,7 @@ export default function DataVisualization() {
                 </p>
 
                 <a
-                  href="https://calendly.com/nexopstech-info/30min"
+                  href={CALENDLY_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"

@@ -1,5 +1,6 @@
 // src/pages/servicios/FrontEndUX.jsx
 import Layout from "../../components/Layout";
+import { CALENDLY_LINK } from "../../config/constants";
 
 export default function FrontEndUX() {
   return (
@@ -222,8 +223,8 @@ export default function FrontEndUX() {
                         Alcance típico
                       </p>
                       <p className="mt-2 text-xs text-slate-700 leading-relaxed">
-                        Portal B2B,  
-                        backoffice,  
+                        Portal B2B,
+                        backoffice,
                         producto digital
                       </p>
                     </div>
@@ -267,7 +268,7 @@ export default function FrontEndUX() {
                 </p>
 
                 <a
-                  href="https://calendly.com/nexopstech-info/30min"
+                  href={CALENDLY_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"

@@ -1,5 +1,6 @@
 // src/components/Footer.jsx
 import brandLogo from "../assets/logo-nexops.svg";
+import { NAV_LINKS } from "../config/constants";
 
 export default function Footer() {
   return (
@@ -17,18 +18,11 @@ export default function Footer() {
         </div>
 
         <nav className="flex items-center gap-6 text-sm text-slate-600">
-          <a href="/#servicios" className="hover:text-[#4F46E5]">
-            Servicios
-          </a>
-          <a href="/#proceso" className="hover:text-[#4F46E5]">
-            Proceso
-          </a>
-          <a href="/noticias" className="hover:text-[#4F46E5]">
-            Noticias
-          </a>
-          <a href="/#contacto" className="hover:text-[#4F46E5]">
-            Contacto
-          </a>
+          {NAV_LINKS.map((link) => (
+            <a key={link.href} href={link.href} className="hover:text-[#4F46E5]">
+              {link.label}
+            </a>
+          ))}
         </nav>
       </div>
     </footer>

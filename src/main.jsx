@@ -1,7 +1,7 @@
 // src/main.jsx
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App.jsx";
 
@@ -19,21 +19,8 @@ import ProcessAutomation from "./pages/servicios/ProcessAutomation.jsx";
 import FrontEndUX from "./pages/servicios/FrontEndUX.jsx";
 
 import "./index.css";
+import ScrollToTop from "./components/ScrollToTop";
 
-// 👇 Nuevo: resetea el scroll en cada cambio de ruta
-function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant", // podés probar "smooth" si querés animación
-    });
-  }, [pathname]);
-
-  return null;
-}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

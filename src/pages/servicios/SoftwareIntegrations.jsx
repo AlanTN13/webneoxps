@@ -1,5 +1,6 @@
 // src/pages/servicios/SoftwareIntegrations.jsx
 import Layout from "../../components/Layout";
+import { CALENDLY_LINK } from "../../config/constants";
 
 export default function SoftwareIntegrations() {
   return (
@@ -226,8 +227,8 @@ export default function SoftwareIntegrations() {
                         Sistemas típicos
                       </p>
                       <p className="mt-2 text-xs text-slate-700 leading-relaxed">
-                        ERP, CRM,  
-                        ecommerce, WMS,  
+                        ERP, CRM,
+                        ecommerce, WMS,
                         contable
                       </p>
                     </div>
@@ -272,7 +273,7 @@ export default function SoftwareIntegrations() {
                 </p>
 
                 <a
-                  href="https://calendly.com/nexopstech-info/30min"
+                  href={CALENDLY_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"

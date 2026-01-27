@@ -2,6 +2,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import FloatingWhatsApp from "./FloatingWhatsApp";
+import { CONTACT_INFO } from "../config/constants";
 
 export default function Layout({ children }) {
   return (
@@ -13,7 +14,7 @@ export default function Layout({ children }) {
       <Footer />
 
       {/* WhatsApp flotante para todo el sitio (landing + blog) */}
-      <FloatingWhatsApp phone="5491132106711" />
+      <FloatingWhatsApp phone={CONTACT_INFO.WHATSAPP_NUMBER} />
     </div>
   );
 }

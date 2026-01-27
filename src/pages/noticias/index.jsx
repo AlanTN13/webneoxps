@@ -83,10 +83,9 @@ export default function Noticias() {
                   type="button"
                   onClick={() => setActiveCategory(null)}
                   className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition
-                    ${
-                      activeCategory === null
-                        ? "bg-slate-900 text-white border-slate-900"
-                        : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                    ${activeCategory === null
+                      ? "bg-slate-900 text-white border-slate-900"
+                      : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
                     }`}
                 >
                   Todas
@@ -102,10 +101,9 @@ export default function Noticias() {
                         setActiveCategory(isActive ? null : cat)
                       }
                       className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition
-                        ${
-                          isActive
-                            ? "bg-indigo-600 text-white border-indigo-600"
-                            : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                        ${isActive
+                          ? "bg-indigo-600 text-white border-indigo-600"
+                          : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
                         }`}
                     >
                       {cat}
@@ -138,12 +136,12 @@ export default function Noticias() {
                 return (
                   <article
                     key={post._id}
-                    className="group flex flex-col rounded-2xl border border-slate-200/70 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+                    className="group flex flex-col h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden"
                   >
                     {/* Imagen */}
                     {hasImage && (
                       <Link to={`/noticias/${post.slug.current}`}>
-                        <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
+                        <div className="relative w-full aspect-video overflow-hidden bg-slate-100">
                           <img
                             src={urlForImage(post.mainImage)
                               .width(800)

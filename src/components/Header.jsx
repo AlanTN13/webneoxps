@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import brandLogo from "../assets/logo-nexops.svg";
+import { CALENDLY_LINK, NAV_LINKS } from "../config/constants";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -39,23 +40,16 @@ export default function Header() {
         <div className="ml-auto hidden sm:flex items-center gap-8">
           {/* Navegación desktop */}
           <nav className="flex items-center gap-8 text-base text-slate-600">
-            <a href="/#servicios" className="hover:text-slate-900">
-              Servicios
-            </a>
-            <a href="/#proceso" className="hover:text-slate-900">
-              Proceso
-            </a>
-            <a href="/noticias" className="hover:text-slate-900">
-              Noticias
-            </a>
-            <a href="/#contacto" className="hover:text-slate-900">
-              Contacto
-            </a>
+            {NAV_LINKS.map((link) => (
+              <a key={link.href} href={link.href} className="hover:text-slate-900">
+                {link.label}
+              </a>
+            ))}
           </nav>
 
           {/* CTA desktop */}
           <a
-            href="https://calendly.com/nexopstech-info/30min"
+            href={CALENDLY_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-2.5 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
@@ -103,34 +97,16 @@ export default function Header() {
 
             {/* Links */}
             <nav className="flex-1 flex flex-col px-6 py-4 text-lg text-slate-800 gap-1">
-              <a
-                href="/#servicios"
-                onClick={closeMenu}
-                className="py-3 border-b border-slate-200/60"
-              >
-                Servicios
-              </a>
-              <a
-                href="/#proceso"
-                onClick={closeMenu}
-                className="py-3 border-b border-slate-200/60"
-              >
-                Proceso
-              </a>
-              <a
-                href="/noticias"
-                onClick={closeMenu}
-                className="py-3 border-b border-slate-200/60"
-              >
-                Noticias
-              </a>
-              <a
-                href="/#contacto"
-                onClick={closeMenu}
-                className="py-3 border-b border-slate-200/60"
-              >
-                Contacto
-              </a>
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className="py-3 border-b border-slate-200/60"
+                >
+                  {link.label}
+                </a>
+              ))}
             </nav>
           </div>,
           document.body

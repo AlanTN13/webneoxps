@@ -1,5 +1,6 @@
 // src/pages/servicios/DataEngineering.jsx
 import Layout from "../../components/Layout";
+import { CALENDLY_LINK } from "../../config/constants";
 
 export default function DataEngineering() {
   return (
@@ -177,103 +178,103 @@ export default function DataEngineering() {
                 </div>
               </div>
             </div>
-{/* Columna derecha: panel de implementación + CTA */}
-<aside className="space-y-6">
-  {/* Panel implementación – estilo KPI SaaS */}
-  <div className="rounded-2xl border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.12)] overflow-hidden">
-    {/* Barra de acento */}
-    <div className="h-1 bg-gradient-to-r from-[#4F46E5] via-[#6366F1] to-[#0EA5E9]" />
+            {/* Columna derecha: panel de implementación + CTA */}
+            <aside className="space-y-6">
+              {/* Panel implementación – estilo KPI SaaS */}
+              <div className="rounded-2xl border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.12)] overflow-hidden">
+                {/* Barra de acento */}
+                <div className="h-1 bg-gradient-to-r from-[#4F46E5] via-[#6366F1] to-[#0EA5E9]" />
 
-    <div className="p-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-            Implementación típica
-          </p>
-          <p className="mt-1 text-xs text-slate-500">
-            De datos dispersos a arquitectura lista para BI e IA.
-          </p>
-        </div>
+                <div className="p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        Implementación típica
+                      </p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        De datos dispersos a arquitectura lista para BI e IA.
+                      </p>
+                    </div>
 
-        <span className="inline-flex items-center rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-[11px] font-medium text-violet-700">
-          Blueprint en 3–6 semanas
-        </span>
-      </div>
+                    <span className="inline-flex items-center rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-[11px] font-medium text-violet-700">
+                      Blueprint en 3–6 semanas
+                    </span>
+                  </div>
 
-      {/* KPIs */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        {/* Tiempo */}
-        <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
-          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
-            Tiempo estimado
-          </p>
-          <p className="mt-2 text-lg font-semibold text-slate-900">
-            3–6 semanas
-          </p>
-          <p className="text-[11px] text-slate-500">Primer caso de uso</p>
-        </div>
+                  {/* KPIs */}
+                  <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                    {/* Tiempo */}
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
+                        Tiempo estimado
+                      </p>
+                      <p className="mt-2 text-lg font-semibold text-slate-900">
+                        3–6 semanas
+                      </p>
+                      <p className="text-[11px] text-slate-500">Primer caso de uso</p>
+                    </div>
 
-        {/* Orígenes */}
-        <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
-          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
-            Orígenes de datos
-          </p>
-          <p className="mt-2 text-lg font-semibold text-slate-900">
-            4–6 sistemas
-          </p>
-          <p className="text-[11px] text-slate-500">
-            ERP, ecommerce, CRM, hojas, soporte
-          </p>
-        </div>
+                    {/* Orígenes */}
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
+                        Orígenes de datos
+                      </p>
+                      <p className="mt-2 text-lg font-semibold text-slate-900">
+                        4–6 sistemas
+                      </p>
+                      <p className="text-[11px] text-slate-500">
+                        ERP, ecommerce, CRM, hojas, soporte
+                      </p>
+                    </div>
 
-        {/* Esfuerzo cliente */}
-        <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
-          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
-            Esfuerzo del cliente
-          </p>
-          <p className="mt-2 text-lg font-semibold text-slate-900">
-            1 owner
-          </p>
-          <p className="text-[11px] text-slate-500">+ 2–3 workshops clave</p>
-        </div>
-      </div>
+                    {/* Esfuerzo cliente */}
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
+                        Esfuerzo del cliente
+                      </p>
+                      <p className="mt-2 text-lg font-semibold text-slate-900">
+                        1 owner
+                      </p>
+                      <p className="text-[11px] text-slate-500">+ 2–3 workshops clave</p>
+                    </div>
+                  </div>
 
-      {/* Entregables */}
-      <div className="mt-6 border-t border-slate-200 pt-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-          Entregables
-        </p>
-        <ul className="mt-3 space-y-2 text-sm text-slate-700">
-          <li>• Modelo de datos documentado y versionado</li>
-          <li>• Pipelines automatizados con monitoreo básico</li>
-          <li>• Conexión lista para BI / dashboards e IA</li>
-          <li>• Roadmap sugerido de próximos casos de uso</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+                  {/* Entregables */}
+                  <div className="mt-6 border-t border-slate-200 pt-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Entregables
+                    </p>
+                    <ul className="mt-3 space-y-2 text-sm text-slate-700">
+                      <li>• Modelo de datos documentado y versionado</li>
+                      <li>• Pipelines automatizados con monitoreo básico</li>
+                      <li>• Conexión lista para BI / dashboards e IA</li>
+                      <li>• Roadmap sugerido de próximos casos de uso</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-  {/* Tarjeta de próximo paso */}
-  <div className="rounded-2xl bg-white border border-slate-200 shadow-sm p-6">
-    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-      Próximo paso
-    </p>
-    <p className="mt-3 text-sm text-slate-700">
-      En una llamada de 30 minutos revisamos tus fuentes de datos,
-      definimos el primer caso de uso y te llevás un esquema de
-      arquitectura recomendado para tu contexto.
-    </p>
+              {/* Tarjeta de próximo paso */}
+              <div className="rounded-2xl bg-white border border-slate-200 shadow-sm p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Próximo paso
+                </p>
+                <p className="mt-3 text-sm text-slate-700">
+                  En una llamada de 30 minutos revisamos tus fuentes de datos,
+                  definimos el primer caso de uso y te llevás un esquema de
+                  arquitectura recomendado para tu contexto.
+                </p>
 
-    <a
-      href="https://calendly.com/nexopstech-info/30min"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"
-    >
-      Agendar una conversación →
-    </a>
-  </div>
-</aside>
+                <a
+                  href={CALENDLY_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"
+                >
+                  Agendar una conversación →
+                </a>
+              </div>
+            </aside>
 
 
           </div>

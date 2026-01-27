@@ -1,3 +1,5 @@
+import { CALENDLY_LINK } from "../config/constants";
+
 export default function CTA() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100/60 py-16 sm:py-24">
@@ -112,7 +114,7 @@ export default function CTA() {
             </ul>
 
             <a
-              href="https://calendly.com/nexopstech-info/30min"
+              href={CALENDLY_LINK}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"

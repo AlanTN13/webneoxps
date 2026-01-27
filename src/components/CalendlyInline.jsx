@@ -1,8 +1,9 @@
 // components/CalendlyInline.jsx
 import React from "react";
+import { CALENDLY_LINK } from "../config/constants";
 
 export default function CalendlyInline({
-  url = "https://calendly.com/nexopstech-info/30min",
+  url = CALENDLY_LINK,
   height = 820,
 }) {
   // Evitamos romper en build si no existe window
