@@ -185,7 +185,7 @@ export default function ServicesOverview() {
   );
 
   return (
-    <section id="servicios" className="relative z-20 -mt-[30px] lg:-mt-[120px] pt-[60px] lg:pt-[240px] pb-8 lg:pb-16 overflow-hidden will-change-contents scroll-mt-20">
+    <section id="servicios" className="relative z-20 -mt-[30px] lg:-mt-[120px] pt-[60px] lg:pt-[240px] pb-8 lg:pb-16 overflow-hidden scroll-mt-20">
 
       {/* Main Background - Starts after top wave */}
       <div className="absolute inset-x-0 bottom-0 top-[28px] lg:top-[118px] bg-gradient-to-br from-[#0f0c29] via-[#110e35] to-[#0f0c29] -z-10" />
@@ -214,17 +214,9 @@ export default function ServicesOverview() {
         </svg>
       </div>
 
-      {/* Dynamic Ambient Glows */}
-      <motion.div
-        animate={{ opacity: [0.15, 0.3, 0.15], scale: [1, 1.3, 1] }}
-        transition={{ duration: 12, repeat: Infinity }}
-        className="absolute top-1/4 left-0 w-[800px] h-[800px] bg-indigo-500/20 blur-[160px] rounded-full pointer-events-none"
-      />
-      <motion.div
-        animate={{ opacity: [0.1, 0.2, 0.1], scale: [1.3, 1, 1.3] }}
-        transition={{ duration: 15, repeat: Infinity, delay: 2 }}
-        className="absolute bottom-1/4 right-0 w-[700px] h-[700px] bg-fuchsia-500/15 blur-[150px] rounded-full pointer-events-none"
-      />
+      {/* Dynamic Ambient Glows (Optimized: Static) */}
+      <div className="absolute top-1/4 left-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none opacity-20" />
+      <div className="absolute bottom-1/4 right-0 w-[700px] h-[700px] bg-fuchsia-500/10 blur-[100px] rounded-full pointer-events-none opacity-20" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
 
@@ -417,7 +409,7 @@ export default function ServicesOverview() {
                             repeat: Infinity,
                             ease: "easeInOut"
                           }}
-                          className="bg-white/10 backdrop-blur-xl p-3 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center gap-1 min-w-[95px] hover:bg-white/20 transition-all cursor-default"
+                          className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center gap-1 min-w-[95px] hover:bg-white/20 transition-all cursor-default"
                         >
                           <div className="text-indigo-300">
                             {React.cloneElement(feat.icon, { size: 20, strokeWidth: 2.5 })}
@@ -455,7 +447,7 @@ export default function ServicesOverview() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="relative bg-white/[0.07] backdrop-blur-3xl rounded-[40px] p-6 lg:p-8 border border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.3)]"
+                className="relative bg-white/[0.07] backdrop-blur-lg rounded-[40px] p-6 lg:p-8 border border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.3)]"
               >
                 {/* Visual Number background */}
                 <div className="absolute top-6 right-8 text-[100px] font-black text-white/[0.05] leading-none select-none">
