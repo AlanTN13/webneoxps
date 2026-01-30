@@ -1,132 +1,77 @@
 import { CALENDLY_LINK } from "../config/constants";
+import { ArrowRight, CheckCircle2, Calendar } from "lucide-react";
 
 export default function CTA() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100/60 py-16 sm:py-24">
-      {/* Glow de fondo */}
-      <div className="pointer-events-none absolute inset-x-0 top-1/4 h-64 bg-gradient-to-r from-[#4F46E5]/10 via-sky-200/20 to-[#4F46E5]/10 blur-3xl" />
+    <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
 
-      <div className="relative mx-auto flex max-w-5xl flex-col gap-10 px-4 lg:flex-row lg:items-center">
-        {/* Texto izquierdo */}
-        <div className="flex-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-            ¿Listo para empezar?
-          </p>
+      {/* Background Glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-violet-500/5 blur-[120px] rounded-full" />
+      </div>
 
-          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
-            Agendá una llamada de 30 minutos y veamos qué podemos automatizar
-            en tu negocio.
-          </h2>
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="bg-slate-50/50 backdrop-blur-2xl border border-slate-200 rounded-[40px] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 overflow-hidden shadow-xl">
 
-          <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-xl">
-            En una conversación corta revisamos tu contexto, detectamos
-            oportunidades rápidas de automatización y te proponemos un plan
-            concreto para las próximas semanas.
-          </p>
-
-          {/* Pasos */}
-          <div className="mt-6 grid gap-4 text-sm text-slate-600 sm:grid-cols-2">
-            <div className="flex gap-3">
-              <span className="mt-1 h-6 w-6 rounded-full bg-violet-100 text-xs font-semibold text-violet-700 flex items-center justify-center">
-                1
+          {/* Left Content */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
               </span>
-              <div>
-                <p className="font-semibold text-slate-900">
-                  Entendemos tu operación
-                </p>
-                <p className="text-slate-600">
-                  Canales, volúmenes, herramientas actuales y principales
-                  dolores.
-                </p>
-              </div>
+              <span className="text-[11px] font-bold uppercase tracking-widest text-indigo-600">Sesión 100% Consultiva</span>
             </div>
 
-            <div className="flex gap-3">
-              <span className="mt-1 h-6 w-6 rounded-full bg-violet-100 text-xs font-semibold text-violet-700 flex items-center justify-center">
-                2
-              </span>
-              <div>
-                <p className="font-semibold text-slate-900">
-                  Detectamos quick wins
-                </p>
-                <p className="text-slate-600">
-                  Casos automatizables en 3–6 semanas con impacto claro.
-                </p>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+              Agendá una llamada <br /> de 30 minutos.
+            </h2>
+
+            <p className="text-lg text-slate-600 font-medium leading-relaxed max-w-lg mx-auto lg:mx-0 mb-8">
+              Sin compromisos. Revisamos tu operación actual y te llevas un plan de acción concreto para automatizar tu negocio.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start text-sm font-semibold text-slate-500">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-indigo-600" />
+                <span>Auditoría express</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-indigo-600" />
+                <span>Roadmap inicial</span>
               </div>
             </div>
+          </div>
 
-            <div className="flex gap-3">
-              <span className="mt-1 h-6 w-6 rounded-full bg-violet-100 text-xs font-semibold text-violet-700 flex items-center justify-center">
-                3
-              </span>
-              <div>
-                <p className="font-semibold text-slate-900">Propuesta express</p>
-                <p className="text-slate-600">
-                  Te dejamos un esquema inicial para avanzar o evaluar
-                  internamente.
+          {/* Right Action Card */}
+          <div className="relative w-full max-w-md lg:w-auto shrink-0">
+            <div className="relative bg-white border border-slate-100 p-2 rounded-[32px] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.1)]">
+              <div className="bg-slate-50 rounded-[24px] p-6 sm:p-8 text-center border border-slate-200/50">
+                <div className="w-16 h-16 mx-auto bg-indigo-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-indigo-500/20">
+                  <Calendar size={32} strokeWidth={2} />
+                </div>
+
+                <h3 className="text-xl font-bold text-slate-900 mb-2">¿Empezamos?</h3>
+                <p className="text-slate-500 text-sm mb-8">Seleccioná un horario en nuestra agenda.</p>
+
+                <a
+                  href={CALENDLY_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 text-white px-6 py-4 text-sm font-bold shadow-lg hover:bg-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  Ver turnos disponibles
+                  <ArrowRight size={16} />
+                </a>
+
+                <p className="mt-4 text-[10px] uppercase tracking-widest text-indigo-600 font-bold">
+                  Sin costo • 30 Minutos
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Mini quote */}
-          <p className="mt-6 text-xs italic text-slate-500">
-            “En 30 minutos nos llevamos 3 ideas concretas para reducir tareas
-            manuales.” — Cliente de e-commerce
-          </p>
-        </div>
-
-        {/* Tarjeta derecha */}
-        <div className="flex-1">
-          <div className="relative rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.12)] backdrop-blur">
-            {/* Badge flotante */}
-            <div className="absolute -top-3 right-4">
-              <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 shadow-sm border border-emerald-100">
-                Sin costo · 30 min
-              </span>
-            </div>
-
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-              Agenda tu reunión
-            </p>
-
-            <p className="mt-3 text-sm text-slate-700">
-              Al hacer clic vas a abrir nuestra agenda en Calendly. Elegís
-              horario y recibís la invitación automáticamente en tu calendario.
-            </p>
-
-            {/* Chips de confianza */}
-            <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-medium text-slate-600">
-              <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-3 py-1 border border-slate-200">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                +20 empresas activas
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-3 py-1 border border-slate-200">
-                <span className="h-1.5 w-1.5 rounded-full bg-violet-500" />
-                Implementación promedio 3–6 semanas
-              </span>
-            </div>
-
-            <ul className="mt-4 space-y-2 text-sm text-slate-600">
-              <li>• Duración: 30 minutos</li>
-              <li>• Modalidad: videollamada</li>
-              <li>• Costo: sin cargo, 100% consultiva</li>
-            </ul>
-
-            <a
-              href={CALENDLY_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4338CA] transition-colors"
-            >
-              Agendar una conversación →
-            </a>
-
-            <p className="mt-3 text-[11px] text-slate-500 text-center">
-              ¿Preferís coordinar por otro canal? Escribinos por WhatsApp y
-              encontramos un horario que te quede cómodo.
-            </p>
-          </div>
         </div>
       </div>
     </section>

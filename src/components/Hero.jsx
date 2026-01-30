@@ -1,215 +1,136 @@
 import React from "react";
 import Section from "./ui/Section";
-import Pill from "./ui/Pill";
-import MetricCounter from "./ui/MetricCounter";
-import { CONTACT_INFO, getWhatsappLink } from "../config/constants";
+import { motion } from "framer-motion";
 
-const Hero = () => (
-    <Section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50">
-        {/* blobs */}
-        <div className="pointer-events-none absolute inset-0 z-0">
-            <div
-                className="rellax will-change-transform absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#4F46E5]/30 blur-2xl"
-                data-rellax-speed="-4"
-            />
-            <div
-                className="rellax will-change-transform absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-[#4F46E5]/25 blur-2xl"
-                data-rellax-speed="4"
-            />
-            <div
-                className="rellax will-change-transform absolute left-[10%] top-1/2 h-48 w-[75%] -translate-y-1/2 rotate-6 rounded-3xl bg-gradient-to-r from-[#B6A6FF]/40 to-[#E3DDFD]/40"
-                data-rellax-speed="-2"
-            />
-        </div>
+const Hero = () => {
+    return (
+        <Section className="relative pt-12 lg:pt-20 pb-20 bg-[#F5F3FF] overflow-hidden">
+            {/* Main Background Glows - Deep Violet Influence */}
+            <div className="absolute top-0 right-0 w-[60%] h-[60%] bg-indigo-200/30 blur-[130px] rounded-full -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-violet-300/40 blur-[140px] rounded-full translate-y-1/2 -translate-x-1/4 pointer-events-none" />
 
-        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 lg:grid-cols-2">
-            {/* Izquierda */}
-            <div data-reveal>
-                <Pill>
-                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />{" "}
-                    Listo para implementar
-                </Pill>
+            <div className="mx-auto max-w-7xl px-4 relative z-10">
+                {/* 
+                  Main Hero Card
+                */}
+                <div className="relative bg-white rounded-[40px] shadow-[0_50px_100px_-20px_rgba(79,70,229,0.12)] border border-white overflow-hidden flex flex-col lg:flex-row min-h-[600px]">
 
-                <h1 className="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                    Reduce costos y <span className="text-[#4F46E5]">libera horas</span> con
-                    automatización inteligente
-                </h1>
+                    {/* Background "Glow/Cloud" - Enhanced Violet */}
+                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-tr from-[#ede9fe] via-[#f5f3ff] to-transparent opacity-90 pointer-events-none" />
 
-                <p className="mt-4 max-w-xl text-slate-600">
-                    Integramos tus canales, estandarizamos procesos y desplegamos agentes de IA
-                    que eliminan tareas manuales y escalan tu operación en semanas, no meses.
-                </p>
+                    {/* Left Side: Content */}
+                    <div className="relative flex-1 p-10 md:p-16 lg:p-20 flex flex-col justify-center">
 
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                    <a
-                        href={getWhatsappLink(CONTACT_INFO.WHATSAPP_NUMBER, CONTACT_INFO.WHATSAPP_MESSAGE_HERO)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4F46E5] px-5 py-3 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
-                    >
-                        Quiero automatizar ahora →
-                    </a>
-                    <a
-                        href="#servicios"
-                        className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-slate-700 hover:bg-slate-50"
-                    >
-                        Ver servicios
-                    </a>
-                </div>
+                        {/* Decorative Connection Lines - Animated and Fluid */}
+                        <svg className="absolute bottom-[22%] left-[-5%] w-[110%] h-[25%] pointer-events-none" viewBox="0 0 400 100" preserveAspectRatio="none">
+                            <motion.path
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{
+                                    pathLength: 1,
+                                    opacity: 0.4,
+                                    y: [0, -8, 0]
+                                }}
+                                transition={{
+                                    pathLength: { duration: 2.5, ease: "easeInOut" },
+                                    y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                                }}
+                                d="M0 80 Q150 30 320 60"
+                                fill="none"
+                                stroke="#6366f1"
+                                strokeWidth="2"
+                            />
+                            <motion.path
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{
+                                    pathLength: 1,
+                                    opacity: 0.25,
+                                    y: [0, 8, 0]
+                                }}
+                                transition={{
+                                    pathLength: { duration: 3, ease: "easeInOut", delay: 0.3 },
+                                    y: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }
+                                }}
+                                d="M0 100 Q180 20 380 50"
+                                fill="none"
+                                stroke="#8b5cf6"
+                                strokeWidth="1.5"
+                            />
 
-                {/* KPIs */}
-                <div className="mt-8 grid grid-cols-3 gap-6 text-center">
-                    <div data-reveal>
-                        <MetricCounter
-                            to={100}
-                            suffix="+"
-                            className="text-2xl font-bold text-slate-900"
-                        />
-                        <p className="text-xs text-slate-500">automatizaciones</p>
-                    </div>
+                            {/* The specific connection node - Pulsing with Glow */}
+                            <motion.g
+                                animate={{
+                                    y: [0, -8, 0],
+                                    x: [0, 3, 0]
+                                }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <motion.circle
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ delay: 2.2, duration: 0.6 }}
+                                    cx="320"
+                                    cy="60"
+                                    r="6"
+                                    fill="white"
+                                    stroke="#6366f1"
+                                    strokeWidth="3"
+                                    style={{ filter: 'drop-shadow(0 0 12px rgba(99,102,241,0.8))' }}
+                                />
+                                <motion.circle
+                                    animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
+                                    transition={{ duration: 2.5, repeat: Infinity }}
+                                    cx="320"
+                                    cy="60"
+                                    r="10"
+                                    fill="none"
+                                    stroke="#6366f1"
+                                    strokeWidth="1"
+                                />
+                            </motion.g>
+                        </svg>
 
-                    <div data-reveal>
-                        <div className="flex items-baseline justify-center gap-1">
-                            <MetricCounter to={3} className="text-2xl font-bold text-slate-900" />
-                            <span className="text-sm font-semibold text-slate-900">semanas</span>
-                        </div>
-                        <p className="text-xs text-slate-500">implementación promedio</p>
-                    </div>
+                        <div className="relative z-10 text-left">
+                            <h1 className="text-[34px] md:text-[48px] lg:text-[52px] font-black text-slate-900 leading-[1.1] tracking-tight">
+                                <span className="block mb-2">Que tu operación fluya,</span>
+                                <span className="text-[#6366f1]">aunque no estés mirando.</span>
+                            </h1>
 
-                    <div data-reveal>
-                        <MetricCounter
-                            to={20}
-                            suffix="+"
-                            className="text-2xl font-bold text-slate-900"
-                        />
-                        <p className="text-xs text-slate-500">empresas activas</p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Derecha: panel UI nuevo */}
-            <div className="relative" data-reveal>
-                <div className="absolute -inset-10 bg-gradient-to-br from-[#B6A6FF]/40 via-white to-[#E3DDFD]/35 blur-2xl rounded-[40px]" />
-
-                <div className="relative rounded-2xl border border-slate-200 bg-white/80 backdrop-blur p-6 shadow-lg">
-                    <div className="mb-4 flex items-center justify-between">
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">
-                                Panel de automatización
+                            <p className="mt-8 text-base md:text-lg text-slate-500 max-w-[440px] leading-relaxed font-semibold opacity-70">
+                                Automatizamos procesos críticos para que tu negocio funcione sin fricción.
                             </p>
-                            <p className="text-sm font-semibold text-slate-800">
-                                Resultados en tiempo real
-                            </p>
-                        </div>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            Operando 24/7
-                        </span>
-                    </div>
 
-                    {/* KPIs grandes */}
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                        <div className="rounded-xl bg-slate-900 text-white px-4 py-3">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-slate-300">
-                                Tiempo operativo
-                            </p>
-                            <p className="mt-1 text-2xl font-bold">-40%</p>
-                            <p className="mt-1 text-[11px] text-slate-300">Menos tareas manuales</p>
-                        </div>
-
-                        <div className="rounded-xl bg-[#4F46E5]/10 text-slate-900 px-4 py-3 border border-[#4F46E5]/20">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
-                                Conversión de leads
-                            </p>
-                            <p className="mt-1 text-2xl font-bold">+28%</p>
-                            <p className="mt-1 text-[11px] text-slate-500">Respuesta más rápida</p>
-                        </div>
-                    </div>
-
-                    {/* Mini panel dividido: gráfico + estados */}
-                    <div className="mb-4 rounded-xl bg-slate-50 px-4 py-4">
-                        <div className="flex flex-col md:flex-row items-start gap-6">
-                            {/* IZQUIERDA: GRÁFICO */}
-                            <div className="flex-1 w-full">
-                                <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2">
-                                    <span>Automatizaciones por día</span>
-                                    <span>Promedio 7 días: 132</span>
-                                </div>
-
-                                <svg
-                                    viewBox="0 0 280 80"
-                                    className="w-full h-[70px]"
-                                    preserveAspectRatio="none"
+                            <div className="mt-12">
+                                <a
+                                    href="#servicios"
+                                    className="inline-flex items-center justify-center rounded-full bg-[#6366f1] px-12 py-5 text-white font-bold text-lg shadow-[0_20px_50px_-10px_rgba(99,102,241,0.5)] hover:bg-[#4F46E5] transition-all hover:scale-105 active:scale-95 group"
                                 >
-                                    <path
-                                        d="M0 55 L40 50 L80 62 L120 45 L160 65 L200 48 L240 60 L280 52"
-                                        fill="none"
-                                        stroke="#4F46E5"
-                                        strokeWidth="3"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                    {[0, 40, 80, 120, 160, 200, 240, 280].map((x, i) => {
-                                        const ys = [55, 50, 62, 45, 65, 48, 60, 52];
-                                        return (
-                                            <circle
-                                                key={i}
-                                                cx={x}
-                                                cy={ys[i]}
-                                                r="4"
-                                                fill="#4F46E5"
-                                                stroke="#ffffff"
-                                                strokeWidth="2"
-                                            />
-                                        );
-                                    })}
-                                </svg>
+                                    <span>Diseñar mi sistema</span>
+                                    <motion.span
+                                        animate={{ x: [0, 4, 0] }}
+                                        transition={{ duration: 1.5, repeat: Infinity }}
+                                        className="ml-2"
+                                    >
+                                        →
+                                    </motion.span>
+                                </a>
                             </div>
+                        </div>
+                    </div>
 
-                            {/* DERECHA: ESTADOS */}
-                            <div className="flex-1 w-full space-y-3 text-sm md:mt-2">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                                        <span className="font-medium text-slate-900">
-                                            Calificación de leads web
-                                        </span>
-                                    </div>
-                                    <span className="text-[11px] font-medium text-emerald-600">
-                                        Activo
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <span className="h-2.5 w-2.5 rounded-full bg-indigo-500" />
-                                        <span className="font-medium text-slate-900">
-                                            Seguimiento WhatsApp
-                                        </span>
-                                    </div>
-                                    <span className="text-[11px] font-medium text-emerald-600">
-                                        Activo
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                                        <span className="font-medium text-slate-900">
-                                            Alertas a CRM / equipo
-                                        </span>
-                                    </div>
-                                    <span className="text-[11px] font-medium text-amber-500">
-                                        En prueba
-                                    </span>
-                                </div>
-                            </div>
+                    {/* Right Side: Static Visual Experience */}
+                    <div className="relative w-full lg:w-[48%] bg-white p-4 lg:p-6 overflow-hidden">
+                        <div className="relative h-full w-full rounded-[35px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
+                            <img
+                                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=1200"
+                                alt="NexOpsCore Interactive System"
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </Section>
-);
+        </Section>
+    );
+};
 
 export default Hero;

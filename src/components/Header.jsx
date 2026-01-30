@@ -31,9 +31,9 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur border-b border-slate-200">
       <div className="mx-auto max-w-7xl px-4 py-3 flex items-center">
         {/* Logo + nombre */}
-        <a href="/" className="flex items-center gap-2">
-          <img src={brandLogo} className="h-6 w-auto" alt="NexOps" />
-          <span className="font-semibold text-slate-900 text-lg">NexOps</span>
+        <a href="/" className="flex items-center gap-3">
+          <img src={brandLogo} className="h-9 w-auto" alt="NexOps" />
+          <span className="font-extrabold text-slate-900 text-2xl tracking-tight">NexOps</span>
         </a>
 
         {/* Wrapper derecha: nav + CTA (desktop) */}
@@ -75,9 +75,9 @@ export default function Header() {
           <div className="fixed inset-0 z-[9999] flex flex-col bg-white">
             {/* Top bar */}
             <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
-              <div className="flex items-center gap-2">
-                <img src={brandLogo} className="h-6 w-auto" alt="NexOps" />
-                <span className="font-semibold text-slate-900 text-lg">
+              <div className="flex items-center gap-3">
+                <img src={brandLogo} className="h-8 w-auto" alt="NexOps" />
+                <span className="font-extrabold text-slate-900 text-xl tracking-tight">
                   NexOps
                 </span>
               </div>

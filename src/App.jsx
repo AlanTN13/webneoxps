@@ -18,8 +18,16 @@ export default function App() {
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!prefersReduced.matches && window.innerWidth >= 640) {
-      const r = new Rellax(".rellax", { center: false });
-      return () => r.destroy();
+      try {
+        const r = new Rellax(".rellax", { center: false });
+        return () => {
+          if (r && typeof r.destroy === "function") {
+            r.destroy();
+          }
+        };
+      } catch (e) {
+        console.warn("Rellax initialization failed:", e);
+      }
     }
   }, []);
 
