@@ -6,36 +6,36 @@ const steps = [
   {
     icon: <Search />,
     n: "01",
-    t: "Descubrimiento",
-    d: "Relevamos procesos, sistemas y datos actuales para entender el ADN de tu operación.",
-    e: "Diagnóstico + Mapa de Oportunidades",
+    t: "Auditoría de Fricción",
+    d: "Identificamos las tareas manuales y cuellos de botella que hoy frenan tu capacidad de venta.",
+    e: "Mapa de Tareas Automatizables",
     color: "from-indigo-500 to-blue-500",
     nexi: "/assets/nexis/nexiops.png"
   },
   {
     icon: <PenTool />,
     n: "02",
-    t: "Diseño & Plan",
-    d: "Definimos la arquitectura técnica y priorizamos el backlog de mayor impacto inmediato.",
-    e: "Blueprint Técnico + Roadmap",
+    t: "Plan de Libertad",
+    d: "Diseñamos el flujo de trabajo ideal para liberar a tu equipo y que se enfoquen solo en cerrar negocios.",
+    e: "Roadmap de Optimización Comercial",
     color: "from-blue-500 to-violet-500",
     nexi: "/assets/nexis/nexiauto.png"
   },
   {
     icon: <Cpu />,
     n: "03",
-    t: "Implementación",
-    d: "Ponemos en marcha agentes, automatizaciones e integraciones en un entorno controlado.",
-    e: "Casos de Uso en Producción",
+    t: "Activación Digital",
+    d: "Activamos tus agentes y automatizaciones críticas para que el sistema trabaje por vos 24/7.",
+    e: "Ecosistema en Producción",
     color: "from-violet-500 to-fuchsia-600",
     nexi: "/assets/nexis/nexicap.png"
   },
   {
     icon: <BarChart3 />,
     n: "04",
-    t: "Medición & Escala",
-    d: "Monitoreamos KPIs reales y optimizamos para asegurar el ROI y la escalabilidad.",
-    e: "Tablero de Métricas + Playbook",
+    t: "Escala & Resultados",
+    d: "Medimos el tiempo liberado y el impacto en ingresos para escalar lo que más factura.",
+    e: "Reporte de Impacto y ROI",
     color: "from-fuchsia-600 to-indigo-600",
     nexi: "/assets/nexis/nexisales.png"
   },
@@ -46,22 +46,15 @@ export default function HowWeWork() {
     <section id="proceso" className="relative py-20 lg:py-56 bg-gradient-to-br from-[#0f0c29] via-[#110e35] to-[#0f0c29] overflow-hidden scroll-mt-20">
 
       {/* Organic Fluid Divider (The Wave) - Centered and Overflowed */}
-      <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 w-[102%] overflow-hidden leading-[0] pointer-events-none">
-        {/* Mobile Simple Curve */}
-        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" fill="#F4F7FF" className="relative block lg:hidden w-full h-[30px]">
-          <path d="M0,0 H1200 V20 Q600,80 0,20 Z" />
-        </svg>
+      <div className="absolute top-[-1px] left-1/2 -translate-x-1/2 w-[105%] overflow-hidden leading-[0] pointer-events-none z-30">
         {/* Desktop Complex Wave */}
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" fill="#F4F7FF" className="relative hidden lg:block w-full h-[122px]">
-          <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V0H1200V94.37A600.21,600.21,0,0,1,985.66,92.83Z" />
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" fill="#F4F7FF" className="relative hidden lg:block w-full h-[120px]">
+          <path d="M0,0 H1200 V60 C1000,10 800,110 600,60 C400,10 200,110 0,60 Z" />
         </svg>
       </div>
 
       <div className="absolute bottom-[-2px] left-1/2 -translate-x-1/2 w-[102%] overflow-hidden leading-[0] pointer-events-none">
-        {/* Mobile Simple Curve */}
-        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" fill="white" className="relative block lg:hidden w-full h-[30px]">
-          <path d="M0,60 H1200 V40 Q600,-20 0,40 Z" />
-        </svg>
+
         {/* Desktop Complex Wave */}
         <svg viewBox="0 0 1200 120" preserveAspectRatio="none" fill="white" className="relative hidden lg:block w-full h-[122px] rotate-180">
           <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V0H1200V94.37A600.21,600.21,0,0,1,985.66,92.83Z" />

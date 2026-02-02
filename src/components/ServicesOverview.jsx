@@ -185,32 +185,24 @@ export default function ServicesOverview() {
   );
 
   return (
-    <section id="servicios" className="relative z-20 -mt-[30px] lg:-mt-[120px] pt-[60px] lg:pt-[240px] pb-8 lg:pb-16 overflow-hidden scroll-mt-20">
+    <section id="servicios" className="relative z-20 -mt-[30px] lg:-mt-[120px] pt-[60px] lg:pt-[240px] pb-24 lg:pb-48 overflow-hidden scroll-mt-20">
 
       {/* Main Background - Starts after top wave */}
       <div className="absolute inset-x-0 bottom-0 top-[28px] lg:top-[118px] bg-gradient-to-br from-[#0f0c29] via-[#110e35] to-[#0f0c29] -z-10" />
 
       {/* Wave Transition - Top (Dark overlaying Hero) */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-30 pointer-events-none">
-        {/* Mobile Simple Curve */}
-        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className="relative block lg:hidden w-full h-[30px]" fill="#0f0c29">
-          <path d="M0,30 Q600,90 1200,30 V60 H0 Z" />
-        </svg>
-        {/* Desktop Complex Wave */}
+        {/* Desktop Undulated Wave */}
         <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative hidden lg:block w-full h-[120px] rotate-180" fill="#0f0c29">
-          <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V0H1200V94.37A600.21,600.21,0,0,1,985.66,92.83Z" />
+          <path d="M0,0 H1200 V60 C1000,10 800,110 600,60 C400,10 200,110 0,60 Z" />
         </svg>
       </div>
 
       {/* Wave Transition - Bottom (White matching CTA) */}
       <div className="absolute bottom-[-2px] left-1/2 -translate-x-1/2 w-[105%] overflow-hidden leading-[0] pointer-events-none z-30">
-        {/* Mobile Simple Curve */}
-        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className="relative block lg:hidden w-full h-[30px]" fill="#F4F7FF">
-          <path d="M0,0 Q600,60 1200,0 V60 H0 Z" transform="rotate(180 600 30)" />
-        </svg>
-        {/* Desktop Complex Wave */}
+        {/* Desktop Undulated Wave */}
         <svg viewBox="0 0 1200 120" preserveAspectRatio="none" fill="#F4F7FF" className="relative hidden lg:block w-full h-[125px] rotate-180">
-          <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V0H1200V94.37A600.21,600.21,0,0,1,985.66,92.83Z" />
+          <path d="M0,0 H1200 V60 C1050,110 900,10 750,60 C600,110 450,10 300,60 C150,110 0,20 0,20 Z" />
         </svg>
       </div>
 
@@ -227,12 +219,12 @@ export default function ServicesOverview() {
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[#C4B5FD] animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-200">Arquitectura NexOps</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-200">Ecosistema NexOps</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
-            Impacto <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-violet-200 to-indigo-300 italic">Modular</span>
+            Acelerá tus <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-violet-200 to-indigo-300 italic">ventas</span>
           </h2>
-          <p className="mt-6 text-indigo-100/60 font-medium text-lg lg:text-xl max-w-2xl mx-auto">El sistema operativo que escala tu negocio sin fricción.</p>
+          <p className="mt-6 text-indigo-100/60 font-medium text-lg lg:text-xl max-w-2xl mx-auto">Liberá a tu equipo de las tareas manuales y potenciá tus resultados comerciales.</p>
         </div>
 
         {/* Layout Grid */}
@@ -247,7 +239,7 @@ export default function ServicesOverview() {
                   key={s.id}
                   onClick={() => setActiveTab(s.id)}
                   className={`
-                    relative group overflow-hidden rounded-2xl p-4 flex flex-col items-center justify-center gap-3 transition-all duration-300
+                    relative group overflow-hidden rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-300
                     ${isActive
                       ? `bg-gradient-to-br ${s.color} shadow-lg shadow-indigo-500/25 scale-[1.02]`
                       : 'bg-white/[0.03] hover:bg-white/[0.06] border border-white/5'
@@ -259,15 +251,25 @@ export default function ServicesOverview() {
                     <div className="absolute inset-0 bg-white/10 opacity-50 blur-xl" />
                   )}
 
+                  {/* Nexy small preview */}
+                  <div className={`absolute top-1 right-1 w-8 h-8 opacity-40 transition-opacity ${isActive ? 'opacity-90' : 'group-hover:opacity-60'}`}>
+                    <img src={s.nexiImage} alt="" className="w-full h-full object-contain" />
+                  </div>
+
+                  {/* Number Badge */}
+                  <div className={`absolute top-2 left-2 text-[10px] font-black ${isActive ? 'text-white/40' : 'text-white/10'}`}>
+                    0{s.number}
+                  </div>
+
                   <div className={`
-                    relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
+                    relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300
                     ${isActive ? 'bg-white/20 text-white shadow-inner' : 'bg-white/5 text-slate-400 group-hover:text-indigo-300 group-hover:bg-white/10'}
                   `}>
-                    {React.cloneElement(s.icon, { size: 24, strokeWidth: isActive ? 2.5 : 2 })}
+                    {React.cloneElement(s.icon, { size: 20, strokeWidth: isActive ? 2.5 : 2 })}
                   </div>
 
                   <span className={`
-                    relative text-xs font-bold uppercase tracking-widest text-center transition-colors duration-300
+                    relative text-[10px] font-black uppercase tracking-widest text-center transition-colors duration-300 leading-tight
                     ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-indigo-200'}
                   `}>
                     {s.title}
@@ -449,6 +451,20 @@ export default function ServicesOverview() {
                 exit={{ opacity: 0, x: -20 }}
                 className="relative bg-white/[0.07] backdrop-blur-lg rounded-[40px] p-6 lg:p-8 border border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.3)]"
               >
+                {/* Nexi mascot - Mobile ONLY Pop (On desktop it's already near the wheel) */}
+                <motion.div
+                  key={`nexi-mobile-${activeTab}`}
+                  initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  className="absolute -top-12 -right-2 w-28 h-28 lg:hidden z-30 pointer-events-none"
+                >
+                  <img
+                    src={activeService.nexiImage}
+                    alt="Nexi Agent"
+                    className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)]"
+                  />
+                </motion.div>
+
                 {/* Visual Number background */}
                 <div className="absolute top-6 right-8 text-[100px] font-black text-white/[0.05] leading-none select-none">
                   0{activeService.number}

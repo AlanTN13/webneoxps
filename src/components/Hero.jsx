@@ -91,12 +91,12 @@ const Hero = () => {
 
                         <div className="relative z-10 text-left">
                             <h1 className="text-[34px] md:text-[48px] lg:text-[52px] font-black text-slate-900 leading-[1.1] tracking-tight">
-                                <span className="block mb-2">Que tu operación fluya,</span>
-                                <span className="text-[#6366f1]">aunque no estés mirando.</span>
+                                <span className="block mb-2">Escalá tus ventas,</span>
+                                <span className="text-[#6366f1]">eliminá el trabajo manual.</span>
                             </h1>
 
                             <p className="mt-8 text-base md:text-lg text-slate-500 max-w-[440px] leading-relaxed font-semibold opacity-70">
-                                Automatizamos procesos críticos para que tu negocio funcione sin fricción.
+                                Implementamos ecosistemas inteligentes que liberan a tu equipo de la carga operativa para que se enfoquen solo en cerrar negocios.
                             </p>
 
                             <div className="mt-12">
@@ -121,8 +121,8 @@ const Hero = () => {
                     <div className="relative w-full lg:w-[48%] bg-white p-4 lg:p-6 overflow-hidden">
                         <div className="relative h-full w-full rounded-[35px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
                             <img
-                                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=1200"
-                                alt="NexOpsCore Interactive System"
+                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200"
+                                alt="Dashboard de Automatización"
                                 className="w-full h-full object-cover"
                             />
                         </div>
