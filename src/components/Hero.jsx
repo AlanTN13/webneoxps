@@ -93,8 +93,8 @@ export default function Hero() {
     let startTime = 0;
 
     const getDefaultPosition = () => ({
-      x: hero.clientWidth * 0.56,
-      y: hero.clientHeight * 0.42,
+      x: hero.clientWidth * 0.52,
+      y: hero.clientHeight * 0.48,
     });
 
     const setCloudPosition = (x, y) => {
@@ -103,15 +103,17 @@ export default function Hero() {
     };
 
     const setOrbPosition = (x, y, elapsed) => {
-      const wobbleX = Math.cos(elapsed * 0.0013) * 10 + Math.sin(elapsed * 0.0007) * 6;
-      const wobbleY = Math.sin(elapsed * 0.0016) * 8 + Math.cos(elapsed * 0.001) * 4;
-      const stretch = 1 + Math.min(0.12, Math.hypot(orbVelocity.x, orbVelocity.y) * 0.0022);
-      const squish = 1 - Math.min(0.08, Math.hypot(orbVelocity.x, orbVelocity.y) * 0.0014);
-      const rotate = orbVelocity.x * 0.08;
+      const wobbleX = Math.cos(elapsed * 0.0013) * 18 + Math.sin(elapsed * 0.0007) * 10;
+      const wobbleY = Math.sin(elapsed * 0.0016) * 12 + Math.cos(elapsed * 0.001) * 6;
+      const speed = Math.hypot(orbVelocity.x, orbVelocity.y);
+      const stretch = 1 + Math.min(0.18, speed * 0.0038);
+      const squish = 1 - Math.min(0.12, speed * 0.0022);
+      const rotate = orbVelocity.x * 0.18;
 
       orb.style.left = `${x + wobbleX}px`;
       orb.style.top = `${y + wobbleY}px`;
       orb.style.transform = `translate(-50%, -50%) rotate(${rotate}deg) scale(${stretch}, ${squish})`;
+      orb.style.opacity = `${Math.min(1, 0.7 + speed * 0.02)}`;
     };
 
     const resetTarget = () => {
@@ -133,27 +135,27 @@ export default function Hero() {
       if (!startTime) startTime = time;
       const elapsed = time - startTime;
 
-      const idleScale = hovering ? 0.65 : 1;
+      const idleScale = hovering ? 0.2 : 1;
       const cloudDriftX =
         (Math.sin(elapsed * 0.00078) * 22 + Math.cos(elapsed * 0.00113) * 14) * idleScale;
       const cloudDriftY =
         (Math.cos(elapsed * 0.00064) * 18 + Math.sin(elapsed * 0.00102) * 12) * idleScale;
       const orbDriftX =
-        (Math.cos(elapsed * 0.00148) * 18 + Math.sin(elapsed * 0.0021) * 8) * idleScale;
+        (Math.cos(elapsed * 0.00148) * 28 + Math.sin(elapsed * 0.0021) * 14) * idleScale;
       const orbDriftY =
-        (Math.sin(elapsed * 0.00172) * 14 + Math.cos(elapsed * 0.00118) * 7) * idleScale;
+        (Math.sin(elapsed * 0.00172) * 22 + Math.cos(elapsed * 0.00118) * 10) * idleScale;
 
       const desiredCloudX = target.x + cloudDriftX;
       const desiredCloudY = target.y + cloudDriftY;
       const desiredOrbX = target.x + orbDriftX;
       const desiredOrbY = target.y + orbDriftY;
 
-      const cloudEase = hovering ? 0.1 : 0.065;
+      const cloudEase = hovering ? 0.16 : 0.065;
       cloudCurrent.x += (desiredCloudX - cloudCurrent.x) * cloudEase;
       cloudCurrent.y += (desiredCloudY - cloudCurrent.y) * cloudEase;
 
-      const spring = hovering ? 0.05 : 0.03;
-      const damping = hovering ? 0.82 : 0.86;
+      const spring = hovering ? 0.16 : 0.05;
+      const damping = hovering ? 0.8 : 0.83;
 
       orbVelocity.x += (desiredOrbX - orbCurrent.x) * spring;
       orbVelocity.y += (desiredOrbY - orbCurrent.y) * spring;
@@ -170,8 +172,8 @@ export default function Hero() {
     const handleMove = (event) => {
       const rect = hero.getBoundingClientRect();
       hovering = true;
-      target.x = event.clientX - rect.left;
-      target.y = event.clientY - rect.top;
+      target.x = Math.max(0, Math.min(rect.width, event.clientX - rect.left));
+      target.y = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
     };
 
     const handleLeave = () => {
@@ -202,8 +204,7 @@ export default function Hero() {
 
   return (
     <Section className="relative overflow-hidden bg-white px-4 pb-36 pt-8 sm:px-6 lg:px-8 lg:pb-44 lg:pt-12">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,_#ffffff_0%,_#ffffff_78%,_#f7f7ff_100%)]" />
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[30rem] w-[88rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_rgba(191,219,254,0.58)_0%,_rgba(255,255,255,0)_72%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-white" />
 
       <div
         ref={heroRef}
@@ -261,13 +262,11 @@ export default function Hero() {
           style={{ left: "56%", top: "42%" }}
         >
           <div className="hero-orb-glow absolute inset-0 rounded-full" />
-          <div className="hero-orb-core absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/90 bg-white/95 shadow-[0_18px_40px_-24px_rgba(37,99,235,0.55)]">
-            <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,1)_0%,_rgba(219,234,254,0.92)_46%,_rgba(96,165,250,0.45)_100%)]" />
-          </div>
+          <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-[2px]" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[760px] w-full max-w-[1500px] flex-col items-center justify-center px-4 text-center sm:px-6 lg:min-h-[840px] lg:px-8">
-          <h1 className="mt-8 max-w-[1320px] text-[clamp(4rem,8.6vw,7.6rem)] font-semibold leading-[0.92] tracking-[-0.085em] text-slate-950">
+        <div className="relative z-10 mx-auto flex min-h-[760px] w-full max-w-[1500px] flex-col items-center justify-center px-4 pb-10 text-center sm:px-6 lg:min-h-[840px] lg:px-8 lg:pb-16">
+          <h1 className="max-w-[1320px] text-[clamp(3.2rem,7.2vw,6.3rem)] font-semibold leading-[0.94] tracking-[-0.075em] text-slate-950">
             Impulsá ventas y operación
             <br />
             con sistemas que se mueven solos.

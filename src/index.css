@@ -209,12 +209,12 @@
 
 .hero-orb-glow {
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 22%, rgba(219, 234, 254, 0.54) 46%, rgba(255, 255, 255, 0) 74%);
+    radial-gradient(circle, rgba(255, 255, 255, 0.88) 0%, rgba(219, 234, 254, 0.42) 24%, rgba(191, 219, 254, 0.18) 48%, rgba(255, 255, 255, 0) 74%);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.7),
-    0 30px 80px rgba(59, 130, 246, 0.14),
-    0 0 140px rgba(124, 58, 237, 0.12);
+    0 24px 80px rgba(59, 130, 246, 0.12),
+    0 0 140px rgba(124, 58, 237, 0.1);
   animation: hero-orb-breathe 5s ease-in-out infinite;
+  opacity: 0.62;
 }
 
 .hero-orb-core {
