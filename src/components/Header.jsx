@@ -28,8 +28,8 @@ export default function Header() {
   const closeMenu = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur border-b border-slate-200">
-      <div className="mx-auto max-w-7xl px-4 py-3 flex items-center">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white backdrop-blur-xl">
+      <div className="mx-auto flex max-w-[1440px] items-center px-4 py-4 sm:px-6 lg:px-8">
         {/* Logo + nombre */}
         <a href="/" className="flex items-center gap-3">
           <img src={brandLogo} className="h-9 w-auto" alt="NexOps" />
@@ -37,11 +37,15 @@ export default function Header() {
         </a>
 
         {/* Wrapper derecha: nav + CTA (desktop) */}
-        <div className="ml-auto hidden sm:flex items-center gap-8">
+        <div className="ml-auto hidden items-center gap-10 sm:flex">
           {/* Navegación desktop */}
-          <nav className="flex items-center gap-8 text-base text-slate-600">
+          <nav className="flex items-center gap-10 text-[17px] text-slate-600">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className="hover:text-slate-900">
+              <a
+                key={link.href}
+                href={link.href}
+                className="transition-colors duration-200 hover:text-slate-950"
+              >
                 {link.label}
               </a>
             ))}
@@ -52,7 +56,7 @@ export default function Header() {
             href={CALENDLY_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-xl bg-[#4F46E5] px-5 py-2.5 text-white font-semibold shadow-sm hover:bg-[#4338CA]"
+            className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-white font-semibold shadow-[0_18px_40px_-24px_rgba(15,23,42,0.55)] transition-colors duration-200 hover:bg-slate-800"
           >
             Hablemos
           </a>
@@ -60,7 +64,7 @@ export default function Header() {
 
         {/* Botón menú mobile */}
         <button
-          className="sm:hidden ml-auto text-slate-700 text-3xl"
+          className="ml-auto text-3xl text-slate-700 sm:hidden"
           onClick={() => setOpen(true)}
           aria-label="Abrir menú"
         >
@@ -114,4 +118,3 @@ export default function Header() {
     </header>
   );
 }
-

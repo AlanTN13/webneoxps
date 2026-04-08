@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingCart,
@@ -27,6 +27,8 @@ import {
 } from "lucide-react";
 
 import { CONTACT_INFO, getWhatsappLink } from "../config/constants";
+
+void motion;
 
 const servicesData = [
   {
@@ -172,12 +174,6 @@ const SEGMENTS = {
 
 export default function ServicesOverview() {
   const [activeTab, setActiveTab] = useState("marketing");
-  const [hasPlayedIntro, setHasPlayedIntro] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setHasPlayedIntro(true), 1500);
-    return () => clearTimeout(timer);
-  }, []);
 
   const activeService = useMemo(
     () => servicesData.find((s) => s.id === activeTab),
@@ -293,13 +289,19 @@ export default function ServicesOverview() {
                   transition={{ type: "spring", stiffness: 100, damping: 14 }}
                   className="relative"
                 >
-                  <motion.img
-                    src={activeService.nexiImage}
-                    alt="Nexi Agent"
-                    className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(99,102,241,0.4)]"
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  />
+                  <div
+                    className={`w-full h-full rounded-[28px] ${
+                      activeService.number === "2" ? "bg-white p-3" : ""
+                    }`}
+                  >
+                    <motion.img
+                      src={activeService.nexiImage}
+                      alt="Nexi Agent"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(99,102,241,0.4)]"
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -458,11 +460,17 @@ export default function ServicesOverview() {
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
                   className="absolute -top-12 -right-2 w-28 h-28 lg:hidden z-30 pointer-events-none"
                 >
-                  <img
-                    src={activeService.nexiImage}
-                    alt="Nexi Agent"
-                    className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)]"
-                  />
+                  <div
+                    className={`w-full h-full rounded-[22px] ${
+                      activeService.number === "2" ? "bg-white p-2.5" : ""
+                    }`}
+                  >
+                    <img
+                      src={activeService.nexiImage}
+                      alt="Nexi Agent"
+                      className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)]"
+                    />
+                  </div>
                 </motion.div>
 
                 {/* Visual Number background */}

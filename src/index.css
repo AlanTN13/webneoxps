@@ -159,3 +159,64 @@
     padding-top: 32px;
   }
 }
+
+@keyframes hero-particle-drift {
+  0%,
+  100% {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1);
+  }
+
+  50% {
+    transform: translate(calc(var(--tx) + var(--dx)), calc(var(--ty) + var(--dy)))
+      rotate(calc(var(--rot) + 10deg)) scale(1.08);
+  }
+}
+
+@keyframes hero-speck-twinkle {
+  0%,
+  100% {
+    opacity: var(--speck-opacity);
+  }
+
+  50% {
+    opacity: calc(var(--speck-opacity) + 0.15);
+  }
+}
+
+@keyframes hero-orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.hero-cloud-particle {
+  animation-name: hero-particle-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.hero-speck {
+  animation-name: hero-speck-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.hero-orb-glow {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 22%, rgba(219, 234, 254, 0.54) 46%, rgba(255, 255, 255, 0) 74%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 30px 80px rgba(59, 130, 246, 0.14),
+    0 0 140px rgba(124, 58, 237, 0.12);
+  animation: hero-orb-breathe 5s ease-in-out infinite;
+}
+
+.hero-orb-core {
+  animation: hero-orb-breathe 3.8s ease-in-out infinite reverse;
+}
