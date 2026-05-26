@@ -58,11 +58,56 @@ export default defineType({
     }),
 
     defineField({
+      name: "sourceName",
+      title: "Fuente",
+      type: "string",
+      description: "Nombre del medio o fuente original de la noticia.",
+      validation: (Rule) => Rule.max(120),
+    }),
+
+    defineField({
+      name: "sourceUrl",
+      title: "Link de la fuente",
+      type: "url",
+      description: "URL original de la noticia o publicación fuente.",
+      validation: (Rule) =>
+        Rule.uri({
+          scheme: ["http", "https"],
+        }),
+    }),
+
+    defineField({
       name: "body",
       title: "Contenido",
       type: "array",
       of: [
-        { type: "block" },
+        {
+          type: "block",
+          marks: {
+            decorators: [
+              { title: "Negrita", value: "strong" },
+              { title: "Cursiva", value: "em" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                type: "object",
+                title: "Enlace",
+                fields: [
+                  defineField({
+                    name: "href",
+                    type: "url",
+                    title: "URL",
+                    validation: (Rule) =>
+                      Rule.uri({
+                        scheme: ["http", "https", "mailto", "tel"],
+                      }),
+                  }),
+                ],
+              },
+            ],
+          },
+        },
         { type: "image" }
       ],
     }),

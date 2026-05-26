@@ -47,6 +47,16 @@ const portableComponents = {
     em: ({ children }) => (
       <em className="italic text-slate-800">{children}</em>
     ),
+    link: ({ children, value }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noreferrer"
+        className="font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-4 transition hover:text-indigo-700"
+      >
+        {children}
+      </a>
+    ),
   },
 
   // --- Imágenes internas estilizadas ---
@@ -86,7 +96,9 @@ export default function Detalle() {
         `*[_type == "post" && slug.current == $slug][0]{
           title,
           mainImage,
-          body
+          body,
+          sourceName,
+          sourceUrl
         }`,
         { slug }
       )
@@ -119,6 +131,20 @@ export default function Detalle() {
           {post.title}
         </h1>
 
+        {post.mainImage?.asset && (
+          <figure className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <img
+              src={urlForImage(post.mainImage)
+                .width(1600)
+                .height(900)
+                .fit("crop")
+                .url()}
+              alt={post.title}
+              className="h-auto w-full object-cover"
+            />
+          </figure>
+        )}
+
         {/* Contenido */}
         <div
           className="
@@ -135,6 +161,23 @@ export default function Detalle() {
             <PortableText value={post.body} components={portableComponents} />
           )}
         </div>
+
+        {post.sourceUrl && (
+          <div className="mt-10 rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Fuente
+            </p>
+            <a
+              href={post.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-indigo-600 transition hover:text-indigo-700"
+            >
+              {post.sourceName || "Ver fuente original"}
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        )}
       </article>
     </Layout>
   );
