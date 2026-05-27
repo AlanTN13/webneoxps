@@ -13,6 +13,14 @@
       "destination": "https://nexopsticketera.vercel.app/portal/:path*"
     },
     {
+      "source": "/backoffice",
+      "destination": "https://nexopsticketera.vercel.app/backoffice"
+    },
+    {
+      "source": "/backoffice/:path*",
+      "destination": "https://nexopsticketera.vercel.app/backoffice/:path*"
+    },
+    {
       "source": "/noticias",
       "destination": "/index.html"
     },
