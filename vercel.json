@@ -1,13 +1,20 @@
 {
-    "rewrites": [
-      {
-        "source": "/noticias",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/noticias/:slug",
-        "destination": "/index.html"
-      }
-    ]
-  }
-  
+  "rewrites": [
+    {
+      "source": "/portal",
+      "destination": "https://nexopsticketera.vercel.app/portal"
+    },
+    {
+      "source": "/portal/:path*",
+      "destination": "https://nexopsticketera.vercel.app/portal/:path*"
+    },
+    {
+      "source": "/noticias",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/noticias/:slug",
+      "destination": "/index.html"
+    }
+  ]
+}
