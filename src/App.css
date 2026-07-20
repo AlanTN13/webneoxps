@@ -34,4 +34,18 @@ body:has(.homepage-v3) .footer-grid p{color:#e9edf3}
 body:has(.homepage-v3) .footer-grid nav a,body:has(.homepage-v3) .footer-support{color:#e9edf3}
 body:has(.homepage-v3) .footer-grid nav a:hover,body:has(.homepage-v3) .footer-support:hover{color:#fff}
 body:has(.homepage-v3) .footer-bottom{border-top-color:rgb(255 255 255/.12);color:#e9edf3}
+body:has(.homepage-v3){background:#f3f5f8}
+body:has(.homepage-v3) .nx-header{background:rgb(243 245 248/.9);border-bottom-color:rgb(67 48 166/.1);color:#111827;box-shadow:0 8px 28px rgb(17 24 39/.035)}
+body:has(.homepage-v3) .nx-desktop-nav a{color:#374151}
+body:has(.homepage-v3) .nx-desktop-nav a:hover{color:#4330a6}
+body:has(.homepage-v3) .nx-support{color:#4330a6;border-color:rgb(67 48 166/.18);background:rgb(255 255 255/.58)}
+body:has(.homepage-v3) .nx-support:hover{border-color:#7c5bff;background:#fff}
+body:has(.homepage-v3) .nx-menu-button{color:#111827}
+body:has(.homepage-v3) .nx-mobile-nav{background:#f3f5f8}
+body:has(.homepage-v3) .nx-mobile-nav a{color:#111827;border-bottom-color:rgb(67 48 166/.1)}
+body:has(.homepage-v3) .nx-mobile-nav span{color:#6b7280}
+body:has(.homepage-v3) .nx-footer{color:#111827;background:#e9edf3;border-top-color:rgb(67 48 166/.1)}
+body:has(.homepage-v3) .footer-grid p,body:has(.homepage-v3) .footer-grid nav a,body:has(.homepage-v3) .footer-support,body:has(.homepage-v3) .footer-bottom{color:#374151}
+body:has(.homepage-v3) .footer-grid nav a:hover,body:has(.homepage-v3) .footer-support:hover{color:#4330a6}
+body:has(.homepage-v3) .footer-bottom{border-top-color:rgb(67 48 166/.1)}
 @media(max-width:760px){body:has(.homepage-v3) .nx-brand{font-size:21px}body:has(.homepage-v3) .nx-brand img{width:28px;height:28px}body:has(.homepage-v3) .nx-menu-button{width:44px;height:44px;display:grid;place-items:center}}
