@@ -1,6 +1,5 @@
 import React from "react";
 import { Search, PenTool, Cpu, BarChart3, CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
 
 const steps = [
   {

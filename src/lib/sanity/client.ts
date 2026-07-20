@@ -10,8 +10,10 @@ if (!projectId || !dataset) {
 }
 
 export const client = createClient({
-  projectId,
-  dataset,
+  // Evita que una configuración local incompleta bloquee rutas que no usan Sanity.
+  // En los entornos configurados se siguen usando exclusivamente los valores reales.
+  projectId: projectId || "missing-project-id",
+  dataset: dataset || "production",
   apiVersion,
   // En dev, sin CDN para ver cambios rápido. En prod, con CDN.
   useCdn: !import.meta.env.DEV,
