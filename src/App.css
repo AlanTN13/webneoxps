@@ -19,4 +19,19 @@ body:has(.homepage-v3) .footer-grid p{font-size:15px;color:#a4afbe}
 body:has(.homepage-v3) .footer-grid nav a,body:has(.homepage-v3) .footer-support{font-size:14px;color:#bcc5d2;transition:color .2s}
 body:has(.homepage-v3) .footer-grid nav a:hover,body:has(.homepage-v3) .footer-support:hover{color:#fff}
 body:has(.homepage-v3) .footer-bottom{font-size:11px;color:#8995a7}
+body:has(.homepage-v3){background:#111827;color:#111827}
+body:has(.homepage-v3) .site-shell,body:has(.homepage-v3) main{color:#111827}
+body:has(.homepage-v3) .skip-link{background:#fff;color:#111827}
+body:has(.homepage-v3) .nx-header{background:rgb(17 24 39/.9);border-bottom-color:rgb(255 255 255/.12);color:#fff}
+body:has(.homepage-v3) .nx-desktop-nav a{color:#e9edf3}
+body:has(.homepage-v3) .nx-desktop-nav a:hover{color:#fff}
+body:has(.homepage-v3) .nx-support{color:#fff;border-color:rgb(255 255 255/.18);background:rgb(255 255 255/.04)}
+body:has(.homepage-v3) .nx-support:hover{border-color:#7c5bff;background:rgb(124 91 255/.12)}
+body:has(.homepage-v3) .nx-mobile-nav{background:#111827}
+body:has(.homepage-v3) .nx-mobile-nav a{border-bottom-color:rgb(255 255 255/.12)}
+body:has(.homepage-v3) .nx-footer{background:#111827;border-top-color:rgb(255 255 255/.12)}
+body:has(.homepage-v3) .footer-grid p{color:#e9edf3}
+body:has(.homepage-v3) .footer-grid nav a,body:has(.homepage-v3) .footer-support{color:#e9edf3}
+body:has(.homepage-v3) .footer-grid nav a:hover,body:has(.homepage-v3) .footer-support:hover{color:#fff}
+body:has(.homepage-v3) .footer-bottom{border-top-color:rgb(255 255 255/.12);color:#e9edf3}
 @media(max-width:760px){body:has(.homepage-v3) .nx-brand{font-size:21px}body:has(.homepage-v3) .nx-brand img{width:28px;height:28px}body:has(.homepage-v3) .nx-menu-button{width:44px;height:44px;display:grid;place-items:center}}
