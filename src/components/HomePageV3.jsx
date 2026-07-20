@@ -1,56 +1,164 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { ArrowDown, ArrowRight, BarChart3, Bot, Check, CircleCheck, FormInput, LayoutDashboard, Megaphone, MessageSquare, RefreshCw, Route, Sparkles, TicketCheck, UsersRound, Workflow } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowRight,
+  BarChart3,
+  Check,
+  CircleCheck,
+  FormInput,
+  LayoutDashboard,
+  Megaphone,
+  MessageSquare,
+  RefreshCw,
+  Sparkles,
+  UsersRound,
+  Workflow,
+} from "lucide-react";
+import logoNexops from "../assets/logo-nexops.svg";
 import { CALENDLY_LINK, CONTACT_INFO, getWhatsappLink } from "../config/constants";
 import "./HomePageV3.css";
 
 const pillars = [
-  { id:"captacion", number:"01", title:"Captación y marketing", problem:"Las consultas llegan sin contexto o quedan repartidas entre canales.", benefit:"Cada oportunidad entra con origen, datos y una acción clara.", tools:["Campañas","Formularios","Medición","IA aplicada"], icon:Megaphone },
-  { id:"ventas", number:"02", title:"Ventas y CRM", problem:"El seguimiento depende de planillas, chats y memoria.", benefit:"El pipeline muestra responsables, próximos pasos y conversaciones.", tools:["CRM","Pipeline","Alertas","Datos comerciales"], icon:UsersRound },
-  { id:"automatizacion", number:"03", title:"Automatización", problem:"El equipo repite tareas y mueve información a mano.", benefit:"Las aplicaciones intercambian datos y ejecutan reglas con control.", tools:["Integraciones","Flujos","Notificaciones","Agentes de IA"], icon:Workflow },
-  { id:"operacion", number:"04", title:"Operación", problem:"La gestión diaria no tiene una única vista confiable.", benefit:"Tickets, plataformas y tableros convierten actividad en control.", tools:["Ticketera","Dashboards","Portales","Sistemas internos"], icon:LayoutDashboard },
+  {
+    id: "captacion",
+    number: "01",
+    title: "Captación y marketing",
+    problem: "Las consultas llegan desde campañas, formularios y mensajes, pero pierden contexto antes de entrar al proceso comercial.",
+    action: "NexOps ordena los puntos de entrada y registra origen, datos y motivo de contacto.",
+    change: "Ventas recibe oportunidades completas y puede actuar sin reconstruir la historia.",
+  },
+  {
+    id: "ventas",
+    number: "02",
+    title: "Ventas y CRM",
+    problem: "El seguimiento depende de planillas, chats y memoria; nadie sabe con certeza cuál es el próximo paso.",
+    action: "NexOps define etapas, responsables y criterios de avance dentro de un CRM que acompaña el proceso real.",
+    change: "Cada oportunidad tiene dueño, contexto y una acción pendiente visible.",
+  },
+  {
+    id: "automatizacion",
+    number: "03",
+    title: "Automatización",
+    problem: "El equipo repite validaciones, avisos y carga de información entre herramientas.",
+    action: "NexOps conecta eventos y reglas para ejecutar tareas repetitivas con control y trazabilidad.",
+    change: "El equipo interviene donde aporta criterio; el sistema sostiene el resto del recorrido.",
+  },
+  {
+    id: "operacion",
+    number: "04",
+    title: "Operación",
+    problem: "Pedidos, incidencias y tareas circulan por canales distintos y se vuelve difícil priorizar.",
+    action: "NexOps reúne solicitudes, responsables, estados e información operativa en una vista compartida.",
+    change: "La operación gana orden, seguimiento y una base confiable para mejorar.",
+  },
 ];
 
-const journey = [
-  ["Anuncio / canal",Megaphone,"Campaña activa"],["Lead",FormInput,"Datos completos"],["CRM",UsersRound,"Responsable asignado"],["Automatización",RefreshCw,"Seguimiento creado"],["Operación",TicketCheck,"Solicitud en curso"],["Información",BarChart3,"Estado actualizado"]
+const connectedExperiences = [
+  { label: "Oportunidad seguida", title: "De una consulta a una oportunidad seguida", kind: "opportunity", steps: [["Publicidad / WhatsApp / formulario", Megaphone], ["CRM", LayoutDashboard], ["Responsable", UsersRound], ["Próximo paso", ArrowRight]], note: "Cada consulta entra al mismo recorrido y queda lista para avanzar." },
+  { label: "Flujo automatizado", title: "De una tarea manual a un flujo automatizado", kind: "automation", steps: [["Evento", FormInput], ["Validación", Check], ["Automatización", Workflow], ["Resultado", Sparkles], ["Registro", LayoutDashboard]], note: "La lógica valida, ejecuta y deja trazabilidad sin depender de una tarea repetitiva." },
+  { label: "Operación ordenada", title: "De pedidos dispersos a una operación ordenada", kind: "support", steps: [["Solicitud", MessageSquare], ["Prioridad", BarChart3], ["Responsable", UsersRound], ["Seguimiento", RefreshCw], ["Resolución", CircleCheck]], note: "Centro de Soporte NexOps reúne el pedido, su estado y la conversación." },
 ];
 
-function Label({children}){return <span className="v3-label">{children}</span>}
+function Label({ children }) {
+  return <span className="v3-label">{children}</span>;
+}
 
-function HeroSystem(){return <div className="v3-hero-system" aria-label="Sistema conectado de captación, CRM, automatización y operación">
-  <div className="v3-system-glow"/><div className="v3-crm-panel"><div className="v3-panel-top"><span><i/><i/><i/></span><small>Pipeline comercial</small><b>En vivo</b></div><div className="v3-pipeline"><div><small>NUEVAS · 4</small><span className="lead-in"><b>Global Imports</b><em>Formulario web · ahora</em></span><span><b>Estudio Sur</b><em>Campaña · 12 min</em></span></div><div><small>EN CONVERSACIÓN · 3</small><span className="moving"><b>Comercial Delta</b><em>Reunión coordinada</em></span></div><div><small>PROPUESTA · 2</small><span><b>Grupo Norte</b><em>Seguimiento hoy</em></span></div></div></div>
-  <div className="v3-node lead-node"><FormInput/><span><small>NUEVO LEAD</small><b>Consulta recibida</b></span><CircleCheck/></div>
-  <div className="v3-node automation-node"><RefreshCw/><span><small>AUTOMATIZACIÓN</small><b>Asignar + avisar</b></span><i/></div>
-  <div className="v3-node ticket-node"><TicketCheck/><span><small>OPERACIÓN</small><b>Ticket #NX-204</b></span><em>En curso</em></div>
-  <div className="v3-metric"><small>OPORTUNIDADES ACTIVAS</small><strong>24</strong><span><i/><i/><i/><i/><i/></span></div>
-  <svg className="v3-connectors" viewBox="0 0 700 560" aria-hidden="true"><path d="M90 145 C180 145 120 245 240 245"/><path d="M445 190 C590 190 510 305 620 305"/><path d="M380 410 C460 410 470 490 560 490"/></svg>
-</div>}
+function HeroEditorial() {
+  return <figure className="v3-hero-editorial">
+    {/* Reserved for a future NexOps-owned team/process photograph. */}
+    <div className="v3-editorial-mark"><img src={logoNexops} alt="NexOps" /></div>
+    <blockquote>De la fricción diaria a una operación que el equipo puede sostener.</blockquote>
+    <figcaption>Marketing · CRM · Automatizaciones · Operación</figcaption>
+  </figure>;
+}
 
-function PillarVisual({active}){const item=pillars[active];if(active===0)return <div className="v3-tab-visual capture"><div className="v3-channel"><Megaphone/><span><small>CAMPAÑA</small><b>Solicitud de asesoramiento</b></span><em>Activo</em></div><div className="v3-flow-pulse"/><div className="v3-form"><small>FORMULARIO CONECTADO</small><b>Nueva oportunidad</b><span><Check/> Datos completos</span><span><Check/> Origen identificado</span></div><ArrowRight/><div className="v3-destination"><UsersRound/><span>Ventas</span><small>Asignado</small></div></div>;
-if(active===1)return <div className="v3-tab-visual sales"><div className="v3-mini-pipeline"><section><small>NUEVOS</small><article><b>Consulta web</b><span>Hoy, 09:42</span></article></section><section><small>CONTACTO</small><article className="hot"><b>Estudio Central</b><span>Responder hoy</span></article></section><section><small>PROPUESTA</small><article><b>Grupo Delta</b><span>Revisión viernes</span></article></section></div><div className="v3-activity"><i/><span><b>Próximo paso creado</b><small>Seguimiento comercial · 24 h</small></span><CircleCheck/></div></div>;
-if(active===2)return <div className="v3-tab-visual automation"><div className="v3-auto-node"><FormInput/><b>Formulario</b></div><span className="v3-running"><i/> ejecutando</span><div className="v3-auto-hub"><Workflow/><b>Reglas NexOps</b><small>validar · asignar · avisar</small></div><div className="v3-auto-outputs"><span><UsersRound/> CRM</span><span><MessageSquare/> WhatsApp</span><span><BarChart3/> Datos</span></div></div>;
-return <div className="v3-tab-visual operation"><div className="v3-ticket-head"><span><TicketCheck/> Ticketera NexOps</span><b>Cola operativa</b></div><div className="v3-ticket-body"><aside><i/><i/><i/><i/></aside><div><header><span>Tickets abiertos</span><small>Prioridad y responsable</small></header><article><b>NX-204</b><span>Acceso al portal</span><em className="urgent">Alta</em><small>En curso</small></article><article><b>NX-201</b><span>Consulta comercial</span><em>Media</em><small>Nuevo</small></article><article><b>NX-198</b><span>Actualización de datos</span><em>Baja</em><small>Esperando</small></article></div></div><span className="v3-sanitized">Visual sanitizado basado en Ticketera NexOps</span></div>}
+function PillarsNarrative() {
+  const [active, setActive] = useState(0);
+  const stepRefs = useRef([]);
 
-const connectedExperiences=[
-  {label:"Oportunidad seguida",title:"De una consulta a una oportunidad seguida",kind:"opportunity",steps:[["Publicidad / WhatsApp / formulario",Megaphone],["CRM",LayoutDashboard],["Responsable",UsersRound],["Próximo paso",ArrowRight]],note:"Cada consulta entra al mismo recorrido y queda lista para avanzar."},
-  {label:"Flujo automatizado",title:"De una tarea manual a un flujo automatizado",kind:"automation",steps:[["Evento",FormInput],["Validación",Check],["Automatización",Workflow],["Resultado",Sparkles],["Registro",LayoutDashboard]],note:"La lógica valida, ejecuta y deja trazabilidad sin depender de una tarea repetitiva."},
-  {label:"Operación ordenada",title:"De pedidos dispersos a una operación ordenada",kind:"support",steps:[["Solicitud",MessageSquare],["Prioridad",BarChart3],["Responsable",UsersRound],["Seguimiento",RefreshCw],["Resolución",CircleCheck]],note:"Centro de Soporte NexOps reúne el pedido, su estado y la conversación."},
-];
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(Number(visible.target.dataset.index));
+    }, { rootMargin: "-30% 0px -45%", threshold: [0.2, 0.55, 0.8] });
+    stepRefs.current.forEach((node) => node && observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
 
-export function FutureCaseStudies({items=[]}){if(!items.length)return null;return <div className="v3-future-cases" hidden>{items.map(item=><article key={item.id}>{item.title}</article>)}</div>}
+  return <div className="v3-pillar-story">
+    <aside className="v3-pillar-sticky" aria-live="polite">
+      <span className="v3-story-number">{pillars[active].number}</span>
+      <h3>{pillars[active].title}</h3>
+      <p>{pillars[active].change}</p>
+      <ol aria-label="Progreso por los cuatro pilares">
+        {pillars.map((pillar, index) => <li className={active === index ? "is-active" : ""} key={pillar.id}><span>{pillar.number}</span>{pillar.title}</li>)}
+      </ol>
+    </aside>
+    <div className="v3-pillar-steps">
+      {pillars.map((pillar, index) => <article className="v3-pillar-step" data-index={index} key={pillar.id} ref={(node) => { stepRefs.current[index] = node; }}>
+        <header><span>{pillar.number}</span><h3>{pillar.title}</h3></header>
+        <dl>
+          <div><dt>Qué problema recibe</dt><dd>{pillar.problem}</dd></div>
+          <div><dt>Qué hace NexOps</dt><dd>{pillar.action}</dd></div>
+          <div><dt>Qué cambia</dt><dd>{pillar.change}</dd></div>
+        </dl>
+        {index < pillars.length - 1 && <footer><span>Se conecta con</span><strong>{pillars[index + 1].title}</strong><ArrowRight /></footer>}
+      </article>)}
+    </div>
+  </div>;
+}
 
-function ConnectedSystemsExperience(){const[selected,setSelected]=useState(0);const experience=connectedExperiences[selected];return <div className="v3-experience"><div className="v3-experience-tabs" role="tablist" aria-label="Experiencias de un sistema conectado">{connectedExperiences.map((item,index)=><button key={item.kind} role="tab" aria-selected={selected===index} onClick={()=>setSelected(index)}><span>0{index+1}</span>{item.label}</button>)}</div><div className={`v3-experience-stage ${experience.kind}`} role="tabpanel"><header><span>SISTEMA EN FUNCIONAMIENTO</span><b>{experience.title}</b></header><div className="v3-experience-flow">{experience.steps.map(([label,Icon],index)=><div className="v3-flow-part" key={label}><article><span><Icon/></span><b>{label}</b>{experience.kind==="support"&&index===0&&<small>Centro de Soporte NexOps</small>}{experience.kind==="automation"&&index===2&&<small>regla activa</small>}{experience.kind==="opportunity"&&index===1&&<small>entrada registrada</small>}</article>{index<experience.steps.length-1&&<i><b/></i>}</div>)}</div><footer><span><i/> CONECTADO</span><p>{experience.note}</p></footer></div></div>}
+export function FutureCaseStudies({ items = [] }) {
+  if (!items.length) return null;
+  return <div className="v3-future-cases" hidden>{items.map((item) => <article key={item.id}>{item.title}</article>)}</div>;
+}
 
-export default function HomePageV3(){const[active,setActive]=useState(0);const[titleVariant,setTitleVariant]=useState("A");return <div className="homepage-v3">
-  <section className="v3-hero" id="inicio"><div className="nx-container v3-hero-grid"><div className="v3-hero-copy"><div className="v3-identity"><Label>NEXOPS · SISTEMAS COMERCIALES Y OPERATIVOS</Label><div className="v3-title-switch" aria-label="Alternativas de título"><button aria-pressed={titleVariant==="A"} onClick={()=>setTitleVariant("A")}>A</button><button aria-pressed={titleVariant==="B"} onClick={()=>setTitleVariant("B")}>B</button></div></div><h1>{titleVariant==="A"?<>Conectamos marketing, ventas y operación para que tu empresa funcione como un <em>sistema.</em></>:<>Conectamos cada parte de tu empresa para que funcione como un <em>sistema.</em></>}</h1><p>Integramos captación y marketing, ventas y CRM, automatización y operación para que cada oportunidad tenga seguimiento y cada proceso tenga control.</p><div className="v3-hero-actions"><a className="v3-btn primary" href={CALENDLY_LINK} target="_blank" rel="noreferrer">Contanos qué necesitás <ArrowRight/></a><a className="v3-btn secondary" href="#sistema">Ver el sistema <ArrowDown/></a></div></div><HeroSystem/></div><div className="nx-container v3-promise"><span>Más oportunidades.</span><span>Mejores procesos.</span><span>Control real.</span></div></section>
+function ConnectedSystemsExperience() {
+  const [selected, setSelected] = useState(0);
+  const experience = connectedExperiences[selected];
+  return <div className="v3-experience">
+    <div className="v3-experience-tabs" role="tablist" aria-label="Experiencias de un sistema conectado">
+      {connectedExperiences.map((item, index) => <button key={item.kind} role="tab" aria-selected={selected === index} onClick={() => setSelected(index)}><span>0{index + 1}</span>{item.label}</button>)}
+    </div>
+    <div className={`v3-experience-stage ${experience.kind}`} role="tabpanel">
+      <header><span>SISTEMA EN FUNCIONAMIENTO</span><b>{experience.title}</b></header>
+      <div className="v3-experience-flow">{experience.steps.map(([label, Icon], index) => <div className="v3-flow-part" key={label}><article><span><Icon /></span><b>{label}</b>{experience.kind === "support" && index === 0 && <small>Centro de Soporte NexOps</small>}{experience.kind === "automation" && index === 2 && <small>regla activa</small>}{experience.kind === "opportunity" && index === 1 && <small>entrada registrada</small>}</article>{index < experience.steps.length - 1 && <i><b /></i>}</div>)}</div>
+      <footer><span><i /> CONECTADO</span><p>{experience.note}</p></footer>
+    </div>
+  </div>;
+}
 
-  <section className="v3-journey-section" id="sistema"><div className="nx-container"><header className="v3-heading"><div><Label>EL RECORRIDO COMPLETO</Label><h2>De una señal a una decisión, sin perder información en el camino.</h2></div><p>NexOps conecta las herramientas y los equipos que participan en cada oportunidad.</p></header><div className="v3-journey">{journey.map(([title,Icon,status],i)=><div className="v3-journey-step" key={title}><span><Icon/></span><small>0{i+1}</small><b>{title}</b><em>{status}</em>{i<journey.length-1&&<i/>}</div>)}</div></div></section>
+export default function HomePageV3() {
+  return <div className="homepage-v3">
+    <section className="v3-hero" id="inicio">
+      <div className="nx-container v3-hero-grid">
+        <div className="v3-hero-copy">
+          <Label>NEXOPS · TECNOLOGÍA APLICADA AL NEGOCIO</Label>
+          <h1>Ordenamos ventas, procesos y operación para que tu empresa pueda crecer sin sumar caos.</h1>
+          <p>Trabajamos junto a tu equipo para conectar marketing, CRM, automatizaciones y sistemas en una operación más clara, medible y fácil de sostener.</p>
+          <div className="v3-hero-actions">
+            <a className="v3-btn primary" href={CALENDLY_LINK} target="_blank" rel="noreferrer">Contanos qué está trabando tu empresa <ArrowRight /></a>
+            <a className="v3-btn secondary" href="#casos">Ver casos reales <ArrowRight /></a>
+          </div>
+        </div>
+        <HeroEditorial />
+      </div>
+      <div className="nx-container v3-promise"><span>Más claridad.</span><span>Menos tareas sueltas.</span><span>Una operación sostenible.</span></div>
+    </section>
 
-  <section className="v3-pillars" id="soluciones"><div className="nx-container"><header className="v3-heading light"><div><Label>CUATRO PILARES · UN MISMO SISTEMA</Label><h2>La solución cambia.<br/>La conexión se mantiene.</h2></div><p>IA y datos atraviesan los cuatro pilares cuando ayudan a resolver un problema real.</p></header><div className="v3-tabs"><div className="v3-tabs-nav" role="tablist" aria-label="Pilares NexOps">{pillars.map((item,i)=>{const Icon=item.icon;return <button key={item.id} role="tab" aria-selected={active===i} onClick={()=>setActive(i)}><span>{item.number}</span><Icon/><b>{item.title}</b></button>})}</div><div className="v3-tab-content"><div className="v3-tab-copy"><Label>{pillars[active].title}</Label><h3>{pillars[active].benefit}</h3><p>{pillars[active].problem}</p><div>{pillars[active].tools.map(x=><span key={x}>{x}</span>)}</div></div><PillarVisual active={active}/></div></div></div></section>
+    <section className="v3-pillars" id="soluciones">
+      <div className="nx-container">
+        <header className="v3-heading light"><div><Label>CUATRO PILARES · UN MISMO RECORRIDO</Label><h2>El crecimiento se ordena de punta a punta.</h2></div><p>Cada etapa recibe un problema concreto, lo conecta con la siguiente y deja información útil para operar mejor.</p></header>
+        <PillarsNarrative />
+      </div>
+    </section>
 
-  <section className="v3-cases" id="casos"><div className="nx-container"><header className="v3-heading"><div><Label>SISTEMAS EN MOVIMIENTO</Label><h2>Así se ve un sistema conectado</h2></div><p>No se trata de sumar herramientas. Se trata de que cada entrada tenga seguimiento, cada tarea tenga una lógica y cada proceso deje información útil.</p></header><ConnectedSystemsExperience/></div></section>
+    <section className="v3-cases" id="casos"><div className="nx-container"><header className="v3-heading"><div><Label>SISTEMAS EN MOVIMIENTO</Label><h2>Así se ve un sistema conectado</h2></div><p>No se trata de sumar herramientas. Se trata de que cada entrada tenga seguimiento, cada tarea tenga una lógica y cada proceso deje información útil.</p></header><ConnectedSystemsExperience /></div></section>
 
-  <section className="v3-method" id="como-trabajamos"><div className="nx-container"><header><Label>CÓMO TRABAJAMOS</Label><h2>Del problema al sistema en cuatro movimientos.</h2></header><div>{[["01","Entendemos"],["02","Diseñamos"],["03","Implementamos"],["04","Mejoramos"]].map(([n,t],i)=><article className={`stage-${i+1}`} key={n}><span>{n}</span><i><b/></i><strong>{t}</strong><small>{["Detectamos la fricción","Ordenamos el recorrido","Conectamos y activamos","Medimos y evolucionamos"][i]}</small></article>)}</div></div></section>
+    <section className="v3-method" id="como-trabajamos"><div className="nx-container"><header><Label>CÓMO TRABAJAMOS</Label><h2>Del problema al sistema en cuatro movimientos.</h2></header><div>{[["01", "Entendemos"], ["02", "Diseñamos"], ["03", "Implementamos"], ["04", "Mejoramos"]].map(([n, t], i) => <article className={`stage-${i + 1}`} key={n}><span>{n}</span><i><b /></i><strong>{t}</strong><small>{["Detectamos la fricción", "Ordenamos el recorrido", "Conectamos y activamos", "Medimos y evolucionamos"][i]}</small></article>)}</div></div></section>
 
-  <section className="v3-cta" id="contacto"><div className="nx-container"><div><Label>EMPECEMOS POR EL CUELLO DE BOTELLA</Label><h2>Contanos dónde se está frenando tu empresa.</h2></div><div><p>Revisamos el proceso y definimos un próximo paso concreto, sin empezar por una herramienta.</p><a href={CALENDLY_LINK} target="_blank" rel="noreferrer">Coordinar una conversación <ArrowRight/></a><a className="v3-whatsapp" href={getWhatsappLink(CONTACT_INFO.WHATSAPP_NUMBER,CONTACT_INFO.WHATSAPP_MESSAGE_DEFAULT)} target="_blank" rel="noreferrer"><MessageSquare/> WhatsApp</a></div></div></section>
-</div>}
+    <section className="v3-cta" id="contacto"><div className="nx-container"><div><Label>EMPECEMOS POR EL CUELLO DE BOTELLA</Label><h2>Contanos dónde se está frenando tu empresa.</h2></div><div><p>Revisamos el proceso y definimos un próximo paso concreto, sin empezar por una herramienta.</p><a href={CALENDLY_LINK} target="_blank" rel="noreferrer">Coordinar una conversación <ArrowRight /></a><a className="v3-whatsapp" href={getWhatsappLink(CONTACT_INFO.WHATSAPP_NUMBER, CONTACT_INFO.WHATSAPP_MESSAGE_DEFAULT)} target="_blank" rel="noreferrer"><MessageSquare /> WhatsApp</a></div></div></section>
+  </div>;
+}
