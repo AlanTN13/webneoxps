@@ -31,6 +31,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         {/* Landing principal */}
         <Route path="/" element={<App />} />
+        <Route path="/homepage-v1" element={<App version="v1" />} />
 
         {/* Landings de Servicios */}
         <Route
