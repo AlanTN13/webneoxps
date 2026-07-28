@@ -1,120 +1,43 @@
-// src/components/Header.jsx
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import brandLogo from "../assets/logo-nexops.svg";
-import { CALENDLY_LINK, NAV_LINKS } from "../config/constants";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import logo from "../assets/logo-nexops.svg";
+import { NAV_LINKS } from "../config/constants";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  // para poder usar createPortal sin romper nada
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // bloquear scroll cuando el menú está abierto
-  useEffect(() => {
-    if (!mounted) return;
-    if (open) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
-  }, [open, mounted]);
-
-  const closeMenu = () => setOpen(false);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1440px] items-center px-4 py-4 sm:px-6 lg:px-8">
-        {/* Logo + nombre */}
-        <a href="/" className="flex items-center gap-3">
-          <img src={brandLogo} className="h-9 w-auto" alt="NexOps" />
-          <span className="font-extrabold text-slate-900 text-2xl tracking-tight">NexOps</span>
+    <header className="nx-header">
+      <div className="nx-container nx-nav-wrap">
+        <a className="nx-brand" href="/#inicio" aria-label="NexOps, inicio">
+          <img src={logo} alt="" />
+          <span>NexOps</span>
         </a>
-
-        {/* Wrapper derecha: nav + CTA (desktop) */}
-        <div className="ml-auto hidden items-center gap-10 sm:flex">
-          {/* Navegación desktop */}
-          <nav className="flex items-center gap-10 text-[17px] text-slate-600">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="transition-colors duration-200 hover:text-slate-950"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA desktop */}
-          <a
-            href={CALENDLY_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-white font-semibold shadow-[0_18px_40px_-24px_rgba(15,23,42,0.55)] transition-colors duration-200 hover:bg-slate-800"
-          >
-            Hablemos
-          </a>
-        </div>
-
-        {/* Botón menú mobile */}
-        <button
-          className="ml-auto text-3xl text-slate-700 sm:hidden"
-          onClick={() => setOpen(true)}
-          aria-label="Abrir menú"
-        >
-          ☰
+        <nav className="nx-desktop-nav" aria-label="Navegación principal">
+          {NAV_LINKS.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
+        </nav>
+        <a className="nx-support" href="https://soporte.nexopstech.com" target="_blank" rel="noreferrer">
+          Soporte <ArrowUpRight size={14} />
+        </a>
+        <button className="nx-menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? "Cerrar menú" : "Abrir menú"}>
+          {open ? <X /> : <Menu />}
         </button>
       </div>
-
-      {/* OVERLAY MOBILE en PORTAL */}
-      {mounted &&
-        open &&
-        createPortal(
-          <div className="fixed inset-0 z-[9999] flex flex-col bg-white">
-            {/* Top bar */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
-              <div className="flex items-center gap-3">
-                <img src={brandLogo} className="h-8 w-auto" alt="NexOps" />
-                <span className="font-extrabold text-slate-900 text-xl tracking-tight">
-                  NexOps
-                </span>
-              </div>
-              <button
-                className="text-3xl text-slate-700"
-                onClick={closeMenu}
-                aria-label="Cerrar menú"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Banda título */}
-            <div className="px-6 py-3 border-b border-slate-200/80 text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">
-              NexOps Menu
-            </div>
-
-            {/* Links */}
-            <nav className="flex-1 flex flex-col px-6 py-4 text-lg text-slate-800 gap-1">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className="py-3 border-b border-slate-200/60"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-          </div>,
-          document.body
-        )}
+      {open && (
+        <div className="nx-mobile-nav">
+          <nav aria-label="Navegación móvil">
+            {NAV_LINKS.map((link, index) => (
+              <a key={link.href} href={link.href} onClick={() => setOpen(false)}><span>0{index + 1}</span>{link.label}</a>
+            ))}
+            <a href="https://soporte.nexopstech.com" target="_blank" rel="noreferrer"><span>↗</span>Soporte</a>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
