@@ -129,7 +129,21 @@ export function validateCollection(articles) {
     errors.push(...result.errors); warnings.push(...result.warnings);
   }
   errors.push(...duplicateErrors(articles, "slug"));
-  errors.push(...duplicateErrors(articles, "sourceUrl", normalizeSourceUrl));
+
+  const sourceOwners = new Map();
+  for (const article of articles) {
+    if (!text(article?.sourceUrl)) continue;
+    const key = normalizeSourceUrl(article.sourceUrl);
+    if (!sourceOwners.has(key)) {
+      sourceOwners.set(key, article);
+      continue;
+    }
+    const previous = sourceOwners.get(key);
+    const message = `sourceUrl duplicado entre ${previous.slug} y ${article.slug}: ${article.sourceUrl}`;
+    if (previous.legacySanityId && article.legacySanityId) warnings.push(`legacy: ${message}`);
+    else errors.push(message);
+  }
+
   errors.push(...duplicateErrors(articles, "engineRunId"));
   errors.push(...duplicateErrors(articles, "topicFingerprint"));
   return { errors, warnings };
