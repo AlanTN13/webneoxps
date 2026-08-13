@@ -22,14 +22,13 @@ jobs:
           node-version: 24
       - name: Finalize Git-first runtime
         run: |
+          git checkout 4ca64f0317237ce890cb2307f462715e3e92d508 -- src/components/HowWeWork.jsx
           python - <<'PY'
           from pathlib import Path
-          contract = Path('src/data/news/contract.js')
-          text = contract.read_text()
-          old = 'const modules = import.meta.glob("./*.json", { eager: true, import: "default" });'
-          new = 'const modules = typeof import.meta.glob === "function"\n  ? import.meta.glob("./*.json", { eager: true, import: "default" })\n  : {};'
-          if old in text:
-              contract.write_text(text.replace(old, new))
+          eslint = Path('eslint.config.js')
+          text = eslint.read_text()
+          text = text.replace("varsIgnorePattern: '^[A-Z_]'", "varsIgnorePattern: '^(?:[A-Z_]|motion$)'")
+          eslint.write_text(text)
           Path('src/env.d.ts').write_text('/// <reference types="vite/client" />\n')
           PY
           rm -rf .sanity schemaTypes src/lib/sanity src/sanity
@@ -53,14 +52,15 @@ jobs:
           test "$(find dist/noticias -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 13
           grep -q 'application/ld+json' dist/noticias/gemini-3-supera-a-chatgpt-y-redefine-el-liderazgo-en-inteligencia-artificial/index.html
           grep -q '<urlset' dist/sitemap.xml
-      - name: Commit validated runtime cleanup
+      - name: Commit validated cleanup and remove temporary CI
         run: |
-          git add -A package-lock.json src/data/news/contract.js src/env.d.ts .sanity schemaTypes src/lib/sanity src/sanity sanity.cli.ts sanity.config.ts
+          rm -f .github/workflows/content-engine-ci.yml
+          git add -A package-lock.json src/data/news/contract.js src/env.d.ts eslint.config.js src/components/HowWeWork.jsx .sanity schemaTypes src/lib/sanity src/sanity sanity.cli.ts sanity.config.ts .github/workflows/content-engine-ci.yml
           if git diff --cached --quiet; then
             echo "Runtime already finalized"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: finalize Git-first news runtime"
+          git commit -m "chore: finalize validated Git-first news runtime"
           git push origin HEAD:codex/content-engine-v1
