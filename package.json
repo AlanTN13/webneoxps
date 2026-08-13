@@ -5,14 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run news:validate && node scripts/generate-sitemap.mjs && vite build",
+    "build": "npm run news:validate && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "studio": "sanity dev",
-    "news:add": "node scripts/add-news.mjs",
-    "news:validate": "node scripts/validate-news.mjs",
-    "news:test": "node --test scripts/news.test.mjs",
-    "news:import:sanity": "node scripts/import-sanity-news.mjs"
+    "news:add": "node scripts/news-add.mjs",
+    "news:validate": "node scripts/news-validate.mjs",
+    "news:test": "node --test tests/news/content-engine.test.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^4.0.3",
