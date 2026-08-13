@@ -4,11 +4,10 @@ import { detectAddAction } from "./news-contract.mjs";
 import { readNewsFiles } from "./news-validate.mjs";
 
 const argv = process.argv.slice(2);
-const printJson = argv.includes("--print");
 const source = argv.find((arg) => !arg.startsWith("--"));
 
 if (!source) {
-  console.error("Uso: npm run news:add -- <archivo.json> [--print]");
+  console.error("Uso: npm run news:add -- <archivo.json>");
   process.exit(1);
 }
 
@@ -18,20 +17,19 @@ try {
   const existing = await readNewsFiles();
   const result = detectAddAction(existing, candidate);
 
-  for (const warning of result.warnings || []) console.warn(`WARN ${warning}`);
-
-  if (result.action === "conflict") {
-    for (const error of result.errors) console.error(`ERROR ${error}`);
+  if (result.action !== "add") {
+    for (const error of result.errors || []) console.error(`ERROR ${error}`);
     process.exit(1);
   }
 
-  if (result.action === "noop") {
-    console.log(`news:add NOOP — ${result.article.slug} ya existe con el mismo contenido`);
-    process.exit(0);
-  }
-
-  console.log(`news:add ADD — candidato válido para src/data/news/${result.article.slug}.json`);
-  if (printJson) console.log(JSON.stringify(result.article, null, 2));
+  const newsDir = path.resolve("src/data/news");
+  await fs.mkdir(newsDir, { recursive: true });
+  const destination = path.join(newsDir, `${candidate.slug}.json`);
+  await fs.writeFile(destination, `${JSON.stringify(candidate, null, 2)}\n`, {
+    encoding: "utf8",
+    flag: "wx",
+  });
+  console.log(`news:add OK — ${path.relative(process.cwd(), destination)}`);
 } catch (error) {
   console.error(`news:add ERROR — ${error.message}`);
   process.exit(1);
