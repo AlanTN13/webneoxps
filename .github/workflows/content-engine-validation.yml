@@ -1,0 +1,37 @@
+name: Content Engine Validation
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Validate news contract
+        run: npm run news:validate
+      - name: Dry-run fixture
+        run: node scripts/news-check.mjs tests/news/fixtures/dry-run-evergreen.json
+      - name: Run content tests
+        run: npm run news:test
+      - name: Lint
+        run: npm run lint
+      - name: Build and generate SEO artifacts
+        run: npm run build
+      - name: Assert SEO output
+        run: |
+          test -f dist/noticias/index.html
+          test -f dist/sitemap.xml
+          test -f dist/robots.txt
+          test "$(find dist/noticias -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 13
+          grep -q 'application/ld+json' dist/noticias/gemini-3-supera-a-chatgpt-y-redefine-el-liderazgo-en-inteligencia-artificial/index.html
+          grep -q '<urlset' dist/sitemap.xml
