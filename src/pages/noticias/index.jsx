@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import NewsVisual from "../../components/NewsVisual";
 import {
-  CONTENT_TYPES,
+  CONTENT_PURPOSES,
   formatNewsDate,
-  getContentTypeLabel,
+  getNewsPurposeLabel,
   getNewsLabel,
   newsPosts,
 } from "../../data/news/contract";
 
 export default function Noticias() {
-  const [activeType, setActiveType] = useState("all");
-  const availableTypes = useMemo(
-    () => Object.keys(CONTENT_TYPES).filter((type) => newsPosts.some((post) => post.contentType === type)),
+  const [activePurpose, setActivePurpose] = useState("all");
+  const availablePurposes = useMemo(
+    () => Object.keys(CONTENT_PURPOSES).filter((purpose) => newsPosts.some((post) => post.contentPurpose === purpose)),
     [],
   );
-  const visiblePosts = activeType === "all" ? newsPosts : newsPosts.filter((post) => post.contentType === activeType);
+  const visiblePosts = activePurpose === "all" ? newsPosts : newsPosts.filter((post) => post.contentPurpose === activePurpose);
 
   return (
     <Layout>
@@ -29,17 +29,17 @@ export default function Noticias() {
               Criterio práctico para automatizar, vender y operar mejor
             </h1>
             <p className="mt-3 max-w-2xl text-sm text-slate-600 sm:text-base">
-              Actualidad, guías y análisis sobre automatización, IA, CRM y datos con foco en impacto empresarial.
+              Guías para resolver problemas, actualidad aplicada, criterio NexOps y casos concretos sobre automatización, IA, CRM y datos.
             </p>
 
-            {availableTypes.length > 0 && (
+            {availablePurposes.length > 0 && (
               <div className="mt-5 flex flex-wrap gap-2" aria-label="Filtrar insights">
-                <button type="button" onClick={() => setActiveType("all")} className={`rounded-full border px-3 py-1 text-xs font-medium transition ${activeType === "all" ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"}`}>
+                <button type="button" onClick={() => setActivePurpose("all")} className={`rounded-full border px-3 py-1 text-xs font-medium transition ${activePurpose === "all" ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"}`}>
                   Todos
                 </button>
-                {availableTypes.map((type) => (
-                  <button key={type} type="button" onClick={() => setActiveType(type)} className={`rounded-full border px-3 py-1 text-xs font-medium transition ${activeType === type ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"}`}>
-                    {getContentTypeLabel(type)}
+                {availablePurposes.map((purpose) => (
+                  <button key={purpose} type="button" onClick={() => setActivePurpose(purpose)} className={`rounded-full border px-3 py-1 text-xs font-medium transition ${activePurpose === purpose ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"}`} title={CONTENT_PURPOSES[purpose].description}>
+                    {CONTENT_PURPOSES[purpose].label}
                   </button>
                 ))}
               </div>
@@ -57,7 +57,7 @@ export default function Noticias() {
                   </Link>
                   <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-6">
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
-                      <span>{getContentTypeLabel(post.contentType)}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time>
+                      <span>{getNewsPurposeLabel(post)}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time>
                     </div>
                     <Link to={`/noticias/${post.slug}`} className="mt-2 inline-block">
                       <h2 className="text-base font-semibold text-slate-900 transition-colors group-hover:text-indigo-600 sm:text-lg">{post.title}</h2>

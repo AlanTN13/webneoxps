@@ -5,7 +5,7 @@ import NewsContent from "../../components/NewsContent";
 import NewsVisual from "../../components/NewsVisual";
 import {
   formatNewsDate,
-  getContentTypeLabel,
+  getNewsPurposeLabel,
   getNewsCta,
   getNewsLabel,
   getNewsPostBySlug,
@@ -40,7 +40,7 @@ export default function Detalle() {
 
         <header className="mt-6 max-w-3xl">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-            <span>{getContentTypeLabel(post.contentType)}</span><span aria-hidden="true">·</span><span>{getNewsLabel(post)}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time>
+            <span>{getNewsPurposeLabel(post)}</span><span aria-hidden="true">·</span><span>{getNewsLabel(post)}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time>
           </div>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">{post.title}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-600 sm:text-xl">{post.excerpt}</p>
@@ -81,7 +81,7 @@ export default function Detalle() {
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {related.map((item) => (
                 <Link key={item.slug} to={`/noticias/${item.slug}`} className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-indigo-200 hover:shadow-sm">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{getContentTypeLabel(item.contentType)}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{getNewsPurposeLabel(item)}</p>
                   <h3 className="mt-2 text-base font-semibold leading-snug text-slate-900">{item.title}</h3>
                 </Link>
               ))}

@@ -16,7 +16,8 @@ Cada pieza publicada vive en `src/data/news/<slug>.json`. El frontend la incorpo
 
 - `title`: título editorial.
 - `slug`: minúsculas, números y guiones para contenido nuevo.
-- `contentType`: `actualidad | guia | analisis`.
+- `contentType`: `actualidad | guia | analisis | caso`.
+- `contentPurpose`: `seo | actualidad | criterio | caso`. Es obligatorio para contenido nuevo.
 - `category`: categoría editorial.
 - `publishedAt`: fecha ISO.
 - `excerpt`: bajada; máximo 280 caracteres.
@@ -73,6 +74,7 @@ No se usa Portable Text ni HTML arbitrario.
   "title": "Cómo automatizar el seguimiento de leads sin perder trazabilidad",
   "slug": "automatizar-seguimiento-leads",
   "contentType": "guia",
+  "contentPurpose": "seo",
   "territory": "crm-automatizacion-comercial",
   "category": "crm",
   "publishedAt": "2026-08-13",
@@ -134,6 +136,23 @@ El dedupe compara como mínimo:
 - `topicFingerprint`
 
 Los 13 posts históricos migrados desde Sanity conservan sus slugs y fuentes existentes. Una colisión histórica de `sourceUrl` entre dos piezas legacy se mantiene como compatibilidad; una pieza nueva que repita una fuente existente se rechaza.
+
+## Arquitectura editorial
+
+`contentPurpose` es la clasificación principal y responde para qué se publica: `seo` (que nos encuentren), `actualidad` (traducir cambios), `criterio` (mostrar cómo pensamos) y `caso` (visualizar una solución). Los labels públicos son **Guías y problemas**, **Actualidad aplicada**, **Criterio NexOps** y **Casos y aplicaciones**.
+
+`contentType` sigue describiendo la forma (`actualidad | guia | analisis | caso`) y `territory` el área de NexOps. No son dimensiones intercambiables.
+
+Compatibilidad: `contentPurpose` puede faltar sólo cuando existe `legacySanityId`. Los 13 migrados no se clasifican por inferencia porque hacerlo sin revisión editorial sería dudoso. Todo contenido nuevo, manual o del Radar, debe declararlo.
+
+## Contrato del Radar externo
+
+- SEO: `keyword -> intención -> problema -> servicio`. Si no puede declarar los cuatro, no genera.
+- Actualidad: `cambio externo -> impacto empresarial`. Si no responde “¿qué cambia para una empresa?”, no genera.
+- Criterio: nace de una postura, aprendizaje o principio NexOps; no requiere noticia.
+- Casos: `problema -> diseño/flujo -> automatización -> resultado`; puede ser patrón realista y nunca debe presentarse como cliente real sin autorización.
+
+La web sólo valida el resultado. No busca, puntúa, genera ni agenda.
 
 ## SEO
 

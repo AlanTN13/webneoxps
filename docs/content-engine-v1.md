@@ -18,7 +18,11 @@ Umbrales editoriales externos: 85–100 publicable si pasa gates, 70–84 oportu
 
 Cada insight vive en `src/data/news/<slug>.json`. El nombre debe coincidir con `slug`.
 
-Campos principales: `title`, `slug`, `contentType`, `category`, `publishedAt`, `excerpt`, `content`, `seoTitle`, `metaDescription`. Puede incluir `territory`, `primaryKeyword`, `searchIntent`, fuentes, CTA, relacionados e imagen.
+Campos principales: `title`, `slug`, `contentPurpose`, `contentType`, `category`, `publishedAt`, `excerpt`, `content`, `seoTitle`, `metaDescription`. Puede incluir `territory`, `primaryKeyword`, `searchIntent`, fuentes, CTA, relacionados e imagen.
+
+`contentPurpose` (`seo | actualidad | criterio | caso`) explica para qué existe la pieza y organiza los filtros de Insights. `contentType` (`actualidad | guia | analisis | caso`) explica cómo está escrita. `territory` explica sobre qué capacidad de NexOps habla. Sólo los 13 documentos con `legacySanityId` pueden omitir propósito; no se les asigna uno de forma especulativa.
+
+Las ocho piezas de definición editorial se publican como JSON reales con `generatedByEngine: false`, dos por propósito. Las piezas de actualidad citan sus fuentes primarias; ninguna inventa score ni run ID.
 
 Metadata externa permitida para auditoría: `engineScore`, `engineRunId`, `topicFingerprint`, `generatedByEngine` y una identidad de origen estable. La web puede almacenar el score pero no lo recalcula.
 
@@ -51,6 +55,10 @@ El build crea HTML estático para `/noticias` y cada `/noticias/:slug`, metadata
 ## Scheduler
 
 V1 no agenda corridas dentro de la web. La periodicidad diaria, cuando se active, vive en el radar externo y termina entregando un JSON validable/commiteable al repo.
+
+## Orígenes del Radar externo
+
+SEO exige keyword, intención, problema y servicio conectado. Actualidad exige un cambio verificable y una respuesta concreta a “qué cambia para una empresa”. Criterio parte de una postura NexOps. Casos parten de un problema operativo y muestran diseño, flujo y resultado. Estos gates están documentados, no implementados en la web.
 
 ## V2
 

@@ -1,4 +1,4 @@
-import { getContentTypeLabel, getTerritoryConfig } from "../data/news/contract";
+import { getNewsPurposeLabel, getTerritoryConfig } from "../data/news/contract";
 
 export default function NewsVisual({ post, className = "aspect-video", eager = false }) {
   const territory = getTerritoryConfig(post?.territory);
@@ -22,7 +22,7 @@ export default function NewsVisual({ post, className = "aspect-video", eager = f
       <div className="absolute right-8 top-8 h-20 w-20 rounded-full border border-white/10" />
       <div className="relative p-6 text-white sm:p-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">
-          {getContentTypeLabel(post?.contentType)}
+          {getNewsPurposeLabel(post)}
         </p>
         <p className="mt-2 max-w-md text-lg font-semibold leading-snug sm:text-xl">
           {post?.territory ? territory.label : post?.category || "NexOps Insights"}

@@ -1,8 +1,8 @@
-import {
-  CONTENT_TYPES,
-  TERRITORIES,
-  isKnownInternalRoute,
-} from "../src/data/news/contract.js";
+const CONTENT_TYPES = new Set(["actualidad", "guia", "analisis", "caso"]);
+const CONTENT_PURPOSES = new Set(["seo", "actualidad", "criterio", "caso"]);
+const TERRITORIES = new Set(["automatizacion-procesos", "ia-aplicada-empresas", "crm-automatizacion-comercial", "data-analytics"]);
+const INTERNAL_ROUTES = new Set(["/", "/noticias", "/servicios/data-engineering", "/servicios/data-visualization", "/servicios/ai-infrastructure", "/servicios/ai-agents", "/servicios/software-integrations", "/servicios/process-automation", "/servicios/frontend-ux"]);
+const isKnownInternalRoute = (href) => href?.startsWith("/noticias/") || INTERNAL_ROUTES.has(href?.split("#")[0].split("?")[0]);
 
 const HTTP_URL = /^https?:\/\//i;
 const LOWER_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -75,8 +75,10 @@ export function validateArticle(article, label = "noticia") {
     const pattern = article.legacySanityId ? LEGACY_SLUG : LOWER_SLUG;
     if (!pattern.test(article.slug)) errors.push(`${label}: slug inválido "${article.slug}"`);
   }
-  if (text(article.contentType) && !CONTENT_TYPES[article.contentType]) errors.push(`${label}: contentType inválido "${article.contentType}"`);
-  if (article.territory != null && (!text(article.territory) || !TERRITORIES[article.territory])) errors.push(`${label}: territory inválido "${String(article.territory)}"`);
+  if (text(article.contentType) && !CONTENT_TYPES.has(article.contentType)) errors.push(`${label}: contentType inválido "${article.contentType}"`);
+  if (!article.legacySanityId && !text(article.contentPurpose)) errors.push(`${label}: falta contentPurpose`);
+  if (article.contentPurpose != null && (!text(article.contentPurpose) || !CONTENT_PURPOSES.has(article.contentPurpose))) errors.push(`${label}: contentPurpose inválido "${String(article.contentPurpose)}"`);
+  if (article.territory != null && (!text(article.territory) || !TERRITORIES.has(article.territory))) errors.push(`${label}: territory inválido "${String(article.territory)}"`);
   if (text(article.publishedAt) && Number.isNaN(new Date(article.publishedAt).valueOf())) errors.push(`${label}: publishedAt debe ser fecha ISO válida`);
   if (text(article.seoTitle) && (article.seoTitle.length < 20 || article.seoTitle.length > 70)) errors.push(`${label}: seoTitle debe tener entre 20 y 70 caracteres`);
   if (text(article.metaDescription) && (article.metaDescription.length < 70 || article.metaDescription.length > 180)) errors.push(`${label}: metaDescription debe tener entre 70 y 180 caracteres`);
@@ -94,7 +96,7 @@ export function validateArticle(article, label = "noticia") {
     });
   }
   const sourceCount = (hasSourceUrl ? 1 : 0) + (Array.isArray(article.sources) ? article.sources.length : 0);
-  if (article.contentType === "actualidad" && sourceCount === 0) errors.push(`${label}: actualidad requiere al menos una fuente`);
+  if (article.contentPurpose === "actualidad" && sourceCount === 0) errors.push(`${label}: contentPurpose actualidad requiere al menos una fuente`);
 
   if (article.engineScore != null && (!Number.isInteger(article.engineScore) || article.engineScore < 0 || article.engineScore > 100)) errors.push(`${label}: engineScore debe ser entero 0-100 o null`);
   if (article.generatedByEngine != null && typeof article.generatedByEngine !== "boolean") errors.push(`${label}: generatedByEngine debe ser booleano`);

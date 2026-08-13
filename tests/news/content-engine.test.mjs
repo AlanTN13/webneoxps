@@ -11,6 +11,7 @@ const validArticle = {
   title: "Cómo automatizar el seguimiento de leads sin perder trazabilidad",
   slug: "automatizar-seguimiento-leads",
   contentType: "guia",
+  contentPurpose: "seo",
   territory: "crm-automatizacion-comercial",
   category: "crm",
   publishedAt: "2026-08-13",
@@ -30,14 +31,33 @@ test("valida una noticia Git-first sin imponer scoring editorial", () => {
   assert.deepEqual(validateArticle({ ...validArticle, engineScore: 72 }).errors, []);
 });
 
-test("actualidad requiere una fuente y content usa bloques simples", () => {
+test("actualidad aplicada requiere una fuente y content usa bloques simples", () => {
   const result = validateArticle({
     ...validArticle,
     contentType: "actualidad",
+    contentPurpose: "actualidad",
     content: [{ type: "list", items: [] }],
   });
   assert.ok(result.errors.some((error) => error.includes("requiere al menos una fuente")));
   assert.ok(result.errors.some((error) => error.includes("content[0].items")));
+});
+
+test("acepta los cuatro propósitos editoriales", () => {
+  for (const contentPurpose of ["seo", "actualidad", "criterio", "caso"]) {
+    const article = { ...validArticle, contentPurpose };
+    if (contentPurpose === "actualidad") Object.assign(article, { sourceName: "Fuente", sourceUrl: "https://example.com/fuente" });
+    assert.deepEqual(validateArticle(article).errors, []);
+  }
+});
+
+test("rechaza un propósito inválido y contenido nuevo sin propósito", () => {
+  assert.ok(validateArticle({ ...validArticle, contentPurpose: "promocion" }).errors.some((error) => error.includes("contentPurpose inválido")));
+  assert.ok(validateArticle({ ...validArticle, contentPurpose: undefined }).errors.some((error) => error.includes("falta contentPurpose")));
+});
+
+test("permite ausencia de propósito únicamente en contenido legacy", () => {
+  const { contentPurpose: _ignored, ...withoutPurpose } = validArticle;
+  assert.deepEqual(validateArticle({ ...withoutPurpose, legacySanityId: "legacy-1" }).errors, []);
 });
 
 test("dedupe rechaza slug, sourceUrl, engineRunId y topicFingerprint", () => {
@@ -63,6 +83,7 @@ test("loader lee una noticia por archivo y conserva el payload", async () => {
   const articles = await readNewsFiles(directory);
   assert.equal(articles.length, 1);
   assert.equal(articles[0].slug, validArticle.slug);
+  assert.equal(articles[0].contentPurpose, "seo");
   await fs.rm(directory, { recursive: true, force: true });
 });
 
