@@ -1,229 +1,144 @@
-import crypto from "node:crypto";
 import {
   CONTENT_TYPES,
-  INTERNAL_ROUTES,
-  SITE_URL,
   TERRITORIES,
   isKnownInternalRoute,
 } from "../src/data/news/contract.js";
 
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-const TRACKING_PARAMS = ["fbclid", "gclid", "mc_cid", "mc_eid"];
+const HTTP_URL = /^https?:\/\//i;
+const LOWER_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const LEGACY_SLUG = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/;
+const CONTENT_BLOCKS = new Set(["paragraph", "heading", "list", "quote", "link", "image"]);
 
-export function normalizeText(value = "") {
-  return String(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ").trim();
-}
-
-export function slugify(value = "") {
-  return normalizeText(value).replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-}
-
-export const normalizeTitle = normalizeText;
+const text = (value) => typeof value === "string" && value.trim().length > 0;
+const comparable = (value) => String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
 
 export function normalizeSourceUrl(value = "") {
   try {
     const url = new URL(value);
-    for (const key of [...url.searchParams.keys()]) {
-      const normalizedKey = key.toLowerCase();
-      if (normalizedKey.startsWith("utm_") || TRACKING_PARAMS.includes(normalizedKey)) url.searchParams.delete(key);
-    }
     url.hash = "";
-    return url.toString().replace(/\/$/, "");
+    if (url.pathname !== "/") url.pathname = url.pathname.replace(/\/+$/, "");
+    return url.toString().toLowerCase();
   } catch {
-    return String(value || "").trim();
+    return comparable(value);
   }
 }
 
-function sourceName(source) {
-  if (source?.name) return String(source.name).trim();
-  try { return new URL(source?.url).hostname; } catch { return "Fuente"; }
+function validateUrl(value, label) {
+  if (!text(value) || !HTTP_URL.test(value)) return [`${label} debe ser una URL http(s)`];
+  try { new URL(value); return []; } catch { return [`${label} debe ser una URL válida`]; }
 }
 
-function blockText(block) {
-  if (!block) return "";
-  if (typeof block === "string") return block;
-  if (Array.isArray(block)) return block.map(blockText).join(" ");
-  if (Array.isArray(block.children)) return block.children.map((child) => child?.text || "").join(" ");
-  return typeof block.text === "string" ? block.text : "";
-}
-
-export function articlePlainText(article) {
-  return [article.title, article.excerpt, ...(article.body || []).map(blockText)].filter(Boolean).join(" ");
-}
-
-export function contentHash(article) {
-  return crypto.createHash("sha256").update(normalizeText(articlePlainText(article))).digest("hex");
-}
-
-export function canonicalizeArticle(input = {}) {
-  const slug = slugify(input.slug || input.title || "");
-  const publishedAt = input.publishedAt || input.generatedAt || new Date().toISOString();
-  const sources = Array.isArray(input.sources)
-    ? input.sources.filter((source) => source?.url).map((source) => ({
-        name: sourceName(source),
-        url: normalizeSourceUrl(source.url),
-        type: source.type === "primary" ? "primary" : "secondary",
-      }))
-    : [];
-  return {
-    version: 1,
-    slug,
-    title: String(input.title || "").trim(),
-    excerpt: String(input.excerpt || "").trim(),
-    publishedAt,
-    updatedAt: input.updatedAt || undefined,
-    contentType: input.contentType,
-    territory: input.territory,
-    category: input.category || undefined,
-    primaryKeyword: String(input.primaryKeyword || "").trim(),
-    searchIntent: String(input.searchIntent || "informacional").trim(),
-    seoTitle: String(input.seoTitle || input.title || "").trim(),
-    metaDescription: String(input.metaDescription || input.excerpt || "").trim(),
-    canonicalUrl: input.canonicalUrl || `${SITE_URL}/noticias/${slug}`,
-    engineScore: Number.isFinite(input.engineScore) ? input.engineScore : null,
-    scoreBreakdown: input.scoreBreakdown || undefined,
-    engineRunId: input.engineRunId || undefined,
-    topicFingerprint: String(input.topicFingerprint || "").trim(),
-    originId: String(input.originId || "").trim(),
-    generatedByEngine: input.generatedByEngine === true,
-    generatedAt: input.generatedAt || publishedAt,
-    editorialRationale: input.editorialRationale || undefined,
-    sources,
-    mainImage: input.mainImage?.src ? { src: String(input.mainImage.src), alt: String(input.mainImage.alt || input.title || "") } : undefined,
-    body: Array.isArray(input.body) ? input.body : [],
-  };
-}
-
-const validDate = (value) => Boolean(value) && !Number.isNaN(new Date(value).getTime());
-
-export function validateArticle(article) {
+function validateContent(content) {
   const errors = [];
-  const warnings = [];
-  if (article.version !== 1) errors.push("version debe ser 1");
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug || "")) errors.push("slug inválido");
-  if (!article.title || article.title.length > 95) errors.push("title es obligatorio y debe tener hasta 95 caracteres");
-  if (!article.excerpt || article.excerpt.length > 220) errors.push("excerpt es obligatorio y debe tener hasta 220 caracteres");
-  if (!validDate(article.publishedAt)) errors.push("publishedAt debe ser una fecha válida");
-  if (!CONTENT_TYPES[article.contentType]) errors.push(`contentType inválido: ${article.contentType}`);
-  if (!TERRITORIES[article.territory]) errors.push(`territory inválido: ${article.territory}`);
-  if (!article.primaryKeyword) errors.push("primaryKeyword es obligatorio");
-  if (!article.searchIntent) errors.push("searchIntent es obligatorio");
-  if (!article.seoTitle || article.seoTitle.length > 70) errors.push("seoTitle es obligatorio y debe tener hasta 70 caracteres");
-  if (!article.metaDescription || article.metaDescription.length > 180) errors.push("metaDescription es obligatoria y debe tener hasta 180 caracteres");
-  if (!article.originId) errors.push("originId es obligatorio");
-  if (!article.topicFingerprint) errors.push("topicFingerprint es obligatorio");
-  if (!Array.isArray(article.body) || article.body.length === 0) errors.push("body debe contener contenido");
-  try {
-    const canonical = new URL(article.canonicalUrl);
-    if (!["nexopstech.com", "www.nexopstech.com"].includes(canonical.hostname)) errors.push("canonicalUrl debe apuntar a NexOps");
-  } catch { errors.push("canonicalUrl inválida"); }
-
-  if (article.generatedByEngine) {
-    if (!Number.isInteger(article.engineScore) || article.engineScore < 85 || article.engineScore > 100) errors.push("contenido automático publicable requiere engineScore entero entre 85 y 100");
-    if (!article.engineRunId) errors.push("contenido automático requiere engineRunId");
-    if (!validDate(article.generatedAt)) errors.push("contenido automático requiere generatedAt válido");
-    if (!article.editorialRationale?.audience || !article.editorialRationale?.outcome || !article.editorialRationale?.decision) errors.push("contenido automático requiere editorialRationale con audience, outcome y decision");
-    if (article.contentType === "actualidad") {
-      const uniqueSources = new Set(article.sources.map((source) => normalizeSourceUrl(source.url)));
-      const hasPrimary = article.sources.some((source) => source.type === "primary");
-      if (!hasPrimary && uniqueSources.size < 2) errors.push("actualidad automática requiere 2 fuentes independientes o 1 fuente primaria");
+  if (!Array.isArray(content) || content.length === 0) return ["content debe ser un array no vacío"];
+  content.forEach((block, index) => {
+    const label = `content[${index}]`;
+    if (!block || typeof block !== "object" || Array.isArray(block)) {
+      errors.push(`${label} debe ser un objeto`); return;
     }
-    if (article.mainImage?.src && /^https?:\/\//i.test(article.mainImage.src)) errors.push("contenido automático no puede reutilizar imágenes remotas; omitir mainImage o usar un asset local");
-    if (article.metaDescription.length < 70) warnings.push("metaDescription automática es corta para SEO (<70 caracteres)");
-  }
-
-  for (const source of article.sources) {
-    try {
-      const url = new URL(source.url);
-      if (!["http:", "https:"].includes(url.protocol)) throw new Error("scheme");
-    } catch { errors.push(`fuente inválida: ${source.url}`); }
-  }
-  for (const block of article.body || []) {
-    for (const mark of block?.markDefs || []) {
-      if (mark?.href?.startsWith("/") && !isKnownInternalRoute(mark.href)) errors.push(`link interno inexistente o no permitido: ${mark.href}`);
+    if (!CONTENT_BLOCKS.has(block.type)) {
+      errors.push(`${label}.type inválido: ${String(block.type)}`); return;
     }
-  }
-  return { errors, warnings };
+    if (block.type === "list") {
+      if (!Array.isArray(block.items) || block.items.length === 0 || block.items.some((item) => !text(item))) errors.push(`${label}.items debe ser un array no vacío de textos`);
+      if (block.ordered != null && typeof block.ordered !== "boolean") errors.push(`${label}.ordered debe ser booleano`);
+      return;
+    }
+    if (block.type === "heading") {
+      if (!text(block.text)) errors.push(`${label}.text es obligatorio`);
+      if (block.level != null && ![2, 3].includes(block.level)) errors.push(`${label}.level debe ser 2 o 3`);
+      return;
+    }
+    if (block.type === "link") {
+      if (!text(block.text)) errors.push(`${label}.text es obligatorio`);
+      if (!text(block.href) || (!block.href.startsWith("/") && !HTTP_URL.test(block.href))) errors.push(`${label}.href debe ser ruta interna o URL http(s)`);
+      if (block.href?.startsWith("/") && !isKnownInternalRoute(block.href)) errors.push(`${label}.href apunta a una ruta interna desconocida`);
+      return;
+    }
+    if (block.type === "image") {
+      if (!text(block.src)) errors.push(`${label}.src es obligatorio`);
+      return;
+    }
+    if (!text(block.text)) errors.push(`${label}.text es obligatorio`);
+  });
+  return errors;
 }
 
-function duplicateMessages(articles, keyFn, label) {
-  const seen = new Map();
-  const messages = [];
-  for (const article of articles) {
-    const key = keyFn(article);
-    if (!key) continue;
-    if (seen.has(key)) messages.push(`${label} duplicado entre ${seen.get(key)} y ${article.slug}: ${key}`);
-    else seen.set(key, article.slug);
-  }
-  return messages;
-}
-
-function rollingWindowErrors(articles) {
-  const generated = articles.filter((article) => article.generatedByEngine && validDate(article.publishedAt));
-  for (const article of generated) {
-    const end = new Date(article.publishedAt).getTime();
-    const start = end - WEEK_MS;
-    const count = generated.filter((candidate) => {
-      const value = new Date(candidate.publishedAt).getTime();
-      return value >= start && value <= end;
-    }).length;
-    if (count > 3) return [`límite excedido: ${count} publicaciones automáticas en ventana móvil de 7 días terminada ${article.publishedAt}`];
-  }
-  return [];
-}
-
-function newsLinkErrors(articles) {
-  const slugs = new Set(articles.map((article) => article.slug));
+export function validateArticle(article, label = "noticia") {
   const errors = [];
+  if (!article || typeof article !== "object" || Array.isArray(article)) return { errors: [`${label}: debe ser un objeto JSON`], warnings: [] };
+  for (const field of ["title", "slug", "contentType", "category", "publishedAt", "excerpt", "seoTitle", "metaDescription"]) {
+    if (!text(article[field])) errors.push(`${label}: falta ${field}`);
+  }
+
+  if (text(article.slug)) {
+    const pattern = article.legacySanityId ? LEGACY_SLUG : LOWER_SLUG;
+    if (!pattern.test(article.slug)) errors.push(`${label}: slug inválido "${article.slug}"`);
+  }
+  if (text(article.contentType) && !CONTENT_TYPES[article.contentType]) errors.push(`${label}: contentType inválido "${article.contentType}"`);
+  if (article.territory != null && (!text(article.territory) || !TERRITORIES[article.territory])) errors.push(`${label}: territory inválido "${String(article.territory)}"`);
+  if (text(article.publishedAt) && Number.isNaN(new Date(article.publishedAt).valueOf())) errors.push(`${label}: publishedAt debe ser fecha ISO válida`);
+  if (text(article.seoTitle) && (article.seoTitle.length < 20 || article.seoTitle.length > 70)) errors.push(`${label}: seoTitle debe tener entre 20 y 70 caracteres`);
+  if (text(article.metaDescription) && (article.metaDescription.length < 70 || article.metaDescription.length > 180)) errors.push(`${label}: metaDescription debe tener entre 70 y 180 caracteres`);
+  if (text(article.excerpt) && article.excerpt.length > 280) errors.push(`${label}: excerpt no debe superar 280 caracteres`);
+
+  const hasSourceName = text(article.sourceName);
+  const hasSourceUrl = text(article.sourceUrl);
+  if (hasSourceName !== hasSourceUrl) errors.push(`${label}: sourceName y sourceUrl deben declararse juntos`);
+  if (hasSourceUrl) errors.push(...validateUrl(article.sourceUrl, `${label}: sourceUrl`));
+  if (article.sources != null) {
+    if (!Array.isArray(article.sources)) errors.push(`${label}: sources debe ser array`);
+    else article.sources.forEach((source, index) => {
+      if (!source || typeof source !== "object" || !text(source.name)) errors.push(`${label}: sources[${index}].name es obligatorio`);
+      else errors.push(...validateUrl(source.url, `${label}: sources[${index}].url`));
+    });
+  }
+  const sourceCount = (hasSourceUrl ? 1 : 0) + (Array.isArray(article.sources) ? article.sources.length : 0);
+  if (article.contentType === "actualidad" && sourceCount === 0) errors.push(`${label}: actualidad requiere al menos una fuente`);
+
+  if (article.engineScore != null && (!Number.isInteger(article.engineScore) || article.engineScore < 0 || article.engineScore > 100)) errors.push(`${label}: engineScore debe ser entero 0-100 o null`);
+  if (article.generatedByEngine != null && typeof article.generatedByEngine !== "boolean") errors.push(`${label}: generatedByEngine debe ser booleano`);
+  for (const field of ["topicFingerprint", "engineRunId", "primaryKeyword", "searchIntent", "coverImage", "legacySanityId"]) {
+    if (article[field] != null && !text(article[field])) errors.push(`${label}: ${field} debe ser texto no vacío cuando está presente`);
+  }
+  if (article.relatedSlugs != null && (!Array.isArray(article.relatedSlugs) || article.relatedSlugs.some((slug) => !text(slug)))) errors.push(`${label}: relatedSlugs debe ser array de slugs`);
+  if (article.cta != null) {
+    if (!article.cta || typeof article.cta !== "object" || !text(article.cta.label) || !text(article.cta.href)) errors.push(`${label}: cta requiere label y href`);
+    else if (article.cta.href.startsWith("/") && !isKnownInternalRoute(article.cta.href)) errors.push(`${label}: cta.href apunta a ruta interna desconocida`);
+  }
+  errors.push(...validateContent(article.content).map((error) => `${label}: ${error}`));
+  return { errors, warnings: [] };
+}
+
+function duplicateErrors(articles, field, normalize = comparable) {
+  const seen = new Map(); const errors = [];
   for (const article of articles) {
-    for (const block of article.body || []) {
-      for (const mark of block?.markDefs || []) {
-        const href = mark?.href;
-        if (!href?.startsWith("/noticias/")) continue;
-        const slug = href.replace(/^\/noticias\//, "").split(/[?#]/)[0];
-        if (slug && !slugs.has(slug)) errors.push(`link a insight inexistente en ${article.slug}: ${href}`);
-      }
-    }
+    const raw = article?.[field];
+    if (!text(raw)) continue;
+    const key = normalize(raw);
+    if (seen.has(key)) errors.push(`${field} duplicado entre ${seen.get(key)} y ${article.slug}: ${raw}`);
+    else seen.set(key, article.slug || "<sin-slug>");
   }
   return errors;
 }
 
 export function validateCollection(articles) {
-  const errors = [];
-  const warnings = [];
+  const errors = []; const warnings = [];
   for (const article of articles) {
-    const result = validateArticle(article);
-    errors.push(...result.errors.map((error) => `${article.slug || "<sin-slug>"}: ${error}`));
-    warnings.push(...result.warnings.map((warning) => `${article.slug || "<sin-slug>"}: ${warning}`));
+    const result = validateArticle(article, article?.slug || "<sin-slug>");
+    errors.push(...result.errors); warnings.push(...result.warnings);
   }
-  errors.push(...duplicateMessages(articles, (article) => article.slug, "slug"));
-  errors.push(...duplicateMessages(articles, (article) => normalizeTitle(article.title), "título normalizado"));
-  errors.push(...duplicateMessages(articles, (article) => article.originId, "originId"));
-  errors.push(...duplicateMessages(articles, (article) => article.topicFingerprint, "topicFingerprint"));
-  errors.push(...duplicateMessages(articles.filter((article) => article.generatedByEngine), (article) => article.engineRunId, "engineRunId"));
-  errors.push(...duplicateMessages(articles, (article) => contentHash(article), "contenido"));
-  warnings.push(...duplicateMessages(articles, (article) => {
-    const source = article.sources.find((item) => item.type === "primary") || article.sources[0];
-    return source?.url ? normalizeSourceUrl(source.url) : "";
-  }, "sourceUrl (revisar dedupe)"));
-  errors.push(...rollingWindowErrors(articles));
-  errors.push(...newsLinkErrors(articles));
+  errors.push(...duplicateErrors(articles, "slug"));
+  errors.push(...duplicateErrors(articles, "sourceUrl", normalizeSourceUrl));
+  errors.push(...duplicateErrors(articles, "engineRunId"));
+  errors.push(...duplicateErrors(articles, "topicFingerprint"));
   return { errors, warnings };
 }
 
 export function detectAddAction(existingArticles, candidate) {
-  const normalized = canonicalizeArticle(candidate);
-  const validation = validateArticle(normalized);
-  if (validation.errors.length) return { action: "conflict", article: normalized, ...validation };
-  const exact = existingArticles.find((article) => article.slug === normalized.slug || article.originId === normalized.originId || article.topicFingerprint === normalized.topicFingerprint || normalizeTitle(article.title) === normalizeTitle(normalized.title) || contentHash(article) === contentHash(normalized));
-  if (exact) {
-    if (contentHash(exact) === contentHash(normalized)) return { action: "noop", article: normalized, existing: exact, errors: [], warnings: validation.warnings };
-    return { action: "conflict", article: normalized, existing: exact, errors: [`colisión de dedupe con ${exact.slug}: identidad editorial ya existente`], warnings: validation.warnings };
-  }
-  const collection = validateCollection([...existingArticles, normalized]);
-  return collection.errors.length ? { action: "conflict", article: normalized, errors: collection.errors, warnings: collection.warnings } : { action: "add", article: normalized, errors: [], warnings: collection.warnings };
-}
-
-export function contractSummary() {
-  return { siteUrl: SITE_URL, contentTypes: Object.keys(CONTENT_TYPES), territories: Object.keys(TERRITORIES), internalRoutes: INTERNAL_ROUTES };
+  const validation = validateArticle(candidate, candidate?.slug || "candidato");
+  if (validation.errors.length) return { action: "conflict", article: candidate, ...validation };
+  const result = validateCollection([...existingArticles, candidate]);
+  if (result.errors.length) return { action: "conflict", article: candidate, errors: result.errors, warnings: result.warnings };
+  return { action: "add", article: candidate, errors: [], warnings: result.warnings };
 }
