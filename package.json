@@ -8,7 +8,11 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "studio": "sanity dev"
+    "studio": "sanity dev",
+    "news:add": "node scripts/news-add.mjs",
+    "news:validate": "node scripts/news-validate.mjs",
+    "news:migrate:sanity": "node scripts/news-migrate-sanity.mjs",
+    "test:news": "node --test tests/news/*.test.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^4.0.3",
