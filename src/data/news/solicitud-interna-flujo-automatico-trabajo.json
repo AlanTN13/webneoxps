@@ -19,11 +19,46 @@
     {
       "type": "heading",
       "level": 2,
+      "text": "La situación inicial"
+    },
+    {
+      "type": "paragraph",
+      "text": "Un área comercial pide acceso a una herramienta por correo. Operaciones solicita una compra en un chat. Administración recibe por WhatsApp una consulta que debería resolver Tecnología. Cada persona usa el canal que tiene más a mano y luego intenta reconstruir el seguimiento con mensajes, recordatorios y una planilla propia."
+    },
+    {
+      "type": "paragraph",
+      "text": "El problema no es solamente que algún pedido pueda perderse. Tampoco existe una forma común de distinguir urgencia de importancia, saber qué información falta, medir cuánto tarda cada tipo de solicitud o identificar dónde se acumulan los bloqueos. Quien pide algo pregunta varias veces por el estado; quien coordina dedica tiempo a buscar conversaciones y reenviarlas."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El problema operativo que hay que resolver"
+    },
+    {
+      "type": "paragraph",
+      "text": "Antes de elegir una herramienta, conviene definir qué significa una solicitud válida y qué compromiso asume la organización al recibirla. El objetivo del diseño es que cada pedido tenga identidad, contexto suficiente, prioridad entendible, un responsable visible, un estado y una próxima acción. La automatización debe sostener ese acuerdo operativo, no esconder su ausencia."
+    },
+    {
+      "type": "heading",
+      "level": 2,
       "text": "Unificar el ingreso"
     },
     {
       "type": "paragraph",
-      "text": "El primer paso es definir una puerta de entrada clara. Puede ser un formulario, un portal o un canal existente conectado a una automatización. El objetivo es convertir cada pedido en una unidad de trabajo identificable."
+      "text": "El primer paso es definir una puerta de entrada clara. Puede ser un formulario, un portal o un canal existente conectado a una automatización. El objetivo es convertir cada pedido en una unidad de trabajo identificable, sin obligar a reemplazar de golpe todos los hábitos y herramientas de la empresa."
+    },
+    {
+      "type": "paragraph",
+      "text": "Al ingresar, el sistema genera un número o enlace de seguimiento, registra quién solicita, cuándo lo hace, para qué área y por qué canal. También puede capturar adjuntos y relacionar el pedido con un cliente, proyecto, sucursal o centro de costo. Esa estructura mínima permite buscar el caso después y evita que su historia quede repartida entre bandejas personales."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Validar antes de poner el trabajo en marcha"
+    },
+    {
+      "type": "paragraph",
+      "text": "No todo mensaje contiene la información necesaria para empezar. Una compra puede requerir importe y centro de costo; un acceso, sistema y perfil; una incidencia, captura y nivel de impacto. La validación automática comprueba esos datos y, si falta algo, devuelve una solicitud concreta al originador en lugar de iniciar un intercambio abierto de mensajes."
     },
     {
       "type": "heading",
@@ -35,6 +70,10 @@
       "text": "Una vez recibida la solicitud, el sistema puede clasificarla por reglas simples: soporte, compras, tecnología, administración o comercial. Si el volumen lo justifica, una capa de IA puede ayudar a interpretar texto libre, pero las reglas de negocio siguen definiendo qué ocurre con cada categoría."
     },
     {
+      "type": "paragraph",
+      "text": "La clasificación no debería ser decorativa. Define el circuito posterior: qué datos se exigen, qué plazo orientativo corresponde, si hace falta aprobación y qué equipo puede resolver. Cuando una solicitud encaja en más de una categoría, conviene priorizar una cola de revisión antes que forzar una decisión automática difícil de corregir."
+    },
+    {
       "type": "heading",
       "level": 2,
       "text": "Asignar responsable"
@@ -44,13 +83,21 @@
       "text": "El sistema deriva automáticamente según área, tipo de solicitud o disponibilidad. Eso elimina la tarea de reenviar mensajes hasta encontrar a la persona correcta y hace visible la responsabilidad desde el comienzo."
     },
     {
+      "type": "paragraph",
+      "text": "La regla puede considerar sucursal, especialidad, carga actual o guardia. Además debe contemplar qué ocurre cuando alguien está ausente o no acepta el trabajo dentro de un plazo: reasignar, escalar o devolverlo a una cola compartida. La automatización sirve si evita que el pedido quede asignado formalmente a alguien que nunca lo verá."
+    },
+    {
       "type": "heading",
       "level": 2,
       "text": "Definir estados"
     },
     {
       "type": "paragraph",
-      "text": "Un flujo básico puede ser: nuevo → en revisión → en curso → bloqueado → resuelto. No hacen falta veinte estados; hacen falta los suficientes para entender qué está pasando. # De una solicitud interna a un flujo automático de trabajo — continuación"
+      "text": "Un flujo básico puede ser: nuevo → en revisión → en curso → bloqueado → resuelto. No hacen falta veinte estados; hacen falta los suficientes para entender qué está pasando. Cada transición debería expresar un cambio real y, cuando corresponda, guardar responsable, fecha y motivo."
+    },
+    {
+      "type": "paragraph",
+      "text": "“Bloqueado”, por ejemplo, no debería ser un estacionamiento indefinido. Puede exigir una causa —espera de información, aprobación, proveedor o dependencia interna— y una fecha de revisión. “Resuelto” puede requerir una breve descripción del resultado. Así el estado deja de ser una etiqueta y se convierte en una señal útil para operar."
     },
     {
       "type": "heading",
@@ -60,6 +107,10 @@
     {
       "type": "paragraph",
       "text": "No todo debería resolverse automáticamente. Algunos pedidos necesitan aprobación, información adicional o una decisión humana. El sistema debería detectar esas condiciones y llevarlas a la persona correcta sin romper el circuito."
+    },
+    {
+      "type": "paragraph",
+      "text": "Una excepción puede surgir por importe, riesgo, confidencialidad, falta de datos o conflicto entre reglas. En vez de sacar el caso del sistema y resolverlo por chat, el flujo crea una tarea de decisión, conserva el contexto y espera una respuesta explícita. Cuando llega la aprobación o corrección, retoma el recorrido desde el punto donde se detuvo."
     },
     {
       "type": "heading",
@@ -73,11 +124,24 @@
     {
       "type": "heading",
       "level": 2,
+      "text": "Seguimiento sin perseguir personas"
+    },
+    {
+      "type": "paragraph",
+      "text": "El sistema puede avisar al solicitante sólo en momentos útiles: recepción, pedido de información, cambio relevante y cierre. Del lado interno, puede recordar al responsable una próxima acción, alertar cuando vence un plazo o escalar una solicitud crítica que no tuvo movimiento. La cadencia debe evitar tanto el silencio como una lluvia de notificaciones que el equipo termine ignorando."
+    },
+    {
+      "type": "heading",
+      "level": 2,
       "text": "Medir"
     },
     {
       "type": "paragraph",
       "text": "Cuando todas las solicitudes pasan por el mismo flujo aparecen métricas útiles: cantidad de pedidos por área, tiempo de primera respuesta, tiempo total de resolución, solicitudes bloqueadas y carga por responsable."
+    },
+    {
+      "type": "paragraph",
+      "text": "También se puede medir cuántos pedidos vuelven por información incompleta, qué categorías concentran excepciones y cuánto tiempo se consume esperando aprobaciones frente al tiempo de trabajo efectivo. Esas métricas permiten mejorar el proceso: simplificar un formulario, cambiar una regla de asignación, sumar capacidad o eliminar una aprobación que no agrega control."
     },
     {
       "type": "heading",
@@ -104,11 +168,29 @@
     {
       "type": "heading",
       "level": 2,
+      "text": "Qué debe quedar humano"
+    },
+    {
+      "type": "paragraph",
+      "text": "Conviene mantener intervención humana en prioridades excepcionales, autorizaciones con impacto económico, conflictos entre áreas y casos donde el contexto pesa más que una regla. Una persona también debería poder corregir clasificación o responsable sin romper la trazabilidad. El objetivo no es eliminar criterio, sino reservarlo para los puntos donde realmente cambia el resultado."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El criterio NexOps"
+    },
+    {
+      "type": "paragraph",
+      "text": "En NexOps abordaríamos este caso empezando por un tipo de solicitud frecuente y suficientemente claro, no por todos los procesos internos a la vez. Mapearíamos entradas, reglas, responsables y excepciones; conectaríamos las herramientas que ya tienen valor; y pondríamos el primer flujo en operación con métricas concretas. Después se amplía sobre evidencia, no sobre supuestos."
+    },
+    {
+      "type": "heading",
+      "level": 2,
       "text": "El resultado esperado"
     },
     {
       "type": "paragraph",
-      "text": "El valor no es “tener un formulario”. Es lograr que cada pedido tenga un lugar, un responsable y un estado; que menos trabajo dependa de perseguir personas y que la empresa pueda ver dónde se acumula la fricción."
+      "text": "El valor no es “tener un formulario”. Es lograr que cada pedido tenga un lugar, un responsable y un estado; que menos trabajo dependa de perseguir personas y que la empresa pueda ver dónde se acumula la fricción. Para quien solicita, el proceso se vuelve previsible. Para quien resuelve, llega trabajo mejor definido. Para quien gestiona, aparecen capacidad, tiempos y bloqueos que antes estaban ocultos."
     }
   ],
   "cta": {
