@@ -1,0 +1,58 @@
+{
+  "title": "Meta acelera la carrera de IA contra OpenAI y Google",
+  "slug": "meta-acelera-la-carrera-de-ia-contra-openai-y-google",
+  "contentType": "actualidad",
+  "category": "Inteligencia Artificial",
+  "publishedAt": "2026-05-21T12:00:00.000Z",
+  "excerpt": "Meta intensifica su ofensiva en IA para integrarla en WhatsApp, Instagram, Facebook y su negocio publicitario.",
+  "seoTitle": "Meta acelera la carrera de IA contra OpenAI y Google",
+  "metaDescription": "Meta intensifica su ofensiva en IA para integrarla en WhatsApp, Instagram, Facebook y su negocio publicitario.",
+  "primaryKeyword": "meta acelera la carrera de ia contra openai y google",
+  "searchIntent": "informacional",
+  "sourceName": "Meta AI / YouTube",
+  "sourceUrl": "https://www.youtube.com/watch?v=i2w3V3sH_2s",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Meta volvió a mostrar que no piensa quedarse atrás en la carrera por la inteligencia artificial. La compañía acelera el desarrollo de nuevos modelos y busca llevar esas capacidades a sus productos más masivos, desde WhatsApp e Instagram hasta Facebook y su ecosistema publicitario."
+    },
+    {
+      "type": "paragraph",
+      "text": "La estrategia tiene lógica: si la IA se vuelve una interfaz cotidiana para descubrir contenido, vender, atender y crear campañas, la plataforma que controle ese punto de contacto gana una ventaja estructural."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "La batalla ya no es solo por el modelo"
+    },
+    {
+      "type": "paragraph",
+      "text": "En esta etapa, competir en IA no significa únicamente lanzar benchmarks más altos. También implica integrarla con rapidez en productos de uso diario y monetizarla dentro de flujos reales de negocio."
+    },
+    {
+      "type": "paragraph",
+      "text": "Meta busca fortalecer tres frentes al mismo tiempo:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "asistentes y generación de contenido en sus apps de consumo masivo,",
+        "mejores capacidades de segmentación y creatividad para anunciantes,",
+        "más tiempo de uso y más dependencia del usuario dentro de su ecosistema."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué significa para el mercado"
+    },
+    {
+      "type": "paragraph",
+      "text": "La competencia entre Meta, OpenAI y Google acelera la maduración del sector. Para las empresas, eso se traduce en más opciones, más velocidad de adopción y también más necesidad de elegir herramientas según casos de uso concretos, no solo por marca o tendencia."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/6e1e98b3533c2668cc050430037a725dc5d9a631-1200x675.png",
+  "legacySanityId": "nexops-news-2026-05-03-meta-guerra-ia",
+  "generatedByEngine": false
+}

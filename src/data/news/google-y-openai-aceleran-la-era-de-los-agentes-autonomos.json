@@ -1,0 +1,58 @@
+{
+  "title": "Google y OpenAI aceleran la era de los agentes autónomos",
+  "slug": "google-y-openai-aceleran-la-era-de-los-agentes-autonomos",
+  "contentType": "actualidad",
+  "category": "Automatización",
+  "publishedAt": "2026-05-20T16:00:00.000Z",
+  "excerpt": "Los nuevos agentes capaces de ejecutar tareas y operar sobre aplicaciones anticipan una nueva etapa para la automatización empresarial.",
+  "seoTitle": "Google y OpenAI aceleran la era de los agentes autónomos",
+  "metaDescription": "Los nuevos agentes capaces de ejecutar tareas y operar sobre aplicaciones anticipan una nueva etapa para la automatización empresarial.",
+  "primaryKeyword": "google y openai aceleran la era de los agentes autonomos",
+  "searchIntent": "informacional",
+  "sourceName": "Reuters / Google I/O 2026",
+  "sourceUrl": "https://www.reuters.com/technology/artificial-intelligence/googles-demis-hassabis-goes-offensive-2026-05-20/",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Los anuncios recientes de Google y OpenAI dejan una señal clara: la próxima frontera de la inteligencia artificial no es solo responder mejor, sino actuar. Los agentes capaces de ejecutar tareas, interactuar con aplicaciones y completar flujos enteros empiezan a salir del laboratorio."
+    },
+    {
+      "type": "paragraph",
+      "text": "Para el mundo empresarial, esto marca un salto importante. La automatización deja de depender únicamente de reglas rígidas y empieza a combinar contexto, lenguaje y ejecución sobre sistemas reales."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Del asistente al operador"
+    },
+    {
+      "type": "paragraph",
+      "text": "Un agente autónomo puede resumir información, tomar decisiones acotadas y luego ejecutar pasos dentro de una app o un proceso. Eso abre oportunidades en atención, ventas, backoffice, reporting y operaciones."
+    },
+    {
+      "type": "paragraph",
+      "text": "Las áreas con adopción más rápida probablemente sean:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "tareas repetitivas entre múltiples herramientas,",
+        "flujos donde hoy intervienen personas para copiar, validar o mover datos,",
+        "procesos con alto volumen y reglas relativamente estables."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Una oportunidad para automatizar mejor"
+    },
+    {
+      "type": "paragraph",
+      "text": "La novedad no elimina la necesidad de diseño. Para capturar valor real, las empresas tienen que definir límites, validaciones y métricas. Los agentes prometen más autonomía, pero el rendimiento sigue dependiendo de una buena arquitectura operativa."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/b015d6247903bdcb0b73b17491f504a320627a57-1200x675.png",
+  "legacySanityId": "nexops-news-2026-05-07-agentes-autonomos-google-openai",
+  "generatedByEngine": false
+}
