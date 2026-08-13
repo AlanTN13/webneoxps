@@ -55,7 +55,7 @@ jobs:
       - name: Commit validated cleanup and remove temporary CI
         run: |
           rm -f .github/workflows/content-engine-ci.yml
-          git add -A package-lock.json src/data/news/contract.js src/env.d.ts eslint.config.js src/components/HowWeWork.jsx .sanity schemaTypes src/lib/sanity src/sanity sanity.cli.ts sanity.config.ts .github/workflows/content-engine-ci.yml
+          git add -A
           if git diff --cached --quiet; then
             echo "Runtime already finalized"
             exit 0
