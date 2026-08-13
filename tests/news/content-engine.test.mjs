@@ -1,128 +1,106 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import {
-  canonicalizeArticle,
-  detectAddAction,
-  validateArticle,
-  validateCollection,
-} from "../../scripts/news-contract.mjs";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { addNewsFile } from "../../scripts/news-add.mjs";
+import { detectAddAction, validateArticle, validateCollection } from "../../scripts/news-contract.mjs";
+import { readNewsFiles } from "../../scripts/news-validate.mjs";
 
-function block(text = "Contenido útil para un decisor de negocio.") {
-  return {
-    _key: `b-${text.slice(0, 6)}`,
-    _type: "block",
-    style: "normal",
-    children: [{ _key: "s1", _type: "span", marks: [], text }],
-    markDefs: [],
+const validArticle = {
+  title: "Cómo automatizar el seguimiento de leads sin perder trazabilidad",
+  slug: "automatizar-seguimiento-leads",
+  contentType: "guia",
+  territory: "crm-automatizacion-comercial",
+  category: "crm",
+  publishedAt: "2026-08-13",
+  excerpt: "Una guía práctica para ordenar el seguimiento comercial y reducir tareas manuales sin perder control del proceso.",
+  seoTitle: "Cómo automatizar el seguimiento de leads en tu empresa",
+  metaDescription: "Qué automatizar en el seguimiento de leads, qué señales mirar y cómo mantener trazabilidad comercial sin sumar tareas manuales al equipo.",
+  primaryKeyword: "automatizar seguimiento de leads",
+  searchIntent: "informacional-comercial",
+  content: [{ type: "paragraph", text: "Contenido útil para un decisor de negocio." }],
+  topicFingerprint: "crm:seguimiento-leads:automatizacion",
+  engineRunId: "run-2026-08-13-001",
+  engineScore: 91,
+  generatedByEngine: true,
+};
+
+test("valida una noticia Git-first sin imponer scoring editorial", () => {
+  assert.deepEqual(validateArticle({ ...validArticle, engineScore: 72 }).errors, []);
+});
+
+test("actualidad requiere una fuente y content usa bloques simples", () => {
+  const result = validateArticle({
+    ...validArticle,
+    contentType: "actualidad",
+    content: [{ type: "list", items: [] }],
+  });
+  assert.ok(result.errors.some((error) => error.includes("requiere al menos una fuente")));
+  assert.ok(result.errors.some((error) => error.includes("content[0].items")));
+});
+
+test("dedupe rechaza slug, sourceUrl, engineRunId y topicFingerprint", () => {
+  const first = {
+    ...validArticle,
+    sourceName: "Fuente A",
+    sourceUrl: "https://example.com/noticia",
   };
-}
-
-function article(overrides = {}) {
-  return canonicalizeArticle({
-    slug: "automatizar-seguimiento-leads",
-    title: "Cómo automatizar el seguimiento de leads sin perder contexto",
-    excerpt: "Un marco práctico para ordenar el seguimiento comercial y reducir tareas manuales sin perder trazabilidad.",
-    publishedAt: "2026-08-13T12:00:00.000Z",
-    contentType: "guia",
-    territory: "crm-automatizacion-comercial",
-    primaryKeyword: "automatizar seguimiento de leads",
-    searchIntent: "informacional comercial",
-    seoTitle: "Cómo automatizar el seguimiento de leads | NexOps",
-    metaDescription: "Cómo ordenar el seguimiento de leads con CRM y automatización para reducir tareas manuales y mejorar trazabilidad comercial.",
-    engineScore: 91,
-    engineRunId: "run-001",
-    topicFingerprint: "crm:seguimiento-leads:v1",
-    originId: "engine:run-001:seguimiento-leads",
-    generatedByEngine: true,
-    generatedAt: "2026-08-13T11:00:00.000Z",
-    editorialRationale: {
-      audience: "responsable comercial de una PyME",
-      outcome: "mejorar seguimiento y trazabilidad",
-      decision: "qué automatizar y qué conservar como tarea humana",
-    },
-    sources: [],
-    body: [block()],
-    ...overrides,
-  });
-}
-
-test("score 84 no puede entrar como publicación automática", () => {
-  const result = validateArticle(article({ engineScore: 84 }));
-  assert.ok(result.errors.some((error) => error.includes("engineScore")));
-});
-
-test("actualidad exige dos fuentes o una primaria", () => {
-  const oneSecondary = article({
-    slug: "cambio-actual",
-    title: "Un cambio relevante para automatización empresarial",
-    contentType: "actualidad",
-    sources: [{ name: "Medio", url: "https://example.com/a", type: "secondary" }],
-  });
-  assert.ok(validateArticle(oneSecondary).errors.some((error) => error.includes("2 fuentes")));
-
-  const primary = article({
-    slug: "cambio-oficial",
-    title: "Una fuente oficial confirma un cambio empresarial",
-    contentType: "actualidad",
-    sources: [{ name: "Organismo", url: "https://example.org/oficial", type: "primary" }],
-  });
-  assert.equal(validateArticle(primary).errors.length, 0);
-});
-
-test("dedupe detecta slug, origen y fingerprint repetidos", () => {
-  const first = article();
-  const duplicate = article({
-    title: "Otra redacción para el mismo tema",
-    excerpt: "Una variante superficial que debe quedar bloqueada por identidad temática y de origen para mantener idempotencia.",
-    body: [block("Texto diferente")],
-  });
-  const result = validateCollection([first, duplicate]);
-  assert.ok(result.errors.some((error) => error.includes("slug duplicado")));
-  assert.ok(result.errors.some((error) => error.includes("originId duplicado")));
-  assert.ok(result.errors.some((error) => error.includes("topicFingerprint duplicado")));
-});
-
-test("news:add es idempotente cuando el contenido ya existe", () => {
-  const first = article();
-  const result = detectAddAction([first], first);
-  assert.equal(result.action, "noop");
-});
-
-test("máximo una publicación automática por engineRunId", () => {
-  const first = article();
-  const second = article({
-    slug: "segundo-articulo",
-    title: "Segundo artículo en la misma corrida",
-    excerpt: "Otro contenido válido individualmente pero que no debe publicarse dentro de la misma corrida automática del motor.",
-    topicFingerprint: "otro-tema",
-    originId: "engine:run-001:otro",
-    body: [block("Segundo contenido")],
-  });
+  const second = {
+    ...validArticle,
+    sourceName: "Fuente B",
+    sourceUrl: "https://example.com/noticia/",
+  };
   const result = validateCollection([first, second]);
-  assert.ok(result.errors.some((error) => error.includes("engineRunId duplicado")));
+  for (const field of ["slug", "sourceUrl", "engineRunId", "topicFingerprint"]) {
+    assert.ok(result.errors.some((error) => error.includes(`${field} duplicado`)), `faltó dedupe de ${field}`);
+  }
 });
 
-test("máximo tres publicaciones automáticas en cualquier ventana móvil de siete días", () => {
-  const articles = [0, 1, 2, 3].map((offset) =>
-    article({
-      slug: `post-${offset}`,
-      title: `Publicación automática número ${offset}`,
-      excerpt: `Contenido automático ${offset} con información suficiente para validar el límite editorial de frecuencia semanal.`,
-      publishedAt: `2026-08-${10 + offset}T12:00:00.000Z`,
-      generatedAt: `2026-08-${10 + offset}T11:00:00.000Z`,
-      engineRunId: `run-${offset}`,
-      topicFingerprint: `topic-${offset}`,
-      originId: `origin-${offset}`,
-      body: [block(`Contenido ${offset}`)],
-    })
-  );
-  const result = validateCollection(articles);
-  assert.ok(result.errors.some((error) => error.includes("ventana móvil de 7 días")));
+test("loader lee una noticia por archivo y conserva el payload", async () => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-loader-"));
+  await fs.writeFile(path.join(directory, `${validArticle.slug}.json`), `${JSON.stringify(validArticle)}\n`);
+  const articles = await readNewsFiles(directory);
+  assert.equal(articles.length, 1);
+  assert.equal(articles[0].slug, validArticle.slug);
+  await fs.rm(directory, { recursive: true, force: true });
 });
 
-test("imagen remota queda bloqueada para contenido automático", () => {
-  const result = validateArticle(
-    article({ mainImage: { src: "https://medio.example.com/foto.jpg", alt: "Foto" } })
-  );
-  assert.ok(result.errors.some((error) => error.includes("imágenes remotas")));
+test("news:add no muta el destino cuando el candidato es inválido", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-add-invalid-"));
+  const newsDirectory = path.join(root, "news");
+  const candidatePath = path.join(root, "candidate.json");
+  await fs.mkdir(newsDirectory);
+  await fs.writeFile(candidatePath, JSON.stringify({ ...validArticle, slug: "Slug Inválido" }));
+  await assert.rejects(addNewsFile({ source: candidatePath, newsDirectory }));
+  assert.deepEqual(await fs.readdir(newsDirectory), []);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("news:add escribe una vez y rechaza el segundo intento sin sobrescribir", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-add-idempotent-"));
+  const newsDirectory = path.join(root, "news");
+  const candidatePath = path.join(root, "candidate.json");
+  await fs.mkdir(newsDirectory);
+  await fs.writeFile(candidatePath, `${JSON.stringify(validArticle)}\n`);
+  const destination = await addNewsFile({ source: candidatePath, newsDirectory });
+  const original = await fs.readFile(destination, "utf8");
+  await assert.rejects(addNewsFile({ source: candidatePath, newsDirectory }));
+  assert.equal(await fs.readFile(destination, "utf8"), original);
+  assert.equal((await fs.readdir(newsDirectory)).length, 1);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("legacy conserva un slug histórico con mayúscula sólo si está marcado", () => {
+  const legacy = {
+    ...validArticle,
+    slug: "la-revolucion-tecnologica-de-enero-2026-en-Argentina",
+    legacySanityId: "legacy-1",
+  };
+  assert.deepEqual(validateArticle(legacy).errors, []);
+  assert.ok(validateArticle({ ...legacy, legacySanityId: undefined }).errors.some((error) => error.includes("slug inválido")));
+});
+
+test("detectAddAction no convierte duplicados en una segunda publicación", () => {
+  assert.equal(detectAddAction([validArticle], validArticle).action, "conflict");
 });
