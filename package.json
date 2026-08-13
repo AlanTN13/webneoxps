@@ -5,29 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run news:validate && vite build",
+    "build": "npm run news:validate && vite build && npm run news:seo",
     "lint": "eslint .",
     "preview": "vite preview",
-    "studio": "sanity dev",
     "news:add": "node scripts/news-add.mjs",
     "news:validate": "node scripts/news-validate.mjs",
     "news:test": "node --test tests/news/content-engine.test.mjs",
-    "test:news": "node --test tests/news/content-engine.test.mjs"
+    "news:seo": "node scripts/generate-news-seo.mjs"
   },
   "dependencies": {
-    "@portabletext/react": "^4.0.3",
-    "@sanity/client": "^7.12.0",
-    "@sanity/image-url": "^1.2.0",
-    "@sanity/vision": "^4.12.0",
     "framer-motion": "^12.23.12",
-    "groq": "^4.12.0",
     "lucide-react": "^0.544.0",
-    "next-sanity": "^11.6.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5",
     "rellax": "^1.12.1",
-    "sanity": "^4.12.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
