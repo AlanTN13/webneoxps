@@ -1,0 +1,120 @@
+{
+  "title": "De una solicitud interna a un flujo automático de trabajo",
+  "slug": "solicitud-interna-flujo-automatico-trabajo",
+  "contentPurpose": "caso",
+  "contentType": "caso",
+  "territory": "automatizacion-procesos",
+  "category": "Automatización",
+  "publishedAt": "2026-08-13",
+  "excerpt": "Caso aplicado para convertir pedidos dispersos en un flujo con ingreso, clasificación, responsables, estados, excepciones, seguimiento y métricas.",
+  "seoTitle": "De solicitud interna a flujo automático de trabajo",
+  "metaDescription": "Caso aplicado para convertir pedidos dispersos en un flujo con ingreso, clasificación, responsables, estados, excepciones, seguimiento y métricas.",
+  "primaryKeyword": "automatizar solicitudes internas",
+  "searchIntent": "comercial",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Imaginemos una empresa donde los pedidos internos llegan por mail, WhatsApp, planillas y mensajes directos. El resultado es conocido: solicitudes que se pierden, prioridades poco claras y poca visibilidad sobre qué está pendiente."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Unificar el ingreso"
+    },
+    {
+      "type": "paragraph",
+      "text": "El primer paso es definir una puerta de entrada clara. Puede ser un formulario, un portal o un canal existente conectado a una automatización. El objetivo es convertir cada pedido en una unidad de trabajo identificable."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Clasificar"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una vez recibida la solicitud, el sistema puede clasificarla por reglas simples: soporte, compras, tecnología, administración o comercial. Si el volumen lo justifica, una capa de IA puede ayudar a interpretar texto libre, pero las reglas de negocio siguen definiendo qué ocurre con cada categoría."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Asignar responsable"
+    },
+    {
+      "type": "paragraph",
+      "text": "El sistema deriva automáticamente según área, tipo de solicitud o disponibilidad. Eso elimina la tarea de reenviar mensajes hasta encontrar a la persona correcta y hace visible la responsabilidad desde el comienzo."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Definir estados"
+    },
+    {
+      "type": "paragraph",
+      "text": "Un flujo básico puede ser: nuevo → en revisión → en curso → bloqueado → resuelto. No hacen falta veinte estados; hacen falta los suficientes para entender qué está pasando. # De una solicitud interna a un flujo automático de trabajo — continuación"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Manejar excepciones"
+    },
+    {
+      "type": "paragraph",
+      "text": "No todo debería resolverse automáticamente. Algunos pedidos necesitan aprobación, información adicional o una decisión humana. El sistema debería detectar esas condiciones y llevarlas a la persona correcta sin romper el circuito."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Devolver visibilidad"
+    },
+    {
+      "type": "paragraph",
+      "text": "La persona que hizo la solicitud debería saber si fue recibida, quién la está trabajando y cuándo cambia de estado. Eso reduce muchos mensajes de seguimiento y evita depender de memoria o chats sueltos."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Medir"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cuando todas las solicitudes pasan por el mismo flujo aparecen métricas útiles: cantidad de pedidos por área, tiempo de primera respuesta, tiempo total de resolución, solicitudes bloqueadas y carga por responsable."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Arquitectura conceptual"
+    },
+    {
+      "type": "paragraph",
+      "text": "Solicitud → validación → clasificación → asignación → ejecución → seguimiento → cierre → métricas"
+    },
+    {
+      "type": "paragraph",
+      "text": "La solución puede apoyarse en herramientas existentes. No hace falta reemplazar todo el stack para ordenar el proceso."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué automatizar primero"
+    },
+    {
+      "type": "paragraph",
+      "text": "Tiene sentido automatizar creación del registro, clasificación cuando la regla es clara, asignación, avisos, recordatorios y reporting básico. Las decisiones ambiguas o sensibles siguen escalando a personas."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El resultado esperado"
+    },
+    {
+      "type": "paragraph",
+      "text": "El valor no es “tener un formulario”. Es lograr que cada pedido tenga un lugar, un responsable y un estado; que menos trabajo dependa de perseguir personas y que la empresa pueda ver dónde se acumula la fricción."
+    }
+  ],
+  "cta": {
+    "label": "Automatizar un proceso real",
+    "href": "/servicios/process-automation"
+  },
+  "topicFingerprint": "caso:automatizacion-procesos:solicitud-interna-flujo-automatico-trabajo",
+  "generatedByEngine": false
+}
