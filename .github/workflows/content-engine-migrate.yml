@@ -51,17 +51,11 @@ jobs:
               if (block?._type !== 'block') return null;
               return {
                 _key: block._key || `block-${index}`,
-                _type: 'block',
-                style: block.style || 'normal',
+                _type: 'block', style: block.style || 'normal',
                 ...(block.listItem ? { listItem: block.listItem } : {}),
                 ...(block.level ? { level: block.level } : {}),
-                children: (block.children || []).map((child, childIndex) => ({
-                  _key: child._key || `span-${index}-${childIndex}`,
-                  _type: 'span', marks: child.marks || [], text: child.text || ''
-                })),
-                markDefs: (block.markDefs || []).filter((mark) => mark?._type === 'link' && mark.href).map((mark, markIndex) => ({
-                  _key: mark._key || `link-${index}-${markIndex}`, _type: 'link', href: mark.href
-                }))
+                children: (block.children || []).map((child, childIndex) => ({ _key: child._key || `span-${index}-${childIndex}`, _type: 'span', marks: child.marks || [], text: child.text || '' })),
+                markDefs: (block.markDefs || []).filter((mark) => mark?._type === 'link' && mark.href).map((mark, markIndex) => ({ _key: mark._key || `link-${index}-${markIndex}`, _type: 'link', href: mark.href }))
               };
             }).filter(Boolean);
             return blocks.length ? blocks : [{ _key: 'legacy-fallback', _type: 'block', style: 'normal', children: [{ _key: 'legacy-fallback-span', _type: 'span', marks: [], text: fallback }], markDefs: [] }];
@@ -77,29 +71,13 @@ jobs:
               const publishedAt = post.publishedAt || post._createdAt;
               const excerpt = String(post.excerpt || `Análisis NexOps sobre ${post.title}.`).trim();
               const article = {
-                version: 1,
-                slug,
-                title: String(post.title || '').trim(),
-                excerpt,
-                publishedAt,
-                contentType: 'actualidad',
-                territory: inferTerritory(post),
-                ...(post.category ? { category: post.category } : {}),
-                primaryKeyword: slug.split('-').slice(0, 8).join(' '),
-                searchIntent: 'informacional',
-                seoTitle: String(post.title || '').trim().slice(0, 70),
-                metaDescription: excerpt.slice(0, 180),
-                canonicalUrl: `https://www.nexopstech.com/noticias/${slug}`,
-                engineScore: null,
-                topicFingerprint: `legacy:${slug}`,
-                originId: `sanity:${post._id}`,
-                generatedByEngine: false,
-                generatedAt: publishedAt,
-                sources: post.sourceUrl ? [{
-                  name: post.sourceName || 'Fuente original',
-                  url: String(post.sourceUrl).replace(/\/$/, ''),
-                  type: /argentina\.gob\.ar|arxiv\.org|youtube\.com/.test(post.sourceUrl) ? 'primary' : 'secondary'
-                }] : [],
+                version: 1, slug, title: String(post.title || '').trim(), excerpt, publishedAt,
+                contentType: 'actualidad', territory: inferTerritory(post), ...(post.category ? { category: post.category } : {}),
+                primaryKeyword: slug.split('-').slice(0, 8).join(' '), searchIntent: 'informacional',
+                seoTitle: String(post.title || '').trim().slice(0, 70), metaDescription: excerpt.slice(0, 180),
+                canonicalUrl: `https://www.nexopstech.com/noticias/${slug}`, engineScore: null,
+                topicFingerprint: `legacy:${slug}`, originId: `sanity:${post._id}`, generatedByEngine: false, generatedAt: publishedAt,
+                sources: post.sourceUrl ? [{ name: post.sourceName || 'Fuente original', url: String(post.sourceUrl).replace(/\/$/, ''), type: /argentina\.gob\.ar|arxiv\.org|youtube\.com/.test(post.sourceUrl) ? 'primary' : 'secondary' }] : [],
                 ...(post.mainImage?.asset?.url ? { mainImage: { src: post.mainImage.asset.url, alt: post.mainImage.alt || post.title } } : {}),
                 body: sanitizeBody(post.body, excerpt)
               };
@@ -117,12 +95,12 @@ jobs:
 
       - name: Commit migrated files
         run: |
-          if git diff --quiet -- src/data/news; then
+          git add src/data/news/*.json
+          if git diff --cached --quiet; then
             echo "No migration changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/news/*.json
           git commit -m "chore: migrate legacy news into content files"
           git push origin HEAD:codex/content-engine-v1
