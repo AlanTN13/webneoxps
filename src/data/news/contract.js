@@ -65,7 +65,9 @@ export function isKnownInternalRoute(href) {
   return INTERNAL_ROUTES.includes(path);
 }
 
-const modules = import.meta.glob("./*.json", { eager: true, import: "default" });
+const modules = typeof import.meta.glob === "function"
+  ? import.meta.glob("./*.json", { eager: true, import: "default" })
+  : {};
 export const newsPosts = Object.values(modules).sort(
   (a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
 );
