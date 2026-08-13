@@ -11,7 +11,8 @@
     "studio": "sanity dev",
     "news:add": "node scripts/news-add.mjs",
     "news:validate": "node scripts/news-validate.mjs",
-    "news:test": "node --test tests/news/content-engine.test.mjs"
+    "news:test": "node --test tests/news/content-engine.test.mjs",
+    "test:news": "node --test tests/news/content-engine.test.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^4.0.3",
