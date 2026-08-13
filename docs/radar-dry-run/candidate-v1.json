@@ -1,0 +1,64 @@
+{
+  "title": "WhatsApp con agentes de IA: qué cambia para ventas y CRM",
+  "slug": "whatsapp-agentes-ia-crm-leads-ventas",
+  "contentType": "actualidad",
+  "territory": "crm-automatizacion-comercial",
+  "category": "CRM",
+  "publishedAt": "2026-08-13",
+  "excerpt": "Los agentes de IA ya pueden participar en calificación y acciones comerciales dentro de canales empresariales. El valor real depende de cómo se conectan con CRM, reglas y seguimiento.",
+  "seoTitle": "WhatsApp con agentes de IA: impacto en ventas y CRM",
+  "metaDescription": "Qué cambia cuando WhatsApp incorpora agentes capaces de calificar leads y ejecutar acciones, y cómo preparar CRM, procesos y trazabilidad para aprovecharlo.",
+  "primaryKeyword": "agentes de IA para WhatsApp",
+  "searchIntent": "informacional-comercial",
+  "topicFingerprint": "crm:whatsapp:agentes-ia:calificacion-leads:ventas",
+  "engineScore": 94,
+  "generatedByEngine": true,
+  "engineRunId": "radar-2026-08-13-manual-001",
+  "sourceName": "Meta",
+  "sourceUrl": "https://about.fb.com/news/2026/06/meta-business-agent/",
+  "sources": [
+    {
+      "name": "Reuters",
+      "url": "https://www.reuters.com/business/meta-launches-enterprise-focused-ai-business-agent-automate-daily-operations-2026-06-03/"
+    }
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "El cambio importante no es sumar otro bot. Cuando un agente puede calificar una oportunidad o completar una acción, el canal de mensajería empieza a formar parte del proceso comercial."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué debería mirar una empresa"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "Qué datos necesita un lead antes de entrar al pipeline.",
+        "Qué acciones puede ejecutar el agente y cuáles requieren una persona.",
+        "Cómo queda registrada la conversación y la próxima acción en el CRM.",
+        "Qué métricas muestran si la automatización mejora conversión y no sólo velocidad."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El CRM sigue siendo la memoria comercial"
+    },
+    {
+      "type": "paragraph",
+      "text": "Si la información queda encerrada en el canal, la empresa sigue teniendo el mismo problema. El CRM debe conservar contexto, responsable, estado y próxima acción para que la automatización aumente capacidad sin perder control."
+    },
+    {
+      "type": "link",
+      "text": "Ver integraciones de sistemas",
+      "href": "/servicios/software-integrations"
+    }
+  ],
+  "cta": {
+    "label": "Ver integraciones de sistemas",
+    "href": "/servicios/software-integrations"
+  }
+}
