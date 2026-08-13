@@ -1,8 +1,9 @@
 export const SITE_URL = "https://www.nexopstech.com";
+export const FALLBACK_NEWS_IMAGE = "/nexops-sin-aire.png";
 
 export const CONTENT_TYPES = {
   actualidad: { label: "Actualidad" },
-  guia: { label: "Guías" },
+  guia: { label: "Guía" },
   analisis: { label: "Análisis" },
 };
 
@@ -63,3 +64,39 @@ export function isKnownInternalRoute(href) {
   const path = href.split("#")[0].split("?")[0];
   return INTERNAL_ROUTES.includes(path);
 }
+
+const modules = import.meta.glob("./*.json", { eager: true, import: "default" });
+export const newsPosts = Object.values(modules).sort(
+  (a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
+);
+export const getNewsPostBySlug = (slug) => newsPosts.find((post) => post.slug === slug) || null;
+export const formatNewsDate = (value) => new Intl.DateTimeFormat("es-AR", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+}).format(new Date(value.length === 10 ? `${value}T12:00:00Z` : value));
+export const getNewsLabel = (post) => post.territory ? getTerritoryConfig(post.territory).label : post.category || "Insight";
+export const getNewsSources = (post) => {
+  const items = [];
+  if (post.sourceName && post.sourceUrl) items.push({ name: post.sourceName, url: post.sourceUrl });
+  for (const source of post.sources || []) if (source?.url && !items.some((item) => item.url === source.url)) items.push(source);
+  return items;
+};
+export const getNewsCta = (post) => {
+  if (post.cta?.label && post.cta?.href) return post.cta;
+  if (post.territory) {
+    const territory = getTerritoryConfig(post.territory);
+    return { label: territory.ctaTitle, href: territory.servicePath, copy: territory.ctaCopy };
+  }
+  return { label: "Conocé cómo trabaja NexOps", href: "/#servicios", copy: "Automatización, integraciones e IA aplicadas a procesos reales de negocio." };
+};
+export const getRelatedNews = (post, limit = 3) => {
+  const preferred = newsPosts.filter((item) => item.slug !== post.slug && ((post.territory && item.territory === post.territory) || item.category === post.category));
+  const rest = newsPosts.filter((item) => item.slug !== post.slug && !preferred.some((candidate) => candidate.slug === item.slug));
+  return [...preferred, ...rest].slice(0, limit);
+};
+export const absoluteAssetUrl = (value) => {
+  if (!value) return `${SITE_URL}${FALLBACK_NEWS_IMAGE}`;
+  if (/^https?:\/\//i.test(value)) return value;
+  return `${SITE_URL}${value.startsWith("/") ? value : `/${value}`}`;
+};
