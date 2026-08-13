@@ -1,0 +1,58 @@
+{
+  "title": "Nvidia ya destina USD 90.000 millones al ecosistema de IA",
+  "slug": "nvidia-ya-destina-usd-90000-millones-al-ecosistema-de-ia",
+  "contentType": "actualidad",
+  "category": "Tecnología",
+  "publishedAt": "2026-05-24T12:00:00.000Z",
+  "excerpt": "La demanda global de GPUs, centros de datos e infraestructura consolida a Nvidia como actor central de la economía de la IA.",
+  "seoTitle": "Nvidia ya destina USD 90.000 millones al ecosistema de IA",
+  "metaDescription": "La demanda global de GPUs, centros de datos e infraestructura consolida a Nvidia como actor central de la economía de la IA.",
+  "primaryKeyword": "nvidia ya destina usd 90000 millones al ecosistema de ia",
+  "searchIntent": "informacional",
+  "sourceName": "El País",
+  "sourceUrl": "https://elpais.com/noticias/inteligencia-artificial/",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Nvidia sigue profundizando su posición como pieza central de la infraestructura global de inteligencia artificial. El crecimiento de sus inversiones alrededor del ecosistema refuerza una idea que el mercado ya asume: sin capacidad de cómputo, la expansión de la IA se frena."
+    },
+    {
+      "type": "paragraph",
+      "text": "La empresa no solo vende GPUs. También influye en la arquitectura de centros de datos, cadenas de suministro y decisiones de inversión de compañías que quieren escalar modelos, inferencia y automatización intensiva."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Infraestructura como ventaja competitiva"
+    },
+    {
+      "type": "paragraph",
+      "text": "A medida que la adopción de IA crece, la infraestructura se vuelve un cuello de botella estratégico. Tener acceso a hardware, capacidad energética y partners de despliegue puede ser tan importante como contar con buenos modelos."
+    },
+    {
+      "type": "paragraph",
+      "text": "Por eso Nvidia se fortalece en tres planos simultáneos:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "demanda sostenida de chips para entrenamiento e inferencia,",
+        "presencia en la expansión de data centers,",
+        "participación en startups y compañías vinculadas al ecosistema IA."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué observar hacia adelante"
+    },
+    {
+      "type": "paragraph",
+      "text": "Para empresas que evalúan proyectos de IA, esta noticia recuerda algo clave: el software no vive aislado. Toda estrategia de automatización avanzada depende también de costos, disponibilidad y tiempos de acceso a infraestructura."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/922d321983fa4b9037cdfb14d5f111863ffb27d3-1200x675.png",
+  "legacySanityId": "nexops-news-2026-05-08-nvidia-inversion-ecosistema-ia",
+  "generatedByEngine": false
+}

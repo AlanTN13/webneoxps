@@ -22,11 +22,11 @@
     },
     {
       "source": "/noticias",
-      "destination": "/index.html"
+      "destination": "/noticias/index.html"
     },
     {
       "source": "/noticias/:slug",
-      "destination": "/index.html"
+      "destination": "/noticias/:slug/index.html"
     }
   ]
 }

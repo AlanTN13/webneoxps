@@ -1,0 +1,58 @@
+{
+  "title": "OpenAI enfrenta demanda por presunta filtración de datos a Meta y Google",
+  "slug": "openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google",
+  "contentType": "actualidad",
+  "category": "Inteligencia Artificial",
+  "publishedAt": "2026-05-15T12:00:00.000Z",
+  "excerpt": "Una demanda en California reabre el debate sobre privacidad, trazabilidad de datos y cumplimiento en plataformas de IA generativa.",
+  "seoTitle": "OpenAI enfrenta demanda por presunta filtración de datos a Meta y Goog",
+  "metaDescription": "Una demanda en California reabre el debate sobre privacidad, trazabilidad de datos y cumplimiento en plataformas de IA generativa.",
+  "primaryKeyword": "openai enfrenta demanda por presunta filtracion de datos a meta y google",
+  "searchIntent": "informacional",
+  "sourceName": "Infobae",
+  "sourceUrl": "https://www.infobae.com/estados-unidos/2026/05/15/pensaste-que-hablabas-a-solas-con-la-ia-una-demanda-dice-que-chatgpt-le-pasaba-los-temas-de-tus-consultas-a-meta-y-google/",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Una demanda colectiva presentada en California acusa a OpenAI de haber utilizado herramientas de seguimiento de terceros dentro de ChatGPT, lo que habría permitido compartir información de las consultas con plataformas como Meta y Google."
+    },
+    {
+      "type": "paragraph",
+      "text": "Más allá del desenlace judicial, el caso se volvió relevante porque expone un punto crítico del ecosistema de IA: muchas empresas están incorporando asistentes inteligentes antes de definir con precisión qué datos se registran, cómo se procesan y con quiénes se comparten."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Privacidad y confianza en juego"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cuando una organización despliega IA en atención, ventas o soporte, la confianza del usuario depende no solo del modelo sino de toda la capa de analítica, observabilidad y tracking que lo rodea. Ese stack puede introducir riesgos incluso si la experiencia conversacional parece segura."
+    },
+    {
+      "type": "paragraph",
+      "text": "Este caso deja tres alertas claras para equipos de producto y compliance:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "revisar herramientas de analítica embebidas en interfaces conversacionales,",
+        "definir políticas claras para datos sensibles y prompts de usuarios,",
+        "alinear experiencia, legal y seguridad antes de escalar soluciones de IA."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué puede venir ahora"
+    },
+    {
+      "type": "paragraph",
+      "text": "Si la demanda avanza, es probable que aumente la presión regulatoria sobre transparencia, consentimiento y tratamiento de datos en productos de IA. Para las empresas, la lección es simple: no alcanza con automatizar; hay que hacerlo con gobernanza desde el diseño."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/a7838da2cb110c5eaf719c6e9081a860aa5c57e5-1200x675.png",
+  "legacySanityId": "nexops-news-2026-05-02-openai-demanda-datos",
+  "generatedByEngine": false
+}

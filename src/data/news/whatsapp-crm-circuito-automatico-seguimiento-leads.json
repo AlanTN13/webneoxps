@@ -1,0 +1,315 @@
+{
+  "title": "De WhatsApp al CRM: cómo diseñar un circuito automático de seguimiento de leads",
+  "slug": "whatsapp-crm-circuito-automatico-seguimiento-leads",
+  "contentPurpose": "caso",
+  "contentType": "caso",
+  "territory": "crm-automatizacion-comercial",
+  "category": "CRM",
+  "publishedAt": "2026-08-13",
+  "excerpt": "Caso aplicado de un flujo WhatsApp a CRM con identificación, clasificación, asignación, próxima acción y métricas para no perder oportunidades.",
+  "seoTitle": "WhatsApp a CRM: circuito automático de seguimiento",
+  "metaDescription": "Caso aplicado de un flujo WhatsApp a CRM con identificación, clasificación, asignación, próxima acción y métricas para no perder oportunidades.",
+  "primaryKeyword": "automatización WhatsApp CRM",
+  "searchIntent": "comercial",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Imaginemos una empresa que recibe consultas por campañas de Meta, recomendaciones y tráfico orgánico. La mayoría termina en WhatsApp. El equipo comercial responde rápido, pero el proceso tiene una debilidad: cada conversación vive en el teléfono del vendedor hasta que alguien decide cargarla al CRM."
+    },
+    {
+      "type": "paragraph",
+      "text": "Eso genera tres problemas típicos: leads que nunca se registran, oportunidades sin próxima acción y poca visibilidad para saber qué está funcionando."
+    },
+    {
+      "type": "paragraph",
+      "text": "Este es un buen ejemplo de cómo una automatización puede transformar un canal informal en un circuito comercial trazable."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Punto de partida"
+    },
+    {
+      "type": "paragraph",
+      "text": "El proceso actual puede ser algo así:"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Entra una consulta por WhatsApp.",
+        "Un vendedor responde.",
+        "Si parece interesante, crea manualmente el contacto en el CRM.",
+        "Completa algunos datos.",
+        "Se agenda mentalmente volver a escribir.",
+        "El gerente revisa el CRM, pero una parte de las conversaciones nunca llegó ahí."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "El problema no está en la velocidad de respuesta. Está en que registrar y seguir la oportunidad es opcional."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Objetivo del circuito"
+    },
+    {
+      "type": "paragraph",
+      "text": "Queremos que toda consulta comercial relevante tenga:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "identidad;",
+        "origen;",
+        "responsable;",
+        "estado;",
+        "contexto;",
+        "próxima acción;",
+        "resultado final."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sin obligar al vendedor a duplicar trabajo."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 1: identificar la conversación"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cuando entra un mensaje, el sistema consulta si el teléfono ya existe."
+    },
+    {
+      "type": "paragraph",
+      "text": "Si es un contacto conocido, recupera el contexto comercial. Si es nuevo, crea un registro preliminar."
+    },
+    {
+      "type": "paragraph",
+      "text": "No hace falta pedir veinte datos al inicio. Alcanzan los necesarios para no perder la oportunidad."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 2: clasificar el motivo"
+    },
+    {
+      "type": "paragraph",
+      "text": "La clasificación puede ser por reglas o con IA, según el caso."
+    },
+    {
+      "type": "paragraph",
+      "text": "Por ejemplo:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "consulta de producto;",
+        "soporte;",
+        "presupuesto;",
+        "proveedor;",
+        "empleo;",
+        "cliente existente."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sólo las conversaciones comerciales siguen al pipeline de ventas."
+    },
+    {
+      "type": "paragraph",
+      "text": "Esta separación evita llenar el CRM de registros que nunca deberían haber sido oportunidades."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 3: crear o actualizar la oportunidad"
+    },
+    {
+      "type": "paragraph",
+      "text": "Si corresponde, el sistema crea la oportunidad y guarda:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "canal de origen;",
+        "campaña si está disponible;",
+        "interés detectado;",
+        "fecha de ingreso;",
+        "responsable;",
+        "etapa inicial."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "La conversación puede seguir ocurriendo en WhatsApp, pero el estado comercial ya no depende del canal."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 4: asignar responsable"
+    },
+    {
+      "type": "paragraph",
+      "text": "La lógica depende del negocio."
+    },
+    {
+      "type": "paragraph",
+      "text": "Puede asignarse por:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "zona;",
+        "producto;",
+        "sucursal;",
+        "cartera existente;",
+        "disponibilidad;",
+        "round-robin."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Lo importante es que la regla esté definida y sea visible."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 5: asegurar la próxima acción"
+    },
+    {
+      "type": "paragraph",
+      "text": "Este suele ser el punto de mayor impacto."
+    },
+    {
+      "type": "paragraph",
+      "text": "Si el vendedor respondió pero no dejó una próxima acción, el sistema puede generar una tarea o recordatorio."
+    },
+    {
+      "type": "paragraph",
+      "text": "Si la oportunidad queda sin movimiento durante determinado tiempo, puede alertar, reasignar o entrar en una secuencia de seguimiento."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ya no dependemos de que alguien recuerde revisar conversaciones antiguas."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 6: resumir sin reemplazar el criterio"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una capa de IA puede ayudar a resumir la conversación, extraer intención o proponer el siguiente paso."
+    },
+    {
+      "type": "paragraph",
+      "text": "Pero no hace falta que decida todo."
+    },
+    {
+      "type": "paragraph",
+      "text": "En una primera versión, puede limitarse a reducir trabajo administrativo y dejar la decisión comercial al vendedor."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Paso 7: cerrar el loop con métricas"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una vez que todas las oportunidades siguen el mismo circuito, recién aparecen métricas confiables:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "leads por canal;",
+        "velocidad de respuesta;",
+        "conversión;",
+        "oportunidades sin seguimiento;",
+        "tiempo por etapa;",
+        "motivos de pérdida;",
+        "performance por campaña."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sin trazabilidad, estos indicadores suelen estar incompletos aunque exista un dashboard."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Arquitectura conceptual"
+    },
+    {
+      "type": "paragraph",
+      "text": "El flujo completo sería:"
+    },
+    {
+      "type": "paragraph",
+      "text": "WhatsApp → identificación → clasificación → CRM → asignación → seguimiento → cierre → métricas"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cada empresa puede usar herramientas distintas. La arquitectura no depende de una marca específica."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué automatizamos y qué dejamos humano"
+    },
+    {
+      "type": "paragraph",
+      "text": "En este ejemplo automatizaríamos:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "creación/actualización de registros;",
+        "clasificación inicial;",
+        "asignación;",
+        "tareas de seguimiento;",
+        "alertas;",
+        "resumen administrativo."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Y dejaríamos en manos del vendedor:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "negociación;",
+        "excepciones;",
+        "decisiones comerciales sensibles;",
+        "conversaciones que requieren contexto especial."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El resultado esperado"
+    },
+    {
+      "type": "paragraph",
+      "text": "No es “tener WhatsApp integrado”."
+    },
+    {
+      "type": "paragraph",
+      "text": "Es lograr que ninguna oportunidad relevante desaparezca porque quedó encerrada en una conversación y que el gerente pueda ver el proceso comercial real sin pedirle a cada vendedor que reconstruya lo que pasó."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ese es el tipo de resultado que buscamos en NexOps: menos trabajo manual, más trazabilidad y capacidad para manejar más volumen con el mismo proceso."
+    }
+  ],
+  "cta": {
+    "label": "Conectar el proceso comercial",
+    "href": "/servicios/software-integrations"
+  },
+  "topicFingerprint": "caso:crm-automatizacion-comercial:whatsapp-crm-circuito-automatico-seguimiento-leads",
+  "generatedByEngine": false
+}

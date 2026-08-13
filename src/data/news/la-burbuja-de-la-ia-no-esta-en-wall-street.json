@@ -1,0 +1,110 @@
+{
+  "title": "La burbuja de la IA no está en Wall Street: el verdadero límite es la electricidad",
+  "slug": "la-burbuja-de-la-ia-no-esta-en-wall-street",
+  "contentType": "actualidad",
+  "category": "Inteligencia Artificial",
+  "publishedAt": "2025-12-17T21:07:43.393Z",
+  "excerpt": "El crecimiento de la inteligencia artificial ya no depende solo de algoritmos, sino de una red eléctrica que no escala al mismo ritmo.",
+  "seoTitle": "La burbuja de la IA no está en Wall Street: el verdadero límite es la ",
+  "metaDescription": "El crecimiento de la inteligencia artificial ya no depende solo de algoritmos, sino de una red eléctrica que no escala al mismo ritmo.",
+  "primaryKeyword": "la burbuja de la ia no esta en wall street",
+  "searchIntent": "informacional",
+  "sourceName": "BNEF / ITPro",
+  "sourceUrl": "https://www.itpro.com/infrastructure/data-centres/us-data-center-power-demand-forecast-to-hit-106gw-by-2035-report-warns",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Mientras las grandes tecnológicas baten récords en los mercados financieros, el mayor riesgo para la inteligencia artificial no parece venir de una burbuja especulativa clásica. El verdadero cuello de botella es mucho más básico: la energía y la infraestructura física necesaria para alimentar los centros de datos que hacen posible esta nueva ola tecnológica."
+    },
+    {
+      "type": "paragraph",
+      "text": "La IA ya no es una promesa futura. Hoy reduce costos, automatiza procesos y permite escalar empresas con estructuras mínimas. Esa adopción real y sostenida dispara una demanda de cómputo que crece a un ritmo inédito."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El problema no es el dinero, es la electricidad"
+    },
+    {
+      "type": "paragraph",
+      "text": "Según estimaciones recientes, solo en Estados Unidos los centros de datos podrían requerir alrededor de 106 gigavatios de potencia eléctrica hacia 2035, casi el triple del consumo actual. A escala global, la demanda vinculada a data centers podría ubicarse entre 171 y 219 gigavatios para 2030, impulsada en gran parte por cargas de trabajo de inteligencia artificial."
+    },
+    {
+      "type": "paragraph",
+      "text": "Estas cifras revelan un cambio de escala. La infraestructura energética empieza a ser un factor limitante para un sector que crece más rápido que la capacidad de expansión de la red eléctrica."
+    },
+    {
+      "type": "image",
+      "src": "https://cdn.sanity.io/images/t7ofgkv4/production/439edc31401f04250a021326ac81dbe1ba1841f8-1536x1024.jpg",
+      "alt": ""
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cuando la eficiencia tecnológica no alcanza"
+    },
+    {
+      "type": "paragraph",
+      "text": "Durante años, la industria confió en que la mejora constante de los chips compensaría el aumento del consumo. Sin embargo, el ritmo actual de adopción de IA supera ampliamente esas ganancias de eficiencia."
+    },
+    {
+      "type": "paragraph",
+      "text": "La demanda de energía crece más rápido que:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "la construcción de nuevos centros de datos,",
+        "la expansión de redes eléctricas,",
+        "los procesos regulatorios y de permisos."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "El resultado es un problema de oferta física que no tiene precedentes recientes en el sector tecnológico."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "La nueva ventaja competitiva"
+    },
+    {
+      "type": "paragraph",
+      "text": "En este contexto, la carrera ya no se define solo por quién desarrolla mejores modelos o consigue más GPUs. Cada vez más, la ventaja pasa por algo menos visible pero decisivo: el acceso asegurado a energía."
+    },
+    {
+      "type": "paragraph",
+      "text": "Tener megavatios firmes, tierra cerca de nodos eléctricos y prioridad de conexión a la red empieza a ser tan estratégico como el talento o la innovación en software."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Por qué no es otra burbuja tecnológica"
+    },
+    {
+      "type": "paragraph",
+      "text": "La comparación con la burbuja puntocom resulta tentadora, pero engañosa. A comienzos de los 2000 había capital y capacidad instalada para servicios que aún no encontraban demanda. En el caso de la IA ocurre lo contrario: la demanda es real y creciente, pero choca contra límites materiales."
+    },
+    {
+      "type": "paragraph",
+      "text": "Energía, agua, tierra y tiempos de obra se convierten en factores críticos. El riesgo no es que falte inversión, sino que la infraestructura llegue tarde, encarezca los costos y obligue a frenar proyectos antes de que maduren."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Un límite físico, no financiero"
+    },
+    {
+      "type": "paragraph",
+      "text": "La expansión de la inteligencia artificial parece encaminada a redefinir industrias enteras. Pero su techo inmediato no está en los mercados ni en la confianza de los inversores. Está en la capacidad del mundo físico para sostenerla."
+    },
+    {
+      "type": "paragraph",
+      "text": "Si hay una “burbuja” en la IA, no será por exceso de expectativas, sino por el límite concreto de la red eléctrica global."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/54226c57ef8b4027a7aec2e05350c67ba8447c77-1024x1024.jpg",
+  "legacySanityId": "af725d0f-1658-48c0-9b91-401fcf760bf0",
+  "generatedByEngine": false
+}

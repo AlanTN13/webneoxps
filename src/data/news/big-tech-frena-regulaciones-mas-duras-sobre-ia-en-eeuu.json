@@ -1,0 +1,58 @@
+{
+  "title": "Big Tech frena regulaciones más duras sobre IA en EE.UU.",
+  "slug": "big-tech-frena-regulaciones-mas-duras-sobre-ia-en-eeuu",
+  "contentType": "actualidad",
+  "category": "Tecnología",
+  "publishedAt": "2026-05-25T12:00:00.000Z",
+  "excerpt": "Meta, Google, Microsoft y OpenAI ganan tiempo frente a nuevas restricciones mientras crece el debate sobre control de modelos avanzados.",
+  "seoTitle": "Big Tech frena regulaciones más duras sobre IA en EE.UU.",
+  "metaDescription": "Meta, Google, Microsoft y OpenAI ganan tiempo frente a nuevas restricciones mientras crece el debate sobre control de modelos avanzados.",
+  "primaryKeyword": "big tech frena regulaciones mas duras sobre ia en eeuu",
+  "searchIntent": "informacional",
+  "sourceName": "Times of India / NYT",
+  "sourceUrl": "https://timesofindia.indiatimes.com/technology/tech-news/how-trumps-china-visit-made-him-take-a-u-turn-on-anthropic-mythos-fears-and-is-good-news-for-meta-google-openai-and-microsoft/articleshow/131251782.cms",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Las principales tecnológicas lograron evitar, al menos por ahora, regulaciones más duras sobre el lanzamiento de modelos avanzados de inteligencia artificial en Estados Unidos. La señal política favorece la continuidad del ritmo de innovación que hoy domina la industria."
+    },
+    {
+      "type": "paragraph",
+      "text": "El debate, sin embargo, no desaparece. A medida que los modelos ganan autonomía, alcance e impacto económico, también crece la presión para exigir más controles, trazabilidad y responsabilidad."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Innovación rápida, regulación lenta"
+    },
+    {
+      "type": "paragraph",
+      "text": "La distancia entre el ritmo tecnológico y el ritmo regulatorio es uno de los rasgos centrales de esta etapa. Las empresas buscan margen para iterar y lanzar productos, mientras gobiernos y organismos intentan entender riesgos que cambian mes a mes."
+    },
+    {
+      "type": "paragraph",
+      "text": "Para el mercado esto implica convivir con un escenario de transición:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "las reglas pueden endurecerse más adelante,",
+        "las compañías con mejor gobernanza llegarán mejor preparadas,",
+        "la ventaja competitiva no será solo innovar rápido, sino hacerlo con capacidad de adaptación regulatoria."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué significa para negocios y automatización"
+    },
+    {
+      "type": "paragraph",
+      "text": "Quienes adopten IA hoy ganan tiempo de aprendizaje. Pero también conviene construir procesos auditables, políticas de uso y criterios claros de supervisión. La regulación puede demorar, pero la necesidad de operar con responsabilidad ya está presente."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/642b786757bcb755c394ff249954b4b75479a961-1200x675.png",
+  "legacySanityId": "nexops-news-2026-05-10-regulacion-ia-eeuu",
+  "generatedByEngine": false
+}

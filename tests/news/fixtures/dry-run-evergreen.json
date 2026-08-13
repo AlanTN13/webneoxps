@@ -1,0 +1,44 @@
+{
+  "title": "Qué automatizar primero en una PyME para reducir trabajo manual",
+  "slug": "que-automatizar-primero-en-una-pyme",
+  "contentType": "guia",
+  "contentPurpose": "seo",
+  "category": "Automatización de procesos",
+  "territory": "automatizacion-procesos",
+  "publishedAt": "2026-08-13T12:00:00.000Z",
+  "excerpt": "Una guía para priorizar automatizaciones por impacto operativo, frecuencia y riesgo antes de elegir herramientas.",
+  "seoTitle": "Qué automatizar primero en una PyME | NexOps",
+  "metaDescription": "Cómo priorizar qué automatizar primero en una PyME según impacto, frecuencia, riesgo y esfuerzo, sin empezar por la herramienta de moda.",
+  "primaryKeyword": "qué automatizar primero en una pyme",
+  "searchIntent": "informacional comercial",
+  "engineScore": 91,
+  "engineRunId": "fixture-dry-run-20260813",
+  "topicFingerprint": "automatizacion:priorizacion-pyme:fixture-v1",
+  "generatedByEngine": true,
+  "content": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Empezar por la fricción, no por la herramienta"
+    },
+    {
+      "type": "paragraph",
+      "text": "Las mejores primeras automatizaciones suelen aparecer donde una tarea se repite, consume tiempo y depende de copiar información entre sistemas."
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "Frecuencia de la tarea",
+        "Tiempo manual consumido",
+        "Costo del error",
+        "Claridad de las reglas del proceso"
+      ]
+    },
+    {
+      "type": "link",
+      "text": "Ver automatización de procesos en NexOps",
+      "href": "/servicios/process-automation"
+    }
+  ]
+}

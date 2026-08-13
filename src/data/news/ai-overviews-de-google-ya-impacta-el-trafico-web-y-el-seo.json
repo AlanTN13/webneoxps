@@ -1,0 +1,58 @@
+{
+  "title": "AI Overviews de Google ya impacta el tráfico web y el SEO",
+  "slug": "ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo",
+  "contentType": "actualidad",
+  "category": "Tecnología",
+  "publishedAt": "2026-05-22T12:00:00.000Z",
+  "excerpt": "Un estudio académico confirma que los resúmenes generados por IA pueden reducir clics y alterar la lógica del posicionamiento orgánico.",
+  "seoTitle": "AI Overviews de Google ya impacta el tráfico web y el SEO",
+  "metaDescription": "Un estudio académico confirma que los resúmenes generados por IA pueden reducir clics y alterar la lógica del posicionamiento orgánico.",
+  "primaryKeyword": "ai overviews de google ya impacta el trafico web y el seo",
+  "searchIntent": "informacional",
+  "sourceName": "arXiv Research",
+  "sourceUrl": "https://arxiv.org/abs/2605.14021",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "La discusión sobre AI Overviews ya no es solo intuitiva. Un estudio académico reciente midió el comportamiento de estos resúmenes generados por IA y encontró señales consistentes de reducción de clics hacia páginas web tradicionales."
+    },
+    {
+      "type": "paragraph",
+      "text": "Eso reconfigura una de las bases del marketing digital: publicar contenido informativo ya no garantiza el mismo retorno de tráfico que antes, incluso cuando una marca logra buena visibilidad dentro de Google."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Un cambio estructural para SEO"
+    },
+    {
+      "type": "paragraph",
+      "text": "Si la respuesta aparece directamente en el buscador, el usuario necesita menos pasos para resolver su duda. Para muchos medios, blogs y empresas, eso puede significar menos visitas y un embudo orgánico más exigente."
+    },
+    {
+      "type": "paragraph",
+      "text": "Las estrategias más expuestas son aquellas basadas en:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "artículos genéricos que compiten solo por volumen de keywords,",
+        "contenido fácilmente sintetizable por un modelo,",
+        "sitios sin propuesta de valor diferencial después del clic."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cómo adaptarse"
+    },
+    {
+      "type": "paragraph",
+      "text": "La respuesta no es abandonar SEO, sino evolucionarlo. Contenido experto, herramientas interactivas, casos propios y automatizaciones conectadas a conversión pasan a ser activos mucho más defensables que una simple nota informativa."
+    }
+  ],
+  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/90663eb271dc248c196769dd44eb906d28ef496d-1200x675.png",
+  "legacySanityId": "nexops-news-2026-05-05-ai-overviews-seo",
+  "generatedByEngine": false
+}
