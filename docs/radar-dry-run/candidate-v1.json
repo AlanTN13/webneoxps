@@ -1,64 +1,161 @@
 {
-  "title": "WhatsApp con agentes de IA: qué cambia para ventas y CRM",
-  "slug": "whatsapp-agentes-ia-crm-leads-ventas",
+  "title": "Los agentes de IA ya entraron en producción: el problema ahora es controlarlos bien",
+  "slug": "agentes-ia-produccion-control-gobernanza",
   "contentType": "actualidad",
-  "territory": "crm-automatizacion-comercial",
-  "category": "CRM",
+  "territory": "ia-aplicada-empresas",
+  "category": "Inteligencia Artificial",
   "publishedAt": "2026-08-13",
-  "excerpt": "Los agentes de IA ya pueden participar en calificación y acciones comerciales dentro de canales empresariales. El valor real depende de cómo se conectan con CRM, reglas y seguimiento.",
-  "seoTitle": "WhatsApp con agentes de IA: impacto en ventas y CRM",
-  "metaDescription": "Qué cambia cuando WhatsApp incorpora agentes capaces de calificar leads y ejecutar acciones, y cómo preparar CRM, procesos y trazabilidad para aprovecharlo.",
-  "primaryKeyword": "agentes de IA para WhatsApp",
+  "excerpt": "OpenAI Presence confirma un cambio de etapa: el desafío ya no es demostrar que un agente funciona, sino operarlo con permisos, evaluaciones, trazabilidad y escalamiento humano.",
+  "seoTitle": "Agentes de IA en producción: cómo mantener el control",
+  "metaDescription": "Qué cambia cuando los agentes de IA pasan a producción y qué controles necesita una empresa para operar con permisos, evaluaciones, trazabilidad y escalamiento humano.",
+  "primaryKeyword": "agentes de IA en producción",
   "searchIntent": "informacional-comercial",
-  "topicFingerprint": "crm:whatsapp:agentes-ia:calificacion-leads:ventas",
-  "engineScore": 94,
+  "topicFingerprint": "ia:agentes-produccion:gobernanza:evaluaciones:acciones-aprobadas",
+  "engineScore": 96,
   "generatedByEngine": true,
-  "engineRunId": "radar-2026-08-13-manual-001",
-  "sourceName": "Meta",
-  "sourceUrl": "https://about.fb.com/news/2026/06/meta-business-agent/",
+  "engineRunId": "radar-2026-08-13-real-001",
+  "sourceName": "OpenAI",
+  "sourceUrl": "https://openai.com/index/introducing-openai-presence/",
   "sources": [
     {
-      "name": "Reuters",
-      "url": "https://www.reuters.com/business/meta-launches-enterprise-focused-ai-business-agent-automate-daily-operations-2026-06-03/"
+      "name": "OpenAI Help Center",
+      "url": "https://help.openai.com/en/articles/20001405"
+    },
+    {
+      "name": "Business Insider",
+      "url": "https://www.businessinsider.com/openai-presence-corporate-software-customer-service-sales-2026-7"
     }
   ],
   "content": [
     {
       "type": "paragraph",
-      "text": "El cambio importante no es sumar otro bot. Cuando un agente puede calificar una oportunidad o completar una acción, el canal de mensajería empieza a formar parte del proceso comercial."
+      "text": "La señal más importante del lanzamiento de OpenAI Presence no es que exista otro producto de agentes. Es que el mercado empresarial empieza a moverse desde la demostración hacia la operación real. OpenAI presentó Presence el 22 de julio de 2026 como una oferta administrada para desplegar agentes en flujos de voz y chat, con capacidad de consultar sistemas, seguir políticas, ejecutar acciones aprobadas y derivar a personas cuando hace falta. El cambio de etapa es relevante para cualquier empresa que esté evaluando automatización con IA: un agente que responde bien en una demo no es todavía un sistema listo para producción."
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "Qué debería mirar una empresa"
+      "text": "Qué cambió: el problema ya no es sólo el modelo"
+    },
+    {
+      "type": "paragraph",
+      "text": "Durante la primera ola de agentes, gran parte de la conversación se concentró en qué modelo razona mejor, qué herramienta usa o cuántos pasos puede completar de forma autónoma. En producción, esas preguntas siguen importando, pero dejan de ser suficientes. El comportamiento del agente depende también de políticas internas, datos disponibles, permisos, integraciones, excepciones y cambios cotidianos del negocio. Un precio que cambia, una nueva condición comercial o un procedimiento actualizado pueden volver incorrecta una respuesta que ayer era aceptable."
+    },
+    {
+      "type": "paragraph",
+      "text": "Presence pone explícitamente alrededor del modelo componentes como procedimientos operativos, guardrails, acciones autorizadas, simulaciones, evaluaciones y reglas de escalamiento. Ese enfoque resume una idea que NexOps considera central: el agente no debería ser tratado como una caja de chat agregada al proceso, sino como una pieza operativa dentro de un sistema con límites observables."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Por qué importa para una empresa"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cuando un agente sólo informa, un error puede generar una mala respuesta. Cuando además puede modificar un CRM, confirmar una reserva, aplicar una política comercial o actualizar un sistema, el costo potencial cambia. La autonomía aumenta la capacidad, pero también hace que el diseño de permisos y controles pase a ser parte del producto."
     },
     {
       "type": "list",
       "ordered": false,
       "items": [
-        "Qué datos necesita un lead antes de entrar al pipeline.",
-        "Qué acciones puede ejecutar el agente y cuáles requieren una persona.",
-        "Cómo queda registrada la conversación y la próxima acción en el CRM.",
-        "Qué métricas muestran si la automatización mejora conversión y no sólo velocidad."
+        "Definir qué información puede consultar el agente y qué datos quedan fuera de alcance.",
+        "Separar acciones de lectura de acciones que escriben o modifican sistemas.",
+        "Establecer qué decisiones requieren aprobación humana antes de ejecutarse.",
+        "Registrar qué hizo el agente, con qué contexto y sobre qué sistema.",
+        "Crear una salida clara hacia una persona cuando aparece una excepción."
       ]
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "El CRM sigue siendo la memoria comercial"
+      "text": "Un agente no debería tener permisos por comodidad"
     },
     {
       "type": "paragraph",
-      "text": "Si la información queda encerrada en el canal, la empresa sigue teniendo el mismo problema. El CRM debe conservar contexto, responsable, estado y próxima acción para que la automatización aumente capacidad sin perder control."
+      "text": "Una de las tentaciones más comunes al integrar IA es darle acceso amplio para que “pueda resolver”. Eso acelera la prueba, pero empeora el riesgo operativo. El diseño más robusto parte del principio contrario: el agente recibe únicamente los permisos necesarios para su tarea. Si debe consultar el estado de una orden, no necesita necesariamente poder cambiarla. Si puede preparar una propuesta, eso no implica que deba enviarla sin revisión. Si detecta una excepción de política, debería escalarla en lugar de inventar una salida."
     },
     {
-      "type": "link",
-      "text": "Ver integraciones de sistemas",
-      "href": "/servicios/software-integrations"
+      "type": "heading",
+      "level": 2,
+      "text": "La evaluación tiene que parecerse al trabajo real"
+    },
+    {
+      "type": "paragraph",
+      "text": "Probar si el agente responde correctamente diez preguntas conocidas no alcanza. Antes de ponerlo en producción conviene evaluar escenarios normales, bordes y fallos deliberados: datos faltantes, instrucciones contradictorias, usuarios insistentes, sistemas que no responden, cambios de política y pedidos que exceden su autorización. OpenAI destaca el uso de simulaciones y evaluaciones dentro de Presence; para una empresa, el criterio práctico es más general: el agente debe ser probado contra las situaciones que podrían producir costo, pérdida de información o una mala decisión."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "La métrica no es cuántas conversaciones atiende"
+    },
+    {
+      "type": "paragraph",
+      "text": "Automatizar más volumen puede parecer éxito aunque el proceso haya empeorado. Un agente comercial o de soporte debería medirse con indicadores ligados al resultado y al control. El volumen atendido es sólo una parte."
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "Porcentaje de casos resueltos correctamente sin intervención.",
+        "Tasa y motivo de escalamiento a personas.",
+        "Errores de política o acciones rechazadas por validaciones.",
+        "Tiempo total de resolución y no sólo velocidad de primera respuesta.",
+        "Impacto en conversión, retención, costo operativo o calidad según el proceso.",
+        "Cambios de comportamiento después de modificar modelos, prompts, datos o integraciones."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Dónde conviene empezar"
+    },
+    {
+      "type": "paragraph",
+      "text": "Los mejores primeros casos suelen combinar volumen suficiente, reglas relativamente claras y una salida humana disponible. Atención sobre preguntas frecuentes con acceso a datos internos, calificación inicial de leads, solicitudes internas repetitivas o consultas de estado son ejemplos razonables. En cambio, decisiones irreversibles, excepciones comerciales sensibles o acciones con alto impacto financiero deberían empezar con mayor supervisión."
+    },
+    {
+      "type": "paragraph",
+      "text": "La pregunta útil no es “¿podemos poner un agente acá?”, sino “¿qué parte de este flujo está suficientemente definida como para delegarla sin perder trazabilidad?”. Esa diferencia evita automatizar ambigüedad."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Criterio NexOps: automatizar un proceso, no soltar un modelo"
+    },
+    {
+      "type": "paragraph",
+      "text": "Para NexOps, un agente empresarial debería pensarse como una arquitectura de trabajo: evento de entrada → contexto autorizado → reglas y políticas → decisión acotada → acción permitida → validación → registro → escalamiento cuando corresponde. El modelo participa dentro de esa cadena, pero no reemplaza el diseño del proceso."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ese enfoque también facilita evolucionar. Si cambia el modelo, una política o una integración, la empresa puede volver a probar el comportamiento, comparar resultados y desplegar la modificación de forma controlada. La autonomía útil no consiste en quitar supervisión; consiste en moverla desde la ejecución manual de cada tarea hacia el diseño, la observabilidad y las excepciones."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué debería hacer una empresa antes de pasar a producción"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Elegir un proceso con objetivo y responsable claros.",
+        "Mapear decisiones, excepciones y puntos donde hoy interviene una persona.",
+        "Definir datos, herramientas y permisos mínimos que necesita el agente.",
+        "Construir escenarios de prueba con casos normales, bordes y fallos.",
+        "Instrumentar métricas, logs, escalamiento humano y una forma segura de frenar o revertir cambios.",
+        "Revisar periódicamente el comportamiento cuando cambien políticas, sistemas o modelos."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "OpenAI Presence es una señal de que la industria está empaquetando justamente esa capa operativa alrededor de los agentes. Para una empresa, la decisión importante no es adoptar ese producto específico, sino asumir el cambio de criterio: si la IA va a actuar sobre procesos reales, necesita el mismo rigor de diseño, permisos, medición y control que cualquier otro sistema crítico del negocio."
     }
   ],
   "cta": {
-    "label": "Ver integraciones de sistemas",
-    "href": "/servicios/software-integrations"
-  }
+    "label": "Diseñar un agente para un proceso real",
+    "href": "/servicios/ai-agents"
+  },
+  "relatedSlugs": [
+    "google-y-openai-aceleran-la-era-de-los-agentes-autonomos"
+  ]
 }
