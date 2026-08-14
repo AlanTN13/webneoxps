@@ -3,12 +3,6 @@ name: NexOps Engineering Dispatcher
 on:
   issues:
     types: [opened]
-  workflow_dispatch:
-    inputs:
-      issue_number:
-        description: Existing Engineering Request issue number
-        required: true
-        type: string
 
 permissions:
   contents: write
@@ -17,14 +11,12 @@ permissions:
 
 jobs:
   engineering:
-    if: >-
-      github.actor == 'AlanTN13' &&
-      (github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, '[ENG]'))
+    if: github.actor == 'AlanTN13' && startsWith(github.event.issue.title, '[ENG]')
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
-      ISSUE_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.issue_number || github.event.issue.number }}
-      BRANCH_NAME: codex/eng-${{ github.event_name == 'workflow_dispatch' && inputs.issue_number || github.event.issue.number }}-${{ github.run_id }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      BRANCH_NAME: codex/eng-${{ github.event.issue.number }}-${{ github.run_id }}
 
     steps:
       - name: Checkout main
@@ -45,7 +37,7 @@ jobs:
       - name: Create isolated Engineering branch
         run: git switch -c "$BRANCH_NAME"
 
-      - name: Build trusted Engineering Request
+      - name: Build Engineering Request
         run: |
           gh issue view "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --json title,body,url > "$RUNNER_TEMP/engineering-issue.json"
           {
@@ -109,8 +101,6 @@ EOF
 
       - name: Open pull request
         if: steps.changes.outputs.changed == 'true'
-        env:
-          CODEX_FINAL: ${{ steps.codex.outputs.final-message }}
         run: |
           TITLE=$(gh issue view "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --json title --jq '.title')
           PR_URL=$(gh pr create \
