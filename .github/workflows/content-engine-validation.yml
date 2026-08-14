@@ -36,6 +36,8 @@ jobs:
           GENERATED_COUNT="$(find dist/noticias -mindepth 2 -maxdepth 2 -type f -name index.html | wc -l)"
           echo "News JSON: $SOURCE_COUNT"
           echo "Generated SEO pages: $GENERATED_COUNT"
+          test "$SOURCE_COUNT" -eq 12
           test "$GENERATED_COUNT" -eq "$SOURCE_COUNT"
-          grep -q 'application/ld+json' dist/noticias/gemini-3-supera-a-chatgpt-y-redefine-el-liderazgo-en-inteligencia-artificial/index.html
+          grep -q 'application/ld+json' dist/noticias/ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo/index.html
+          test ! -e dist/noticias/gemini-3-supera-a-chatgpt-y-redefine-el-liderazgo-en-inteligencia-artificial/index.html
           grep -q '<urlset' dist/sitemap.xml

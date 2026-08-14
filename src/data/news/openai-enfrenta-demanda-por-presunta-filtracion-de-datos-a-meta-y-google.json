@@ -1,58 +1,193 @@
 {
-  "title": "OpenAI enfrenta demanda por presunta filtración de datos a Meta y Google",
+  "title": "Qué revisar antes de enviar datos sensibles a una IA",
   "slug": "openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google",
-  "contentType": "actualidad",
-  "category": "Inteligencia Artificial",
+  "contentType": "analisis",
+  "contentPurpose": "actualidad",
+  "territory": "ia-aplicada-empresas",
+  "category": "Datos e IA",
   "publishedAt": "2026-05-15T12:00:00.000Z",
-  "excerpt": "Una demanda en California reabre el debate sobre privacidad, trazabilidad de datos y cumplimiento en plataformas de IA generativa.",
-  "seoTitle": "OpenAI enfrenta demanda por presunta filtración de datos a Meta y Goog",
-  "metaDescription": "Una demanda en California reabre el debate sobre privacidad, trazabilidad de datos y cumplimiento en plataformas de IA generativa.",
-  "primaryKeyword": "openai enfrenta demanda por presunta filtracion de datos a meta y google",
-  "searchIntent": "informacional",
-  "sourceName": "Infobae",
-  "sourceUrl": "https://www.infobae.com/estados-unidos/2026/05/15/pensaste-que-hablabas-a-solas-con-la-ia-una-demanda-dice-que-chatgpt-le-pasaba-los-temas-de-tus-consultas-a-meta-y-google/",
+  "updatedAt": "2026-08-13",
+  "excerpt": "Un marco práctico para clasificar información, revisar proveedores, limitar permisos y decidir qué datos pueden entrar en una herramienta o agente de IA.",
+  "seoTitle": "Qué revisar antes de enviar datos sensibles a una IA",
+  "metaDescription": "Cómo clasificar datos, prompts y archivos antes de usar IA; qué revisar sobre proveedores, permisos, retención, logs y validación humana.",
+  "primaryKeyword": "datos sensibles en inteligencia artificial",
+  "searchIntent": "informacional-comercial",
+  "sources": [
+    {
+      "name": "NIST — Generative Artificial Intelligence Profile",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+    },
+    {
+      "name": "NIST — Privacy Framework",
+      "url": "https://www.nist.gov/privacy-framework"
+    },
+    {
+      "name": "ICO — Guidance on AI and data protection",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence/guidance-on-ai-and-data-protection/about-this-guidance/"
+    }
+  ],
   "content": [
     {
       "type": "paragraph",
-      "text": "Una demanda colectiva presentada en California acusa a OpenAI de haber utilizado herramientas de seguimiento de terceros dentro de ChatGPT, lo que habría permitido compartir información de las consultas con plataformas como Meta y Google."
+      "text": "Copiar un texto en un chat de IA parece una acción aislada. En una empresa puede iniciar un recorrido más largo: el prompt sale de un equipo, viaja a un proveedor, queda registrado, activa herramientas conectadas y termina dentro de otro sistema. Cuando además hay archivos, CRM, correo o bases internas, la pregunta deja de ser qué escribió una persona y pasa a ser cómo circula la información."
     },
     {
       "type": "paragraph",
-      "text": "Más allá del desenlace judicial, el caso se volvió relevante porque expone un punto crítico del ecosistema de IA: muchas empresas están incorporando asistentes inteligentes antes de definir con precisión qué datos se registran, cómo se procesan y con quiénes se comparten."
+      "text": "El objetivo no es prohibir datos de manera genérica ni asumir que toda herramienta los usa del mismo modo. Es decidir con evidencia qué información necesita cada caso, qué configuración aplica, quién puede acceder y qué ocurre después. Las respuestas cambian entre proveedores, productos, planes y contratos; por eso conviene verificarlas antes de integrar."
+    },
+    {
+      "type": "paragraph",
+      "text": "Esta guía propone controles operativos para una PyME. No reemplaza una evaluación legal, de privacidad o seguridad específica, y no atribuye prácticas no verificadas a ninguna empresa."
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "Privacidad y confianza en juego"
+      "text": "Primero: clasificar la información"
     },
     {
       "type": "paragraph",
-      "text": "Cuando una organización despliega IA en atención, ventas o soporte, la confianza del usuario depende no solo del modelo sino de toda la capa de analítica, observabilidad y tracking que lo rodea. Ese stack puede introducir riesgos incluso si la experiencia conversacional parece segura."
-    },
-    {
-      "type": "paragraph",
-      "text": "Este caso deja tres alertas claras para equipos de producto y compliance:"
+      "text": "Sin una clasificación mínima, la regla suele ser “usar con cuidado”. Es demasiado ambigua para orientar a un equipo o configurar una automatización. Una clasificación simple permite traducir sensibilidad en permisos y controles."
     },
     {
       "type": "list",
       "ordered": false,
       "items": [
-        "revisar herramientas de analítica embebidas en interfaces conversacionales,",
-        "definir políticas claras para datos sensibles y prompts de usuarios,",
-        "alinear experiencia, legal y seguridad antes de escalar soluciones de IA."
+        "Pública: información publicada y aprobada para circulación abierta.",
+        "Interna: procedimientos, borradores y conversaciones cuyo impacto de exposición es acotado.",
+        "Confidencial comercial: precios, márgenes, contratos, estrategia, credenciales, código o propiedad intelectual.",
+        "Personal: datos que identifican o pueden identificar a clientes, empleados, proveedores u otras personas.",
+        "Restringida: información cuyo uso o exposición puede generar daño relevante, obligación regulatoria o riesgo de seguridad."
       ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Las categorías exactas dependen de la organización. Lo importante es que sean pocas, entendibles y accionables. Cada una debería indicar si puede usarse, bajo qué herramienta, con qué transformación y quién puede autorizar una excepción."
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "Qué puede venir ahora"
+      "text": "Datos personales y datos comerciales no son el mismo problema"
     },
     {
       "type": "paragraph",
-      "text": "Si la demanda avanza, es probable que aumente la presión regulatoria sobre transparencia, consentimiento y tratamiento de datos en productos de IA. Para las empresas, la lección es simple: no alcanza con automatizar; hay que hacerlo con gobernanza desde el diseño."
+      "text": "Los datos personales exigen considerar finalidad, base aplicable, transparencia, minimización y derechos según la jurisdicción. Los datos comerciales sensibles pueden no identificar personas y aun así exponer una negociación, una ventaja competitiva o una credencial. Un mismo archivo puede contener ambas cosas."
+    },
+    {
+      "type": "paragraph",
+      "text": "Eliminar nombre y correo no siempre anonimiza. Un número de cliente, una descripción muy específica o la combinación de atributos puede volver identificable a alguien. Cuando el caso no necesita identidad, conviene reducir campos antes de enviar y trabajar con ejemplos sintéticos o datos enmascarados durante pruebas."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Prompts y archivos también son datos"
+    },
+    {
+      "type": "paragraph",
+      "text": "Un prompt puede revelar más que su respuesta: nombres de clientes, incidentes, instrucciones internas, objetivos comerciales o fragmentos de código. Un archivo puede incluir hojas ocultas, comentarios, historial, metadatos o pestañas que la persona no pretendía compartir."
+    },
+    {
+      "type": "paragraph",
+      "text": "Antes de habilitar cargas, la empresa debería definir formatos admitidos, tamaño, clasificación permitida, escaneo, extracción y borrado. Si el flujo sólo necesita tres campos de una planilla, enviar el archivo completo aumenta superficie sin mejorar el resultado."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El proveedor visible no es toda la cadena"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una solución puede combinar interfaz, modelo, almacenamiento, base vectorial, automatizador, observabilidad y CRM. Cada componente puede recibir una parte del dato. El mapa útil no pregunta sólo qué modelo se usa, sino qué sistemas tocan la información desde el ingreso hasta el resultado."
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Listar proveedor, producto, plan y región relevante.",
+        "Revisar términos, retención, uso para entrenamiento y opciones de exclusión disponibles.",
+        "Identificar integraciones, trackers, logs y subprocesadores que formen parte del recorrido.",
+        "Confirmar mecanismos de eliminación, exportación y respuesta ante incidentes.",
+        "Registrar cambios de configuración o versión que puedan modificar el tratamiento."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "No todas las respuestas se encuentran en una página comercial. Cuando el caso tiene impacto, puede requerir documentación técnica, acuerdo de tratamiento, revisión de seguridad y consulta especializada. Si una condición central no puede verificarse, el diseño debería reducir datos o elegir otra alternativa."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Permisos y acceso interno"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una herramienta segura puede quedar mal configurada. Las cuentas compartidas, tokens con acceso amplio y conectores que leen toda una carpeta convierten un caso pequeño en un riesgo grande. El principio práctico es mínimo privilegio: cada persona y servicio accede sólo a lo necesario para su función."
+    },
+    {
+      "type": "paragraph",
+      "text": "Conviene separar ambientes de prueba y producción, usar identidades individuales, rotar secretos y retirar accesos cuando cambia un rol. Los agentes requieren especial atención porque pueden actuar, no sólo responder: leer datos, enviar mensajes o modificar registros debería depender de permisos explícitos y observables."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Retención y logs: guardar también es una decisión"
+    },
+    {
+      "type": "paragraph",
+      "text": "Los logs ayudan a diagnosticar, auditar y mejorar, pero pueden duplicar prompts, respuestas y datos sensibles. Guardar todo por tiempo indefinido no equivale a tener trazabilidad. La política debería definir qué evento se registra, con qué detalle, por cuánto tiempo, quién accede y cómo se elimina."
+    },
+    {
+      "type": "paragraph",
+      "text": "En muchos flujos alcanza con conservar identificadores, estados, tiempos, versión y resultado de validación, evitando copiar el contenido completo. En otros, la evidencia del dato de entrada es necesaria. La decisión debe responder al impacto y a la obligación concreta, no a la capacidad técnica de almacenar."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cuándo tiene sentido una validación humana"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una persona debería intervenir cuando el costo del error es alto, la decisión es difícil de revertir, la información es ambigua o el resultado afecta a terceros. Pero agregar un botón de aprobación no resuelve por sí mismo el riesgo. La revisión necesita mostrar datos relevantes, origen, confianza, excepción detectada y acción disponible."
+    },
+    {
+      "type": "paragraph",
+      "text": "Para tareas repetitivas y de bajo impacto, pueden bastar reglas automáticas, muestreo y alertas. Para comunicaciones sensibles, cambios financieros, permisos o decisiones sobre personas, la validación debería ser más fuerte. El criterio es proporcionalidad."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Un control mínimo viable para una PyME"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Nombrar un dueño del caso de uso y describir su objetivo.",
+        "Definir datos permitidos, prohibidos y transformaciones previas.",
+        "Documentar proveedor, plan, retención, entrenamiento e integraciones.",
+        "Configurar acceso mínimo y separar pruebas de producción.",
+        "Registrar eventos necesarios sin duplicar contenido sensible por defecto.",
+        "Establecer validaciones, excepciones y un mecanismo de apagado.",
+        "Capacitar al equipo con ejemplos concretos, no sólo con una política general.",
+        "Revisar el flujo cuando cambian proveedor, datos, alcance o impacto."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "El criterio NexOps es diseñar el recorrido del dato antes de escalar el agente. Una solución útil no necesita conocer toda la empresa: necesita entradas delimitadas, permisos mínimos, estados visibles y una salida controlada. Cuanto mejor definido está el proceso, menos información innecesaria circula y más fácil resulta detectar una excepción."
     }
   ],
-  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/a7838da2cb110c5eaf719c6e9081a860aa5c57e5-1200x675.png",
+  "coverImage": "/assets/insights/cover-datos-sensibles-ia.jpg",
+  "relatedSlugs": [
+    "big-tech-frena-regulaciones-mas-duras-sobre-ia-en-eeuu",
+    "agente-ia-no-es-empleado-digital-limites",
+    "agentes-ia-produccion-control-limites"
+  ],
+  "topicFingerprint": "ia:datos-sensibles:clasificacion-permisos-retencion",
+  "cta": {
+    "label": "¿Tu agente usa sólo los datos y permisos que necesita?",
+    "href": "/servicios/ai-agents",
+    "copy": "Diseñamos flujos de IA con entradas delimitadas, accesos mínimos, validaciones y trazabilidad operativa."
+  },
   "legacySanityId": "nexops-news-2026-05-02-openai-demanda-datos",
   "generatedByEngine": false
 }

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import NewsVisual from "../../components/NewsVisual";
 import {
+  formatReadingTime,
   formatNewsDate,
   getNewsLabel,
   newsPosts,
@@ -153,6 +154,8 @@ export default function Noticias() {
                       <span>{PURPOSE_OPTIONS[featuredPost.contentPurpose]?.label || "Insight"}</span>
                       <span aria-hidden="true" className="text-slate-300">·</span>
                       <time dateTime={featuredPost.publishedAt} className="text-slate-500">{formatNewsDate(featuredPost.publishedAt)}</time>
+                      <span aria-hidden="true" className="text-slate-300">·</span>
+                      <span className="text-slate-500">{formatReadingTime(featuredPost)}</span>
                     </div>
                     <Link to={`/noticias/${featuredPost.slug}`} className="mt-4 inline-block">
                       <h2 className="text-2xl font-semibold leading-tight tracking-tight text-slate-950 transition-colors group-hover:text-indigo-700 sm:text-3xl">{featuredPost.title}</h2>
@@ -192,7 +195,7 @@ export default function Noticias() {
                     </Link>
                     <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-6">
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
-                        <span>{PURPOSE_OPTIONS[post.contentPurpose]?.label || "Insight"}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time>
+                        <span>{PURPOSE_OPTIONS[post.contentPurpose]?.label || "Insight"}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time><span aria-hidden="true">·</span><span>{formatReadingTime(post)}</span>
                       </div>
                       <Link to={`/noticias/${post.slug}`} className="mt-2 inline-block">
                         <h3 className="text-base font-semibold leading-snug text-slate-950 transition-colors group-hover:text-indigo-700 sm:text-lg">{post.title}</h3>

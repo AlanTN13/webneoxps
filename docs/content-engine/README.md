@@ -56,6 +56,8 @@ o múltiples fuentes:
 - `relatedSlugs`: slugs sugeridos para contenido relacionado.
 - `cta: { "label": "...", "href": "/servicios/..." }`.
 
+No se declara `readingTime` en el JSON. La web lo calcula desde `content` a 220 palabras por minuto, redondea hacia arriba y aplica un mínimo de un minuto. Cuenta texto visible de párrafos, headings, listas, quotes, links y captions; no cuenta título, excerpt, SEO, fuentes, URLs, CTA ni fingerprints.
+
 ## Bloques de contenido
 
 No se usa Portable Text ni HTML arbitrario.
@@ -135,7 +137,7 @@ El dedupe compara como mínimo:
 - `engineRunId`
 - `topicFingerprint`
 
-Los 13 posts históricos migrados desde Sanity conservan sus slugs y fuentes existentes. Una colisión histórica de `sourceUrl` entre dos piezas legacy se mantiene como compatibilidad; una pieza nueva que repita una fuente existente se rechaza.
+Los cuatro posts reconstruidos que provienen de Sanity conservan `legacySanityId` como trazabilidad, pero cumplen el contrato editorial actual completo. Una pieza nueva que repita una fuente existente se rechaza.
 
 ## Arquitectura editorial
 
@@ -143,7 +145,7 @@ Los 13 posts históricos migrados desde Sanity conservan sus slugs y fuentes exi
 
 `contentType` sigue describiendo la forma (`actualidad | guia | analisis | caso`) y `territory` el área de NexOps. No son dimensiones intercambiables.
 
-Compatibilidad: `contentPurpose` puede faltar sólo cuando existe `legacySanityId`. Los 13 migrados no se clasifican por inferencia porque hacerlo sin revisión editorial sería dudoso. Todo contenido nuevo, manual o del Radar, debe declararlo.
+Compatibilidad: el validador todavía admite ausencia de `contentPurpose` cuando existe `legacySanityId`, pero el corpus activo ya no depende de esa excepción. Todo contenido actual, manual o del Radar, debe declararlo.
 
 ## Contrato del Radar externo
 
@@ -166,12 +168,13 @@ El build genera:
 - `NewsArticle` o `BlogPosting` JSON-LD;
 - Publisher NexOps;
 - fecha y citations;
+- tiempo estimado como `timeRequired`;
 - breadcrumbs JSON-LD;
 - `sitemap.xml`;
 - `robots.txt`.
 
 `vercel.json` entrega primero esos HTML estáticos para Noticias y mantiene el fallback SPA para el resto del sitio.
 
-## Imágenes legacy
+## Portadas
 
-Las noticias migradas conservan las URLs históricas de imágenes que estaban alojadas en el CDN de Sanity para evitar pérdida de contenido. La aplicación ya no usa Sanity como CMS, API, SDK ni dependencia de runtime. Contenido nuevo no debe reutilizar automáticamente imágenes de medios externos.
+Todo el corpus activo usa portadas locales registradas en `docs/insights-cover-sources.md`. La aplicación no depende del CDN de Sanity ni usa Sanity como CMS, API, SDK o dependencia de runtime. Contenido futuro debe validar origen y licencia antes de incorporar un asset.

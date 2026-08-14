@@ -1,58 +1,170 @@
 {
-  "title": "Big Tech frena regulaciones más duras sobre IA en EE.UU.",
+  "title": "Qué debería preparar una empresa ante la regulación de IA",
   "slug": "big-tech-frena-regulaciones-mas-duras-sobre-ia-en-eeuu",
-  "contentType": "actualidad",
-  "category": "Tecnología",
+  "contentType": "analisis",
+  "contentPurpose": "actualidad",
+  "territory": "ia-aplicada-empresas",
+  "category": "Gobernanza de IA",
   "publishedAt": "2026-05-25T12:00:00.000Z",
-  "excerpt": "Meta, Google, Microsoft y OpenAI ganan tiempo frente a nuevas restricciones mientras crece el debate sobre control de modelos avanzados.",
-  "seoTitle": "Big Tech frena regulaciones más duras sobre IA en EE.UU.",
-  "metaDescription": "Meta, Google, Microsoft y OpenAI ganan tiempo frente a nuevas restricciones mientras crece el debate sobre control de modelos avanzados.",
-  "primaryKeyword": "big tech frena regulaciones mas duras sobre ia en eeuu",
-  "searchIntent": "informacional",
-  "sourceName": "Times of India / NYT",
-  "sourceUrl": "https://timesofindia.indiatimes.com/technology/tech-news/how-trumps-china-visit-made-him-take-a-u-turn-on-anthropic-mythos-fears-and-is-good-news-for-meta-google-openai-and-microsoft/articleshow/131251782.cms",
+  "updatedAt": "2026-08-13",
+  "excerpt": "La regulación de IA evoluciona, pero una empresa ya puede ordenar usos, datos, proveedores, controles y responsables sin esperar una norma definitiva.",
+  "seoTitle": "Cómo preparar una empresa ante la regulación de IA",
+  "metaDescription": "Qué documentar sobre usos, datos, proveedores y decisiones automatizadas mientras evoluciona la regulación de IA. Criterios operativos, no asesoramiento legal.",
+  "primaryKeyword": "regulación de IA para empresas",
+  "searchIntent": "informacional-comercial",
+  "sources": [
+    {
+      "name": "Comisión Europea — Navigating the AI Act",
+      "url": "https://digital-strategy.ec.europa.eu/en/faqs/navigating-ai-act"
+    },
+    {
+      "name": "NIST — Artificial Intelligence Risk Management Framework",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+    },
+    {
+      "name": "NIST — Generative Artificial Intelligence Profile",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+    }
+  ],
   "content": [
     {
       "type": "paragraph",
-      "text": "Las principales tecnológicas lograron evitar, al menos por ahora, regulaciones más duras sobre el lanzamiento de modelos avanzados de inteligencia artificial en Estados Unidos. La señal política favorece la continuidad del ritmo de innovación que hoy domina la industria."
+      "text": "La regulación de inteligencia artificial dejó de ser una conversación reservada a gobiernos y grandes tecnológicas. Una PyME que usa un asistente para responder clientes, clasificar solicitudes, recomendar acciones o analizar documentos también toma decisiones sobre datos, proveedores, permisos y responsabilidad. Aunque no desarrolle un modelo propio, forma parte del sistema que lo utiliza."
     },
     {
       "type": "paragraph",
-      "text": "El debate, sin embargo, no desaparece. A medida que los modelos ganan autonomía, alcance e impacto económico, también crece la presión para exigir más controles, trazabilidad y responsabilidad."
+      "text": "Eso no significa que toda automatización tenga el mismo riesgo ni que una empresa deba frenar hasta comprender cada norma internacional. Significa que conviene poder explicar qué herramienta usa, para qué, con qué información, bajo qué límites y quién responde cuando algo sale mal. Esa disciplina operativa sirve incluso cuando las reglas específicas todavía cambian."
+    },
+    {
+      "type": "paragraph",
+      "text": "Este artículo no reemplaza asesoramiento legal ni determina qué obligación aplica a una organización concreta. Su objetivo es separar tres capas que suelen mezclarse: regulación vigente, propuestas o calendarios en evolución y buenas prácticas de gestión que una empresa puede adoptar por decisión propia."
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "Innovación rápida, regulación lenta"
+      "text": "Qué está cambiando"
     },
     {
       "type": "paragraph",
-      "text": "La distancia entre el ritmo tecnológico y el ritmo regulatorio es uno de los rasgos centrales de esta etapa. Las empresas buscan margen para iterar y lanzar productos, mientras gobiernos y organismos intentan entender riesgos que cambian mes a mes."
+      "text": "La Unión Europea ofrece el ejemplo más visible de un marco basado en riesgos. Su AI Act entró en vigor en 2024 y aplica obligaciones en etapas: algunas disposiciones ya rigen, mientras otras fechas y reglas para sistemas de alto riesgo continúan ajustándose. La propia Comisión distingue obligaciones vigentes de propuestas posteriores sobre plazos. Esa diferencia importa: una propuesta no debe presentarse como ley aplicable."
     },
     {
       "type": "paragraph",
-      "text": "Para el mercado esto implica convivir con un escenario de transición:"
+      "text": "En paralelo, marcos voluntarios como el AI Risk Management Framework de NIST ayudan a organizaciones a mapear, medir, gestionar y gobernar riesgos de IA. No son una ley ni garantizan cumplimiento. Funcionan como lenguaje operativo para hacer preguntas consistentes durante diseño, compra, implementación y monitoreo."
+    },
+    {
+      "type": "paragraph",
+      "text": "Cada país y sector puede sumar reglas sobre protección de datos, consumidores, empleo, salud, finanzas o propiedad intelectual. Por eso copiar un checklist extranjero no alcanza. Lo transferible es la capacidad de inventariar el sistema, documentar decisiones y adaptar controles según impacto."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Por qué importa a una empresa que sólo usa herramientas"
+    },
+    {
+      "type": "paragraph",
+      "text": "Un proveedor puede ofrecer el modelo, pero la empresa decide dónde integrarlo. Si un agente redacta un correo interno, el riesgo suele ser acotado y reversible. Si prioriza candidatos, concede descuentos, bloquea operaciones o responde sobre información sensible, la consecuencia cambia. La responsabilidad operativa no desaparece porque la tecnología sea contratada."
+    },
+    {
+      "type": "paragraph",
+      "text": "También existe una cadena de terceros. Una interfaz puede enviar datos a un modelo, guardar logs en otra plataforma, activar automatizaciones y escribir resultados en un CRM. Evaluar únicamente la marca visible oculta dependencias, transferencias y permisos que forman parte del flujo real."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Siete cosas que conviene documentar"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Caso de uso: qué problema resuelve, quién lo usa y qué resultado produce.",
+        "Datos: qué categorías entran, de dónde provienen y cuáles no están permitidas.",
+        "Proveedores: modelo, plataforma, integraciones y subprocesadores relevantes.",
+        "Decisiones: qué recomienda o ejecuta el sistema y qué impacto puede tener.",
+        "Controles: validaciones, límites, monitoreo, pruebas y mecanismo de suspensión.",
+        "Responsables: dueño del proceso, referente técnico y persona que resuelve excepciones.",
+        "Evidencia: versiones, cambios, incidentes y criterios utilizados para aprobar el uso."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "El documento inicial no necesita ser una plataforma compleja. Para una PyME puede comenzar como un registro breve y mantenido: nombre del flujo, finalidad, datos, proveedor, responsable, nivel de impacto y fecha de revisión. Su valor aparece cuando refleja la operación real, no cuando se completa una vez para cumplir."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Privacidad y uso de datos"
+    },
+    {
+      "type": "paragraph",
+      "text": "La pregunta básica es si el sistema necesita todos los datos que recibe. Minimizar no significa ocultar información al azar; significa diseñar el flujo para trabajar con la menor cantidad y sensibilidad compatibles con su objetivo. Identificadores, conversaciones, documentos, credenciales y secretos comerciales requieren tratamientos distintos."
+    },
+    {
+      "type": "paragraph",
+      "text": "También hay que revisar retención, ubicación, condiciones de uso, entrenamiento, borrado y acceso. Estas respuestas dependen del proveedor, plan y configuración. Una política interna que diga “no ingresar datos sensibles” sirve poco si una integración automática envía adjuntos completos sin filtro."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Trazabilidad y decisiones automatizadas"
+    },
+    {
+      "type": "paragraph",
+      "text": "Trazabilidad no exige guardar cada pensamiento interno de un modelo. Exige conservar la evidencia suficiente para reconstruir qué pasó: solicitud relevante, datos utilizados, versión del flujo, resultado, validación y acción final. Cuanto mayor sea el impacto, mayor debería ser la capacidad de revisión."
+    },
+    {
+      "type": "paragraph",
+      "text": "Una decisión reversible y de bajo costo puede automatizarse con controles livianos. Una decisión que afecta derechos, dinero, seguridad o acceso a un servicio necesita límites más estrictos y, cuando corresponda, intervención humana. El human-in-the-loop no debería ser una firma automática: la persona necesita contexto, autoridad y tiempo para cuestionar el resultado."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Proveedores y contratos no reemplazan el diseño"
+    },
+    {
+      "type": "paragraph",
+      "text": "Certificaciones, términos y anexos de tratamiento son insumos importantes, pero no describen cómo la empresa configuró el producto. Conviene revisar qué cambia entre planes, qué controles están activados y qué ocurre si el proveedor modifica un modelo, una política o una integración."
+    },
+    {
+      "type": "paragraph",
+      "text": "También hace falta una salida posible. Si el proceso depende de un único proveedor, la organización debería saber cómo desactivar el flujo, preservar registros necesarios y continuar manualmente durante una falla. Gobernanza también es continuidad operativa."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué conviene hacer mientras las reglas evolucionan"
     },
     {
       "type": "list",
       "ordered": false,
       "items": [
-        "las reglas pueden endurecerse más adelante,",
-        "las compañías con mejor gobernanza llegarán mejor preparadas,",
-        "la ventaja competitiva no será solo innovar rápido, sino hacerlo con capacidad de adaptación regulatoria."
+        "Empezar por los usos reales, incluidos experimentos informales que ya manejan información de la empresa.",
+        "Clasificar impacto y sensibilidad para no aplicar el mismo control a todos los casos.",
+        "Definir responsables antes de automatizar excepciones o decisiones relevantes.",
+        "Probar con datos controlados y criterios de aceptación explícitos.",
+        "Registrar proveedores, configuraciones y cambios que puedan alterar el riesgo.",
+        "Revisar periódicamente resultados, incidentes y usos distintos del propósito original.",
+        "Consultar especialistas legales o sectoriales cuando el contexto lo requiera."
       ]
     },
     {
-      "type": "heading",
-      "level": 2,
-      "text": "Qué significa para negocios y automatización"
-    },
-    {
       "type": "paragraph",
-      "text": "Quienes adopten IA hoy ganan tiempo de aprendizaje. Pero también conviene construir procesos auditables, políticas de uso y criterios claros de supervisión. La regulación puede demorar, pero la necesidad de operar con responsabilidad ya está presente."
+      "text": "El criterio NexOps es no tratar gobernanza como una capa que se agrega después. Un buen flujo nace con entradas delimitadas, permisos mínimos, estados observables, validaciones proporcionales y una forma clara de detenerse. Eso permite adaptar la solución cuando cambian una norma, un proveedor o el negocio sin reconstruir todo desde cero."
     }
   ],
-  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/642b786757bcb755c394ff249954b4b75479a961-1200x675.png",
+  "coverImage": "/assets/insights/cover-gobernanza-ia.jpg",
+  "relatedSlugs": [
+    "openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google",
+    "agentes-ia-produccion-control-limites",
+    "agente-ia-no-es-empleado-digital-limites"
+  ],
+  "topicFingerprint": "ia:gobernanza-regulacion:documentacion-controles-responsables",
+  "cta": {
+    "label": "¿Tu implementación de IA tiene límites y responsables claros?",
+    "href": "/servicios/ai-agents",
+    "copy": "Diseñamos agentes alrededor de procesos reales, con permisos, validaciones y trazabilidad acordes al impacto."
+  },
   "legacySanityId": "nexops-news-2026-05-10-regulacion-ia-eeuu",
   "generatedByEngine": false
 }

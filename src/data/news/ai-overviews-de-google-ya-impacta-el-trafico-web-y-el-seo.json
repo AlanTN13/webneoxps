@@ -1,58 +1,175 @@
 {
-  "title": "AI Overviews de Google ya impacta el tráfico web y el SEO",
+  "title": "Cómo cambia el SEO cuando Google responde con IA",
   "slug": "ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo",
-  "contentType": "actualidad",
-  "category": "Tecnología",
+  "contentType": "guia",
+  "contentPurpose": "seo",
+  "territory": "data-analytics",
+  "category": "SEO y analítica",
   "publishedAt": "2026-05-22T12:00:00.000Z",
-  "excerpt": "Un estudio académico confirma que los resúmenes generados por IA pueden reducir clics y alterar la lógica del posicionamiento orgánico.",
-  "seoTitle": "AI Overviews de Google ya impacta el tráfico web y el SEO",
-  "metaDescription": "Un estudio académico confirma que los resúmenes generados por IA pueden reducir clics y alterar la lógica del posicionamiento orgánico.",
-  "primaryKeyword": "ai overviews de google ya impacta el trafico web y el seo",
-  "searchIntent": "informacional",
-  "sourceName": "arXiv Research",
-  "sourceUrl": "https://arxiv.org/abs/2605.14021",
+  "updatedAt": "2026-08-13",
+  "excerpt": "Una guía para entender qué cambia con AI Overviews, separar visibilidad de tráfico y medir si el contenido sigue generando demanda para la empresa.",
+  "seoTitle": "Cómo cambia el SEO cuando Google responde con IA",
+  "metaDescription": "Qué revisar ante AI Overviews: visibilidad, intención, contenido, analítica y conversión. Una guía práctica sin promesas de posicionamiento.",
+  "primaryKeyword": "AI Overviews SEO",
+  "searchIntent": "informacional-comercial",
+  "sources": [
+    {
+      "name": "Google Search Central — AI features and your website",
+      "url": "https://developers.google.com/search/docs/appearance/ai-features"
+    },
+    {
+      "name": "Pew Research Center — Google users are less likely to click when an AI summary appears",
+      "url": "https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/"
+    },
+    {
+      "name": "Google Search Central — Search Console and Google Analytics data",
+      "url": "https://developers.google.com/search/docs/monitor-debug/google-analytics-search-console"
+    }
+  ],
   "content": [
     {
       "type": "paragraph",
-      "text": "La discusión sobre AI Overviews ya no es solo intuitiva. Un estudio académico reciente midió el comportamiento de estos resúmenes generados por IA y encontró señales consistentes de reducción de clics hacia páginas web tradicionales."
+      "text": "Google ya no muestra únicamente una lista de enlaces. Para determinadas consultas puede construir una respuesta generada con IA, resumir distintos aspectos del tema y ofrecer enlaces de apoyo dentro de esa experiencia. AI Overviews y otras funciones generativas cambian la forma en que una persona descubre información, pero no convierten al SEO en una disciplina completamente distinta."
     },
     {
       "type": "paragraph",
-      "text": "Eso reconfigura una de las bases del marketing digital: publicar contenido informativo ya no garantiza el mismo retorno de tráfico que antes, incluso cuando una marca logra buena visibilidad dentro de Google."
+      "text": "Para una empresa, la pregunta útil no es cómo engañar a una respuesta generativa ni cómo garantizar una mención. Es más concreta: qué demanda sigue llegando desde búsqueda, qué contenido ayuda a ser descubierto, qué ocurre después del clic y qué parte del recorrido se puede medir. Esa mirada evita dos errores frecuentes: asumir que todo el tráfico orgánico desaparecerá o prometer que existe una fórmula especial para posicionarse dentro de la IA."
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "Un cambio estructural para SEO"
+      "text": "Qué son las respuestas generadas con IA"
     },
     {
       "type": "paragraph",
-      "text": "Si la respuesta aparece directamente en el buscador, el usuario necesita menos pasos para resolver su duda. Para muchos medios, blogs y empresas, eso puede significar menos visitas y un embudo orgánico más exigente."
+      "text": "Una AI Overview combina información encontrada para una consulta y presenta una síntesis dentro de la página de resultados. Puede aparecer cuando Google considera que agrega valor, especialmente en preguntas que requieren explicar, comparar o explorar varios subtemas. No aparece en todas las búsquedas y su contenido, fuentes y formato pueden cambiar."
     },
     {
       "type": "paragraph",
-      "text": "Las estrategias más expuestas son aquellas basadas en:"
+      "text": "La documentación oficial de Google indica que las páginas candidatas deben estar indexadas y ser elegibles para mostrarse con un fragmento. También sostiene que no existe un requisito técnico adicional ni un marcado exclusivo para entrar en estas experiencias: siguen aplicando las bases de SEO técnico, contenido útil y accesibilidad para el rastreo. Esto importa porque pone un límite a las recetas mágicas. Optimizar para personas y para una web técnicamente comprensible sigue siendo el punto de partida."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Tráfico, visibilidad e intención no son lo mismo"
+    },
+    {
+      "type": "paragraph",
+      "text": "El tráfico cuenta visitas. La visibilidad describe si una marca o página aparece frente a una búsqueda relevante. La intención explica qué trataba de resolver la persona. Las tres variables pueden moverse en direcciones distintas: una página puede perder clics informativos, sostener presencia en resultados y recibir menos visitas pero más cercanas a una decisión."
+    },
+    {
+      "type": "paragraph",
+      "text": "Una investigación de Pew Research Center sobre búsquedas realizadas por adultos en Estados Unidos durante marzo de 2025 encontró que, en la muestra analizada, las visitas a resultados con resumen de IA terminaron en un clic a un resultado tradicional en 8% de los casos, frente a 15% cuando no había resumen. Es evidencia concreta de un período, mercado y metodología determinados; no prueba que todas las industrias, países o consultas vayan a comportarse igual."
+    },
+    {
+      "type": "paragraph",
+      "text": "La hipótesis razonable es que las consultas cuya respuesta se puede condensar en pocos párrafos quedan más expuestas al cero clic. En cambio, comparar proveedores, ejecutar una tarea, usar una herramienta, evaluar un caso propio o tomar una decisión con consecuencias suele requerir más contexto. Esa hipótesis debe verificarse con datos del sitio, no convertirse en una regla universal."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué debería revisar una empresa"
+    },
+    {
+      "type": "paragraph",
+      "text": "El primer paso es separar el inventario de contenidos por función. No toda página existe para generar una sesión inmediata. Algunas capturan una necesidad explícita, otras explican una capacidad, otras reducen incertidumbre y otras ayudan a convertir. Sin esa clasificación, una caída agregada de clics puede llevar a eliminar contenido útil o a producir más volumen sin entender qué dejó de funcionar."
     },
     {
       "type": "list",
-      "ordered": false,
+      "ordered": true,
       "items": [
-        "artículos genéricos que compiten solo por volumen de keywords,",
-        "contenido fácilmente sintetizable por un modelo,",
-        "sitios sin propuesta de valor diferencial después del clic."
+        "Identificar las consultas y páginas que concentran impresiones, clics y conversiones orgánicas.",
+        "Distinguir contenido puramente informativo de páginas que ayudan a comparar, implementar o decidir.",
+        "Revisar si cada pieza aporta experiencia, datos, ejemplos, herramientas o una explicación difícil de sustituir con un resumen genérico.",
+        "Comprobar que el sitio pueda rastrearse, cargue correctamente, use títulos claros y conecte cada artículo con el siguiente paso pertinente.",
+        "Medir qué hacen las personas después de llegar: lectura, navegación a servicios, formularios, conversaciones y oportunidades comerciales."
       ]
     },
     {
       "type": "heading",
       "level": 2,
-      "text": "Cómo adaptarse"
+      "text": "El contenido defendible empieza donde termina el resumen"
     },
     {
       "type": "paragraph",
-      "text": "La respuesta no es abandonar SEO, sino evolucionarlo. Contenido experto, herramientas interactivas, casos propios y automatizaciones conectadas a conversión pasan a ser activos mucho más defensables que una simple nota informativa."
+      "text": "Una definición básica, una lista genérica o una noticia reescrita son fáciles de sintetizar. Eso no significa que deban desaparecer, pero sí que necesitan justificar por qué alguien debería abrir la fuente. Una empresa puede construir esa diferencia con una metodología propia, un diagnóstico accionable, una calculadora, un flujo paso a paso, datos originales, ejemplos verificables o criterios que ayuden a decidir."
+    },
+    {
+      "type": "paragraph",
+      "text": "La profundidad tampoco consiste en extender una nota hasta cierta cantidad de palabras. Consiste en resolver mejor la pregunta. Si una guía explica cómo detectar el problema, qué datos reunir, qué opciones existen, qué riesgos evaluar y cuál es el siguiente paso, aporta más que diez artículos que repiten definiciones. Esa utilidad puede beneficiar tanto a una persona como a los sistemas que buscan fuentes claras para construir respuestas."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué medir además de los clics"
+    },
+    {
+      "type": "paragraph",
+      "text": "Search Console permite observar consultas, impresiones, clics, posición y páginas. Google Analytics u otra herramienta de producto muestra qué ocurre dentro del sitio. Ninguna fuente aislada cuenta toda la historia: Search Console describe el rendimiento en búsqueda y la analítica describe sesiones y comportamiento. Conviene relacionarlas por página y período, aceptando que sus métricas no son idénticas."
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "Impresiones y consultas relevantes, para observar visibilidad aunque el clic cambie.",
+        "CTR por tipo de consulta y página, evitando comparar intenciones distintas como si fueran equivalentes.",
+        "Sesiones orgánicas con interacción y navegación hacia páginas de servicio.",
+        "Conversiones asistidas, formularios, contactos o leads vinculados al contenido.",
+        "Consultas de marca y accesos directos que puedan indicar reconocimiento, sin atribuirlos automáticamente a una sola nota.",
+        "Calidad del lead y avance comercial, cuando el CRM permite conectar origen, oportunidad y resultado."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Las funciones generativas de Search se integran en los reportes de rendimiento y Google ha empezado a ofrecer vistas más específicas en determinados sitios. Cuando esa información esté disponible, puede sumar contexto. Cuando no lo esté, la empresa debería evitar inventar una atribución: comparar tendencias, páginas, consultas y resultados de negocio es más honesto que asignar cada variación a AI Overviews."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Arquitectura web y conversión: el trabajo después del clic"
+    },
+    {
+      "type": "paragraph",
+      "text": "Si conseguir un clic es más difícil, desperdiciarlo cuesta más. Una página lenta, una navegación confusa o un artículo sin continuidad reduce el valor de la demanda que sí llega. El contenido necesita una arquitectura coherente: enlaces directos, metadata correcta, experiencia mobile, páginas de servicio comprensibles y llamados a la acción relacionados con el problema tratado."
+    },
+    {
+      "type": "paragraph",
+      "text": "También necesita trazabilidad. Los eventos del sitio, el formulario y el CRM deberían conservar suficiente contexto para saber qué contenido participó en una oportunidad, sin recolectar más datos de los necesarios. Esa conexión entre web, analítica y operación es más cercana al trabajo de NexOps que prometer posiciones: ordenar señales, integrar sistemas y convertir información dispersa en decisiones."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Un plan de adaptación sin promesas"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Establecer una línea base de 90 a 180 días por consulta, página y conversión.",
+        "Priorizar las páginas con demanda empresarial y pérdida relevante, no las que sólo inflan volumen.",
+        "Actualizar contenido para responder la intención completa, mostrar evidencia y eliminar secciones genéricas.",
+        "Corregir problemas técnicos de indexación, rendimiento, canonical, enlazado y experiencia mobile.",
+        "Conectar artículos con servicios, herramientas o próximos pasos coherentes.",
+        "Revisar resultados por cohortes y documentar hipótesis antes de atribuir causas.",
+        "Repetir el ciclo: medir, aprender, ajustar y retirar lo que no aporta."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "El criterio NexOps es tratar el cambio en búsqueda como un problema de sistema, no como una táctica aislada. El contenido, la arquitectura web, la medición y el seguimiento comercial forman un mismo circuito. AI Overviews puede modificar dónde ocurre la respuesta, pero la empresa todavía necesita entender la demanda, demostrar capacidad y facilitar una decisión. Ese es el activo que conviene construir."
     }
   ],
-  "coverImage": "https://cdn.sanity.io/images/t7ofgkv4/production/90663eb271dc248c196769dd44eb906d28ef496d-1200x675.png",
+  "coverImage": "/assets/insights/cover-ai-overviews-seo.jpg",
+  "relatedSlugs": [
+    "como-automatizar-reportes-de-ventas",
+    "automatizar-un-proceso-roto-falla-mas-rapido"
+  ],
+  "topicFingerprint": "seo:ai-overviews:visibilidad-medicion-conversion",
+  "cta": {
+    "label": "¿Podés conectar contenido, analítica y oportunidades reales?",
+    "href": "/servicios/data-visualization",
+    "copy": "Ordenamos métricas y fuentes para que el equipo pueda medir demanda, comportamiento y resultados sin depender de reportes aislados."
+  },
   "legacySanityId": "nexops-news-2026-05-05-ai-overviews-seo",
   "generatedByEngine": false
 }

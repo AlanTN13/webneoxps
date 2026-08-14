@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { getReadingTimeMinutes } from "../src/data/news/reading-time.js";
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, "dist");
@@ -57,6 +58,7 @@ function articleSources(article) {
 
 function jsonLd(article) {
   const canonical = `${SITE_URL}/noticias/${article.slug}`;
+  const readingTime = getReadingTimeMinutes(article);
   const data = {
     "@context": "https://schema.org",
     "@type": article.contentPurpose === "actualidad" || (!article.contentPurpose && article.contentType === "actualidad") ? "NewsArticle" : "BlogPosting",
@@ -64,6 +66,7 @@ function jsonLd(article) {
     description: article.metaDescription,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt || article.publishedAt,
+    timeRequired: `PT${readingTime}M`,
     mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
     image: [absoluteUrl(article.coverImage)],
     author: { "@type": "Organization", name: "NexOps", url: SITE_URL },
@@ -122,7 +125,8 @@ function injectStaticRoot(template, content) {
 }
 
 function articleFallback(article) {
-  return `<main data-static-seo="article"><article><nav><a href="/">NexOps</a> / <a href="/noticias">Insights</a></nav><p>${escapeHtml(article.contentPurpose || article.category || article.contentType)}</p><time datetime="${escapeHtml(article.publishedAt)}">${escapeHtml(article.publishedAt)}</time><h1>${escapeHtml(article.title)}</h1><p>${escapeHtml(article.excerpt)}</p>${renderContent(article.content)}<p><a href="/noticias">Ver más Insights de NexOps</a></p></article></main>`;
+  const readingTime = getReadingTimeMinutes(article);
+  return `<main data-static-seo="article"><article><nav><a href="/">NexOps</a> / <a href="/noticias">Insights</a></nav><p>${escapeHtml(article.contentPurpose || article.category || article.contentType)} · ${readingTime} min de lectura</p><time datetime="${escapeHtml(article.publishedAt)}">${escapeHtml(article.publishedAt)}</time><h1>${escapeHtml(article.title)}</h1><p>${escapeHtml(article.excerpt)}</p>${renderContent(article.content)}<p><a href="/noticias">Ver más Insights de NexOps</a></p></article></main>`;
 }
 
 function indexFallback(articles) {
