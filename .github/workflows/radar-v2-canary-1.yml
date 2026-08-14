@@ -1,0 +1,115 @@
+name: Radar V2 Canary 1
+
+on:
+  push:
+    branches:
+      - canary/radar-v2-publication-1
+
+permissions:
+  contents: write
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Materialize canary article atomically
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs/promises';
+          import path from 'node:path';
+          import { detectAddAction } from './scripts/news-contract.mjs';
+          import { readNewsFiles } from './scripts/news-validate.mjs';
+
+          const candidatePath = 'docs/radar-v2/canary-1/candidate.json';
+          const targetPath = 'src/data/news/que-procesos-automatizar-primero-pyme.json';
+          const coverImage = '/assets/insights/cover-priorizar-automatizaciones-pyme.jpg';
+          const candidate = JSON.parse(await fs.readFile(candidatePath, 'utf8'));
+          candidate.coverImage = coverImage;
+          candidate.engineRunId = 'radar-v2-canary-1-2026-08-14';
+
+          let existingTarget = null;
+          try { existingTarget = JSON.parse(await fs.readFile(targetPath, 'utf8')); } catch (error) {
+            if (error.code !== 'ENOENT') throw error;
+          }
+
+          if (!existingTarget) {
+            const existing = await readNewsFiles();
+            const result = detectAddAction(existing, candidate);
+            if (result.action !== 'add') {
+              console.error(result.errors || []);
+              throw new Error('pre-add news-check conflict');
+            }
+            await fs.writeFile(targetPath, `${JSON.stringify(candidate, null, 2)}\n`);
+            console.log(`CANARY ADD — ${targetPath}`);
+          } else {
+            for (const field of ['slug', 'topicFingerprint', 'engineRunId', 'coverImage']) {
+              if (existingTarget[field] !== candidate[field]) {
+                throw new Error(`idempotency mismatch in ${field}`);
+              }
+            }
+            console.log('CANARY IDEMPOTENT — article already materialized with expected identity');
+          }
+          NODE
+      - name: Validate cover quality
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const path = 'public/assets/insights/cover-priorizar-automatizaciones-pyme.jpg';
+          const b = fs.readFileSync(path);
+          if (b.length < 10_000 || b.length > 1_500_000) throw new Error(`cover byte size out of gate: ${b.length}`);
+          if (b[0] !== 0xff || b[1] !== 0xd8) throw new Error('cover is not JPEG');
+          let o = 2, width = 0, height = 0;
+          const sof = new Set([0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf]);
+          while (o < b.length) {
+            while (o < b.length && b[o] !== 0xff) o++;
+            while (o < b.length && b[o] === 0xff) o++;
+            if (o >= b.length) break;
+            const marker = b[o++];
+            if (marker === 0xd9 || marker === 0xda) break;
+            if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) continue;
+            if (o + 1 >= b.length) break;
+            const len = b.readUInt16BE(o);
+            if (sof.has(marker)) {
+              height = b.readUInt16BE(o + 3);
+              width = b.readUInt16BE(o + 5);
+              break;
+            }
+            o += len;
+          }
+          if (width < 1200 || height < 675) throw new Error(`cover dimensions too small: ${width}x${height}`);
+          const ratio = width / height;
+          if (ratio < 1.6 || ratio > 1.9) throw new Error(`cover aspect ratio out of gate: ${ratio}`);
+          console.log(`CANARY COVER OK — ${width}x${height}, ${b.length} bytes, ratio ${ratio.toFixed(3)}`);
+          NODE
+      - name: Post-add repository validation
+        run: npm run news:validate
+      - name: Content tests
+        run: npm run news:test
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Assert canary SEO output
+        run: |
+          test -f dist/noticias/que-procesos-automatizar-primero-pyme/index.html
+          grep -q 'Qué procesos automatizar primero' dist/noticias/que-procesos-automatizar-primero-pyme/index.html
+          grep -q 'cover-priorizar-automatizaciones-pyme.jpg' dist/noticias/que-procesos-automatizar-primero-pyme/index.html
+      - name: Commit publication mutation when needed
+        run: |
+          if git diff --quiet -- src/data/news/que-procesos-automatizar-primero-pyme.json; then
+            echo 'CANARY NOOP — publication already present'
+            exit 0
+          fi
+          git config user.name 'NexOps Radar Canary'
+          git config user.email 'actions@users.noreply.github.com'
+          git add src/data/news/que-procesos-automatizar-primero-pyme.json
+          git commit -m 'content: publish Radar canary 1'
+          git push origin HEAD:canary/radar-v2-publication-1
