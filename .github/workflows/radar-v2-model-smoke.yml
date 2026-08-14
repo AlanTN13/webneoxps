@@ -1,0 +1,43 @@
+name: Radar V2 Model Smoke
+
+on:
+  push:
+    branches:
+      - feat/radar-v2-weekday-ops
+
+permissions:
+  contents: read
+  pull-requests: read
+  models: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - name: Backpressure smoke
+        id: gate
+        run: node scripts/radar-v2-weekday.mjs gate
+      - name: Real model planning smoke
+        id: radar
+        if: steps.gate.outputs.blocked != 'true'
+        run: node scripts/radar-v2-weekday.mjs plan
+      - name: Validate materialized candidate when selected
+        if: steps.radar.outputs.decision == 'publish'
+        run: |
+          npm run news:validate
+          npm run news:test
+          npm run lint
+          npm run build
+      - name: Assert smoke is mutation-free
+        run: |
+          git reset --hard HEAD
+          git clean -fdx .radar public/assets/insights src/data/news || true
+          test -z "$(git status --porcelain)"
