@@ -8,6 +8,24 @@ Flujo aprobado:
 
 `Radar externo -> JSON normalizado -> npm run news:add -- candidate.json -> npm run news:validate -> commit -> Vercel`
 
+Para autonomía limitada, el punto de entrada operativo es `npm run news:run -- decision.json --commit`. La ejecución debe hacerse sobre una rama limpia y luego subir ese único commit para revisión/merge. No hace polling, no publica directamente y no requiere credenciales editoriales nuevas.
+
+La decisión externa tiene una de estas formas:
+
+```json
+{ "outcome": "NO_PUBLICATION", "reason": "No hubo candidato que supere los gates editoriales externos." }
+```
+
+```json
+{
+  "outcome": "PUBLICATION",
+  "article": "./candidate.json",
+  "coverAsset": "./cover.png"
+}
+```
+
+Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina exitosamente sin mutar el corpus. `PUBLICATION` valida el contrato y dedupe antes de escribir, exige que `coverImage` apunte a `/assets/insights/<archivo>`, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, tests, lint, build y `git diff --check`, y recién entonces crea un commit atómico con ambos archivos. Un retry se rechaza antes de sobrescribir. Si un gate falla, elimina los dos destinos y deja el worktree recuperable.
+
 Cada pieza publicada vive en `src/data/news/<slug>.json`. El frontend la incorpora en build y mantiene las URLs públicas `/noticias` y `/noticias/:slug`.
 
 ## Contrato JSON
