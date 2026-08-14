@@ -174,3 +174,69 @@ test("reading time soporta cuerpos legacy y actuales sin campos manuales", () =>
   assert.equal(getReadingTimeMinutes(legacy), 1);
   assert.equal(getReadingTimeMinutes(current), 1);
 });
+
+test("la colección rechaza relacionados inexistentes, repetidos o propios", () => {
+  const article = {
+    ...validArticle,
+    relatedSlugs: [validArticle.slug, "no-existe", "no-existe"],
+  };
+  const errors = validateCollection([article]).errors;
+  assert.ok(errors.some((error) => error.includes("propio artículo")));
+  assert.ok(errors.some((error) => error.includes("noticia inexistente")));
+  assert.ok(errors.some((error) => error.includes("contiene un duplicado")));
+});
+
+test("la colección acepta relatedSlugs que apuntan a artículos activos", () => {
+  const related = {
+    ...validArticle,
+    slug: "segundo-articulo",
+    topicFingerprint: "crm:segundo-articulo",
+    engineRunId: "run-2026-08-13-002",
+  };
+  const article = { ...validArticle, relatedSlugs: [related.slug] };
+  assert.deepEqual(validateCollection([article, related]).errors, []);
+});
+
+test("el corpus saneado conserva sólo 12 artículos con contrato editorial completo", async () => {
+  const articles = await readNewsFiles();
+  assert.equal(articles.length, 12);
+  for (const article of articles) {
+    assert.ok(article.contentPurpose, `${article.slug} no tiene contentPurpose`);
+    assert.ok(article.contentType, `${article.slug} no tiene contentType`);
+    assert.ok(article.territory, `${article.slug} no tiene territory`);
+    assert.match(article.coverImage, /^\/assets\/insights\//);
+    await fs.access(path.resolve("public", article.coverImage.slice(1)));
+  }
+});
+
+test("los tres artículos consolidados tienen redirects 308 directos", async () => {
+  const configuration = JSON.parse(await fs.readFile(path.resolve("vercel.json"), "utf8"));
+  const redirects = new Map(configuration.redirects.map((redirect) => [redirect.source, redirect]));
+  const expected = {
+    "/noticias/google-reinventa-search-con-ia-y-cambia-el-juego-del-seo": "/noticias/ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo",
+    "/noticias/google-y-openai-aceleran-la-era-de-los-agentes-autonomos": "/noticias/agentes-ia-produccion-control-limites",
+    "/noticias/meta-acelera-la-carrera-de-ia-contra-openai-y-google": "/noticias/meta-business-agent-whatsapp-leads-ventas",
+  };
+
+  assert.equal(configuration.redirects.length, 3);
+  for (const [source, destination] of Object.entries(expected)) {
+    assert.equal(redirects.get(source)?.destination, destination);
+    assert.equal(redirects.get(source)?.statusCode, 308);
+    assert.ok(!expected[destination], `redirect encadenado desde ${source}`);
+  }
+});
+
+test("las seis notas retiradas ya no tienen JSON publicable", async () => {
+  const retiredSlugs = [
+    "alphabet-despega-frente-a-meta-gracias-al-negocio-de-la-ia",
+    "gemini-3-supera-a-chatgpt-y-redefine-el-liderazgo-en-inteligencia-artificial",
+    "la-revolucion-tecnologica-de-enero-2026-en-Argentina",
+    "milei-impulsa-ia-para-disenar-politicas-publicas-en-argentina",
+    "nvidia-ya-destina-usd-90000-millones-al-ecosistema-de-ia",
+    "sam-altman-modera-su-discurso-sobre-el-impacto-laboral-de-la-ia",
+  ];
+
+  for (const slug of retiredSlugs) {
+    await assert.rejects(fs.access(path.resolve("src/data/news", `${slug}.json`)));
+  }
+});

@@ -126,9 +126,26 @@ function duplicateErrors(articles, field, normalize = comparable) {
 
 export function validateCollection(articles) {
   const errors = []; const warnings = [];
+  const publishedSlugs = new Set(articles.map((article) => article?.slug).filter(text));
   for (const article of articles) {
     const result = validateArticle(article, article?.slug || "<sin-slug>");
     errors.push(...result.errors); warnings.push(...result.warnings);
+
+    const relatedSlugs = Array.isArray(article?.relatedSlugs) ? article.relatedSlugs : [];
+    const uniqueRelatedSlugs = new Set();
+    for (const relatedSlug of relatedSlugs) {
+      if (!text(relatedSlug)) continue;
+      if (relatedSlug === article.slug) errors.push(`${article.slug}: relatedSlugs no puede apuntar al propio artículo`);
+      if (!publishedSlugs.has(relatedSlug)) errors.push(`${article.slug}: relatedSlugs apunta a una noticia inexistente: ${relatedSlug}`);
+      if (uniqueRelatedSlugs.has(relatedSlug)) errors.push(`${article.slug}: relatedSlugs contiene un duplicado: ${relatedSlug}`);
+      uniqueRelatedSlugs.add(relatedSlug);
+    }
+
+    for (const block of article?.content || []) {
+      if (block?.type !== "link" || !block.href?.startsWith("/noticias/")) continue;
+      const linkedSlug = block.href.slice("/noticias/".length).split("#")[0].split("?")[0];
+      if (!publishedSlugs.has(linkedSlug)) errors.push(`${article.slug}: content contiene un enlace a una noticia inexistente: ${block.href}`);
+    }
   }
   errors.push(...duplicateErrors(articles, "slug"));
 

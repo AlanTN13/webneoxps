@@ -20,13 +20,15 @@ Cada insight vive en `src/data/news/<slug>.json`. El nombre debe coincidir con `
 
 Campos principales: `title`, `slug`, `contentPurpose`, `contentType`, `category`, `publishedAt`, `excerpt`, `content`, `seoTitle`, `metaDescription`. Puede incluir `territory`, `primaryKeyword`, `searchIntent`, fuentes, CTA, relacionados e imagen.
 
-`contentPurpose` (`seo | actualidad | criterio | caso`) explica para qué existe la pieza y organiza los filtros de Insights. `contentType` (`actualidad | guia | analisis | caso`) explica cómo está escrita. `territory` explica sobre qué capacidad de NexOps habla. Sólo los 13 documentos con `legacySanityId` pueden omitir propósito; no se les asigna uno de forma especulativa.
+`contentPurpose` (`seo | actualidad | criterio | caso`) explica para qué existe la pieza y organiza los filtros de Insights. `contentType` (`actualidad | guia | analisis | caso`) explica cómo está escrita. `territory` explica sobre qué capacidad de NexOps habla. El corpus activo completo declara las tres dimensiones; `legacySanityId` queda sólo como trazabilidad en cuatro URLs reconstruidas.
 
-Las ocho piezas de definición editorial se publican como JSON reales con `generatedByEngine: false`, dos por propósito. Las piezas de actualidad citan sus fuentes primarias; ninguna inventa score ni run ID.
+Las ocho piezas de definición editorial y las cuatro legacy reconstruidas se publican como JSON reales con `generatedByEngine: false`. Las piezas de actualidad citan fuentes confiables; ninguna inventa score ni run ID.
 
 Metadata externa permitida para auditoría: `engineScore`, `engineRunId`, `topicFingerprint`, `generatedByEngine` y una identidad de origen estable. La web puede almacenar el score pero no lo recalcula.
 
 `content` acepta bloques `paragraph`, `heading`, `list`, `quote`, `link` e `image`.
+
+El tiempo de lectura no forma parte del payload: se calcula automáticamente desde el texto visible de `content` con `Math.ceil(words / 220)` y mínimo de un minuto.
 
 ## Operación segura
 
