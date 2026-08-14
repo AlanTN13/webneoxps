@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { addNewsFile } from "../../scripts/news-add.mjs";
+import { runNewsDecision } from "../../scripts/news-run.mjs";
 import { detectAddAction, validateArticle, validateCollection } from "../../scripts/news-contract.mjs";
 import { readNewsFiles } from "../../scripts/news-validate.mjs";
 import { getContentWordCount, getReadingTimeMinutes } from "../../src/data/news/reading-time.js";
@@ -110,6 +111,56 @@ test("news:add escribe una vez y rechaza el segundo intento sin sobrescribir", a
   await assert.rejects(addNewsFile({ source: candidatePath, newsDirectory }));
   assert.equal(await fs.readFile(destination, "utf8"), original);
   assert.equal((await fs.readdir(newsDirectory)).length, 1);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("news:run NO_PUBLICATION no muta corpus ni assets", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-no-publication-"));
+  const newsDirectory = path.join(root, "news");
+  const assetDirectory = path.join(root, "assets");
+  const decisionPath = path.join(root, "decision.json");
+  await fs.mkdir(newsDirectory);
+  await fs.mkdir(assetDirectory);
+  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "NO_PUBLICATION", reason: "sin candidato" }));
+  const result = await runNewsDecision({ decisionPath, newsDirectory, assetDirectory });
+  assert.equal(result.changed, false);
+  assert.deepEqual(await fs.readdir(newsDirectory), []);
+  assert.deepEqual(await fs.readdir(assetDirectory), []);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("news:run incorpora artículo y asset juntos y el retry no duplica", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-publication-"));
+  const newsDirectory = path.join(root, "news");
+  const assetDirectory = path.join(root, "assets");
+  const candidatePath = path.join(root, "candidate.json");
+  const coverPath = path.join(root, "cover.png");
+  const decisionPath = path.join(root, "decision.json");
+  const article = { ...validArticle, coverImage: "/assets/insights/cover.png" };
+  await fs.writeFile(candidatePath, JSON.stringify(article));
+  await fs.writeFile(coverPath, "asset");
+  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json", coverAsset: "./cover.png" }));
+  const first = await runNewsDecision({ decisionPath, newsDirectory, assetDirectory });
+  assert.equal(first.changed, true);
+  assert.deepEqual((await fs.readdir(newsDirectory)).filter((file) => !file.startsWith(".")), [`${article.slug}.json`]);
+  assert.deepEqual((await fs.readdir(assetDirectory)).filter((file) => !file.startsWith(".")), ["cover.png"]);
+  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory, assetDirectory }));
+  assert.equal((await fs.readdir(newsDirectory)).length, 1);
+  assert.equal((await fs.readdir(assetDirectory)).length, 1);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("news:run revierte el artículo temporal si falla el asset", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-publication-failure-"));
+  const newsDirectory = path.join(root, "news");
+  const assetDirectory = path.join(root, "assets");
+  const candidatePath = path.join(root, "candidate.json");
+  const decisionPath = path.join(root, "decision.json");
+  await fs.writeFile(candidatePath, JSON.stringify({ ...validArticle, coverImage: "/assets/insights/missing.png" }));
+  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json", coverAsset: "./missing.png" }));
+  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory, assetDirectory }));
+  assert.deepEqual(await fs.readdir(newsDirectory), []);
+  assert.deepEqual(await fs.readdir(assetDirectory), []);
   await fs.rm(root, { recursive: true, force: true });
 });
 
