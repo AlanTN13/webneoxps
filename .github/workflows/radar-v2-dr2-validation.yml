@@ -1,0 +1,62 @@
+name: Radar V2 DR2 Validation
+
+on:
+  push:
+    branches:
+      - test/radar-v2-dry-run-2
+
+permissions:
+  contents: read
+
+jobs:
+  dr2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Executable candidate news-check
+        run: node scripts/news-check.mjs docs/radar-v2/dry-run-2/candidate.json
+      - name: Validate candidate with real cover asset
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs/promises';
+          import { detectAddAction } from './scripts/news-contract.mjs';
+          import { readNewsFiles } from './scripts/news-validate.mjs';
+
+          const coverPath = '/assets/insights/cover-priorizar-automatizaciones-pyme.jpg';
+          const candidate = JSON.parse(await fs.readFile('docs/radar-v2/dry-run-2/candidate.json', 'utf8'));
+          candidate.coverImage = coverPath;
+          const existing = await readNewsFiles();
+          const result = detectAddAction(existing, candidate);
+          if (result.action !== 'add') {
+            console.error(result.errors);
+            process.exit(1);
+          }
+          const bytes = await fs.readFile(`public${coverPath}`);
+          if (bytes.length < 1024 || bytes[0] !== 0xff || bytes[1] !== 0xd8 || bytes.at(-2) !== 0xff || bytes.at(-1) !== 0xd9) {
+            throw new Error('cover asset is not a valid non-trivial JPEG');
+          }
+          console.log(`DR2 COVER OK — ${bytes.length} bytes; candidate remains add-safe with coverImage`);
+          NODE
+      - name: Validate repository news
+        run: npm run news:validate
+      - name: Run content tests
+        run: npm run news:test
+      - name: Lint
+        run: npm run lint
+      - name: Build and generate SEO artifacts
+        run: npm run build
+      - name: Assert build artifacts
+        run: |
+          test -f dist/noticias/index.html
+          test -f dist/sitemap.xml
+          test -f dist/robots.txt
+          SOURCE_COUNT="$(find src/data/news -maxdepth 1 -type f -name '*.json' | wc -l)"
+          GENERATED_COUNT="$(find dist/noticias -mindepth 2 -maxdepth 2 -type f -name index.html | wc -l)"
+          echo "News JSON: $SOURCE_COUNT"
+          echo "Generated SEO pages: $GENERATED_COUNT"
+          test "$GENERATED_COUNT" -eq "$SOURCE_COUNT"
