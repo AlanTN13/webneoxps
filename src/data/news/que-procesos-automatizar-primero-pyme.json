@@ -1,0 +1,260 @@
+{
+  "title": "Qué procesos automatizar primero en una PyME: una matriz para decidir",
+  "slug": "que-procesos-automatizar-primero-pyme",
+  "contentPurpose": "seo",
+  "contentType": "guia",
+  "territory": "automatizacion-procesos",
+  "category": "Automatización",
+  "publishedAt": "2026-08-14",
+  "excerpt": "Una matriz práctica para priorizar automatizaciones por impacto, claridad, datos, riesgo y facilidad de control antes de elegir herramientas.",
+  "seoTitle": "Qué procesos automatizar primero en una PyME",
+  "metaDescription": "Cómo priorizar procesos para automatizar según impacto, reglas, datos, riesgo y control. Una matriz práctica para elegir el primer caso con criterio.",
+  "primaryKeyword": "qué procesos automatizar primero",
+  "searchIntent": "informacional-comercial",
+  "sources": [
+    {
+      "name": "IBM — The next generation of automation won’t follow workflows",
+      "url": "https://www.ibm.com/think/insights/next-generation-automation-not-follow-workflows"
+    },
+    {
+      "name": "McKinsey — The future of B2B sales: How growth champions rewire their playbooks with AI",
+      "url": "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-future-of-b2b-sales-how-growth-champions-rewire-their-playbooks-with-ai"
+    }
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Cuando una empresa empieza a mirar automatización, suele aparecer una lista larga: cargar facturas, responder consultas, actualizar el CRM, preparar reportes, asignar pedidos, controlar vencimientos, mover datos entre sistemas. El error es tratar esa lista como un backlog técnico y empezar por lo que parece más fácil de conectar."
+    },
+    {
+      "type": "paragraph",
+      "text": "La primera automatización debería elegirse por una combinación más exigente: impacto real, reglas suficientemente claras, datos disponibles, riesgo controlable y un resultado que pueda medirse. Una tarea muy manual puede ser un mal primer caso si cambia todas las semanas; una tarea menos vistosa puede ser excelente si se repite mucho, tiene criterios estables y deja evidencia de que funcionó."
+    },
+    {
+      "type": "paragraph",
+      "text": "En NexOps preferimos priorizar procesos antes que herramientas. La pregunta no es “¿qué podemos automatizar con IA, n8n o un CRM?”. Es “¿qué parte de la operación conviene convertir primero en un sistema más consistente?”."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Primero, definir un proceso evaluable"
+    },
+    {
+      "type": "paragraph",
+      "text": "“Automatizar ventas” no es un candidato. “Registrar y asignar una consulta entrante según zona y producto” sí. Para comparar oportunidades hace falta delimitar un inicio, una secuencia y un resultado observable."
+    },
+    {
+      "type": "paragraph",
+      "text": "Antes de puntuar, describí cada candidato con cinco preguntas: qué lo dispara, qué información necesita, qué decisiones toma, qué excepciones aparecen y cuándo se considera terminado. Si no se puede explicar de forma razonablemente estable, el trabajo previo es ordenar el proceso."
+    },
+    {
+      "type": "link",
+      "text": "Por qué automatizar un proceso roto puede empeorar el problema",
+      "href": "/noticias/automatizar-un-proceso-roto-falla-mas-rapido"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "La matriz: impacto, preparación y riesgo"
+    },
+    {
+      "type": "paragraph",
+      "text": "Una matriz simple permite comparar procesos distintos sin convertir la decisión en una discusión de opiniones. No hace falta una fórmula financiera perfecta. Alcanza con usar los mismos criterios para todos los candidatos y documentar por qué reciben cada puntuación."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1. Impacto operativo"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Frecuencia: ¿ocurre todos los días, todas las semanas o de manera excepcional?",
+        "Tiempo manual: ¿cuántas personas intervienen y cuánto trabajo repetitivo absorbe?",
+        "Errores y retrabajo: ¿la ejecución manual genera correcciones, duplicados u omisiones?",
+        "Dependencia: ¿el proceso se frena cuando una persona no está disponible?",
+        "Impacto de negocio: ¿afecta ventas, tiempos de respuesta, costos, control o experiencia del cliente?"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Un proceso frecuente no necesariamente tiene alto impacto. Automatizar cien movimientos triviales puede liberar menos capacidad que evitar un único cuello de botella que bloquea pedidos, cobros o seguimiento comercial. Por eso conviene mirar el resultado completo y no sólo la cantidad de clics."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2. Preparación para automatizar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Reglas: ¿las decisiones repetitivas pueden explicarse sin depender de intuición constante?",
+        "Datos: ¿las entradas existen, son accesibles y tienen una calidad suficiente?",
+        "Estabilidad: ¿el flujo cambia poco o cada caso se resuelve de una forma distinta?",
+        "Responsable: ¿hay una persona o área dueña del proceso?",
+        "Resultado verificable: ¿el sistema puede demostrar que terminó bien, no sólo que ejecutó una acción?"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "La preparación suele ser el criterio olvidado. Una automatización puede tener un caso de negocio atractivo y aun así fracasar porque los datos llegan incompletos, las reglas viven en la cabeza de dos personas o nadie puede decidir qué hacer con una excepción."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "3. Riesgo y capacidad de control"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Reversibilidad: ¿una acción incorrecta puede deshacerse fácilmente?",
+        "Costo del error: ¿qué ocurre si el sistema se equivoca una vez o cien veces?",
+        "Excepciones: ¿son pocas y detectables o representan buena parte del volumen?",
+        "Permisos: ¿la automatización puede operar con acceso mínimo?",
+        "Continuidad: ¿existe una salida manual si el flujo se detiene?"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Cuanto mayor sea el impacto de una acción, más importante es diseñar validaciones, límites y escalamiento humano. Un primer piloto debería enseñar cómo automatizar y cómo operar la automatización, no exponer de entrada a la empresa a una decisión difícil de revertir."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Un scoring de 0 a 2 alcanza para empezar"
+    },
+    {
+      "type": "paragraph",
+      "text": "Para una primera sesión de priorización, cada criterio puede puntuarse con 0, 1 o 2: 0 cuando la condición es desfavorable o desconocida, 1 cuando está parcialmente resuelta y 2 cuando es claramente favorable. El total no debe decidir solo; sirve para ordenar la conversación y hacer visibles las razones."
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Puntuá impacto: frecuencia, tiempo manual, errores, dependencia e impacto de negocio.",
+        "Puntuá preparación: reglas, datos, estabilidad, responsable y resultado verificable.",
+        "Puntuá control: reversibilidad, costo del error, excepciones, permisos y continuidad.",
+        "Compará los candidatos y revisá especialmente cualquier 0 en preparación o control.",
+        "Elegí un tramo acotado que pueda probarse sin comprometer toda la operación."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Un proceso puede tener una puntuación total alta y seguir sin estar listo. Por ejemplo, una tarea con enorme impacto pero reglas ambiguas no debería ganar por promedio. Ese 0 en claridad es un gate: primero hay que diseñar el proceso."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cómo leer el resultado de la matriz"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Alto impacto + alta preparación + riesgo controlable: candidato fuerte para un primer piloto.",
+        "Alto impacto + baja preparación: primero ordenar datos, reglas o responsabilidades.",
+        "Bajo impacto + alta preparación: automatización fácil, pero puede esperar si no libera capacidad relevante.",
+        "Alto impacto + alto riesgo: dividir el proceso, automatizar preparación o recomendación y mantener la decisión sensible bajo control humano.",
+        "Bajo impacto + baja preparación: normalmente no debería competir por prioridad."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Esta lectura evita dos sesgos comunes: elegir sólo quick wins porque son fáciles o perseguir un proyecto enorme porque promete más ahorro. El mejor primer caso tiene suficiente valor para importar y suficiente control para aprender sin convertir cada excepción en una crisis."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Ejemplo: tres candidatos muy distintos"
+    },
+    {
+      "type": "paragraph",
+      "text": "Supongamos que una PyME analiza tres procesos: registrar solicitudes internas, aprobar descuentos excepcionales y copiar datos de pedidos entre dos sistemas."
+    },
+    {
+      "type": "paragraph",
+      "text": "El registro de solicitudes puede tener buen volumen, reglas entendibles y acciones reversibles. Copiar datos entre sistemas puede ser todavía más mecánico, pero antes hay que comprobar duplicados, campos obligatorios y qué sistema es fuente de verdad. En cambio, aprobar descuentos puede tener alto impacto comercial y reglas parciales, pero un error afecta margen y relación con el cliente."
+    },
+    {
+      "type": "paragraph",
+      "text": "La conclusión no es que los descuentos nunca se automaticen. Quizás la primera versión sólo prepara la recomendación, verifica límites y reúne contexto para que una persona apruebe. Automatizar por capas permite capturar parte del valor sin fingir que todas las decisiones tienen el mismo riesgo."
+    },
+    {
+      "type": "link",
+      "text": "Ver un caso aplicado de solicitudes internas convertidas en flujo",
+      "href": "/noticias/solicitud-interna-flujo-automatico-trabajo"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El piloto necesita una métrica antes de necesitar una herramienta"
+    },
+    {
+      "type": "paragraph",
+      "text": "Antes de construir, definí qué evidencia demostraría mejora. Puede ser tiempo de ciclo, cantidad de pasos manuales, errores, solicitudes sin responsable, retrabajo, cumplimiento de una próxima acción o capacidad absorbida por el equipo. La métrica depende del proceso; lo importante es que exista antes de la demo."
+    },
+    {
+      "type": "paragraph",
+      "text": "IBM viene planteando una evolución desde automatizar acciones hacia mejorar resultados operativos. McKinsey, en su análisis de ventas B2B de 2026, señala que sumar IA encima de datos fragmentados, procesos manuales y equipos desconectados rara vez produce valor material; los mejores resultados aparecen cuando se rediseñan workflows completos. Aunque ambos enfoques parten de contextos distintos, coinciden con una regla práctica: la automatización debería medirse por el proceso que mejora, no por la cantidad de tecnología incorporada."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué conviene dejar fuera del primer piloto"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Procesos que cambian de criterio todas las semanas.",
+        "Decisiones donde nadie puede explicar qué significa un resultado correcto.",
+        "Flujos sin dueño de negocio.",
+        "Automatizaciones que requieren permisos demasiado amplios para un beneficio pequeño.",
+        "Casos donde no existe forma de detectar una falla silenciosa.",
+        "Proyectos elegidos principalmente porque una herramienta nueva permite hacerlos."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Postergar un candidato no significa descartarlo. Muchas veces la mejor primera mejora es estructurar un formulario, limpiar una fuente de datos, definir estados, acordar responsables o registrar excepciones. Ese trabajo aumenta la probabilidad de que la automatización posterior sea más simple y más mantenible."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "El criterio NexOps para elegir por dónde empezar"
+    },
+    {
+      "type": "paragraph",
+      "text": "Buscamos una intersección: un problema que importe al negocio, un proceso suficientemente entendible y un nivel de riesgo que permita ponerlo en producción de manera controlada. Después elegimos la tecnología proporcional al problema."
+    },
+    {
+      "type": "paragraph",
+      "text": "Eso puede terminar en una integración tradicional, una automatización por reglas, una capa de IA o una combinación. La herramienta no define la madurez del proyecto. La define la capacidad de ejecutar mejor: menos fricción, más trazabilidad, menos dependencia manual y un resultado que pueda observarse."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Un próximo paso concreto"
+    },
+    {
+      "type": "paragraph",
+      "text": "Elegí entre cinco y diez tareas o tramos de procesos que hoy consumen trabajo manual. Puntuá impacto, preparación y control con la misma escala. No discutas todavía proveedores. El objetivo de esa primera sesión es salir con uno o dos candidatos defendibles y una lista clara de qué falta ordenar en los demás."
+    },
+    {
+      "type": "paragraph",
+      "text": "Si el candidato ganador tiene reglas claras, datos accesibles, un responsable y una métrica, ya existe suficiente base para diseñar un piloto. Si no, la matriz también hizo su trabajo: evitó automatizar el problema equivocado."
+    }
+  ],
+  "relatedSlugs": [
+    "automatizar-un-proceso-roto-falla-mas-rapido",
+    "solicitud-interna-flujo-automatico-trabajo",
+    "como-automatizar-reportes-de-ventas"
+  ],
+  "topicFingerprint": "seo:automatizacion-procesos:priorizar-procesos-impacto-riesgo",
+  "engineRunId": "radar-v2-canary-1-2026-08-14",
+  "engineScore": 96,
+  "generatedByEngine": true,
+  "cta": {
+    "label": "Priorizar qué automatizar primero",
+    "href": "/servicios/process-automation"
+  },
+  "coverImage": "/assets/insights/cover-priorizar-automatizaciones-pyme.png"
+}
