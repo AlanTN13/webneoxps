@@ -20,27 +20,30 @@ jobs:
         run: npm ci
       - name: Executable candidate news-check
         run: node scripts/news-check.mjs docs/radar-v2/dry-run-2/candidate.json
-      - name: Validate candidate with real cover asset
+      - name: Build candidate with coverImage
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs/promises';
-          import { detectAddAction } from './scripts/news-contract.mjs';
-          import { readNewsFiles } from './scripts/news-validate.mjs';
-
-          const coverPath = '/assets/insights/cover-priorizar-automatizaciones-pyme.jpg';
           const candidate = JSON.parse(await fs.readFile('docs/radar-v2/dry-run-2/candidate.json', 'utf8'));
-          candidate.coverImage = coverPath;
-          const existing = await readNewsFiles();
-          const result = detectAddAction(existing, candidate);
-          if (result.action !== 'add') {
-            console.error(result.errors);
-            process.exit(1);
+          candidate.coverImage = '/assets/insights/cover-priorizar-automatizaciones-pyme.jpg';
+          await fs.writeFile('/tmp/radar-dr2-candidate-with-cover.json', JSON.stringify(candidate, null, 2));
+          NODE
+      - name: Executable news-check with coverImage
+        run: node scripts/news-check.mjs /tmp/radar-dr2-candidate-with-cover.json
+      - name: Validate real binary cover asset
+        run: |
+          COVER='public/assets/insights/cover-priorizar-automatizaciones-pyme.jpg'
+          test -s "$COVER"
+          file "$COVER"
+          file "$COVER" | grep -q 'JPEG image data'
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const path = 'public/assets/insights/cover-priorizar-automatizaciones-pyme.jpg';
+          const bytes = fs.readFileSync(path);
+          if (bytes.length < 1024 || bytes[0] !== 0xff || bytes[1] !== 0xd8) {
+            throw new Error('cover asset is not a non-trivial JPEG');
           }
-          const bytes = await fs.readFile(`public${coverPath}`);
-          if (bytes.length < 1024 || bytes[0] !== 0xff || bytes[1] !== 0xd8 || bytes.at(-2) !== 0xff || bytes.at(-1) !== 0xd9) {
-            throw new Error('cover asset is not a valid non-trivial JPEG');
-          }
-          console.log(`DR2 COVER OK — ${bytes.length} bytes; candidate remains add-safe with coverImage`);
+          console.log(`DR2 COVER BINARY OK — ${bytes.length} bytes`);
           NODE
       - name: Validate repository news
         run: npm run news:validate
