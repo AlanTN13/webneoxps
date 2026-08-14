@@ -1,1 +1,0 @@
-Trigger a second canary execution after the autonomous publication mutation.
