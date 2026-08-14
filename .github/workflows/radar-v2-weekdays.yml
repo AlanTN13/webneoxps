@@ -5,6 +5,12 @@ on:
     # 09:15 Argentina (UTC-3). GitHub cron runs in UTC.
     - cron: "15 12 * * 1-5"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Probar selección + materialización + validaciones sin push ni PR"
+        required: false
+        default: true
+        type: boolean
 
 concurrency:
   group: radar-v2-weekday-ops
@@ -35,6 +41,16 @@ jobs:
 
       - name: Install exact dependencies
         run: npm ci
+
+      - name: Resolve execution mode
+        id: mode
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" != "false" ]; then
+            echo "dry_run=true" >> "$GITHUB_OUTPUT"
+            echo "Manual smoke mode: no branch, push or PR will be created."
+          else
+            echo "dry_run=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Backpressure — only one Radar PR at a time
         id: backpressure
@@ -87,8 +103,18 @@ jobs:
           printf '%s\n' "${FILES[@]}" | grep -Fxq "$ARTICLE"
           printf '%s\n' "${FILES[@]}" | grep -Fxq "$COVER"
 
+      - name: Dry-run summary
+        if: steps.radar.outputs.decision == 'publish' && steps.mode.outputs.dry_run == 'true'
+        run: |
+          {
+            echo "## Radar V2 — manual dry-run passed"
+            echo "Title: ${{ steps.radar.outputs.title }}"
+            echo "Candidate branch (not created): ${{ steps.radar.outputs.branch }}"
+            echo "All local gates passed; no push or PR was performed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Commit and push isolated publication branch
-        if: steps.radar.outputs.decision == 'publish'
+        if: steps.radar.outputs.decision == 'publish' && steps.mode.outputs.dry_run != 'true'
         run: |
           BRANCH="${{ steps.radar.outputs.branch }}"
           git config user.name "NexOps Radar V2"
@@ -99,15 +125,15 @@ jobs:
 
       - name: Open human-merge PR
         id: pr
-        if: steps.radar.outputs.decision == 'publish'
+        if: steps.radar.outputs.decision == 'publish' && steps.mode.outputs.dry_run != 'true'
         run: node scripts/radar-v2-weekday.mjs open-pr
 
       - name: Re-dispatch standard Content Engine validation
-        if: steps.radar.outputs.decision == 'publish'
+        if: steps.radar.outputs.decision == 'publish' && steps.mode.outputs.dry_run != 'true'
         run: node scripts/radar-v2-weekday.mjs dispatch-validation
 
       - name: Publication summary
-        if: steps.radar.outputs.decision == 'publish'
+        if: steps.radar.outputs.decision == 'publish' && steps.mode.outputs.dry_run != 'true'
         run: |
           {
             echo "## Radar V2 — PR prepared"
