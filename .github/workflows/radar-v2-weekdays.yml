@@ -1,0 +1,118 @@
+name: Radar V2 Weekday Ops
+
+on:
+  schedule:
+    # 09:15 Argentina (UTC-3). GitHub cron runs in UTC.
+    - cron: "15 12 * * 1-5"
+  workflow_dispatch:
+
+concurrency:
+  group: radar-v2-weekday-ops
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  models: read
+
+jobs:
+  radar:
+    if: github.repository == 'AlanTN13/webneoxps'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install exact dependencies
+        run: npm ci
+
+      - name: Backpressure — only one Radar PR at a time
+        id: backpressure
+        run: node scripts/radar-v2-weekday.mjs gate
+
+      - name: Plan one editorial candidate
+        id: radar
+        if: steps.backpressure.outputs.blocked != 'true'
+        run: node scripts/radar-v2-weekday.mjs plan
+
+      - name: Record no-op decision
+        if: steps.backpressure.outputs.blocked == 'true' || steps.radar.outputs.decision == 'skip'
+        run: |
+          {
+            echo "## Radar V2 — no publication"
+            if [ "${{ steps.backpressure.outputs.blocked }}" = "true" ]; then
+              echo "Backpressure active: PR Radar #${{ steps.backpressure.outputs.active_pr }} is still open."
+            else
+              echo "Reason: ${{ steps.radar.outputs.reason }}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Validate repository after materialization
+        if: steps.radar.outputs.decision == 'publish'
+        run: npm run news:validate
+
+      - name: Run content tests
+        if: steps.radar.outputs.decision == 'publish'
+        run: npm run news:test
+
+      - name: Lint
+        if: steps.radar.outputs.decision == 'publish'
+        run: npm run lint
+
+      - name: Build and generate SEO artifacts
+        if: steps.radar.outputs.decision == 'publish'
+        run: npm run build
+
+      - name: Assert intended mutation only
+        if: steps.radar.outputs.decision == 'publish'
+        run: |
+          ARTICLE="$(node -e "const r=require('fs').readFileSync('.radar/result.json','utf8');process.stdout.write(JSON.parse(r).articleFile)")"
+          COVER="$(node -e "const r=require('fs').readFileSync('.radar/result.json','utf8');process.stdout.write(JSON.parse(r).coverFile)")"
+          test -f "$ARTICLE"
+          test -f "$COVER"
+          git add "$ARTICLE" "$COVER"
+          mapfile -t FILES < <(git diff --cached --name-only)
+          printf 'Staged: %s\n' "${FILES[@]}"
+          test "${#FILES[@]}" -eq 2
+          printf '%s\n' "${FILES[@]}" | grep -Fxq "$ARTICLE"
+          printf '%s\n' "${FILES[@]}" | grep -Fxq "$COVER"
+
+      - name: Commit and push isolated publication branch
+        if: steps.radar.outputs.decision == 'publish'
+        run: |
+          BRANCH="${{ steps.radar.outputs.branch }}"
+          git config user.name "NexOps Radar V2"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git commit -m "content: Radar V2 weekday insight"
+          git push origin "$BRANCH"
+
+      - name: Open human-merge PR
+        id: pr
+        if: steps.radar.outputs.decision == 'publish'
+        run: node scripts/radar-v2-weekday.mjs open-pr
+
+      - name: Re-dispatch standard Content Engine validation
+        if: steps.radar.outputs.decision == 'publish'
+        run: node scripts/radar-v2-weekday.mjs dispatch-validation
+
+      - name: Publication summary
+        if: steps.radar.outputs.decision == 'publish'
+        run: |
+          {
+            echo "## Radar V2 — PR prepared"
+            echo "Title: ${{ steps.radar.outputs.title }}"
+            echo "Branch: ${{ steps.radar.outputs.branch }}"
+            echo "PR: ${{ steps.pr.outputs.pr_url }}"
+            echo "Guardrail: no merge or production deploy was performed by this workflow."
+          } >> "$GITHUB_STEP_SUMMARY"

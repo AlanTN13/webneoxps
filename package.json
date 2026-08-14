@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "news:add": "node scripts/news-add.mjs",
     "news:validate": "node scripts/news-validate.mjs",
-    "news:test": "node --test tests/news/content-engine.test.mjs",
+    "news:test": "node --test tests/news/*.test.mjs",
     "news:seo": "node scripts/generate-news-seo.mjs"
   },
   "dependencies": {
