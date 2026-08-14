@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import NewsContent from "../../components/NewsContent";
 import NewsVisual from "../../components/NewsVisual";
 import {
+  formatReadingTime,
   formatNewsDate,
   getNewsPurposeLabel,
   getNewsCta,
@@ -40,7 +41,7 @@ export default function Detalle() {
 
         <header className="mt-6 max-w-3xl">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-            <span>{getNewsPurposeLabel(post)}</span><span aria-hidden="true">·</span><span>{getNewsLabel(post)}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time>
+            <span>{getNewsPurposeLabel(post)}</span><span aria-hidden="true">·</span><span>{getNewsLabel(post)}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time><span aria-hidden="true">·</span><span>{formatReadingTime(post)}</span>
           </div>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">{post.title}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-600 sm:text-xl">{post.excerpt}</p>

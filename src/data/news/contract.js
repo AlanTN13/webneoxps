@@ -1,3 +1,5 @@
+import { formatReadingTime, getContentWordCount, getReadingTimeMinutes } from "./reading-time.js";
+
 export const SITE_URL = "https://www.nexopstech.com";
 export const FALLBACK_NEWS_IMAGE = "/nexops-sin-aire.png";
 
@@ -119,3 +121,5 @@ export const absoluteAssetUrl = (value) => {
   if (/^https?:\/\//i.test(value)) return value;
   return `${SITE_URL}${value.startsWith("/") ? value : `/${value}`}`;
 };
+
+export { formatReadingTime, getContentWordCount, getReadingTimeMinutes };

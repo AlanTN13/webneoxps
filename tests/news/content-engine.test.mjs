@@ -6,6 +6,7 @@ import test from "node:test";
 import { addNewsFile } from "../../scripts/news-add.mjs";
 import { detectAddAction, validateArticle, validateCollection } from "../../scripts/news-contract.mjs";
 import { readNewsFiles } from "../../scripts/news-validate.mjs";
+import { getContentWordCount, getReadingTimeMinutes } from "../../src/data/news/reading-time.js";
 
 const validArticle = {
   title: "Cómo automatizar el seguimiento de leads sin perder trazabilidad",
@@ -124,4 +125,52 @@ test("legacy conserva un slug histórico con mayúscula sólo si está marcado",
 
 test("detectAddAction no convierte duplicados en una segunda publicación", () => {
   assert.equal(detectAddAction([validArticle], validArticle).action, "conflict");
+});
+
+test("reading time tiene un mínimo de un minuto", () => {
+  assert.equal(getReadingTimeMinutes({ content: [] }), 1);
+  assert.equal(getReadingTimeMinutes({}), 1);
+});
+
+test("reading time cuenta paragraphs, headings y lists", () => {
+  const words = (amount) => Array.from({ length: amount }, (_, index) => `palabra${index}`).join(" ");
+  const post = {
+    content: [
+      { type: "paragraph", text: words(100) },
+      { type: "heading", level: 2, text: words(20) },
+      { type: "list", items: [words(50), words(50)] },
+    ],
+  };
+
+  assert.equal(getContentWordCount(post.content), 220);
+  assert.equal(getReadingTimeMinutes(post), 1);
+});
+
+test("reading time redondea hacia arriba a 220 palabras por minuto", () => {
+  const text = Array.from({ length: 221 }, (_, index) => `palabra${index}`).join(" ");
+  assert.equal(getReadingTimeMinutes({ content: [{ type: "paragraph", text }] }), 2);
+});
+
+test("reading time ignora metadata externa al cuerpo", () => {
+  const content = [{ type: "paragraph", text: "uno dos tres" }];
+  const minimal = { content };
+  const decorated = {
+    content,
+    title: "Título con muchas palabras que no deben contarse",
+    excerpt: "Excerpt que tampoco forma parte del cálculo",
+    metaDescription: "Metadata SEO externa",
+    topicFingerprint: "fingerprint:externo",
+    cta: { label: "CTA externo", href: "/noticias" },
+  };
+
+  assert.equal(getReadingTimeMinutes(minimal), getReadingTimeMinutes(decorated));
+});
+
+test("reading time soporta cuerpos legacy y actuales sin campos manuales", () => {
+  const legacy = { legacySanityId: "legacy-1", content: [{ type: "quote", text: "texto legacy visible" }] };
+  const current = { contentPurpose: "seo", content: [{ type: "link", text: "texto actual visible", href: "/noticias" }] };
+  assert.equal(getContentWordCount(legacy.content), 3);
+  assert.equal(getContentWordCount(current.content), 3);
+  assert.equal(getReadingTimeMinutes(legacy), 1);
+  assert.equal(getReadingTimeMinutes(current), 1);
 });
