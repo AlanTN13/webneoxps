@@ -1,6 +1,6 @@
 # Fuentes de portadas de NexOps Insights
 
-Registro interno de los assets editoriales incorporados para las ocho notas del modelo `contentPurpose`.
+Registro interno de los assets editoriales incorporados para el corpus activo del modelo `contentPurpose`.
 
 Todas las fotos de esta tanda fueron descargadas desde Unsplash y se sirven localmente. La [Unsplash License](https://unsplash.com/license) permite descargar, copiar, modificar y usar las imágenes de forma gratuita, incluso con fines comerciales; la atribución no es obligatoria, pero se conserva acá para trazabilidad.
 
@@ -14,6 +14,10 @@ Todas las fotos de esta tanda fueron descargadas desde Unsplash y se sirven loca
 | `public/assets/insights/cover-proceso-roto.jpg` | Automatizar un proceso roto sólo hace que falle más rápido | [Unsplash](https://unsplash.com/photos/1c-YonlQjUE) | Vitaly Gariev | Unsplash License |
 | `public/assets/insights/cover-solicitud-flujo.jpg` | De una solicitud interna a un flujo automático de trabajo | [Unsplash](https://unsplash.com/photos/iPm-TvkAUXA) | Vitaly Gariev | Unsplash License |
 | `public/assets/insights/cover-whatsapp-crm-caso.jpg` | De WhatsApp al CRM: cómo diseñar un circuito automático de seguimiento de leads | [Unsplash](https://unsplash.com/photos/QckxruozjRg) | Annie Spratt | Unsplash License |
+| `public/assets/insights/cover-ai-overviews-seo.jpg` | Cómo cambia el SEO cuando Google responde con IA | [Unsplash](https://unsplash.com/photos/JKUTrJ4vK00) | Luke Chesser | Unsplash License |
+| `public/assets/insights/cover-gobernanza-ia.jpg` | Qué debería preparar una empresa ante la regulación de IA | [Unsplash](https://unsplash.com/photos/5fNmWej4tAA) | Scott Graham | Unsplash License |
+| `public/assets/insights/cover-datos-sensibles-ia.jpg` | Qué revisar antes de enviar datos sensibles a una IA | [Unsplash](https://unsplash.com/photos/M5tzZtFCOfs) | Taylor Vick | Unsplash License |
+| `public/assets/insights/cover-infraestructura-ia.jpg` | La infraestructura de IA también es una decisión de negocio | [Unsplash](https://unsplash.com/photos/yETqkLnhsUI) | Matthew Henry | Unsplash License |
 
 ## Regla para publicaciones futuras
 
