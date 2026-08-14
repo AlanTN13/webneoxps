@@ -28,7 +28,19 @@ jobs:
       - name: Real model planning smoke
         id: radar
         if: steps.gate.outputs.blocked != 'true'
-        run: node scripts/radar-v2-weekday.mjs plan
+        shell: bash
+        run: |
+          set +e
+          OUTPUT="$(node scripts/radar-v2-weekday.mjs plan 2>&1)"
+          STATUS=$?
+          printf '%s\n' "$OUTPUT"
+          if [ "$STATUS" -ne 0 ]; then
+            SAFE="${OUTPUT//'%'/'%25'}"
+            SAFE="${SAFE//$'\r'/'%0D'}"
+            SAFE="${SAFE//$'\n'/'%0A'}"
+            echo "::error title=Radar V2 model smoke::$SAFE"
+            exit "$STATUS"
+          fi
       - name: Validate materialized candidate when selected
         if: steps.radar.outputs.decision == 'publish'
         run: |
@@ -37,6 +49,7 @@ jobs:
           npm run lint
           npm run build
       - name: Assert smoke is mutation-free
+        if: always()
         run: |
           git reset --hard HEAD
           git clean -fdx .radar public/assets/insights src/data/news || true
