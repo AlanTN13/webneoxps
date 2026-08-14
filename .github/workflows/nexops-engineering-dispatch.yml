@@ -5,10 +5,33 @@ on:
     types:
       - opened
 
+permissions:
+  contents: read
+  issues: read
+
 jobs:
-  smoke:
-    if: github.actor == 'AlanTN13'
+  codex:
+    if: github.actor == 'AlanTN13' && startsWith(github.event.issue.title, '[ENG]')
     runs-on: ubuntu-latest
     steps:
-      - name: Confirm issue trigger
-        run: echo "Engineering issue #${{ github.event.issue.number }} received"
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Run Codex
+        id: codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          permission-profile: ':workspace'
+          safety-strategy: drop-sudo
+          allow-users: 'AlanTN13'
+          prompt: |
+            You are validating the NexOps Engineering Dispatcher.
+            Repository: ${{ github.repository }}
+            Issue number: ${{ github.event.issue.number }}
+            Issue title: ${{ github.event.issue.title }}
+
+            Read the repository and the Engineering Request below. For this smoke test, do not modify files. Confirm in your final message that Codex executed successfully and that you received the issue context.
+
+            Engineering Request:
+            ${{ github.event.issue.body }}
