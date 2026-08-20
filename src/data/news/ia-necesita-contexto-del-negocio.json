@@ -6,7 +6,7 @@
   "territory": "ia-aplicada-empresas",
   "category": "IA aplicada",
   "publishedAt": "2026-08-18",
-  "coverImage": "/assets/insights/cover-contexto-negocio-ia.svg",
+  "coverImage": "/assets/insights/cover-gobernanza-ia.jpg",
   "excerpt": "Una IA puede redactar bien y aun así sumar trabajo si cada persona debe reconstruir a mano el contexto. Qué información, reglas y estado necesita un sistema para operar con criterio.",
   "seoTitle": "Por qué la IA necesita contexto del negocio, no sólo prompts",
   "metaDescription": "Una IA empresarial genera más valor cuando conoce datos, reglas, historial, permisos y estado del proceso. Cómo diseñar contexto útil sin depender de prompts eternos.",

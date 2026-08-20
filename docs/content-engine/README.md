@@ -196,3 +196,16 @@ El build genera:
 ## Portadas
 
 Todo el corpus activo usa portadas locales registradas en `docs/insights-cover-sources.md`. La aplicación no depende del CDN de Sanity ni usa Sanity como CMS, API, SDK o dependencia de runtime. Contenido futuro debe validar origen y licencia antes de incorporar un asset.
+
+### Directiva visual obligatoria del Radar
+
+La portada estándar de un Insight debe sentirse **fotográfica, documental y creíble**. Se priorizan fotografías reales y licenciadas de personas trabajando, procesos, documentos, operaciones, datos o entornos empresariales relacionados con el tema.
+
+- **No pasan el gate visual** las ilustraciones, diagramas decorativos, renders 3D, mockups conceptuales, fondos abstractos, robots, hologramas ni imágenes que se perciban como arte generado por IA.
+- La imagen no debe llevar título, fecha, propósito editorial, territorio, excerpt ni texto explicativo incrustado. Esa metadata pertenece a la UI.
+- Una foto técnicamente correcta también puede fallar si se siente genérica, artificial o repetitiva respecto de la grilla reciente.
+- El gate visual debe revisarse en el tamaño real de **Insight destacado en desktop**, además de la card estándar; una miniatura no es validación suficiente de calidad.
+- Si no hay una fotografía segura, relevante y con licencia/origen verificable, se usa el fallback branded o `NO_PUBLICATION`; no se fuerza una ilustración para completar la corrida.
+- Una excepción a esta directiva requiere aprobación humana explícita para esa pieza concreta.
+
+Esta regla forma parte del contrato editorial: **una publicación nueva no queda lista sólo porque el contenido y CI estén verdes; la portada también tiene que pasar el gate fotográfico.**
