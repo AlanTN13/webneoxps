@@ -1,120 +1,109 @@
-// src/components/Header.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import brandLogo from "../assets/logo-nexops.svg";
-import { CALENDLY_LINK, NAV_LINKS } from "../config/constants";
+import { CONTACT_INFO, NAV_LINKS, getWhatsappLink } from "../config/constants";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const whatsappHref = useMemo(
+    () => getWhatsappLink(CONTACT_INFO.WHATSAPP_NUMBER, CONTACT_INFO.WHATSAPP_MESSAGE_HERO),
+    [],
+  );
 
-  // para poder usar createPortal sin romper nada
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
-  // bloquear scroll cuando el menú está abierto
   useEffect(() => {
-    if (!mounted) return;
-    if (open) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
+    if (!mounted || !open) return undefined;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
   }, [open, mounted]);
 
-  const closeMenu = () => setOpen(false);
-
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1440px] items-center px-4 py-4 sm:px-6 lg:px-8">
-        {/* Logo + nombre */}
-        <a href="/" className="flex items-center gap-3">
-          <img src={brandLogo} className="h-9 w-auto" alt="NexOps" />
-          <span className="font-extrabold text-slate-900 text-2xl tracking-tight">NexOps</span>
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center px-4 sm:px-6 lg:px-8">
+        <a href="/" className="flex items-center gap-2.5" aria-label="NexOps, inicio">
+          <img src={brandLogo} className="h-8 w-auto" alt="" />
+          <span className="text-xl font-extrabold tracking-[-0.03em] text-slate-950">NexOps</span>
         </a>
 
-        {/* Wrapper derecha: nav + CTA (desktop) */}
-        <div className="ml-auto hidden items-center gap-10 sm:flex">
-          {/* Navegación desktop */}
-          <nav className="flex items-center gap-10 text-[17px] text-slate-600">
+        <div className="ml-auto hidden items-center gap-8 lg:flex">
+          <nav className="flex items-center gap-7 text-sm font-semibold text-slate-600">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="transition-colors duration-200 hover:text-slate-950"
-              >
+              <a key={link.href} href={link.href} className="transition-colors hover:text-slate-950">
                 {link.label}
               </a>
             ))}
           </nav>
 
-          {/* CTA desktop */}
           <a
-            href={CALENDLY_LINK}
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-white font-semibold shadow-[0_18px_40px_-24px_rgba(15,23,42,0.55)] transition-colors duration-200 hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-full bg-[#11133f] px-5 py-3 text-sm font-bold text-white shadow-[0_16px_35px_-18px_rgba(17,19,63,.75)] transition-transform hover:-translate-y-0.5"
           >
-            Hablemos
+            Hablá con Nexi
+            <ArrowUpRight size={16} />
           </a>
         </div>
 
-        {/* Botón menú mobile */}
         <button
-          className="ml-auto text-3xl text-slate-700 sm:hidden"
+          className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-800 lg:hidden"
           onClick={() => setOpen(true)}
           aria-label="Abrir menú"
         >
-          ☰
+          <Menu size={20} />
         </button>
       </div>
 
-      {/* OVERLAY MOBILE en PORTAL */}
-      {mounted &&
-        open &&
-        createPortal(
-          <div className="fixed inset-0 z-[9999] flex flex-col bg-white">
-            {/* Top bar */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
-              <div className="flex items-center gap-3">
-                <img src={brandLogo} className="h-8 w-auto" alt="NexOps" />
-                <span className="font-extrabold text-slate-900 text-xl tracking-tight">
-                  NexOps
-                </span>
-              </div>
-              <button
-                className="text-3xl text-slate-700"
-                onClick={closeMenu}
-                aria-label="Cerrar menú"
-              >
-                ✕
-              </button>
-            </div>
+      {mounted && open && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-white">
+          <div className="flex h-[72px] items-center border-b border-slate-200 px-5">
+            <a href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+              <img src={brandLogo} className="h-8 w-auto" alt="" />
+              <span className="text-xl font-extrabold tracking-[-0.03em] text-slate-950">NexOps</span>
+            </a>
+            <button
+              className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-800"
+              onClick={() => setOpen(false)}
+              aria-label="Cerrar menú"
+            >
+              <X size={20} />
+            </button>
+          </div>
 
-            {/* Banda título */}
-            <div className="px-6 py-3 border-b border-slate-200/80 text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">
-              NexOps Menu
-            </div>
-
-            {/* Links */}
-            <nav className="flex-1 flex flex-col px-6 py-4 text-lg text-slate-800 gap-1">
+          <div className="flex h-[calc(100%-72px)] flex-col px-5 pb-7 pt-8">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-violet-600">Navegación</p>
+            <nav className="flex flex-col">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={closeMenu}
-                  className="py-3 border-b border-slate-200/60"
+                  onClick={() => setOpen(false)}
+                  className="border-b border-slate-100 py-5 text-2xl font-semibold tracking-[-0.03em] text-slate-900"
                 >
                   {link.label}
                 </a>
               ))}
             </nav>
-          </div>,
-          document.body
-        )}
+
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-auto flex items-center justify-between rounded-[1.35rem] bg-[#11133f] px-5 py-5 text-base font-bold text-white"
+            >
+              Hablá con Nexi
+              <ArrowUpRight size={18} />
+            </a>
+          </div>
+        </div>,
+        document.body,
+      )}
     </header>
   );
 }
