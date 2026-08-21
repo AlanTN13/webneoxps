@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getReadingTimeMinutes } from "../src/data/news/reading-time.js";
+import { applyCoverOverride } from "../src/data/news/cover-overrides.js";
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, "dist");
@@ -21,7 +22,8 @@ async function readArticles() {
   const names = (await fs.readdir(NEWS_DIR)).filter((name) => name.endsWith(".json")).sort();
   const articles = [];
   for (const name of names) {
-    articles.push(JSON.parse(await fs.readFile(path.join(NEWS_DIR, name), "utf8")));
+    const article = JSON.parse(await fs.readFile(path.join(NEWS_DIR, name), "utf8"));
+    articles.push(applyCoverOverride(article));
   }
   return articles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 }
@@ -97,7 +99,8 @@ function injectHead(template, { title, description, canonical, image, article })
   const clean = template
     .replace(/<title>[\s\S]*?<\/title>/i, "")
     .replace(/<meta\s+name=["']description["'][^>]*>/gi, "")
-    .replace(/<link\s+rel=["']canonical["'][^>]*>/gi, "");
+    .replace(/<link\s+rel=["']canonical["'][^>]*>/gi, "")
+    .replace(/<meta\s+(?:property|name)=["'](?:og|twitter):[^"']+["'][^>]*>/gi, "");
   const tags = [
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(description)}">`,
