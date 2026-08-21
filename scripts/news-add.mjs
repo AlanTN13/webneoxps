@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { detectAddAction } from "./news-contract.mjs";
+import { validateCoverCollection } from "./news-image-policy.mjs";
 import { NEWS_DIR, readNewsFiles } from "./news-validate.mjs";
 
 export async function addNewsFile({ source, newsDirectory = NEWS_DIR }) {
@@ -9,11 +10,12 @@ export async function addNewsFile({ source, newsDirectory = NEWS_DIR }) {
   const raw = await fs.readFile(path.resolve(source), "utf8");
   const candidate = JSON.parse(raw);
   const existing = await readNewsFiles(newsDirectory);
+  const imageErrors = validateCoverCollection([...existing, candidate]);
   const result = detectAddAction(existing, candidate);
 
-  if (result.action !== "add") {
+  if (imageErrors.length > 0 || result.action !== "add") {
     const error = new Error("La noticia no fue incorporada");
-    error.validationErrors = result.errors || [];
+    error.validationErrors = [...imageErrors, ...(result.errors || [])];
     throw error;
   }
 
