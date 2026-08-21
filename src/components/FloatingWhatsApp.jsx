@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import whatsappLogo from "../assets/whatsapp.svg";
+import { MessageCircleMore } from "lucide-react";
 import { CONTACT_INFO } from "../config/constants";
 
 export default function FloatingWhatsApp({
@@ -16,42 +16,14 @@ export default function FloatingWhatsApp({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Abrir chat de WhatsApp"
-      title="Escribir por WhatsApp"
-      style={{
-        position: "fixed",
-        right: 20,
-        bottom: 20,
-        zIndex: 9999,
-        width: 60,
-        height: 60,
-        borderRadius: "50%",
-        background: "#25D366",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        boxShadow: "0 12px 24px rgba(0,0,0,.18)",
-        cursor: "pointer",
-        transition: "transform .15s ease, box-shadow .15s ease",
-        pointerEvents: "auto",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "scale(1.06)";
-        e.currentTarget.style.boxShadow = "0 16px 28px rgba(0,0,0,.22)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "scale(1)";
-        e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,.18)";
-      }}
+      aria-label="Hablar con Nexi por WhatsApp"
+      title="Hablá con Nexi"
+      className="fixed bottom-5 right-5 z-[9999] inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-[#11133f] py-2.5 pl-2.5 pr-4 text-sm font-bold text-white shadow-[0_18px_45px_-18px_rgba(17,19,63,.8)] transition-transform hover:-translate-y-0.5"
     >
-      {/* 👇 Punto 2: reemplazamos el svg por la imagen importada */}
-      <img
-        src={whatsappLogo}
-        alt="WhatsApp"
-        width="28"
-        height="28"
-        style={{ pointerEvents: "none" }}
-      />
+      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-500 text-white shadow-inner">
+        <MessageCircleMore size={17} />
+      </span>
+      <span className="hidden sm:inline">Nexi</span>
     </a>
   );
 }
