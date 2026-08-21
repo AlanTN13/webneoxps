@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run news:validate && vite build && npm run news:seo",
+    "build": "npm run news:audit && vite build && npm run news:seo",
     "lint": "eslint .",
     "preview": "vite preview",
     "news:add": "node scripts/news-add.mjs",
+    "news:audit": "node scripts/news-audit.mjs",
     "news:run": "node scripts/news-run.mjs",
     "news:validate": "node scripts/news-validate.mjs",
     "news:test": "node --test tests/news/content-engine.test.mjs",

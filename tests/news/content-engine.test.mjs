@@ -6,8 +6,12 @@ import test from "node:test";
 import { addNewsFile } from "../../scripts/news-add.mjs";
 import { runNewsDecision } from "../../scripts/news-run.mjs";
 import { detectAddAction, validateArticle, validateCollection } from "../../scripts/news-contract.mjs";
+import { validateCoverCollection } from "../../scripts/news-image-policy.mjs";
 import { readNewsFiles } from "../../scripts/news-validate.mjs";
 import { getContentWordCount, getReadingTimeMinutes } from "../../src/data/news/reading-time.js";
+
+const PHOTO_A = "https://images.unsplash.com/photo-1758873271949-742d6648b6b0?auto=format&fit=crop&q=80&w=1600";
+const PHOTO_B = "https://images.unsplash.com/photo-1758873268444-73528cd3ec93?auto=format&fit=crop&q=80&w=1600";
 
 const validArticle = {
   title: "Cómo automatizar el seguimiento de leads sin perder trazabilidad",
@@ -17,6 +21,7 @@ const validArticle = {
   territory: "crm-automatizacion-comercial",
   category: "crm",
   publishedAt: "2026-08-13",
+  coverImage: PHOTO_A,
   excerpt: "Una guía práctica para ordenar el seguimiento comercial y reducir tareas manuales sin perder control del proceso.",
   seoTitle: "Cómo automatizar el seguimiento de leads en tu empresa",
   metaDescription: "Qué automatizar en el seguimiento de leads, qué señales mirar y cómo mantener trazabilidad comercial sin sumar tareas manuales al equipo.",
@@ -31,6 +36,7 @@ const validArticle = {
 
 test("valida una noticia Git-first sin imponer scoring editorial", () => {
   assert.deepEqual(validateArticle({ ...validArticle, engineScore: 72 }).errors, []);
+  assert.deepEqual(validateCoverCollection([validArticle]), []);
 });
 
 test("actualidad aplicada requiere una fuente y content usa bloques simples", () => {
@@ -79,6 +85,17 @@ test("dedupe rechaza slug, sourceUrl, engineRunId y topicFingerprint", () => {
   }
 });
 
+test("portadas deben ser fotografías remotas aprobadas y únicas", () => {
+  assert.ok(validateCoverCollection([{ ...validArticle, coverImage: "/assets/insights/generada.jpg" }]).some((error) => error.includes("URL https")));
+  const duplicate = {
+    ...validArticle,
+    slug: "segundo-articulo",
+    topicFingerprint: "crm:segundo-articulo",
+    engineRunId: "run-2026-08-13-002",
+  };
+  assert.ok(validateCoverCollection([validArticle, duplicate]).some((error) => error.includes("coverImage duplicada")));
+});
+
 test("loader lee una noticia por archivo y conserva el payload", async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-loader-"));
   await fs.writeFile(path.join(directory, `${validArticle.slug}.json`), `${JSON.stringify(validArticle)}\n`);
@@ -86,6 +103,7 @@ test("loader lee una noticia por archivo y conserva el payload", async () => {
   assert.equal(articles.length, 1);
   assert.equal(articles[0].slug, validArticle.slug);
   assert.equal(articles[0].contentPurpose, "seo");
+  assert.equal(articles[0].coverImage, PHOTO_A);
   await fs.rm(directory, { recursive: true, force: true });
 });
 
@@ -114,53 +132,71 @@ test("news:add escribe una vez y rechaza el segundo intento sin sobrescribir", a
   await fs.rm(root, { recursive: true, force: true });
 });
 
-test("news:run NO_PUBLICATION no muta corpus ni assets", async () => {
+test("news:add rechaza reutilizar una fotografía aunque cambie el artículo", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-add-cover-duplicate-"));
+  const newsDirectory = path.join(root, "news");
+  const firstPath = path.join(root, "first.json");
+  const secondPath = path.join(root, "second.json");
+  await fs.mkdir(newsDirectory);
+  await fs.writeFile(firstPath, JSON.stringify(validArticle));
+  await addNewsFile({ source: firstPath, newsDirectory });
+  await fs.writeFile(secondPath, JSON.stringify({
+    ...validArticle,
+    slug: "segundo-articulo",
+    topicFingerprint: "crm:segundo-articulo",
+    engineRunId: "run-2026-08-13-002",
+  }));
+  await assert.rejects(addNewsFile({ source: secondPath, newsDirectory }), /La noticia no fue incorporada/);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("news:run NO_PUBLICATION no muta corpus", async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-no-publication-"));
   const newsDirectory = path.join(root, "news");
-  const assetDirectory = path.join(root, "assets");
   const decisionPath = path.join(root, "decision.json");
   await fs.mkdir(newsDirectory);
-  await fs.mkdir(assetDirectory);
   await fs.writeFile(decisionPath, JSON.stringify({ outcome: "NO_PUBLICATION", reason: "sin candidato" }));
-  const result = await runNewsDecision({ decisionPath, newsDirectory, assetDirectory });
+  const result = await runNewsDecision({ decisionPath, newsDirectory });
   assert.equal(result.changed, false);
   assert.deepEqual(await fs.readdir(newsDirectory), []);
-  assert.deepEqual(await fs.readdir(assetDirectory), []);
   await fs.rm(root, { recursive: true, force: true });
 });
 
-test("news:run incorpora artículo y asset juntos y el retry no duplica", async () => {
+test("news:run incorpora sólo el artículo con fotografía aprobada y el retry no duplica", async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-publication-"));
   const newsDirectory = path.join(root, "news");
-  const assetDirectory = path.join(root, "assets");
   const candidatePath = path.join(root, "candidate.json");
-  const coverPath = path.join(root, "cover.png");
   const decisionPath = path.join(root, "decision.json");
-  const article = { ...validArticle, coverImage: "/assets/insights/cover.png" };
-  await fs.writeFile(candidatePath, JSON.stringify(article));
-  await fs.writeFile(coverPath, "asset");
-  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json", coverAsset: "./cover.png" }));
-  const first = await runNewsDecision({ decisionPath, newsDirectory, assetDirectory });
+  await fs.writeFile(candidatePath, JSON.stringify(validArticle));
+  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json" }));
+  const first = await runNewsDecision({ decisionPath, newsDirectory });
   assert.equal(first.changed, true);
-  assert.deepEqual((await fs.readdir(newsDirectory)).filter((file) => !file.startsWith(".")), [`${article.slug}.json`]);
-  assert.deepEqual((await fs.readdir(assetDirectory)).filter((file) => !file.startsWith(".")), ["cover.png"]);
-  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory, assetDirectory }));
+  assert.deepEqual((await fs.readdir(newsDirectory)).filter((file) => !file.startsWith(".")), [`${validArticle.slug}.json`]);
+  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory }));
   assert.equal((await fs.readdir(newsDirectory)).length, 1);
-  assert.equal((await fs.readdir(assetDirectory)).length, 1);
   await fs.rm(root, { recursive: true, force: true });
 });
 
-test("news:run revierte el artículo temporal si falla el asset", async () => {
+test("news:run rechaza assets locales o portadas no fotográficas", async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-publication-failure-"));
   const newsDirectory = path.join(root, "news");
-  const assetDirectory = path.join(root, "assets");
   const candidatePath = path.join(root, "candidate.json");
   const decisionPath = path.join(root, "decision.json");
-  await fs.writeFile(candidatePath, JSON.stringify({ ...validArticle, coverImage: "/assets/insights/missing.png" }));
-  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json", coverAsset: "./missing.png" }));
-  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory, assetDirectory }));
+  await fs.writeFile(candidatePath, JSON.stringify({ ...validArticle, coverImage: "/assets/insights/generada.png" }));
+  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json" }));
+  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory }));
   assert.deepEqual(await fs.readdir(newsDirectory), []);
-  assert.deepEqual(await fs.readdir(assetDirectory), []);
+  await fs.rm(root, { recursive: true, force: true });
+});
+
+test("news:run rechaza coverAsset local aunque el artículo tenga una foto válida", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "nexops-cover-asset-rejected-"));
+  const newsDirectory = path.join(root, "news");
+  const candidatePath = path.join(root, "candidate.json");
+  const decisionPath = path.join(root, "decision.json");
+  await fs.writeFile(candidatePath, JSON.stringify(validArticle));
+  await fs.writeFile(decisionPath, JSON.stringify({ outcome: "PUBLICATION", article: "./candidate.json", coverAsset: "./cover.png" }));
+  await assert.rejects(runNewsDecision({ decisionPath, newsDirectory }), /ya no acepta coverAsset local/);
   await fs.rm(root, { recursive: true, force: true });
 });
 
@@ -241,23 +277,28 @@ test("la colección acepta relatedSlugs que apuntan a artículos activos", () =>
   const related = {
     ...validArticle,
     slug: "segundo-articulo",
+    coverImage: PHOTO_B,
     topicFingerprint: "crm:segundo-articulo",
     engineRunId: "run-2026-08-13-002",
   };
   const article = { ...validArticle, relatedSlugs: [related.slug] };
   assert.deepEqual(validateCollection([article, related]).errors, []);
+  assert.deepEqual(validateCoverCollection([article, related]), []);
 });
 
-test("el corpus saneado conserva artículos con contrato editorial completo", async () => {
+test("el corpus saneado usa fotografías reales únicas en todas las noticias", async () => {
   const articles = await readNewsFiles();
   assert.ok(articles.length > 0);
+  const covers = new Set();
   for (const article of articles) {
     assert.ok(article.contentPurpose, `${article.slug} no tiene contentPurpose`);
     assert.ok(article.contentType, `${article.slug} no tiene contentType`);
     assert.ok(article.territory, `${article.slug} no tiene territory`);
-    assert.match(article.coverImage, /^\/assets\/insights\//);
-    await fs.access(path.resolve("public", article.coverImage.slice(1)));
+    assert.match(article.coverImage, /^https:\/\/images\.(?:unsplash|pexels)\.com\//);
+    assert.ok(!covers.has(article.coverImage), `${article.slug} repite portada`);
+    covers.add(article.coverImage);
   }
+  assert.deepEqual(validateCoverCollection(articles), []);
 });
 
 test("los tres artículos consolidados tienen redirects 308 directos", async () => {

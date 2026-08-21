@@ -1,4 +1,5 @@
 import { formatReadingTime, getContentWordCount, getReadingTimeMinutes } from "./reading-time.js";
+import { applyCoverOverride } from "./cover-overrides.js";
 
 export const SITE_URL = "https://www.nexopstech.com";
 export const FALLBACK_NEWS_IMAGE = "/nexops-sin-aire.png";
@@ -80,9 +81,9 @@ export function isKnownInternalRoute(href) {
 }
 
 const modules = import.meta.glob("./*.json", { eager: true, import: "default" });
-export const newsPosts = Object.values(modules).sort(
-  (a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
-);
+export const newsPosts = Object.values(modules)
+  .map(applyCoverOverride)
+  .sort((a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf());
 export const getNewsPostBySlug = (slug) => newsPosts.find((post) => post.slug === slug) || null;
 export const formatNewsDate = (value) => new Intl.DateTimeFormat("es-AR", {
   day: "2-digit",
