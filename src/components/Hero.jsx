@@ -1,312 +1,166 @@
-import React, { useEffect, useMemo, useRef } from "react";
-import Section from "./ui/Section";
-import { CALENDLY_LINK } from "../config/constants";
+import React from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { CONTACT_INFO, getWhatsappLink } from "../config/constants";
 
-const RINGS = [
-  { radiusX: 130, radiusY: 88, count: 18, width: 10, opacity: 0.96, drift: 18 },
-  { radiusX: 210, radiusY: 145, count: 28, width: 9, opacity: 0.82, drift: 24 },
-  { radiusX: 310, radiusY: 220, count: 38, width: 8, opacity: 0.68, drift: 30 },
-  { radiusX: 430, radiusY: 300, count: 52, width: 7, opacity: 0.54, drift: 38 },
-  { radiusX: 560, radiusY: 390, count: 66, width: 5, opacity: 0.28, drift: 46 },
+const SIGNALS = [
+  { label: "Pauta", x: 110, y: 78, delay: 0.15 },
+  { label: "WhatsApp", x: 110, y: 150, delay: 0.3 },
+  { label: "Web", x: 110, y: 222, delay: 0.45 },
 ];
 
-function getParticleColor(normalizedAngle, seed) {
-  if (normalizedAngle < 0.22) {
-    return ["#2563eb", "#3b82f6", "#6366f1"][seed % 3];
-  }
+function HeroSystem() {
+  const reducedMotion = useReducedMotion();
 
-  if (normalizedAngle < 0.48) {
-    return ["#6366f1", "#8b5cf6", "#ec4899"][seed % 3];
-  }
+  return (
+    <div className="relative mx-auto mt-14 h-[280px] w-full max-w-[1120px] overflow-hidden sm:mt-16 sm:h-[330px] lg:mt-20 lg:h-[360px]">
+      <div className="absolute left-1/2 top-1/2 h-[230px] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[#7650ff]/[0.055] blur-3xl" />
 
-  if (normalizedAngle < 0.72) {
-    return ["#f43f5e", "#f97316", "#facc15"][seed % 3];
-  }
+      <svg
+        viewBox="0 0 1120 340"
+        className="absolute inset-0 h-full w-full"
+        role="img"
+        aria-label="Señales de captación que entran a un sistema NexOps y terminan en una operación con control"
+      >
+        <defs>
+          <linearGradient id="heroTrack" x1="0" x2="1">
+            <stop offset="0%" stopColor="#cbd2df" />
+            <stop offset="55%" stopColor="#111c34" />
+            <stop offset="100%" stopColor="#7650ff" />
+          </linearGradient>
+          <filter id="heroVioletGlow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="18" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
 
-  return ["#2563eb", "#60a5fa", "#8b5cf6"][seed % 3];
-}
+        {SIGNALS.map((signal) => (
+          <g key={signal.label}>
+            <text x={signal.x} y={signal.y - 18} fill="#7a8496" fontSize="13" fontWeight="600" letterSpacing="1.1">
+              {signal.label.toUpperCase()}
+            </text>
+            <motion.circle
+              cx={signal.x + 10}
+              cy={signal.y}
+              r="6"
+              fill="#111c34"
+              initial={reducedMotion ? false : { opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.45, delay: signal.delay }}
+            />
+            <motion.path
+              d={`M ${signal.x + 18} ${signal.y} C 265 ${signal.y}, 305 170, 430 170`}
+              fill="none"
+              stroke="#d5dbe6"
+              strokeWidth="2"
+              strokeLinecap="round"
+              initial={reducedMotion ? false : { pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 1.05, delay: signal.delay, ease: [0.2, 0.75, 0.25, 1] }}
+            />
+          </g>
+        ))}
 
-function createParticles() {
-  const particles = [];
+        <motion.path
+          d="M 430 170 C 515 170, 545 170, 610 170 S 730 170, 790 170 S 900 170, 980 170"
+          fill="none"
+          stroke="url(#heroTrack)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          initial={reducedMotion ? false : { pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 1.45, delay: reducedMotion ? 0 : 0.55, ease: [0.2, 0.75, 0.25, 1] }}
+        />
 
-  RINGS.forEach((ring, ringIndex) => {
-    for (let index = 0; index < ring.count; index += 1) {
-      const progress = index / ring.count;
-      const angle = progress * Math.PI * 2 - Math.PI / 2 + ringIndex * 0.15;
-      const x = Math.cos(angle) * ring.radiusX + ((((index * 19) % 17) - 8) * 2.1);
-      const y = Math.sin(angle) * ring.radiusY + ((((index * 11) % 13) - 6) * 1.8);
-      const rotation = (angle * 180) / Math.PI + 90;
-      const normalizedAngle = (angle + Math.PI / 2 + Math.PI * 2) % (Math.PI * 2);
+        <motion.g
+          initial={reducedMotion ? false : { opacity: 0, scale: 0.88 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.65, delay: reducedMotion ? 0 : 1.05 }}
+          style={{ transformOrigin: "610px 170px" }}
+        >
+          <circle cx="610" cy="170" r="64" fill="#7650ff" opacity="0.08" filter="url(#heroVioletGlow)" />
+          <circle cx="610" cy="170" r="30" fill="#7650ff" />
+          <path d="M598 170 L608 180 L624 158" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <text x="610" y="225" textAnchor="middle" fill="#7650ff" fontSize="12" fontWeight="700" letterSpacing="1.5">
+            NEXOPS
+          </text>
+        </motion.g>
 
-      particles.push({
-        id: `${ringIndex}-${index}`,
-        x,
-        y,
-        width: ring.width,
-        height: Math.max(2, ring.width * 0.26),
-        rotation,
-        opacity: ring.opacity,
-        color: getParticleColor(normalizedAngle / (Math.PI * 2), index + ringIndex),
-        driftX: Math.cos(angle) * ring.drift + (((index * 5) % 7) - 3) * 1.4,
-        driftY: Math.sin(angle) * ring.drift * 0.7 + (((index * 7) % 9) - 4) * 1.2,
-        duration: `${6.5 + ringIndex * 0.85 + (index % 5) * 0.4}s`,
-        delay: `${(index % 11) * -0.55}s`,
-      });
-    }
-  });
+        <g>
+          <circle cx="980" cy="170" r="44" fill="#ffffff" stroke="#111c34" strokeWidth="2" />
+          <circle cx="980" cy="170" r="7" fill="#111c34" />
+          <text x="980" y="238" textAnchor="middle" fill="#677185" fontSize="12" fontWeight="700" letterSpacing="1.3">
+            CONTROL
+          </text>
+        </g>
 
-  return particles;
-}
+        <motion.circle
+          cx="430"
+          cy="170"
+          r="7"
+          fill="#111c34"
+          animate={reducedMotion ? undefined : { r: [6, 9, 6], opacity: [0.7, 1, 0.7] }}
+          transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }}
+        />
+      </svg>
 
-function createSpecks() {
-  return Array.from({ length: 150 }, (_, index) => ({
-    id: index,
-    left: `${(index * 11.7) % 100}%`,
-    top: `${(index * 7.9 + (index % 9) * 3.8) % 100}%`,
-    size: index % 8 === 0 ? 2 : 1.4,
-    opacity: index % 6 === 0 ? 0.22 : 0.1,
-    delay: `${(index % 10) * -0.7}s`,
-    duration: `${7 + (index % 5)}s`,
-  }));
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-center text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400 sm:text-[11px]">
+        Captar · ordenar · automatizar · controlar
+      </div>
+    </div>
+  );
 }
 
 export default function Hero() {
-  const heroRef = useRef(null);
-  const cloudRef = useRef(null);
-  const orbRef = useRef(null);
-  const particles = useMemo(() => createParticles(), []);
-  const specks = useMemo(() => createSpecks(), []);
-
-  useEffect(() => {
-    const hero = heroRef.current;
-    const cloud = cloudRef.current;
-    const orb = orbRef.current;
-
-    if (!hero || !cloud || !orb) return undefined;
-
-    const target = { x: 0, y: 0 };
-    const cloudCurrent = { x: 0, y: 0 };
-    const orbCurrent = { x: 0, y: 0 };
-    const orbVelocity = { x: 0, y: 0 };
-    let rafId = 0;
-    let hovering = false;
-    let startTime = 0;
-
-    const getDefaultPosition = () => ({
-      x: hero.clientWidth * 0.52,
-      y: hero.clientHeight * 0.48,
-    });
-
-    const setCloudPosition = (x, y) => {
-      cloud.style.left = `${x}px`;
-      cloud.style.top = `${y}px`;
-    };
-
-    const setOrbPosition = (x, y, elapsed) => {
-      const wobbleX = Math.cos(elapsed * 0.0013) * 18 + Math.sin(elapsed * 0.0007) * 10;
-      const wobbleY = Math.sin(elapsed * 0.0016) * 12 + Math.cos(elapsed * 0.001) * 6;
-      const speed = Math.hypot(orbVelocity.x, orbVelocity.y);
-      const stretch = 1 + Math.min(0.18, speed * 0.0038);
-      const squish = 1 - Math.min(0.12, speed * 0.0022);
-      const rotate = orbVelocity.x * 0.18;
-
-      orb.style.left = `${x + wobbleX}px`;
-      orb.style.top = `${y + wobbleY}px`;
-      orb.style.transform = `translate(-50%, -50%) rotate(${rotate}deg) scale(${stretch}, ${squish})`;
-      orb.style.opacity = `${Math.min(1, 0.7 + speed * 0.02)}`;
-    };
-
-    const resetTarget = () => {
-      const next = getDefaultPosition();
-      target.x = next.x;
-      target.y = next.y;
-
-      if (!cloudCurrent.x && !cloudCurrent.y) {
-        cloudCurrent.x = next.x;
-        cloudCurrent.y = next.y;
-        orbCurrent.x = next.x;
-        orbCurrent.y = next.y;
-        setCloudPosition(cloudCurrent.x, cloudCurrent.y);
-        setOrbPosition(orbCurrent.x, orbCurrent.y, 0);
-      }
-    };
-
-    const animate = (time) => {
-      if (!startTime) startTime = time;
-      const elapsed = time - startTime;
-
-      const idleScale = hovering ? 0.2 : 1;
-      const cloudDriftX =
-        (Math.sin(elapsed * 0.00078) * 22 + Math.cos(elapsed * 0.00113) * 14) * idleScale;
-      const cloudDriftY =
-        (Math.cos(elapsed * 0.00064) * 18 + Math.sin(elapsed * 0.00102) * 12) * idleScale;
-      const orbDriftX =
-        (Math.cos(elapsed * 0.00148) * 28 + Math.sin(elapsed * 0.0021) * 14) * idleScale;
-      const orbDriftY =
-        (Math.sin(elapsed * 0.00172) * 22 + Math.cos(elapsed * 0.00118) * 10) * idleScale;
-
-      const desiredCloudX = target.x + cloudDriftX;
-      const desiredCloudY = target.y + cloudDriftY;
-      const desiredOrbX = target.x + orbDriftX;
-      const desiredOrbY = target.y + orbDriftY;
-
-      const cloudEase = hovering ? 0.16 : 0.065;
-      cloudCurrent.x += (desiredCloudX - cloudCurrent.x) * cloudEase;
-      cloudCurrent.y += (desiredCloudY - cloudCurrent.y) * cloudEase;
-
-      const spring = hovering ? 0.16 : 0.05;
-      const damping = hovering ? 0.8 : 0.83;
-
-      orbVelocity.x += (desiredOrbX - orbCurrent.x) * spring;
-      orbVelocity.y += (desiredOrbY - orbCurrent.y) * spring;
-      orbVelocity.x *= damping;
-      orbVelocity.y *= damping;
-      orbCurrent.x += orbVelocity.x;
-      orbCurrent.y += orbVelocity.y;
-
-      setCloudPosition(cloudCurrent.x, cloudCurrent.y);
-      setOrbPosition(orbCurrent.x, orbCurrent.y, elapsed);
-      rafId = window.requestAnimationFrame(animate);
-    };
-
-    const handleMove = (event) => {
-      const rect = hero.getBoundingClientRect();
-      hovering = true;
-      target.x = Math.max(0, Math.min(rect.width, event.clientX - rect.left));
-      target.y = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
-    };
-
-    const handleLeave = () => {
-      hovering = false;
-      resetTarget();
-    };
-
-    const handleResize = () => {
-      if (!hovering) {
-        resetTarget();
-      }
-    };
-
-    resetTarget();
-    rafId = window.requestAnimationFrame(animate);
-
-    hero.addEventListener("mousemove", handleMove);
-    hero.addEventListener("mouseleave", handleLeave);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      hero.removeEventListener("mousemove", handleMove);
-      hero.removeEventListener("mouseleave", handleLeave);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const whatsappHref = getWhatsappLink(
+    CONTACT_INFO.WHATSAPP_NUMBER,
+    CONTACT_INFO.WHATSAPP_MESSAGE_HERO
+  );
 
   return (
-    <Section className="relative overflow-hidden bg-white px-4 pb-36 pt-8 sm:px-6 lg:px-8 lg:pb-44 lg:pt-12">
-      <div className="pointer-events-none absolute inset-0 bg-white" />
-
-      <div
-        ref={heroRef}
-        className="relative left-1/2 min-h-[760px] w-screen -translate-x-1/2 overflow-hidden lg:min-h-[840px]"
-      >
-        <div className="pointer-events-none absolute inset-0">
-          {specks.map((speck) => (
-            <span
-              key={speck.id}
-              className="hero-speck absolute rounded-full bg-slate-950"
-              style={{
-                "--speck-opacity": speck.opacity,
-                left: speck.left,
-                top: speck.top,
-                width: `${speck.size}px`,
-                height: `${speck.size}px`,
-                opacity: speck.opacity,
-                animationDelay: speck.delay,
-                animationDuration: speck.duration,
-              }}
-            />
-          ))}
-        </div>
-
-        <div
-          ref={cloudRef}
-          className="pointer-events-none absolute h-[1160px] w-[1160px] -translate-x-1/2 -translate-y-1/2"
-          style={{ left: "56%", top: "42%" }}
-        >
-          {particles.map((particle) => (
-            <span
-              key={particle.id}
-              className="hero-cloud-particle absolute left-1/2 top-1/2 rounded-full"
-              style={{
-                "--tx": `${particle.x}px`,
-                "--ty": `${particle.y}px`,
-                "--dx": `${particle.driftX}px`,
-                "--dy": `${particle.driftY}px`,
-                "--rot": `${particle.rotation}deg`,
-                width: `${particle.width}px`,
-                height: `${particle.height}px`,
-                opacity: particle.opacity,
-                backgroundColor: particle.color,
-                boxShadow: `0 0 12px ${particle.color}22`,
-                animationDelay: particle.delay,
-                animationDuration: particle.duration,
-              }}
-            />
-          ))}
-        </div>
-
-        <div
-          ref={orbRef}
-          className="pointer-events-none absolute h-52 w-52 -translate-x-1/2 -translate-y-1/2"
-          style={{ left: "56%", top: "42%" }}
-        >
-          <div className="hero-orb-glow absolute inset-0 rounded-full" />
-          <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-[2px]" />
-        </div>
-
-        <div className="relative z-10 mx-auto flex min-h-[760px] w-full max-w-[1500px] flex-col items-center justify-center px-4 pb-10 text-center sm:px-6 lg:min-h-[840px] lg:px-8 lg:pb-16">
-          <h1 className="max-w-[1320px] text-[clamp(3.2rem,7.2vw,6.3rem)] font-semibold leading-[0.94] tracking-[-0.075em] text-slate-950">
-            Impulsá ventas y operación
+    <section className="relative overflow-hidden bg-white px-5 pb-12 pt-20 sm:px-6 sm:pb-16 sm:pt-24 lg:px-8 lg:pt-28">
+      <div className="mx-auto flex min-h-[calc(100svh-112px)] max-w-[1500px] flex-col items-center text-center">
+        <div className="mx-auto max-w-[1180px]">
+          <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.26em] text-slate-500 sm:mb-8">
+            Tecnología aplicada a operaciones reales
+          </p>
+          <h1 className="text-[clamp(3.35rem,8vw,7.5rem)] font-semibold leading-[0.89] tracking-[-0.075em] text-[#0c1730]">
+            Más ventas.
             <br />
-            con sistemas que se mueven solos.
+            Más control.
+            <br />
+            <span className="text-[#7650ff]">Menos trabajo manual.</span>
           </h1>
-
-          <p className="mt-8 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-            Automatización, IA e integraciones para que tu equipo gane velocidad,
-            orden y foco comercial sin depender de tareas manuales.
+          <p className="mx-auto mt-8 max-w-[720px] text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
+            Combinamos captación, CRM y agentes de IA para ordenar y hacer crecer operaciones sin agregar más complejidad al equipo.
           </p>
 
-          <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row">
+          <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
             <a
-              href={CALENDLY_LINK}
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-w-[240px] items-center justify-center rounded-full bg-slate-950 px-8 py-4 text-lg font-semibold text-white shadow-[0_24px_60px_-22px_rgba(15,23,42,0.5)] transition-transform duration-200 hover:scale-[1.02]"
+              className="inline-flex min-h-12 items-center justify-center rounded-[14px] bg-[#0c1730] px-7 py-3.5 text-base font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#16233f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7650ff] focus-visible:ring-offset-2"
             >
-              Hablemos
+              Hablá con Nexi
+              <span aria-hidden="true" className="ml-3 text-lg">↗</span>
             </a>
-
             <a
-              href="#servicios"
-              className="inline-flex min-w-[240px] items-center justify-center rounded-full border border-slate-200 bg-white/90 px-8 py-4 text-lg font-semibold text-slate-700 transition-colors duration-200 hover:border-slate-300 hover:text-slate-950"
+              href="#operation-story"
+              className="inline-flex items-center py-3 text-sm font-semibold text-slate-600 transition-colors hover:text-[#0c1730]"
             >
-              Explorar servicios
+              Ver cómo cambia una operación
+              <span aria-hidden="true" className="ml-2">↓</span>
             </a>
           </div>
         </div>
-      </div>
 
-      <div className="pointer-events-none absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-        <svg
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-          className="relative hidden h-[120px] w-full rotate-180 lg:block"
-          fill="#0f0c29"
-        >
-          <path d="M0,0 H1200 V60 C1000,10 800,110 600,60 C400,10 200,110 0,60 Z" />
-        </svg>
+        <div className="mt-auto w-full">
+          <HeroSystem />
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
