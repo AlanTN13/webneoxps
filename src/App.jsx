@@ -36,6 +36,7 @@ export default function App() {
   return (
     <Layout>
       <Hero />
+      <div id="operation-story-start" className="scroll-mt-[72px]" aria-hidden="true" />
       <OperationStory />
       <ServicesOverview />
       <Logos />
