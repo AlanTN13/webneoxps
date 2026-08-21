@@ -10,11 +10,11 @@ import HowWeWork from "./components/HowWeWork";
 import CTA from "./components/CTA";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
+import OperationStory from "./components/OperationStory";
 import Logos from "./components/Logos";
 import { useReveal } from "./hooks/useReveal";
 
 export default function App() {
-  // Parallax
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!prefersReduced.matches && window.innerWidth >= 640) {
@@ -36,6 +36,7 @@ export default function App() {
   return (
     <Layout>
       <Hero />
+      <OperationStory />
       <ServicesOverview />
       <Logos />
       <HowWeWork />
