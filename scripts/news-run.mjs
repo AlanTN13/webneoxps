@@ -41,6 +41,7 @@ export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR }
 
   const articleSource = path.resolve(path.dirname(path.resolve(decisionPath)), decision.article);
   const article = JSON.parse(await fs.readFile(articleSource, "utf8"));
+  await fs.mkdir(newsDirectory, { recursive: true });
   const existing = await readNewsFiles(newsDirectory);
   const imageErrors = validateCoverCollection([...existing, article]);
   const validation = detectAddAction(existing, article);
@@ -49,7 +50,6 @@ export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR }
   }
 
   const articleDestination = path.join(newsDirectory, `${article.slug}.json`);
-  await fs.mkdir(newsDirectory, { recursive: true });
   const token = `${process.pid}-${Date.now()}`;
   const articleStage = path.join(newsDirectory, `.${article.slug}.${token}.tmp`);
 
