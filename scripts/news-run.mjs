@@ -3,9 +3,9 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { detectAddAction } from "./news-contract.mjs";
+import { validateCoverCollection } from "./news-image-policy.mjs";
 import { NEWS_DIR, readNewsFiles } from "./news-validate.mjs";
 
-const ASSET_DIR = path.resolve("public/assets/insights");
 const OUTCOMES = new Set(["NO_PUBLICATION", "PUBLICATION"]);
 
 function fail(message, validationErrors = []) {
@@ -27,24 +27,7 @@ function gitOutput(args) {
   return result.stdout.trim();
 }
 
-async function exists(file) {
-  try { await fs.access(file); return true; } catch (error) {
-    if (error.code === "ENOENT") return false;
-    throw error;
-  }
-}
-
-function localCoverPath(article) {
-  const prefix = "/assets/insights/";
-  if (typeof article.coverImage !== "string" || !article.coverImage.startsWith(prefix)) {
-    fail("PUBLICATION requiere coverImage local dentro de /assets/insights/");
-  }
-  const filename = article.coverImage.slice(prefix.length);
-  if (!filename || path.basename(filename) !== filename) fail("coverImage debe apuntar a un único archivo local");
-  return path.join(ASSET_DIR, filename);
-}
-
-export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR, assetDirectory = ASSET_DIR }) {
+export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR }) {
   if (!decisionPath) fail("Falta la ruta a la decisión JSON");
   const decision = JSON.parse(await fs.readFile(path.resolve(decisionPath), "utf8"));
   if (!OUTCOMES.has(decision.outcome)) fail("outcome debe ser NO_PUBLICATION o PUBLICATION");
@@ -53,42 +36,36 @@ export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR, 
     return { outcome: decision.outcome, changed: false, files: [] };
   }
 
-  if (!decision.article || !decision.coverAsset) fail("PUBLICATION requiere article y coverAsset");
+  if (!decision.article) fail("PUBLICATION requiere article");
+  if (decision.coverAsset) fail("PUBLICATION ya no acepta coverAsset local: la noticia debe incluir una URL de fotografía real aprobada");
+
   const articleSource = path.resolve(path.dirname(path.resolve(decisionPath)), decision.article);
-  const assetSource = path.resolve(path.dirname(path.resolve(decisionPath)), decision.coverAsset);
   const article = JSON.parse(await fs.readFile(articleSource, "utf8"));
   const existing = await readNewsFiles(newsDirectory);
+  const imageErrors = validateCoverCollection([...existing, article]);
   const validation = detectAddAction(existing, article);
-  if (validation.action !== "add") fail("La publicación entra en conflicto con el corpus", validation.errors);
+  if (imageErrors.length > 0 || validation.action !== "add") {
+    fail("La publicación entra en conflicto con el corpus", [...imageErrors, ...(validation.errors || [])]);
+  }
 
   const articleDestination = path.join(newsDirectory, `${article.slug}.json`);
-  const configuredAssetDestination = localCoverPath(article);
-  const assetDestination = path.join(assetDirectory, path.basename(configuredAssetDestination));
-  if (await exists(articleDestination) || await exists(assetDestination)) fail("El destino ya existe; no se sobrescribió ningún archivo");
-
   await fs.mkdir(newsDirectory, { recursive: true });
-  await fs.mkdir(assetDirectory, { recursive: true });
   const token = `${process.pid}-${Date.now()}`;
   const articleStage = path.join(newsDirectory, `.${article.slug}.${token}.tmp`);
-  const assetStage = path.join(assetDirectory, `.${path.basename(assetDestination)}.${token}.tmp`);
-  const created = [];
 
   try {
     await fs.writeFile(articleStage, `${JSON.stringify(article, null, 2)}\n`, { flag: "wx" });
-    await fs.copyFile(assetSource, assetStage, fs.constants.COPYFILE_EXCL);
-    await fs.rename(assetStage, assetDestination);
-    created.push(assetDestination);
     await fs.rename(articleStage, articleDestination);
-    created.push(articleDestination);
-    return { outcome: decision.outcome, changed: true, files: [articleDestination, assetDestination] };
+    return { outcome: decision.outcome, changed: true, files: [articleDestination] };
   } catch (error) {
-    await Promise.allSettled([articleStage, assetStage, ...created].map((file) => fs.rm(file, { force: true })));
+    await fs.rm(articleStage, { force: true });
     throw error;
   }
 }
 
 export function runAutonomousGates() {
   run("npm", ["run", "news:validate"]);
+  run("npm", ["run", "news:audit"]);
   run("npm", ["run", "news:test"]);
   run("npm", ["run", "lint"]);
   run("npm", ["run", "build"]);
