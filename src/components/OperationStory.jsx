@@ -52,7 +52,7 @@ function SystemRow({ item, tone = "input" }) {
   const isOutput = tone === "output";
 
   return (
-    <div className="flex min-h-[62px] items-center gap-3 border-b border-slate-200/75 py-3.5 last:border-b-0">
+    <div className="flex min-h-[58px] items-center gap-3 border-b border-slate-200/75 py-3 last:border-b-0 xl:min-h-[62px] xl:py-3.5">
       <div
         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
           isOutput
@@ -75,7 +75,7 @@ function NexOpsCore({ active = true, reducedMotion = false }) {
     <div className="relative flex items-center justify-center">
       <motion.div
         aria-hidden="true"
-        className="absolute h-[250px] w-[250px] rounded-[72px] border border-[#7650ff]/10"
+        className="absolute h-[226px] w-[226px] rounded-[66px] border border-[#7650ff]/10 xl:h-[250px] xl:w-[250px] xl:rounded-[72px]"
         animate={
           active && !reducedMotion
             ? { scale: [0.98, 1.04, 0.98], opacity: [0.42, 0.18, 0.42] }
@@ -83,16 +83,16 @@ function NexOpsCore({ active = true, reducedMotion = false }) {
         }
         transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="absolute h-[218px] w-[218px] rounded-[60px] bg-[#7650ff]/[0.035] blur-[1px]" />
+      <div className="absolute h-[198px] w-[198px] rounded-[56px] bg-[#7650ff]/[0.035] blur-[1px] xl:h-[218px] xl:w-[218px] xl:rounded-[60px]" />
 
-      <div className="relative flex h-[190px] w-[190px] flex-col items-center justify-center rounded-[48px] border border-[#7650ff]/20 bg-white px-5 text-center shadow-[0_28px_70px_-34px_rgba(54,35,112,0.38)]">
-        <div className="mb-3 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">
+      <div className="relative flex h-[172px] w-[172px] flex-col items-center justify-center rounded-[44px] border border-[#7650ff]/20 bg-white px-5 text-center shadow-[0_28px_70px_-34px_rgba(54,35,112,0.38)] xl:h-[190px] xl:w-[190px] xl:rounded-[48px]">
+        <div className="mb-2.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-[#7650ff] xl:mb-3">
           <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
           Núcleo activo
         </div>
-        <img src={brandLogo} alt="" className="h-9 w-auto" />
-        <div className="mt-2 text-[24px] font-semibold tracking-[-0.04em] text-[#0c1730]">NexOps</div>
-        <div className="mt-3 text-[11px] font-medium leading-[1.55] text-slate-500">
+        <img src={brandLogo} alt="" className="h-8 w-auto xl:h-9" />
+        <div className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#0c1730] xl:text-[24px]">NexOps</div>
+        <div className="mt-2.5 text-[10px] font-medium leading-[1.5] text-slate-500 xl:mt-3 xl:text-[11px] xl:leading-[1.55]">
           Centraliza · Ordena
           <br />
           Automatiza
@@ -115,9 +115,20 @@ function DesktopSystem({ progress, reducedMotion }) {
   const outputX = useTransform(progress, [0.58, 0.76], [24, 0]);
   const footerOpacity = useTransform(progress, [0.74, 0.9], [0, 1]);
 
+  const inputStyle = reducedMotion ? { opacity: 1, x: 0 } : { opacity: inputOpacity, x: inputX };
+  const inputPathStyle = reducedMotion
+    ? { pathLength: 1, opacity: 0.9 }
+    : { pathLength: inputLineLength, opacity: inputLineOpacity };
+  const coreStyle = reducedMotion ? { opacity: 1, scale: 1 } : { opacity: coreOpacity, scale: coreScale };
+  const outputPathStyle = reducedMotion
+    ? { pathLength: 1, opacity: 0.9 }
+    : { pathLength: outputLineLength, opacity: outputLineOpacity };
+  const outputStyle = reducedMotion ? { opacity: 1, x: 0 } : { opacity: outputOpacity, x: outputX };
+  const footerStyle = reducedMotion ? { opacity: 1 } : { opacity: footerOpacity };
+
   return (
-    <div className="relative hidden min-h-[560px] overflow-hidden rounded-[36px] border border-slate-200/90 bg-[linear-gradient(105deg,#ffffff_0%,#fbfbfe_43%,#f7f5ff_55%,#fbfcff_100%)] shadow-[0_36px_90px_-62px_rgba(15,23,42,0.32)] md:block">
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between border-b border-slate-200/80 px-7 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+    <div className="relative hidden min-h-[450px] overflow-hidden rounded-[36px] border border-slate-200/90 bg-[linear-gradient(105deg,#ffffff_0%,#fbfbfe_43%,#f7f5ff_55%,#fbfcff_100%)] shadow-[0_36px_90px_-62px_rgba(15,23,42,0.32)] md:block lg:min-h-[480px] xl:min-h-[520px]">
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between border-b border-slate-200/80 px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 xl:py-4">
         <span>Sistema comercial + operativo</span>
         <span className="flex items-center gap-2 text-[#6744df]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
@@ -128,7 +139,7 @@ function DesktopSystem({ progress, reducedMotion }) {
       <svg
         viewBox="0 0 1200 520"
         preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 top-[40px] h-[470px] w-full"
+        className="pointer-events-none absolute inset-x-0 top-[38px] h-[calc(100%_-_84px)] w-full xl:top-[40px] xl:h-[calc(100%_-_88px)]"
         aria-hidden="true"
       >
         <defs>
@@ -157,7 +168,7 @@ function DesktopSystem({ progress, reducedMotion }) {
             strokeWidth="2"
             strokeLinecap="round"
             markerEnd="url(#flowArrowIn)"
-            style={{ pathLength: inputLineLength, opacity: inputLineOpacity }}
+            style={inputPathStyle}
           />
         ))}
         {OUTPUT_PATHS.map((path) => (
@@ -169,16 +180,16 @@ function DesktopSystem({ progress, reducedMotion }) {
             strokeWidth="2"
             strokeLinecap="round"
             markerEnd="url(#flowArrowOut)"
-            style={{ pathLength: outputLineLength, opacity: outputLineOpacity }}
+            style={outputPathStyle}
           />
         ))}
       </svg>
 
-      <div className="relative z-10 grid min-h-[560px] grid-cols-[minmax(230px,0.95fr)_280px_minmax(250px,1.05fr)] items-center gap-14 px-8 pb-14 pt-20 lg:gap-20 lg:px-12">
-        <motion.div style={{ opacity: inputOpacity, x: inputX }}>
-          <div className="mb-4 flex items-center justify-between">
+      <div className="relative z-10 grid min-h-[450px] grid-cols-[minmax(220px,0.95fr)_240px_minmax(235px,1.05fr)] items-center gap-9 px-7 pb-12 pt-16 lg:min-h-[480px] lg:grid-cols-[minmax(230px,0.95fr)_255px_minmax(245px,1.05fr)] lg:gap-12 lg:px-9 xl:min-h-[520px] xl:grid-cols-[minmax(230px,0.95fr)_280px_minmax(250px,1.05fr)] xl:gap-20 xl:px-12 xl:pb-14 xl:pt-20">
+        <motion.div style={inputStyle}>
+          <div className="mb-3 flex items-center justify-between xl:mb-4">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">01 · Entradas</span>
-            <span className="text-[10px] text-slate-400">Canales dispersos</span>
+            <span className="hidden text-[10px] text-slate-400 lg:inline">Canales dispersos</span>
           </div>
           <div className="bg-white/90 px-1">
             {INPUTS.map((item) => (
@@ -187,19 +198,19 @@ function DesktopSystem({ progress, reducedMotion }) {
           </div>
         </motion.div>
 
-        <motion.div style={{ opacity: coreOpacity, scale: coreScale }}>
-          <div className="mb-6 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-[#7650ff]">02 · Núcleo NexOps</div>
+        <motion.div style={coreStyle}>
+          <div className="mb-4 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-[#7650ff] xl:mb-6">02 · Núcleo NexOps</div>
           <NexOpsCore active reducedMotion={reducedMotion} />
-          <div className="mx-auto mt-7 flex max-w-[240px] items-center justify-center gap-2 text-center text-[10px] font-medium leading-4 text-slate-500">
+          <div className="mx-auto mt-5 flex max-w-[230px] items-center justify-center gap-2 text-center text-[10px] font-medium leading-4 text-slate-500 xl:mt-7 xl:max-w-[240px]">
             <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#7650ff]" />
             Reglas, contexto y automatización en el mismo circuito
           </div>
         </motion.div>
 
-        <motion.div style={{ opacity: outputOpacity, x: outputX }}>
-          <div className="mb-4 flex items-center justify-between">
+        <motion.div style={outputStyle}>
+          <div className="mb-3 flex items-center justify-between xl:mb-4">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6744df]">03 · Control</span>
-            <span className="text-[10px] text-slate-400">Operación visible</span>
+            <span className="hidden text-[10px] text-slate-400 lg:inline">Operación visible</span>
           </div>
           <div className="bg-white/90 px-1">
             {OUTPUTS.map((item) => (
@@ -210,8 +221,8 @@ function DesktopSystem({ progress, reducedMotion }) {
       </div>
 
       <motion.div
-        style={{ opacity: footerOpacity }}
-        className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 border-t border-slate-200/80 bg-white/80 px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 backdrop-blur-sm"
+        style={footerStyle}
+        className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 border-t border-slate-200/80 bg-white/80 px-6 py-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 backdrop-blur-sm xl:py-4"
       >
         <span>Captar</span>
         <span className="text-[#7650ff]">·</span>
@@ -305,15 +316,25 @@ export default function OperationStory() {
   });
 
   return (
-    <section id="operation-story" ref={sectionRef} className="relative bg-white md:h-[300vh]">
-      <div className="px-5 py-24 md:sticky md:top-[72px] md:flex md:h-[calc(100svh-72px)] md:items-center md:px-6 md:py-8 lg:px-8">
+    <section
+      id="operation-story"
+      ref={sectionRef}
+      className={`relative bg-white ${reducedMotion ? "md:h-auto" : "md:h-[300vh]"}`}
+    >
+      <div
+        className={`px-5 py-24 md:flex md:items-center md:px-6 md:py-8 lg:px-8 ${
+          reducedMotion
+            ? "md:relative md:h-auto"
+            : "md:sticky md:top-[72px] md:h-[calc(100svh-72px)]"
+        }`}
+      >
         <div className="mx-auto w-full max-w-[1450px]">
-          <div className="mb-10 max-w-[940px] md:mb-8 lg:mb-10">
+          <div className="mb-10 max-w-[940px] md:mb-6 lg:mb-7 xl:mb-9">
             <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">Del ruido al control</div>
-            <h2 className="text-[clamp(2.6rem,5.2vw,5.8rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
+            <h2 className="text-[clamp(2.6rem,4.3vw,5.1rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
               Todo lo que pasa en tu operación, en un solo sistema
             </h2>
-            <p className="mt-6 max-w-[780px] text-[16px] leading-7 text-slate-600 md:text-[18px] md:leading-8">
+            <p className="mt-5 max-w-[780px] text-[16px] leading-7 text-slate-600 md:text-[17px] md:leading-7 xl:mt-6 xl:text-[18px] xl:leading-8">
               Centralizamos tus canales, ordenamos el seguimiento y automatizamos tareas para que vendas con más control y menos fricción.
             </p>
           </div>
