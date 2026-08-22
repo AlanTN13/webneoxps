@@ -118,17 +118,22 @@ function StageCopy({ progress, stage, index }) {
   const ends = [0.23, 0.39, 0.55, 0.72, 0.9, 1];
   const start = starts[index];
   const end = ends[index];
-  const fadeIn = index === 0 ? 0 : start + 0.035;
-  const holdEnd = index === STAGES.length - 1 ? 1 : end - 0.055;
+  const isFirst = index === 0;
+  const isLast = index === STAGES.length - 1;
+  const fadeIn = start + 0.035;
+  const holdEnd = isLast ? 1 : end - 0.055;
 
-  const opacity = useTransform(
-    progress,
-    index === STAGES.length - 1
+  const opacityInput = isFirst
+    ? [0, holdEnd, end]
+    : isLast
       ? [start, fadeIn, 1]
-      : [start, fadeIn, holdEnd, end],
-    index === STAGES.length - 1 ? [0, 1, 1] : index === 0 ? [1, 1, 1, 0] : [0, 1, 1, 0]
-  );
-  const y = useTransform(progress, [start, fadeIn, end], [20, 0, index === STAGES.length - 1 ? 0 : -18]);
+      : [start, fadeIn, holdEnd, end];
+  const opacityOutput = isFirst ? [1, 1, 0] : isLast ? [0, 1, 1] : [0, 1, 1, 0];
+  const yInput = isFirst ? [0, end] : [start, fadeIn, end];
+  const yOutput = isFirst ? [0, -18] : [20, 0, isLast ? 0 : -18];
+
+  const opacity = useTransform(progress, opacityInput, opacityOutput);
+  const y = useTransform(progress, yInput, yOutput);
 
   return (
     <motion.div
@@ -173,7 +178,6 @@ function OpportunityNode({ progress, item, index, reducedMotion }) {
   const metaOpacity = useTransform(progress, [0.5, 0.6, 0.88, 1], [0, 1, 1, 1]);
   const markerColor = useTransform(progress, [0.31, 0.42, 0.58, 1], ["#0c1730", "#7650ff", "#7650ff", "#0c1730"]);
   const labelColor = useTransform(progress, [0.31, 0.58, 0.9, 1], ["#334155", "#0c1730", "#0c1730", "#0c1730"]);
-
   const staticOpacity = item.keepFinal ? 1 : 0.2;
 
   return (
@@ -224,11 +228,9 @@ function TaskSignal({ progress, item, reducedMotion }) {
     <motion.div
       aria-hidden="true"
       style={reducedMotion ? { opacity: item.exception ? 0.55 : 0, y: 0 } : { opacity, y }}
-      className={`absolute z-30 -translate-x-1/2 text-[10px] font-semibold tracking-[-0.01em] ${
+      className={`relative z-30 -translate-x-1/2 text-[10px] font-semibold tracking-[-0.01em] ${
         item.exception ? "text-[#7650ff]" : "text-slate-500"
       }`}
-      aria-label={item.task}
-      data-task={item.task}
     >
       <span className="border-b border-[#7650ff]/35 pb-1">{item.task}</span>
     </motion.div>
@@ -255,7 +257,7 @@ function DesktopRail({ progress, reducedMotion }) {
         className="absolute top-1/2 z-10 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7650ff] shadow-[0_0_0_7px_rgba(118,80,255,0.08)]"
       />
 
-      <div className="absolute left-[7%] top-[calc(50%-36px)] text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+      <div className="absolute left-[7%] top-1/2 -translate-y-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
         operación comercial
       </div>
 
@@ -366,7 +368,7 @@ function MobileOperation({ reducedMotion }) {
   );
 }
 
-function ReducedDesktop() {
+function ReducedDesktop({ progress }) {
   return (
     <div className="hidden px-6 py-24 md:block lg:px-8">
       <div className="mx-auto max-w-[1450px]">
@@ -379,7 +381,7 @@ function ReducedDesktop() {
             La operación conserva una sola columna vertebral: oportunidades alineadas, responsables visibles, seguimiento activo y trabajo repetitivo automatizado.
           </p>
         </div>
-        <DesktopRail progress={null} reducedMotion />
+        <DesktopRail progress={progress} reducedMotion />
       </div>
     </div>
   );
@@ -410,7 +412,7 @@ export default function OperationStory() {
       </div>
 
       {reducedMotion ? (
-        <ReducedDesktop />
+        <ReducedDesktop progress={scrollYProgress} />
       ) : (
         <div className="sticky top-[72px] hidden h-[calc(100svh-72px)] overflow-hidden px-6 md:block lg:px-8">
           <div className="mx-auto flex h-full max-w-[1450px] flex-col py-8 lg:py-10">
