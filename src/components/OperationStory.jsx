@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import OperationStage from "./operation-story/OperationStage";
 import {
   AutomationScene,
@@ -42,25 +42,14 @@ const STAGES = [
 ];
 
 export default function OperationStory() {
+  const [activeStage, setActiveStage] = useState(0);
+  const stage = STAGES[activeStage];
+
   return (
     <div id="operation-story" className="bg-[#fdfdfc]">
-      {STAGES.map(({ number, label, title, scene }, index) => (
-        <OperationStage
-          key={number}
-          number={number}
-          label={label}
-          title={title}
-          footer={
-            index === STAGES.length - 1 ? (
-              <div className="text-center text-[clamp(2rem,4.2vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
-                Más ventas. Más control. Menos trabajo manual.
-              </div>
-            ) : null
-          }
-        >
-          {React.createElement(scene)}
-        </OperationStage>
-      ))}
+      <OperationStage stage={stage} activeStage={activeStage} onSelect={setActiveStage}>
+        {React.createElement(stage.scene)}
+      </OperationStage>
     </div>
   );
 }
