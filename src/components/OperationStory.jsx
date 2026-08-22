@@ -1,308 +1,674 @@
 import React, { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import {
-  BarChart3,
-  Eye,
-  FileText,
-  Globe2,
-  ListChecks,
-  Megaphone,
-  MessageCircle,
-  Send,
-  Sparkles,
-  UsersRound,
-  Zap,
-} from "lucide-react";
-import brandLogo from "../assets/logo-nexops.svg";
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
-const INPUTS = [
-  { label: "Pauta", detail: "Meta · Google", icon: Megaphone },
-  { label: "WhatsApp", detail: "Consultas y conversaciones", icon: MessageCircle },
-  { label: "Web", detail: "Visitas con intención", icon: Globe2 },
-  { label: "Formularios", detail: "Leads calificados", icon: FileText },
-  { label: "Campañas", detail: "Email · remarketing", icon: Send },
+const STAGES = [
+  {
+    number: "01",
+    kicker: "Entrada",
+    title: "Todo empieza con una oportunidad.",
+  },
+  {
+    number: "02",
+    kicker: "Fricción",
+    title: "Cuando crece el volumen, también aparece fricción.",
+  },
+  {
+    number: "03",
+    kicker: "Orden",
+    title: "Ahora cada oportunidad sabe qué sigue.",
+  },
+  {
+    number: "04",
+    kicker: "Automatización",
+    title: "Lo repetitivo se resuelve. La excepción llega a una persona.",
+  },
+  {
+    number: "05",
+    kicker: "Resultado",
+    title: "Atendida. Trazable. Con próximo paso.",
+  },
 ];
 
-const OUTPUTS = [
-  { label: "CRM ordenado", detail: "Cada oportunidad con estado", icon: UsersRound },
-  { label: "Seguimientos", detail: "Próximos pasos visibles", icon: ListChecks },
-  { label: "Tareas automáticas", detail: "Menos carga manual", icon: Zap },
-  { label: "Métricas", detail: "Qué entra, avanza y convierte", icon: BarChart3 },
-  { label: "Visibilidad", detail: "Control para decidir", icon: Eye },
+const STAGE_WINDOWS = [
+  [0, 0.04, 0.15, 0.21],
+  [0.15, 0.21, 0.34, 0.4],
+  [0.35, 0.41, 0.54, 0.6],
+  [0.55, 0.61, 0.78, 0.84],
+  [0.8, 0.87, 1, 1],
 ];
 
-const INPUT_PATHS = [
-  "M 250 112 C 390 112, 410 260, 530 260",
-  "M 250 186 C 390 186, 420 260, 530 260",
-  "M 250 260 C 390 260, 420 260, 530 260",
-  "M 250 334 C 390 334, 420 260, 530 260",
-  "M 250 408 C 390 408, 410 260, 530 260",
+const FRAGMENTS = [
+  {
+    friction: "¿Quién responde?",
+    alert: "sin responsable",
+    frictionX: -350,
+    frictionY: -8,
+    spawnX: -24,
+    spawnY: 6,
+    context: "Responsable · Ana",
+    final: "Ana · responsable",
+    contextX: 300,
+    contextY: 72,
+  },
+  {
+    friction: "Enviar cotización",
+    frictionX: 275,
+    frictionY: -135,
+    spawnX: 18,
+    spawnY: -18,
+    context: "Próximo paso · Enviar propuesta · 15:00",
+    final: "Próximo paso · propuesta enviada",
+    contextX: 320,
+    contextY: 142,
+  },
+  {
+    friction: "Hacer seguimiento",
+    frictionX: 365,
+    frictionY: 12,
+    spawnX: 22,
+    spawnY: 4,
+    context: "Etapa · Calificado",
+    final: "Calificado",
+    contextX: 302,
+    contextY: 107,
+  },
+  {
+    friction: "Recordar mañana",
+    frictionX: -70,
+    frictionY: 158,
+    spawnX: -8,
+    spawnY: 22,
+    context: null,
+    final: null,
+    contextX: 308,
+    contextY: 142,
+  },
 ];
 
-const OUTPUT_PATHS = [
-  "M 670 260 C 790 260, 820 112, 950 112",
-  "M 670 260 C 790 260, 830 186, 950 186",
-  "M 670 260 C 790 260, 830 260, 950 260",
-  "M 670 260 C 790 260, 830 334, 950 334",
-  "M 670 260 C 790 260, 820 408, 950 408",
+const AUTOMATION_TASKS = [
+  { label: "clasificar", x: -315, y: -118 },
+  { label: "responder", x: -285, y: 118 },
+  { label: "recordar", x: 255, y: 156 },
+  { label: "actualizar", x: 310, y: -145 },
 ];
 
-function SystemRow({ item, tone = "input" }) {
-  const Icon = item.icon;
-  const isOutput = tone === "output";
+const MOBILE_FRICTION_TOP = ["¿Quién responde?", "Enviar cotización"];
+const MOBILE_FRICTION_BOTTOM = ["Hacer seguimiento", "Recordar mañana"];
+
+function StageCopy({ progress, stage, index }) {
+  const [start, fadeIn, holdEnd, end] = STAGE_WINDOWS[index];
+  const opacityInput = index === STAGES.length - 1
+    ? [start, fadeIn, 1]
+    : [start, fadeIn, holdEnd, end];
+  const opacityOutput = index === STAGES.length - 1 ? [0, 1, 1] : [0, 1, 1, 0];
+  const yInput = index === STAGES.length - 1 ? [start, fadeIn, 1] : [start, fadeIn, end];
+  const yOutput = index === STAGES.length - 1 ? [10, 0, 0] : [10, 0, -8];
+  const opacity = useTransform(progress, opacityInput, opacityOutput);
+  const y = useTransform(progress, yInput, yOutput);
 
   return (
-    <div className="flex min-h-[58px] items-center gap-3 border-b border-slate-200/75 py-3 last:border-b-0 xl:min-h-[62px] xl:py-3.5">
+    <motion.div
+      aria-hidden="true"
+      style={{ opacity, y }}
+      className="pointer-events-none absolute left-0 top-0 max-w-[560px]"
+    >
+      <div className="mb-3 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
+        <span className="text-[#7650ff]">{stage.number}</span>
+        <span>{stage.kicker}</span>
+      </div>
+      <h2 className="text-[clamp(2.35rem,3.7vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
+        {stage.title}
+      </h2>
+    </motion.div>
+  );
+}
+
+function OpportunitySurface({ progress, staticFinal = false, compact = false }) {
+  const entryOpacity = useTransform(progress, [0, 0.035, 0.105], [0, 0, 1]);
+  const entryX = useTransform(progress, [0, 0.035, 0.105], [-40, -40, 0]);
+  const activeHairlineOpacity = useTransform(progress, [0.37, 0.47, 1], [0, 1, 1]);
+  const finalStatusOpacity = useTransform(progress, [0.82, 0.91, 1], [0, 1, 1]);
+
+  return (
+    <motion.div
+      style={
+        staticFinal
+          ? { opacity: 1, x: 0 }
+          : { opacity: entryOpacity, x: entryX }
+      }
+      className={`relative overflow-visible border border-slate-200/90 bg-white ${
+        compact
+          ? "w-full rounded-[24px_24px_24px_9px] px-5 py-4"
+          : "w-[480px] max-w-[46vw] rounded-[28px_28px_28px_10px] px-7 py-5"
+      }`}
+    >
+      <motion.div
+        aria-hidden="true"
+        style={{ opacity: staticFinal ? 1 : activeHairlineOpacity }}
+        className="absolute bottom-0 left-8 right-8 h-px bg-[#7650ff]/45"
+      />
+
+      <div className="flex items-center justify-between gap-4 text-[9px] font-bold uppercase tracking-[0.19em] text-slate-400">
+        <span>WhatsApp · desde campaña</span>
+        <span className="font-semibold tracking-[0.08em] text-slate-400">11:42</span>
+      </div>
+
       <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
-          isOutput
-            ? "border-[#7650ff]/15 bg-[#7650ff]/[0.06] text-[#6744df]"
-            : "border-slate-200 bg-slate-50 text-slate-600"
+        className={`font-semibold leading-[1.18] tracking-[-0.035em] text-[#10192f] ${
+          compact ? "mt-3 text-[18px]" : "mt-4 text-[22px] lg:text-[23px]"
         }`}
       >
-        <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
+        Hola, vi el anuncio. Quiero más información.
       </div>
-      <div className="min-w-0">
-        <div className="text-[15px] font-semibold tracking-[-0.015em] text-[#101a31]">{item.label}</div>
-        <div className="mt-0.5 text-[12px] leading-5 text-slate-500">{item.detail}</div>
-      </div>
-    </div>
-  );
-}
 
-function NexOpsCore({ active = true, reducedMotion = false }) {
-  return (
-    <div className="relative flex items-center justify-center">
       <motion.div
-        aria-hidden="true"
-        className="absolute h-[226px] w-[226px] rounded-[66px] border border-[#7650ff]/10 xl:h-[250px] xl:w-[250px] xl:rounded-[72px]"
-        animate={
-          active && !reducedMotion
-            ? { scale: [0.98, 1.04, 0.98], opacity: [0.42, 0.18, 0.42] }
-            : { scale: 1, opacity: 0.26 }
-        }
-        transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <div className="absolute h-[198px] w-[198px] rounded-[56px] bg-[#7650ff]/[0.035] blur-[1px] xl:h-[218px] xl:w-[218px] xl:rounded-[60px]" />
+        style={{ opacity: staticFinal ? 1 : finalStatusOpacity }}
+        className={`absolute right-0 translate-x-[34%] text-[10px] font-semibold tracking-[-0.01em] text-[#7650ff] ${
+          compact ? "-bottom-7" : "-bottom-8"
+        }`}
+      >
+        Seguimiento activo
+      </motion.div>
+    </motion.div>
+  );
+}
 
-      <div className="relative flex h-[172px] w-[172px] flex-col items-center justify-center rounded-[44px] border border-[#7650ff]/20 bg-white px-5 text-center shadow-[0_28px_70px_-34px_rgba(54,35,112,0.38)] xl:h-[190px] xl:w-[190px] xl:rounded-[48px]">
-        <div className="mb-2.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-[#7650ff] xl:mb-3">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
-          Núcleo activo
-        </div>
-        <img src={brandLogo} alt="" className="h-8 w-auto xl:h-9" />
-        <div className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#0c1730] xl:text-[24px]">NexOps</div>
-        <div className="mt-2.5 text-[10px] font-medium leading-[1.5] text-slate-500 xl:mt-3 xl:text-[11px] xl:leading-[1.55]">
-          Centraliza · Ordena
-          <br />
-          Automatiza
-        </div>
-      </div>
+function CampaignSource({ progress }) {
+  const opacity = useTransform(progress, [0, 0.035, 0.1, 0.17, 0.23], [0, 1, 1, 0.55, 0]);
+  const pathLength = useTransform(progress, [0.02, 0.1], [0, 1]);
+
+  return (
+    <>
+      <motion.div
+        style={{ opacity }}
+        className="absolute left-[22%] top-[15%] flex items-center gap-2 text-[12px] font-semibold tracking-[-0.015em] text-slate-500"
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
+        Campaña activa
+      </motion.div>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1050 430"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+      >
+        <motion.path
+          d="M 255 95 C 315 110, 350 145, 397 168"
+          fill="none"
+          stroke="#7650ff"
+          strokeOpacity="0.52"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          style={{ pathLength, opacity }}
+        />
+      </svg>
+    </>
+  );
+}
+
+function MorphFragment({ progress, item }) {
+  const x = useTransform(
+    progress,
+    [0.14, 0.21, 0.36, 0.49],
+    [item.frictionX + item.spawnX, item.frictionX, item.frictionX, item.contextX]
+  );
+  const y = useTransform(
+    progress,
+    [0.14, 0.21, 0.36, 0.49],
+    [item.frictionY + item.spawnY, item.frictionY, item.frictionY, item.contextY]
+  );
+  const frictionOpacity = useTransform(progress, [0.14, 0.21, 0.36, 0.49], [0, 1, 1, 0]);
+  const contextOpacity = useTransform(progress, [0.38, 0.49, 0.82, 0.9], [0, 1, 1, 0]);
+  const finalOpacity = useTransform(progress, [0.82, 0.91, 1], [0, 1, 1]);
+
+  return (
+    <div
+      className="pointer-events-none absolute left-1/2 top-1/2 z-20"
+      style={{ transform: "translate(-50%, -50%)" }}
+    >
+      <motion.div style={{ x, y }} className="relative whitespace-nowrap">
+        <motion.div
+          style={{ opacity: frictionOpacity }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div className="flex items-center gap-2 text-[15px] font-medium tracking-[-0.018em] text-slate-500">
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+            <span>{item.friction}</span>
+          </div>
+          {item.alert ? (
+            <div className="mt-1.5 pl-3.5 text-[10px] font-semibold text-[#a85761]">{item.alert}</div>
+          ) : null}
+        </motion.div>
+
+        {item.context ? (
+          <>
+            <motion.div
+              style={{ opacity: contextOpacity }}
+              className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
+            >
+              <span className="h-px w-5 bg-[#7650ff]/65" />
+              <span>{item.context}</span>
+            </motion.div>
+            <motion.div
+              style={{ opacity: finalOpacity }}
+              className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
+            >
+              <span className="h-px w-5 bg-[#7650ff]/65" />
+              <span>{item.final}</span>
+            </motion.div>
+          </>
+        ) : null}
+      </motion.div>
     </div>
   );
 }
 
-function DesktopSystem({ progress, reducedMotion }) {
-  const inputOpacity = useTransform(progress, [0, 0.08, 0.18], [0, 0.45, 1]);
-  const inputX = useTransform(progress, [0, 0.18], [-24, 0]);
-  const inputLineLength = useTransform(progress, [0.1, 0.38], [0, 1]);
-  const inputLineOpacity = useTransform(progress, [0.08, 0.18, 0.38], [0, 0.48, 0.9]);
-  const coreOpacity = useTransform(progress, [0.3, 0.44], [0.2, 1]);
-  const coreScale = useTransform(progress, [0.3, 0.44], [0.92, 1]);
-  const outputLineLength = useTransform(progress, [0.44, 0.7], [0, 1]);
-  const outputLineOpacity = useTransform(progress, [0.42, 0.52, 0.72], [0, 0.4, 0.9]);
-  const outputOpacity = useTransform(progress, [0.58, 0.76], [0, 1]);
-  const outputX = useTransform(progress, [0.58, 0.76], [24, 0]);
-  const footerOpacity = useTransform(progress, [0.74, 0.9], [0, 1]);
-
-  const inputStyle = reducedMotion ? { opacity: 1, x: 0 } : { opacity: inputOpacity, x: inputX };
-  const inputPathStyle = reducedMotion
-    ? { pathLength: 1, opacity: 0.9 }
-    : { pathLength: inputLineLength, opacity: inputLineOpacity };
-  const coreStyle = reducedMotion ? { opacity: 1, scale: 1 } : { opacity: coreOpacity, scale: coreScale };
-  const outputPathStyle = reducedMotion
-    ? { pathLength: 1, opacity: 0.9 }
-    : { pathLength: outputLineLength, opacity: outputLineOpacity };
-  const outputStyle = reducedMotion ? { opacity: 1, x: 0 } : { opacity: outputOpacity, x: outputX };
-  const footerStyle = reducedMotion ? { opacity: 1 } : { opacity: footerOpacity };
+function ContextBracket({ progress }) {
+  const opacity = useTransform(progress, [0.39, 0.49, 0.84, 0.92], [0, 1, 1, 0.75]);
 
   return (
-    <div className="relative hidden min-h-[450px] overflow-hidden rounded-[36px] border border-slate-200/90 bg-[linear-gradient(105deg,#ffffff_0%,#fbfbfe_43%,#f7f5ff_55%,#fbfcff_100%)] shadow-[0_36px_90px_-62px_rgba(15,23,42,0.32)] md:block lg:min-h-[480px] xl:min-h-[520px]">
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between border-b border-slate-200/80 px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 xl:py-4">
-        <span>Sistema comercial + operativo</span>
-        <span className="flex items-center gap-2 text-[#6744df]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
-          Información conectada
-        </span>
+    <motion.div
+      aria-hidden="true"
+      style={{ opacity }}
+      className="pointer-events-none absolute left-1/2 top-1/2 z-10 h-[104px] w-[42px] border-b border-l border-[#7650ff]/35"
+      transform-template="translate(248px, 50px)"
+    />
+  );
+}
+
+function AutomationTask({ progress, task, index }) {
+  const start = 0.57 + index * 0.042;
+  const active = start + 0.028;
+  const check = start + 0.067;
+  const end = start + 0.115;
+  const opacity = useTransform(progress, [start, active, check, end], [0, 1, 1, 0]);
+  const x = useTransform(progress, [start, check, end], [task.x, task.x, task.x * 0.42]);
+  const y = useTransform(progress, [start, check, end], [task.y, task.y, task.y * 0.42]);
+  const checkOpacity = useTransform(progress, [active, check, end], [0, 1, 1]);
+
+  return (
+    <div
+      className="pointer-events-none absolute left-1/2 top-1/2 z-30"
+      style={{ transform: "translate(-50%, -50%)" }}
+    >
+      <motion.div
+        style={{ opacity, x, y }}
+        className="flex items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-[-0.015em] text-[#7650ff]"
+      >
+        <span>{task.label}</span>
+        <motion.span style={{ opacity: checkOpacity }} className="text-[12px]">✓</motion.span>
+      </motion.div>
+    </div>
+  );
+}
+
+function ExceptionFlow({ progress }) {
+  const opacity = useTransform(progress, [0.66, 0.72, 0.8, 0.88], [0, 1, 1, 0]);
+  const exceptionX = useTransform(progress, [0.69, 0.8], [145, 215]);
+  const exceptionY = useTransform(progress, [0.69, 0.8], [-88, -82]);
+  const personOpacity = useTransform(progress, [0.7, 0.77, 0.87], [0, 1, 1]);
+  const pathLength = useTransform(progress, [0.71, 0.79], [0, 1]);
+
+  return (
+    <>
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 z-30"
+        style={{ transform: "translate(-50%, -50%)" }}
+      >
+        <motion.div
+          style={{ opacity, x: exceptionX, y: exceptionY }}
+          className="whitespace-nowrap text-[13px] font-semibold tracking-[-0.015em] text-[#7650ff]"
+        >
+          Excepción · validar condición comercial
+        </motion.div>
       </div>
+
+      <motion.div
+        style={{ opacity: personOpacity }}
+        className="pointer-events-none absolute left-[84%] top-[31%] z-30 flex items-center gap-2.5"
+      >
+        <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7650ff]/25 bg-white text-[11px] font-bold text-[#7650ff]">
+          S
+        </div>
+        <div className="text-[12px] font-semibold tracking-[-0.01em] text-slate-600">Sofía · equipo</div>
+      </motion.div>
 
       <svg
-        viewBox="0 0 1200 520"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 top-[38px] h-[calc(100%_-_84px)] w-full xl:top-[40px] xl:h-[calc(100%_-_88px)]"
         aria-hidden="true"
+        viewBox="0 0 1050 430"
+        className="pointer-events-none absolute inset-0 z-20 h-full w-full"
       >
-        <defs>
-          <linearGradient id="inputFlow" x1="0" x2="1">
-            <stop offset="0%" stopColor="#cbd3df" />
-            <stop offset="100%" stopColor="#7650ff" />
-          </linearGradient>
-          <linearGradient id="outputFlow" x1="0" x2="1">
-            <stop offset="0%" stopColor="#7650ff" />
-            <stop offset="100%" stopColor="#a7b2c6" />
-          </linearGradient>
-          <marker id="flowArrowIn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7650ff" opacity="0.8" />
-          </marker>
-          <marker id="flowArrowOut" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa6ba" opacity="0.85" />
-          </marker>
-        </defs>
-
-        {INPUT_PATHS.map((path) => (
-          <motion.path
-            key={path}
-            d={path}
-            fill="none"
-            stroke="url(#inputFlow)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            markerEnd="url(#flowArrowIn)"
-            style={inputPathStyle}
-          />
-        ))}
-        {OUTPUT_PATHS.map((path) => (
-          <motion.path
-            key={path}
-            d={path}
-            fill="none"
-            stroke="url(#outputFlow)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            markerEnd="url(#flowArrowOut)"
-            style={outputPathStyle}
-          />
-        ))}
+        <motion.path
+          d="M 655 126 C 720 126, 760 126, 812 126"
+          fill="none"
+          stroke="#7650ff"
+          strokeOpacity="0.55"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          style={{ pathLength, opacity }}
+        />
       </svg>
+    </>
+  );
+}
 
-      <div className="relative z-10 grid min-h-[450px] grid-cols-[minmax(220px,0.95fr)_240px_minmax(235px,1.05fr)] items-center gap-9 px-7 pb-12 pt-16 lg:min-h-[480px] lg:grid-cols-[minmax(230px,0.95fr)_255px_minmax(245px,1.05fr)] lg:gap-12 lg:px-9 xl:min-h-[520px] xl:grid-cols-[minmax(230px,0.95fr)_280px_minmax(250px,1.05fr)] xl:gap-20 xl:px-12 xl:pb-14 xl:pt-20">
-        <motion.div style={inputStyle}>
-          <div className="mb-3 flex items-center justify-between xl:mb-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">01 · Entradas</span>
-            <span className="hidden text-[10px] text-slate-400 lg:inline">Canales dispersos</span>
-          </div>
-          <div className="bg-white/90 px-1">
-            {INPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} />
-            ))}
-          </div>
-        </motion.div>
+function SecondaryOpportunity({ progress, x, y, message }) {
+  const opacity = useTransform(progress, [0.8, 0.9, 1], [0, 0.2, 0.2]);
+  const scale = useTransform(progress, [0.8, 0.9, 1], [0.7, 0.74, 0.74]);
 
-        <motion.div style={coreStyle}>
-          <div className="mb-4 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-[#7650ff] xl:mb-6">02 · Núcleo NexOps</div>
-          <NexOpsCore active reducedMotion={reducedMotion} />
-          <div className="mx-auto mt-5 flex max-w-[230px] items-center justify-center gap-2 text-center text-[10px] font-medium leading-4 text-slate-500 xl:mt-7 xl:max-w-[240px]">
-            <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#7650ff]" />
-            Reglas, contexto y automatización en el mismo circuito
-          </div>
-        </motion.div>
-
-        <motion.div style={outputStyle}>
-          <div className="mb-3 flex items-center justify-between xl:mb-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6744df]">03 · Control</span>
-            <span className="hidden text-[10px] text-slate-400 lg:inline">Operación visible</span>
-          </div>
-          <div className="bg-white/90 px-1">
-            {OUTPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} tone="output" />
-            ))}
-          </div>
-        </motion.div>
-      </div>
-
+  return (
+    <div
+      className="pointer-events-none absolute left-1/2 top-1/2 z-0"
+      style={{ transform: "translate(-50%, -50%)" }}
+    >
       <motion.div
-        style={footerStyle}
-        className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 border-t border-slate-200/80 bg-white/80 px-6 py-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 backdrop-blur-sm xl:py-4"
+        style={{ opacity, scale, x, y }}
+        className="w-[460px] rounded-[26px_26px_26px_9px] border border-slate-200 bg-white px-7 py-5"
       >
-        <span>Captar</span>
-        <span className="text-[#7650ff]">·</span>
-        <span>Ordenar</span>
-        <span className="text-[#7650ff]">·</span>
-        <span>Automatizar</span>
-        <span className="text-[#7650ff]">·</span>
-        <span>Controlar</span>
+        <div className="text-[9px] font-bold uppercase tracking-[0.17em] text-slate-400">WhatsApp · desde campaña</div>
+        <div className="mt-3 text-[20px] font-semibold leading-[1.2] tracking-[-0.03em] text-slate-500">{message}</div>
       </motion.div>
     </div>
   );
 }
 
-function MobileSystem({ reducedMotion }) {
-  const reveal = (delay = 0) => ({
-    initial: reducedMotion ? false : { opacity: 0, y: 16 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.25 },
-    transition: { duration: reducedMotion ? 0 : 0.55, delay, ease: [0.2, 0.7, 0.2, 1] },
-  });
+function ResultMicrostates({ progress }) {
+  const opacity = useTransform(progress, [0.86, 0.93, 1], [0, 1, 1]);
 
   return (
-    <div className="overflow-hidden rounded-[30px] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#faf9ff_52%,#ffffff_100%)] md:hidden">
-      <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-        <span>Sistema NexOps</span>
-        <span className="flex items-center gap-2 text-[#6744df]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
-          Conectado
-        </span>
-      </div>
+    <motion.div
+      style={{ opacity }}
+      className="pointer-events-none absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-7 whitespace-nowrap text-[11px] font-semibold tracking-[0.01em] text-slate-500"
+    >
+      <span>0 sin responsable</span>
+      <span className="text-[#7650ff]/60">·</span>
+      <span>seguimiento activo</span>
+      <span className="text-[#7650ff]/60">·</span>
+      <span>repetitivo automatizado</span>
+    </motion.div>
+  );
+}
 
-      <div className="px-5 pb-6 pt-7">
-        <motion.div {...reveal(0)}>
-          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.19em] text-slate-500">01 · Canales de entrada</div>
-          <div className="rounded-2xl border border-slate-200/80 bg-white px-4">
-            {INPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} />
-            ))}
-          </div>
-        </motion.div>
+function DesktopVisual({ progress }) {
+  return (
+    <div className="relative h-full w-full">
+      <CampaignSource progress={progress} />
 
-        <motion.div {...reveal(0.1)} className="mx-auto flex h-14 w-10 items-center justify-center">
-          <div className="relative h-10 w-px bg-gradient-to-b from-slate-300 to-[#7650ff]">
-            <span className="absolute -bottom-0.5 -left-[3px] h-2 w-2 rotate-45 border-b border-r border-[#7650ff]" />
-          </div>
-        </motion.div>
+      <SecondaryOpportunity
+        progress={progress}
+        x={-205}
+        y={82}
+        message="Quiero conocer opciones para mi empresa."
+      />
+      <SecondaryOpportunity
+        progress={progress}
+        x={218}
+        y={92}
+        message="Necesito una propuesta para este mes."
+      />
 
-        <motion.div {...reveal(0.16)}>
-          <div className="mb-4 text-center text-[9px] font-bold uppercase tracking-[0.19em] text-[#7650ff]">02 · Núcleo NexOps</div>
-          <NexOpsCore active reducedMotion={reducedMotion} />
-          <p className="mx-auto mt-6 max-w-[270px] text-center text-[12px] leading-5 text-slate-500">
-            Centraliza información, aplica reglas y automatiza el seguimiento sin perder contexto.
-          </p>
-        </motion.div>
+      {FRAGMENTS.map((item) => (
+        <MorphFragment key={item.friction} progress={progress} item={item} />
+      ))}
 
-        <motion.div {...reveal(0.24)} className="mx-auto flex h-14 w-10 items-center justify-center">
-          <div className="relative h-10 w-px bg-gradient-to-b from-[#7650ff] to-slate-300">
-            <span className="absolute -bottom-0.5 -left-[3px] h-2 w-2 rotate-45 border-b border-r border-slate-400" />
-          </div>
-        </motion.div>
+      <ContextBracket progress={progress} />
 
-        <motion.div {...reveal(0.3)}>
-          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.19em] text-[#6744df]">03 · Operación bajo control</div>
-          <div className="rounded-2xl border border-[#7650ff]/10 bg-white px-4">
-            {OUTPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} tone="output" />
-            ))}
-          </div>
-        </motion.div>
-      </div>
+      {AUTOMATION_TASKS.map((task, index) => (
+        <AutomationTask key={task.label} progress={progress} task={task} index={index} />
+      ))}
 
-      <motion.div
-        {...reveal(0.36)}
-        className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-200/80 bg-white/80 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-500"
+      <ExceptionFlow progress={progress} />
+
+      <div
+        className="absolute left-1/2 top-1/2 z-20"
+        style={{ transform: "translate(-50%, -50%)" }}
       >
-        <span>Captar</span><span className="text-[#7650ff]">·</span>
-        <span>Ordenar</span><span className="text-[#7650ff]">·</span>
-        <span>Automatizar</span><span className="text-[#7650ff]">·</span>
-        <span>Controlar</span>
-      </motion.div>
+        <OpportunitySurface progress={progress} />
+      </div>
+
+      <ResultMicrostates progress={progress} />
+    </div>
+  );
+}
+
+function DesktopStory({ progress }) {
+  const promiseOpacity = useTransform(progress, [0.93, 0.98, 1], [0, 1, 1]);
+
+  return (
+    <div className="sticky top-[72px] hidden h-[calc(100svh-72px)] overflow-hidden bg-[#fdfdfc] px-6 md:block lg:px-8">
+      <div className="relative mx-auto h-full max-w-[1248px]">
+        <div className="absolute left-0 top-10 z-40 h-[150px] w-[560px] max-w-[45vw]">
+          {STAGES.map((stage, index) => (
+            <StageCopy key={stage.number} progress={progress} stage={stage} index={index} />
+          ))}
+        </div>
+
+        <div className="absolute left-1/2 top-[52%] h-[430px] w-[82%] max-w-[1050px] -translate-x-1/2 -translate-y-1/2">
+          <DesktopVisual progress={progress} />
+        </div>
+
+        <motion.div
+          style={{ opacity: promiseOpacity }}
+          className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-center text-[clamp(1.45rem,2.3vw,2rem)] font-semibold tracking-[-0.045em] text-[#0c1730]"
+        >
+          Más ventas. Más control. Menos trabajo manual.
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function StaticDesktopFrame({ stage, index, progressValue }) {
+  const progress = useMotionValue(progressValue);
+
+  return (
+    <section className="relative min-h-[78svh] bg-[#fdfdfc] px-6 py-16 lg:px-8">
+      <div className="relative mx-auto min-h-[660px] max-w-[1248px]">
+        <div className="max-w-[560px]">
+          <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
+            <span className="mr-3 text-[#7650ff]">{stage.number}</span>{stage.kicker}
+          </div>
+          <h2 className="text-[clamp(2.35rem,3.7vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
+            {stage.title}
+          </h2>
+        </div>
+
+        <div className="absolute left-1/2 top-[58%] h-[430px] w-[82%] max-w-[1050px] -translate-x-1/2 -translate-y-1/2">
+          <DesktopVisual progress={progress} />
+        </div>
+
+        {index === STAGES.length - 1 ? (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-center text-[clamp(1.45rem,2.3vw,2rem)] font-semibold tracking-[-0.045em] text-[#0c1730]">
+            Más ventas. Más control. Menos trabajo manual.
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function ReducedDesktopStory() {
+  const progressValues = [0.11, 0.28, 0.5, 0.72, 0.96];
+
+  return (
+    <div className="hidden md:block">
+      {STAGES.map((stage, index) => (
+        <StaticDesktopFrame
+          key={stage.number}
+          stage={stage}
+          index={index}
+          progressValue={progressValues[index]}
+        />
+      ))}
+    </div>
+  );
+}
+
+function MobileOpportunity({ final = false }) {
+  return (
+    <div className="relative mx-auto w-full max-w-[350px] rounded-[24px_24px_24px_9px] border border-slate-200/90 bg-white px-5 py-4">
+      <div className="flex items-center justify-between gap-4 text-[8px] font-bold uppercase tracking-[0.17em] text-slate-400">
+        <span>WhatsApp · desde campaña</span>
+        <span>11:42</span>
+      </div>
+      <div className="mt-3 text-[18px] font-semibold leading-[1.2] tracking-[-0.035em] text-[#10192f]">
+        Hola, vi el anuncio. Quiero más información.
+      </div>
+      {final ? (
+        <div className="absolute -bottom-7 right-1 text-[10px] font-semibold text-[#7650ff]">Seguimiento activo</div>
+      ) : null}
+    </div>
+  );
+}
+
+function MobileContext({ final = false }) {
+  const items = final
+    ? ["Ana · responsable", "Calificado", "Próximo paso · propuesta enviada"]
+    : ["Responsable · Ana", "Etapa · Calificado", "Próximo paso · Enviar propuesta · 15:00"];
+
+  return (
+    <div className="mx-auto mt-8 w-full max-w-[350px] space-y-3 pl-4">
+      {items.map((item) => (
+        <div key={item} className="flex items-center gap-2 text-[13px] font-semibold tracking-[-0.015em] text-slate-600">
+          <span className="h-px w-5 bg-[#7650ff]/55" />
+          <span>{item}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MobileSecondary({ children, className }) {
+  return (
+    <div className={`absolute left-1/2 w-[310px] -translate-x-1/2 rounded-[22px_22px_22px_8px] border border-slate-200 bg-white px-5 py-4 opacity-[0.18] ${className}`}>
+      <div className="text-[8px] font-bold uppercase tracking-[0.16em] text-slate-400">WhatsApp · desde campaña</div>
+      <div className="mt-2 text-[16px] font-semibold leading-[1.2] tracking-[-0.03em] text-slate-500">{children}</div>
+    </div>
+  );
+}
+
+function MobileFrame({ stage, index, reducedMotion }) {
+  const enter = reducedMotion
+    ? false
+    : { opacity: 0, y: 16 };
+  const animate = { opacity: 1, y: 0 };
+
+  return (
+    <motion.article
+      initial={enter}
+      whileInView={animate}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: reducedMotion ? 0 : 0.5, ease: [0.2, 0.7, 0.2, 1] }}
+      className="relative flex min-h-[78svh] flex-col justify-center px-5 py-16"
+    >
+      <div className="mx-auto w-full max-w-[390px]">
+        {index === 0 ? (
+          <div className="mb-5 flex items-center justify-center gap-2 text-[12px] font-semibold text-slate-500">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
+            Campaña activa
+          </div>
+        ) : null}
+
+        {index === 1 ? (
+          <div className="mx-auto mb-7 grid w-full max-w-[350px] grid-cols-2 gap-x-6 gap-y-3 text-[13px] font-medium text-slate-500">
+            {MOBILE_FRICTION_TOP.map((item, itemIndex) => (
+              <div key={item} className={itemIndex === 1 ? "text-right" : ""}>
+                <span className="mr-1.5 text-slate-400">•</span>{item}
+                {itemIndex === 0 ? <div className="mt-1 text-[9px] font-semibold text-[#a85761]">sin responsable</div> : null}
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        <div className="relative">
+          {index === 4 ? (
+            <>
+              <MobileSecondary className="top-10 -translate-y-2">Quiero conocer opciones para mi empresa.</MobileSecondary>
+              <MobileSecondary className="top-20 translate-y-4">Necesito una propuesta para este mes.</MobileSecondary>
+            </>
+          ) : null}
+          <div className="relative z-10">
+            <MobileOpportunity final={index === 4} />
+          </div>
+        </div>
+
+        {index === 1 ? (
+          <div className="mx-auto mt-7 grid w-full max-w-[350px] grid-cols-2 gap-x-6 gap-y-3 text-[13px] font-medium text-slate-500">
+            {MOBILE_FRICTION_BOTTOM.map((item, itemIndex) => (
+              <div key={item} className={itemIndex === 1 ? "text-right" : ""}>
+                <span className="mr-1.5 text-slate-400">•</span>{item}
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {index === 2 ? <MobileContext /> : null}
+
+        {index === 3 ? (
+          <div className="mx-auto mt-8 w-full max-w-[350px]">
+            <MobileContext />
+            <div className="mt-7 space-y-3 pl-4">
+              {AUTOMATION_TASKS.map((task) => (
+                <div key={task.label} className="flex items-center gap-2 text-[13px] font-semibold text-[#7650ff]">
+                  <span>{task.label}</span>
+                  <span className="text-[11px]">✓</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 pl-4 text-[12px] font-semibold text-[#7650ff]">Excepción · validar condición comercial</div>
+            <div className="ml-auto mt-4 flex w-fit items-center gap-2 pr-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7650ff]/25 text-[11px] font-bold text-[#7650ff]">S</div>
+              <div className="text-[12px] font-semibold text-slate-600">Sofía · equipo</div>
+            </div>
+          </div>
+        ) : null}
+
+        {index === 4 ? (
+          <>
+            <MobileContext final />
+            <div className="mx-auto mt-10 flex w-full max-w-[350px] flex-wrap gap-x-4 gap-y-2 text-[10px] font-semibold text-slate-500">
+              <span>0 sin responsable</span>
+              <span>seguimiento activo</span>
+              <span>repetitivo automatizado</span>
+            </div>
+          </>
+        ) : null}
+
+        <div className="mt-12">
+          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+            <span className="mr-2 text-[#7650ff]">{stage.number}</span>{stage.kicker}
+          </div>
+          <h2 className="max-w-[350px] text-[clamp(1.95rem,8vw,2.25rem)] font-semibold leading-[1] tracking-[-0.05em] text-[#0c1730]">
+            {stage.title}
+          </h2>
+        </div>
+
+        {index === 4 ? (
+          <div className="mt-12 text-[24px] font-semibold leading-[1.05] tracking-[-0.045em] text-[#0c1730]">
+            Más ventas. Más control. Menos trabajo manual.
+          </div>
+        ) : null}
+      </div>
+    </motion.article>
+  );
+}
+
+function MobileStory({ reducedMotion }) {
+  return (
+    <div className="bg-[#fdfdfc] md:hidden">
+      {STAGES.map((stage, index) => (
+        <MobileFrame
+          key={stage.number}
+          stage={stage}
+          index={index}
+          reducedMotion={reducedMotion}
+        />
+      ))}
     </div>
   );
 }
@@ -319,30 +685,18 @@ export default function OperationStory() {
     <section
       id="operation-story"
       ref={sectionRef}
-      className={`relative bg-white ${reducedMotion ? "md:h-auto" : "md:h-[300vh]"}`}
+      className={`relative bg-[#fdfdfc] ${reducedMotion ? "md:h-auto" : "md:h-[520vh]"}`}
     >
-      <div
-        className={`px-5 py-24 md:flex md:items-center md:px-6 md:py-8 lg:px-8 ${
-          reducedMotion
-            ? "md:relative md:h-auto"
-            : "md:sticky md:top-[72px] md:h-[calc(100svh-72px)]"
-        }`}
-      >
-        <div className="mx-auto w-full max-w-[1450px]">
-          <div className="mb-10 max-w-[940px] md:mb-6 lg:mb-7 xl:mb-9">
-            <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">Del ruido al control</div>
-            <h2 className="text-[clamp(2.6rem,4.3vw,5.1rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
-              Todo lo que pasa en tu operación, en un solo sistema
-            </h2>
-            <p className="mt-5 max-w-[780px] text-[16px] leading-7 text-slate-600 md:text-[17px] md:leading-7 xl:mt-6 xl:text-[18px] xl:leading-8">
-              Centralizamos tus canales, ordenamos el seguimiento y automatizamos tareas para que vendas con más control y menos fricción.
-            </p>
+      <div className="sr-only">
+        {STAGES.map((stage) => (
+          <div key={`sr-${stage.number}`}>
+            <h2>{stage.title}</h2>
           </div>
-
-          <DesktopSystem progress={scrollYProgress} reducedMotion={reducedMotion} />
-          <MobileSystem reducedMotion={reducedMotion} />
-        </div>
+        ))}
       </div>
+
+      {reducedMotion ? <ReducedDesktopStory /> : <DesktopStory progress={scrollYProgress} />}
+      <MobileStory reducedMotion={Boolean(reducedMotion)} />
     </section>
   );
 }
