@@ -609,7 +609,7 @@ function ResultMicrostates({ progress }) {
 
 function DesktopVisual({ progress }) {
   const profile = useLayoutProfile();
-  const geometry = GEOMETRY[profile];
+  const geometry = useMemo(() => GEOMETRY[profile], [profile]);
 
   return (
     <div className="nexops-scene h-full">
