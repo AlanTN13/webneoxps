@@ -5,7 +5,6 @@ import Rellax from "rellax";
 import "./index.css";
 import "./App.css";
 
-import ServicesOverview from "./components/ServicesOverview";
 import HowWeWork from "./components/HowWeWork";
 import CTA from "./components/CTA";
 import Layout from "./components/Layout";
@@ -37,9 +36,7 @@ export default function App() {
     <Layout>
       <Hero />
       <div id="operation-story-start" className="scroll-mt-[72px]" aria-hidden="true" />
-      <div id="operation-story" className="scroll-mt-[72px]" aria-hidden="true" />
       <OperationStory />
-      <ServicesOverview />
       <Logos />
       <HowWeWork />
       <CTA />
