@@ -13,38 +13,38 @@ const STAGES = [
     number: "01",
     label: "Entrada",
     title: "Todo empieza con una oportunidad.",
-    Scene: EntryScene,
+    scene: EntryScene,
   },
   {
     number: "02",
     label: "Fricción",
     title: "Cuando crece el volumen, también aparece fricción.",
-    Scene: FrictionScene,
+    scene: FrictionScene,
   },
   {
     number: "03",
     label: "Orden",
     title: "Ahora cada oportunidad sabe qué sigue.",
-    Scene: OrderScene,
+    scene: OrderScene,
   },
   {
     number: "04",
     label: "Automatización",
     title: "Lo repetitivo se resuelve. La excepción llega a una persona.",
-    Scene: AutomationScene,
+    scene: AutomationScene,
   },
   {
     number: "05",
     label: "Resultado",
     title: "Atendida. Trazable. Con próximo paso.",
-    Scene: ResultScene,
+    scene: ResultScene,
   },
 ];
 
 export default function OperationStory() {
   return (
     <div id="operation-story" className="bg-[#fdfdfc]">
-      {STAGES.map(({ number, label, title, Scene }, index) => (
+      {STAGES.map(({ number, label, title, scene }, index) => (
         <OperationStage
           key={number}
           number={number}
@@ -58,7 +58,7 @@ export default function OperationStory() {
             ) : null
           }
         >
-          <Scene />
+          {React.createElement(scene)}
         </OperationStage>
       ))}
     </div>
