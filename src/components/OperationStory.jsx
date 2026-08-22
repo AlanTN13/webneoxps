@@ -37,7 +37,7 @@ const FRAGMENTS = [
     spawnY: 6,
     context: "Responsable · Ana",
     final: "Ana · responsable",
-    contextX: 300,
+    contextX: 275,
     contextY: 62,
   },
   {
@@ -48,7 +48,7 @@ const FRAGMENTS = [
     spawnY: -18,
     context: "Próximo paso · Enviar propuesta · 15:00",
     final: "Próximo paso · propuesta enviada",
-    contextX: 320,
+    contextX: 275,
     contextY: 132,
   },
   {
@@ -59,7 +59,7 @@ const FRAGMENTS = [
     spawnY: 4,
     context: "Etapa · Calificado",
     final: "Calificado",
-    contextX: 302,
+    contextX: 275,
     contextY: 97,
   },
   {
@@ -70,7 +70,7 @@ const FRAGMENTS = [
     spawnY: 22,
     context: null,
     final: null,
-    contextX: 308,
+    contextX: 275,
     contextY: 132,
   },
 ];
@@ -84,6 +84,25 @@ const AUTOMATION_TASKS = [
 
 const MOBILE_FRICTION_TOP = ["¿Quién responde?", "Enviar cotización"];
 const MOBILE_FRICTION_BOTTOM = ["Hacer seguimiento", "Recordar mañana"];
+
+const STORY_RESPONSIVE_CSS = `
+  .nexops-story-copy { top: 36px; }
+  .nexops-story-scene { --story-scale: 1; }
+  @media (max-width: 1399px) and (min-width: 1200px) {
+    .nexops-story-scene { --story-scale: .90; }
+  }
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .nexops-story-scene { --story-scale: .74; }
+  }
+  @media (max-height: 800px) and (min-width: 1200px) {
+    .nexops-story-copy { top: 22px; }
+    .nexops-story-scene { --story-scale: .78; }
+  }
+  @media (max-height: 800px) and (max-width: 1199px) and (min-width: 768px) {
+    .nexops-story-copy { top: 22px; }
+    .nexops-story-scene { --story-scale: .70; }
+  }
+`;
 
 function StageCopy({ progress, stage, index }) {
   const [start, fadeIn, holdEnd, end] = STAGE_WINDOWS[index];
@@ -221,16 +240,16 @@ function MorphFragment({ progress, item }) {
           <>
             <motion.div
               style={{ opacity: contextOpacity }}
-              className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
+              className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
             >
-              <span className="h-px w-5 bg-[#7650ff]/65" />
+              <span className="h-px w-5 shrink-0 bg-[#7650ff]/65" />
               <span>{item.context}</span>
             </motion.div>
             <motion.div
               style={{ opacity: finalOpacity }}
-              className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
+              className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
             >
-              <span className="h-px w-5 bg-[#7650ff]/65" />
+              <span className="h-px w-5 shrink-0 bg-[#7650ff]/65" />
               <span>{item.final}</span>
             </motion.div>
           </>
@@ -404,10 +423,10 @@ function DesktopVisual({ progress }) {
   );
 }
 
-function StoryScene({ progress, className = "" }) {
+function StoryScene({ progress }) {
   return (
     <div
-      className={`nexops-story-scene absolute left-1/2 top-1/2 h-[430px] w-[1050px] origin-center ${className}`}
+      className="nexops-story-scene absolute left-1/2 top-1/2 h-[430px] w-[1050px] origin-center"
       style={{ transform: "translate(-50%, -50%) scale(var(--story-scale))" }}
     >
       <DesktopVisual progress={progress} />
@@ -420,24 +439,6 @@ function DesktopStory({ progress }) {
 
   return (
     <div className="sticky top-[72px] hidden h-[calc(100svh-72px)] overflow-hidden bg-[#fdfdfc] px-6 md:block lg:px-8">
-      <style>{`
-        .nexops-story-copy { top: 36px; }
-        .nexops-story-scene { --story-scale: 1; }
-        @media (max-width: 1399px) and (min-width: 1200px) {
-          .nexops-story-scene { --story-scale: .90; }
-        }
-        @media (max-width: 1199px) and (min-width: 768px) {
-          .nexops-story-scene { --story-scale: .74; }
-        }
-        @media (max-height: 800px) and (min-width: 1200px) {
-          .nexops-story-copy { top: 22px; }
-          .nexops-story-scene { --story-scale: .78; }
-        }
-        @media (max-height: 800px) and (max-width: 1199px) and (min-width: 768px) {
-          .nexops-story-copy { top: 22px; }
-          .nexops-story-scene { --story-scale: .70; }
-        }
-      `}</style>
       <div className="relative mx-auto h-full max-w-[1248px]">
         <div className="nexops-story-copy absolute left-0 z-40 h-[190px] w-[520px] max-w-[48vw]">
           {STAGES.map((stage, index) => (
@@ -474,15 +475,6 @@ function StaticDesktopFrame({ stage, index, progressValue }) {
           </h2>
         </div>
         <div className="relative mt-10 h-[430px] overflow-hidden">
-          <style>{`
-            .nexops-story-scene { --story-scale: 1; }
-            @media (max-width: 1399px) and (min-width: 1200px) {
-              .nexops-story-scene { --story-scale: .90; }
-            }
-            @media (max-width: 1199px) and (min-width: 768px) {
-              .nexops-story-scene { --story-scale: .74; }
-            }
-          `}</style>
           <StoryScene progress={progress} />
         </div>
         {index === STAGES.length - 1 ? (
@@ -709,6 +701,7 @@ export default function OperationStory() {
       ref={sectionRef}
       className={`relative bg-[#fdfdfc] ${reducedMotion ? "md:h-auto" : "md:h-[520vh]"}`}
     >
+      <style>{STORY_RESPONSIVE_CSS}</style>
       <div className="sr-only">
         {STAGES.map((stage) => (
           <div key={`sr-${stage.number}`}>
