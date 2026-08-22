@@ -1,339 +1,298 @@
 import React, { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  BarChart3,
+  Eye,
+  FileText,
+  Globe2,
+  ListChecks,
+  Megaphone,
+  MessageCircle,
+  Send,
+  Sparkles,
+  UsersRound,
+  Zap,
+} from "lucide-react";
+import brandLogo from "../assets/logo-nexops.svg";
 
-const STAGES = [
-  {
-    number: "01",
-    kicker: "Cuando crece el volumen",
-    title: "Más demanda no siempre significa más ventas.",
-    body: "Entran oportunidades, se multiplican los mensajes y el dueño empieza a perder visibilidad.",
-  },
-  {
-    number: "02",
-    kicker: "Captación",
-    title: "Generamos oportunidades. No impresiones.",
-    body: "Las señales correctas entran al circuito comercial con contexto desde el primer contacto.",
-  },
-  {
-    number: "03",
-    kicker: "CRM + control",
-    title: "Cada oportunidad tiene dueño y próximo paso.",
-    body: "Lo disperso se ordena: estado, responsable, seguimiento y visibilidad para decidir.",
-  },
-  {
-    number: "04",
-    kicker: "Agente IA",
-    title: "Tu equipo deja de hacer lo que una máquina puede absorber.",
-    body: "Clasifica, resuelve lo repetitivo, escala excepciones y mantiene el sistema actualizado.",
-  },
-  {
-    number: "05",
-    kicker: "Resultado",
-    title: "Más ventas. Más control. Menos trabajo manual.",
-    body: "La operación queda más limpia y el equipo vuelve a trabajar donde realmente agrega valor.",
-  },
+const INPUTS = [
+  { label: "Pauta", detail: "Meta · Google", icon: Megaphone },
+  { label: "WhatsApp", detail: "Consultas y conversaciones", icon: MessageCircle },
+  { label: "Web", detail: "Visitas con intención", icon: Globe2 },
+  { label: "Formularios", detail: "Leads calificados", icon: FileText },
+  { label: "Campañas", detail: "Email · remarketing", icon: Send },
 ];
 
-const LEADS = [
-  { x: 150, y: 260, lane: 0, drift: -24 },
-  { x: 225, y: 515, lane: 2, drift: 18 },
-  { x: 325, y: 185, lane: 1, drift: 8 },
-  { x: 410, y: 585, lane: 0, drift: -14 },
-  { x: 480, y: 320, lane: 2, drift: 22 },
-  { x: 290, y: 395, lane: 1, drift: -8 },
-  { x: 535, y: 205, lane: 0, drift: 12 },
-  { x: 445, y: 465, lane: 1, drift: -18 },
-  { x: 190, y: 620, lane: 2, drift: 10 },
+const OUTPUTS = [
+  { label: "CRM ordenado", detail: "Cada oportunidad con estado", icon: UsersRound },
+  { label: "Seguimientos", detail: "Próximos pasos visibles", icon: ListChecks },
+  { label: "Tareas automáticas", detail: "Menos carga manual", icon: Zap },
+  { label: "Métricas", detail: "Qué entra, avanza y convierte", icon: BarChart3 },
+  { label: "Visibilidad", detail: "Control para decidir", icon: Eye },
 ];
 
-function StageCopy({ progress, stage, index }) {
-  const starts = [0, 0.17, 0.37, 0.57, 0.78];
-  const peaks = [0.035, 0.235, 0.435, 0.635, 0.86];
-  const holds = [0.135, 0.335, 0.535, 0.735, 1];
-  const ends = [0.235, 0.435, 0.635, 0.835, 1];
+const INPUT_PATHS = [
+  "M 250 112 C 390 112, 410 260, 530 260",
+  "M 250 186 C 390 186, 420 260, 530 260",
+  "M 250 260 C 390 260, 420 260, 530 260",
+  "M 250 334 C 390 334, 420 260, 530 260",
+  "M 250 408 C 390 408, 410 260, 530 260",
+];
 
-  const opacity = useTransform(
-    progress,
-    index === STAGES.length - 1
-      ? [starts[index], peaks[index], holds[index], ends[index]]
-      : [starts[index], peaks[index], holds[index], ends[index]],
-    index === STAGES.length - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0]
-  );
+const OUTPUT_PATHS = [
+  "M 670 260 C 790 260, 820 112, 950 112",
+  "M 670 260 C 790 260, 830 186, 950 186",
+  "M 670 260 C 790 260, 830 260, 950 260",
+  "M 670 260 C 790 260, 830 334, 950 334",
+  "M 670 260 C 790 260, 820 408, 950 408",
+];
 
-  const y = useTransform(
-    progress,
-    [starts[index], peaks[index], ends[index]],
-    [28, 0, index === STAGES.length - 1 ? 0 : -24]
-  );
+function SystemRow({ item, tone = "input" }) {
+  const Icon = item.icon;
+  const isOutput = tone === "output";
 
   return (
-    <motion.div
-      style={{ opacity, y }}
-      className="pointer-events-none absolute inset-x-0 top-0 max-w-[760px]"
-      aria-hidden={index !== 0 ? undefined : false}
-    >
-      <div className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">
-        <span className="text-[#6f48ff]">{stage.number}</span>
-        <span className="h-px w-10 bg-slate-300" />
-        <span>{stage.kicker}</span>
+    <div className="flex min-h-[62px] items-center gap-3 border-b border-slate-200/75 py-3.5 last:border-b-0">
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
+          isOutput
+            ? "border-[#7650ff]/15 bg-[#7650ff]/[0.06] text-[#6744df]"
+            : "border-slate-200 bg-slate-50 text-slate-600"
+        }`}
+      >
+        <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
       </div>
-      <h2 className="text-[clamp(2.4rem,4.7vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
-        {stage.title}
-      </h2>
-      <p className="mt-6 max-w-[620px] text-base leading-7 text-slate-600 md:text-lg md:leading-8">
-        {stage.body}
-      </p>
-    </motion.div>
-  );
-}
-
-function LeadDot({ progress, lead, index }) {
-  const laneY = [308, 428, 548][lead.lane];
-  const x = useTransform(
-    progress,
-    [0, 0.2, 0.42, 0.62, 0.8, 1],
-    [lead.x, 305 + index * 8, 505 + (index % 3) * 92, 735 + (index % 3) * 42, 925 + (index % 3) * 52, 1085 + (index % 3) * 42]
-  );
-  const y = useTransform(
-    progress,
-    [0, 0.2, 0.42, 0.62, 0.8, 1],
-    [lead.y, 430 + lead.drift, laneY, laneY, 390 + lead.lane * 62, 342 + lead.lane * 92]
-  );
-  const radius = useTransform(progress, [0, 0.62, 0.78, 1], [7, 7, 5, 7]);
-  const fill = useTransform(
-    progress,
-    [0, 0.58, 0.72, 0.86, 1],
-    ["#111c34", "#111c34", "#7650ff", "#7650ff", "#111c34"]
-  );
-  const opacity = useTransform(progress, [0, 0.08, 1], [0.62, 1, 1]);
-
-  return (
-    <motion.circle
-      cx={x}
-      cy={y}
-      r={radius}
-      fill={fill}
-      style={{ opacity }}
-      className="drop-shadow-[0_8px_14px_rgba(15,23,42,0.14)]"
-    />
-  );
-}
-
-function OperationCanvas({ progress }) {
-  const flowOpacity = useTransform(progress, [0.11, 0.22, 1], [0, 0.75, 1]);
-  const chaosOpacity = useTransform(progress, [0, 0.14, 0.3], [1, 1, 0]);
-  const captureOpacity = useTransform(progress, [0.13, 0.25, 0.43], [0, 1, 0]);
-  const crmOpacity = useTransform(progress, [0.34, 0.47, 0.64], [0, 1, 0.92]);
-  const aiOpacity = useTransform(progress, [0.56, 0.69, 0.87], [0, 1, 1]);
-  const resultOpacity = useTransform(progress, [0.79, 0.9, 1], [0, 1, 1]);
-  const pathLength = useTransform(progress, [0.12, 0.9], [0.08, 1]);
-  const systemScale = useTransform(progress, [0, 0.2, 0.52, 1], [1.04, 1, 0.985, 0.96]);
-
-  return (
-    <motion.div
-      style={{ scale: systemScale }}
-      className="relative h-full min-h-[520px] w-full overflow-hidden rounded-[38px] bg-[linear-gradient(180deg,#fbfcff_0%,#f3f5fb_100%)]"
-    >
-      <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.035)_1px,transparent_1px)] [background-size:44px_44px]" />
-      <div className="absolute inset-x-[8%] top-[12%] h-px bg-gradient-to-r from-transparent via-slate-300/60 to-transparent" />
-
-      <svg
-        viewBox="0 0 1280 760"
-        role="img"
-        aria-label="Una operación comercial que pasa de señales dispersas a un sistema ordenado con CRM y automatización"
-        className="absolute inset-0 h-full w-full"
-      >
-        <defs>
-          <linearGradient id="storyFlow" x1="0" x2="1">
-            <stop offset="0%" stopColor="#aeb7c8" />
-            <stop offset="65%" stopColor="#111c34" />
-            <stop offset="100%" stopColor="#7650ff" />
-          </linearGradient>
-          <filter id="storyGlow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur stdDeviation="14" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <motion.path
-          d="M 175 430 C 300 430, 320 430, 405 430 S 610 430, 690 430 S 865 430, 935 430 S 1070 430, 1140 430"
-          fill="none"
-          stroke="url(#storyFlow)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          style={{ opacity: flowOpacity, pathLength }}
-        />
-
-        <motion.g style={{ opacity: chaosOpacity }}>
-          <path d="M145 220 L310 330 L230 490" fill="none" stroke="#d8dde8" strokeWidth="2" />
-          <path d="M355 155 L460 295 L365 565" fill="none" stroke="#d8dde8" strokeWidth="2" />
-          <path d="M205 585 L465 455 L535 210" fill="none" stroke="#d8dde8" strokeWidth="2" />
-          <text x="132" y="176" fill="#667085" fontSize="15" letterSpacing="1.2">MENSAJES</text>
-          <text x="382" y="133" fill="#667085" fontSize="15" letterSpacing="1.2">LEADS</text>
-          <text x="178" y="660" fill="#a23b4a" fontSize="14" letterSpacing="1.1">SIN SEGUIMIENTO</text>
-          <circle cx="510" cy="555" r="34" fill="none" stroke="#e5a6ae" strokeWidth="2" strokeDasharray="4 8" />
-          <text x="497" y="561" fill="#a23b4a" fontSize="22" fontWeight="700">?</text>
-        </motion.g>
-
-        <motion.g style={{ opacity: captureOpacity }}>
-          <circle cx="245" cy="430" r="78" fill="none" stroke="#d9deea" strokeWidth="2" />
-          <circle cx="245" cy="430" r="48" fill="none" stroke="#c9d0df" strokeWidth="2" />
-          <circle cx="245" cy="430" r="12" fill="#111c34" />
-          <text x="183" y="560" fill="#697386" fontSize="14" letterSpacing="1.4">SEÑALES REALES</text>
-          <text x="130" y="610" fill="#111c34" fontSize="18" fontWeight="600">Campaña · WhatsApp · Web</text>
-        </motion.g>
-
-        <motion.g style={{ opacity: crmOpacity }}>
-          {[308, 428, 548].map((y, laneIndex) => (
-            <g key={y}>
-              <line x1="470" y1={y} x2="745" y2={y} stroke="#d4d9e4" strokeWidth="2" />
-              <circle cx="470" cy={y} r="4" fill="#8f98aa" />
-              <circle cx="745" cy={y} r="4" fill="#111c34" />
-              <text x="475" y={y - 20} fill="#667085" fontSize="13" letterSpacing="1.2">
-                {["NUEVO", "EN GESTIÓN", "SEGUIMIENTO"][laneIndex]}
-              </text>
-            </g>
-          ))}
-          <text x="510" y="650" fill="#111c34" fontSize="17" fontWeight="600">Estado · Responsable · Próximo paso</text>
-        </motion.g>
-
-        <motion.g style={{ opacity: aiOpacity }}>
-          <circle cx="835" cy="430" r="62" fill="#7650ff" opacity="0.10" filter="url(#storyGlow)" />
-          <circle cx="835" cy="430" r="31" fill="#7650ff" />
-          <path d="M823 430 L833 440 L850 418" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-          <line x1="835" y1="368" x2="835" y2="330" stroke="#7650ff" strokeWidth="2" />
-          <line x1="835" y1="492" x2="835" y2="530" stroke="#7650ff" strokeWidth="2" />
-          <text x="787" y="300" fill="#7650ff" fontSize="14" fontWeight="700" letterSpacing="1.4">AGENTE IA</text>
-          <text x="730" y="585" fill="#667085" fontSize="14">clasifica → resuelve → escala excepción</text>
-        </motion.g>
-
-        <motion.g style={{ opacity: resultOpacity }}>
-          <circle cx="1120" cy="430" r="82" fill="none" stroke="#111c34" strokeWidth="2" />
-          <circle cx="1120" cy="430" r="58" fill="#ffffff" stroke="#e0e4ed" strokeWidth="1.5" />
-          <circle cx="1120" cy="430" r="10" fill="#7650ff" />
-          <text x="1067" y="565" fill="#667085" fontSize="13" letterSpacing="1.4">CONTROL</text>
-          <text x="965" y="625" fill="#111c34" fontSize="18" fontWeight="600">La operación vuelve a ser legible.</text>
-        </motion.g>
-
-        {LEADS.map((lead, index) => (
-          <LeadDot key={`${lead.x}-${lead.y}`} progress={progress} lead={lead} index={index} />
-        ))}
-      </svg>
-
-      <motion.div
-        style={{ opacity: resultOpacity }}
-        className="absolute bottom-7 left-8 right-8 flex items-center justify-between border-t border-slate-200/80 pt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500"
-      >
-        <span>Oportunidades visibles</span>
-        <span className="text-[#6f48ff]">Intervención NexOps</span>
-        <span>Excepciones al equipo</span>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function MobileScene({ stage }) {
-  const states = [
-    {
-      labels: ["Mensaje", "Lead", "Tarea", "?"],
-      points: [[50, 48], [280, 65], [92, 188], [260, 195]],
-      lines: ["M50 48 L150 110 L92 188", "M280 65 L195 120 L260 195"],
-    },
-    {
-      labels: ["Campaña", "WhatsApp", "Web", "Oportunidad"],
-      points: [[52, 62], [52, 122], [52, 182], [286, 122]],
-      lines: ["M64 62 C145 62 170 122 274 122", "M64 122 L274 122", "M64 182 C145 182 170 122 274 122"],
-    },
-    {
-      labels: ["Nuevo", "En gestión", "Seguimiento"],
-      points: [[68, 68], [180, 122], [286, 178]],
-      lines: ["M68 68 L286 68", "M68 122 L286 122", "M68 178 L286 178"],
-    },
-    {
-      labels: ["Entra", "IA", "Resuelve", "Escala"],
-      points: [[42, 122], [156, 122], [280, 82], [280, 170]],
-      lines: ["M54 122 L144 122", "M168 122 L268 82", "M168 122 L268 170"],
-    },
-    {
-      labels: ["Ventas", "Control", "Manual ↓"],
-      points: [[62, 122], [180, 122], [294, 122]],
-      lines: ["M74 122 L168 122", "M192 122 L282 122"],
-    },
-  ];
-
-  const state = states[stage];
-
-  return (
-    <div className="mt-8 overflow-hidden rounded-[28px] bg-[#f4f6fb] p-3">
-      <svg viewBox="0 0 340 240" className="h-auto w-full" aria-hidden="true">
-        {state.lines.map((path) => (
-          <path key={path} d={path} fill="none" stroke="#c7cedc" strokeWidth="2" strokeLinecap="round" />
-        ))}
-        {state.points.map(([x, y], index) => (
-          <g key={`${x}-${y}`}>
-            <circle cx={x} cy={y} r={stage === 3 && index === 1 ? 18 : 8} fill={stage === 3 && index === 1 ? "#7650ff" : "#111c34"} />
-            <text x={x} y={y + 32} textAnchor="middle" fill="#697386" fontSize="10" fontWeight="600" letterSpacing="0.7">
-              {state.labels[index]}
-            </text>
-          </g>
-        ))}
-      </svg>
+      <div className="min-w-0">
+        <div className="text-[15px] font-semibold tracking-[-0.015em] text-[#101a31]">{item.label}</div>
+        <div className="mt-0.5 text-[12px] leading-5 text-slate-500">{item.detail}</div>
+      </div>
     </div>
   );
 }
 
-function MobileStory() {
+function NexOpsCore({ active = true, reducedMotion = false }) {
   return (
-    <section id="operation-story" className="bg-white px-5 pb-28 pt-20 md:hidden">
-      <div className="mx-auto max-w-lg">
-        <div className="mb-16 border-b border-slate-200 pb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-          Una operación. Cinco estados.
+    <div className="relative flex items-center justify-center">
+      <motion.div
+        aria-hidden="true"
+        className="absolute h-[250px] w-[250px] rounded-[72px] border border-[#7650ff]/10"
+        animate={
+          active && !reducedMotion
+            ? { scale: [0.98, 1.04, 0.98], opacity: [0.42, 0.18, 0.42] }
+            : { scale: 1, opacity: 0.26 }
+        }
+        transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <div className="absolute h-[218px] w-[218px] rounded-[60px] bg-[#7650ff]/[0.035] blur-[1px]" />
+
+      <div className="relative flex h-[190px] w-[190px] flex-col items-center justify-center rounded-[48px] border border-[#7650ff]/20 bg-white px-5 text-center shadow-[0_28px_70px_-34px_rgba(54,35,112,0.38)]">
+        <div className="mb-3 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
+          Núcleo activo
         </div>
-        <div className="space-y-28">
-          {STAGES.map((stage, index) => (
-            <article key={stage.number} className="min-h-[72svh]">
-              <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                <span className="text-[#6f48ff]">{stage.number}</span>
-                <span className="h-px w-8 bg-slate-300" />
-                <span>{stage.kicker}</span>
-              </div>
-              <h2 className="mt-5 text-[clamp(2.3rem,11vw,4.2rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
-                {stage.title}
-              </h2>
-              <p className="mt-5 text-base leading-7 text-slate-600">{stage.body}</p>
-              <MobileScene stage={index} />
-            </article>
-          ))}
+        <img src={brandLogo} alt="" className="h-9 w-auto" />
+        <div className="mt-2 text-[24px] font-semibold tracking-[-0.04em] text-[#0c1730]">NexOps</div>
+        <div className="mt-3 text-[11px] font-medium leading-[1.55] text-slate-500">
+          Centraliza · Ordena
+          <br />
+          Automatiza
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
-function ReducedStory() {
+function DesktopSystem({ progress, reducedMotion }) {
+  const inputOpacity = useTransform(progress, [0, 0.08, 0.18], [0, 0.45, 1]);
+  const inputX = useTransform(progress, [0, 0.18], [-24, 0]);
+  const inputLineLength = useTransform(progress, [0.1, 0.38], [0, 1]);
+  const inputLineOpacity = useTransform(progress, [0.08, 0.18, 0.38], [0, 0.48, 0.9]);
+  const coreOpacity = useTransform(progress, [0.3, 0.44], [0.2, 1]);
+  const coreScale = useTransform(progress, [0.3, 0.44], [0.92, 1]);
+  const outputLineLength = useTransform(progress, [0.44, 0.7], [0, 1]);
+  const outputLineOpacity = useTransform(progress, [0.42, 0.52, 0.72], [0, 0.4, 0.9]);
+  const outputOpacity = useTransform(progress, [0.58, 0.76], [0, 1]);
+  const outputX = useTransform(progress, [0.58, 0.76], [24, 0]);
+  const footerOpacity = useTransform(progress, [0.74, 0.9], [0, 1]);
+
   return (
-    <section id="operation-story" className="hidden bg-white px-6 py-28 md:block">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-16 max-w-xl text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-          La operación, explicada sin animación
-        </div>
-        <div className="space-y-20">
-          {STAGES.map((stage, index) => (
-            <article key={stage.number} className="grid gap-8 border-t border-slate-200 pt-10 md:grid-cols-[0.9fr_1.1fr]">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#6f48ff]">{stage.number} · {stage.kicker}</div>
-                <h2 className="mt-5 text-4xl font-semibold leading-tight tracking-[-0.045em] text-[#0c1730]">{stage.title}</h2>
-                <p className="mt-5 max-w-lg text-lg leading-8 text-slate-600">{stage.body}</p>
-              </div>
-              <MobileScene stage={index} />
-            </article>
-          ))}
-        </div>
+    <div className="relative hidden min-h-[560px] overflow-hidden rounded-[36px] border border-slate-200/90 bg-[linear-gradient(105deg,#ffffff_0%,#fbfbfe_43%,#f7f5ff_55%,#fbfcff_100%)] shadow-[0_36px_90px_-62px_rgba(15,23,42,0.32)] md:block">
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between border-b border-slate-200/80 px-7 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+        <span>Sistema comercial + operativo</span>
+        <span className="flex items-center gap-2 text-[#6744df]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
+          Información conectada
+        </span>
       </div>
-    </section>
+
+      <svg
+        viewBox="0 0 1200 520"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-x-0 top-[40px] h-[470px] w-full"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="inputFlow" x1="0" x2="1">
+            <stop offset="0%" stopColor="#cbd3df" />
+            <stop offset="100%" stopColor="#7650ff" />
+          </linearGradient>
+          <linearGradient id="outputFlow" x1="0" x2="1">
+            <stop offset="0%" stopColor="#7650ff" />
+            <stop offset="100%" stopColor="#a7b2c6" />
+          </linearGradient>
+          <marker id="flowArrowIn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7650ff" opacity="0.8" />
+          </marker>
+          <marker id="flowArrowOut" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa6ba" opacity="0.85" />
+          </marker>
+        </defs>
+
+        {INPUT_PATHS.map((path) => (
+          <motion.path
+            key={path}
+            d={path}
+            fill="none"
+            stroke="url(#inputFlow)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            markerEnd="url(#flowArrowIn)"
+            style={{ pathLength: inputLineLength, opacity: inputLineOpacity }}
+          />
+        ))}
+        {OUTPUT_PATHS.map((path) => (
+          <motion.path
+            key={path}
+            d={path}
+            fill="none"
+            stroke="url(#outputFlow)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            markerEnd="url(#flowArrowOut)"
+            style={{ pathLength: outputLineLength, opacity: outputLineOpacity }}
+          />
+        ))}
+      </svg>
+
+      <div className="relative z-10 grid min-h-[560px] grid-cols-[minmax(230px,0.95fr)_280px_minmax(250px,1.05fr)] items-center gap-14 px-8 pb-14 pt-20 lg:gap-20 lg:px-12">
+        <motion.div style={{ opacity: inputOpacity, x: inputX }}>
+          <div className="mb-4 flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">01 · Entradas</span>
+            <span className="text-[10px] text-slate-400">Canales dispersos</span>
+          </div>
+          <div className="bg-white/90 px-1">
+            {INPUTS.map((item) => (
+              <SystemRow key={item.label} item={item} />
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div style={{ opacity: coreOpacity, scale: coreScale }}>
+          <div className="mb-6 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-[#7650ff]">02 · Núcleo NexOps</div>
+          <NexOpsCore active reducedMotion={reducedMotion} />
+          <div className="mx-auto mt-7 flex max-w-[240px] items-center justify-center gap-2 text-center text-[10px] font-medium leading-4 text-slate-500">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#7650ff]" />
+            Reglas, contexto y automatización en el mismo circuito
+          </div>
+        </motion.div>
+
+        <motion.div style={{ opacity: outputOpacity, x: outputX }}>
+          <div className="mb-4 flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6744df]">03 · Control</span>
+            <span className="text-[10px] text-slate-400">Operación visible</span>
+          </div>
+          <div className="bg-white/90 px-1">
+            {OUTPUTS.map((item) => (
+              <SystemRow key={item.label} item={item} tone="output" />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      <motion.div
+        style={{ opacity: footerOpacity }}
+        className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 border-t border-slate-200/80 bg-white/80 px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 backdrop-blur-sm"
+      >
+        <span>Captar</span>
+        <span className="text-[#7650ff]">·</span>
+        <span>Ordenar</span>
+        <span className="text-[#7650ff]">·</span>
+        <span>Automatizar</span>
+        <span className="text-[#7650ff]">·</span>
+        <span>Controlar</span>
+      </motion.div>
+    </div>
+  );
+}
+
+function MobileSystem({ reducedMotion }) {
+  const reveal = (delay = 0) => ({
+    initial: reducedMotion ? false : { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.25 },
+    transition: { duration: reducedMotion ? 0 : 0.55, delay, ease: [0.2, 0.7, 0.2, 1] },
+  });
+
+  return (
+    <div className="overflow-hidden rounded-[30px] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#faf9ff_52%,#ffffff_100%)] md:hidden">
+      <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+        <span>Sistema NexOps</span>
+        <span className="flex items-center gap-2 text-[#6744df]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
+          Conectado
+        </span>
+      </div>
+
+      <div className="px-5 pb-6 pt-7">
+        <motion.div {...reveal(0)}>
+          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.19em] text-slate-500">01 · Canales de entrada</div>
+          <div className="rounded-2xl border border-slate-200/80 bg-white px-4">
+            {INPUTS.map((item) => (
+              <SystemRow key={item.label} item={item} />
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div {...reveal(0.1)} className="mx-auto flex h-14 w-10 items-center justify-center">
+          <div className="relative h-10 w-px bg-gradient-to-b from-slate-300 to-[#7650ff]">
+            <span className="absolute -bottom-0.5 -left-[3px] h-2 w-2 rotate-45 border-b border-r border-[#7650ff]" />
+          </div>
+        </motion.div>
+
+        <motion.div {...reveal(0.16)}>
+          <div className="mb-4 text-center text-[9px] font-bold uppercase tracking-[0.19em] text-[#7650ff]">02 · Núcleo NexOps</div>
+          <NexOpsCore active reducedMotion={reducedMotion} />
+          <p className="mx-auto mt-6 max-w-[270px] text-center text-[12px] leading-5 text-slate-500">
+            Centraliza información, aplica reglas y automatiza el seguimiento sin perder contexto.
+          </p>
+        </motion.div>
+
+        <motion.div {...reveal(0.24)} className="mx-auto flex h-14 w-10 items-center justify-center">
+          <div className="relative h-10 w-px bg-gradient-to-b from-[#7650ff] to-slate-300">
+            <span className="absolute -bottom-0.5 -left-[3px] h-2 w-2 rotate-45 border-b border-r border-slate-400" />
+          </div>
+        </motion.div>
+
+        <motion.div {...reveal(0.3)}>
+          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.19em] text-[#6744df]">03 · Operación bajo control</div>
+          <div className="rounded-2xl border border-[#7650ff]/10 bg-white px-4">
+            {OUTPUTS.map((item) => (
+              <SystemRow key={item.label} item={item} tone="output" />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      <motion.div
+        {...reveal(0.36)}
+        className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-200/80 bg-white/80 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-500"
+      >
+        <span>Captar</span><span className="text-[#7650ff]">·</span>
+        <span>Ordenar</span><span className="text-[#7650ff]">·</span>
+        <span>Automatizar</span><span className="text-[#7650ff]">·</span>
+        <span>Controlar</span>
+      </motion.div>
+    </div>
   );
 }
 
@@ -344,43 +303,25 @@ export default function OperationStory() {
     target: sectionRef,
     offset: ["start start", "end end"],
   });
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  if (reducedMotion) {
-    return (
-      <>
-        <MobileStory />
-        <ReducedStory />
-      </>
-    );
-  }
 
   return (
-    <>
-      <section
-        id="operation-story"
-        ref={sectionRef}
-        className="relative hidden h-[560vh] bg-white md:block"
-      >
-        <div className="sticky top-[72px] h-[calc(100svh-72px)] overflow-hidden px-6 lg:px-8">
-          <div className="mx-auto flex h-full max-w-[1500px] flex-col py-10 lg:py-12">
-            <div className="relative z-20 min-h-[300px] lg:min-h-[330px]">
-              {STAGES.map((stage, index) => (
-                <StageCopy key={stage.number} progress={scrollYProgress} stage={stage} index={index} />
-              ))}
-            </div>
-
-            <div className="relative z-10 min-h-0 flex-1 pb-8">
-              <OperationCanvas progress={scrollYProgress} />
-            </div>
-
-            <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-slate-100">
-              <motion.div style={{ width: progressWidth }} className="h-full bg-[#6f48ff]" />
-            </div>
+    <section id="operation-story" ref={sectionRef} className="relative bg-white md:h-[300vh]">
+      <div className="px-5 py-24 md:sticky md:top-[72px] md:flex md:h-[calc(100svh-72px)] md:items-center md:px-6 md:py-8 lg:px-8">
+        <div className="mx-auto w-full max-w-[1450px]">
+          <div className="mb-10 max-w-[940px] md:mb-8 lg:mb-10">
+            <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">Del ruido al control</div>
+            <h2 className="text-[clamp(2.6rem,5.2vw,5.8rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
+              Todo lo que pasa en tu operación, en un solo sistema
+            </h2>
+            <p className="mt-6 max-w-[780px] text-[16px] leading-7 text-slate-600 md:text-[18px] md:leading-8">
+              Centralizamos tus canales, ordenamos el seguimiento y automatizamos tareas para que vendas con más control y menos fricción.
+            </p>
           </div>
+
+          <DesktopSystem progress={scrollYProgress} reducedMotion={reducedMotion} />
+          <MobileSystem reducedMotion={reducedMotion} />
         </div>
-      </section>
-      <MobileStory />
-    </>
+      </div>
+    </section>
   );
 }
