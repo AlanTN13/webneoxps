@@ -1,308 +1,447 @@
 import React, { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import {
-  BarChart3,
-  Eye,
+  Bot,
+  CheckCircle2,
+  Clock3,
   FileText,
   Globe2,
-  ListChecks,
   Megaphone,
   MessageCircle,
-  Send,
-  Sparkles,
-  UsersRound,
+  UserRound,
   Zap,
 } from "lucide-react";
-import brandLogo from "../assets/logo-nexops.svg";
 
-const INPUTS = [
-  { label: "Pauta", detail: "Meta · Google", icon: Megaphone },
-  { label: "WhatsApp", detail: "Consultas y conversaciones", icon: MessageCircle },
-  { label: "Web", detail: "Visitas con intención", icon: Globe2 },
-  { label: "Formularios", detail: "Leads calificados", icon: FileText },
-  { label: "Campañas", detail: "Email · remarketing", icon: Send },
+const OPPORTUNITIES = [
+  {
+    source: "WhatsApp",
+    icon: MessageCircle,
+    opportunity: "Consulta por 12 unidades",
+    owner: "Martina",
+    status: "En gestión",
+    next: "Responder 10:30",
+    chaosY: -22,
+    chaosRotate: -1.8,
+  },
+  {
+    source: "Meta Ads",
+    icon: Megaphone,
+    opportunity: "Lead campaña mayorista",
+    owner: "Pablo",
+    status: "Calificado",
+    next: "Llamar hoy",
+    chaosY: 18,
+    chaosRotate: 1.5,
+  },
+  {
+    source: "Web",
+    icon: Globe2,
+    opportunity: "Pedido de demo",
+    owner: "Sofía",
+    status: "Nuevo",
+    next: "Contactar 11:15",
+    chaosY: -10,
+    chaosRotate: -0.9,
+  },
+  {
+    source: "Formulario",
+    icon: FileText,
+    opportunity: "Cotización empresa",
+    owner: "Martina",
+    status: "Seguimiento",
+    next: "Enviar propuesta",
+    chaosY: 25,
+    chaosRotate: 1.2,
+  },
+  {
+    source: "WhatsApp",
+    icon: MessageCircle,
+    opportunity: "Consulta fuera de horario",
+    owner: "Sofía",
+    status: "Excepción",
+    next: "Revisar 09:00",
+    chaosY: -16,
+    chaosRotate: -1.3,
+  },
 ];
 
-const OUTPUTS = [
-  { label: "CRM ordenado", detail: "Cada oportunidad con estado", icon: UsersRound },
-  { label: "Seguimientos", detail: "Próximos pasos visibles", icon: ListChecks },
-  { label: "Tareas automáticas", detail: "Menos carga manual", icon: Zap },
-  { label: "Métricas", detail: "Qué entra, avanza y convierte", icon: BarChart3 },
-  { label: "Visibilidad", detail: "Control para decidir", icon: Eye },
+const NARRATIVE = [
+  {
+    kicker: "01 · Volumen",
+    text: "Entran leads, mensajes y tareas por todos lados.",
+  },
+  {
+    kicker: "02 · Desorden",
+    text: "Sin un sistema, aparecen oportunidades sin responsable ni próximo paso.",
+  },
+  {
+    kicker: "03 · NexOps interviene",
+    text: "La operación encuentra estado, dueño y seguimiento dentro del mismo circuito.",
+  },
+  {
+    kicker: "04 · Automatización",
+    text: "Lo repetitivo sale del trabajo manual y las excepciones llegan a una persona.",
+  },
+  {
+    kicker: "05 · Control",
+    text: "La operación queda visible, trazable y lista para decidir.",
+  },
 ];
 
-const INPUT_PATHS = [
-  "M 250 112 C 390 112, 410 260, 530 260",
-  "M 250 186 C 390 186, 420 260, 530 260",
-  "M 250 260 C 390 260, 420 260, 530 260",
-  "M 250 334 C 390 334, 420 260, 530 260",
-  "M 250 408 C 390 408, 410 260, 530 260",
-];
+function NarrativeLine({ progress, item, index, reducedMotion }) {
+  const ranges = [
+    [0, 0.12, 0.19, 0.28],
+    [0.18, 0.29, 0.36, 0.46],
+    [0.36, 0.48, 0.57, 0.67],
+    [0.57, 0.69, 0.78, 0.88],
+    [0.78, 0.9, 1, 1],
+  ];
+  const [start, peak, hold, end] = ranges[index];
+  const opacity = useTransform(
+    progress,
+    [start, peak, hold, end],
+    index === NARRATIVE.length - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0]
+  );
+  const y = useTransform(progress, [start, peak, end], [12, 0, index === 4 ? 0 : -10]);
 
-const OUTPUT_PATHS = [
-  "M 670 260 C 790 260, 820 112, 950 112",
-  "M 670 260 C 790 260, 830 186, 950 186",
-  "M 670 260 C 790 260, 830 260, 950 260",
-  "M 670 260 C 790 260, 830 334, 950 334",
-  "M 670 260 C 790 260, 820 408, 950 408",
-];
+  if (reducedMotion && index !== NARRATIVE.length - 1) return null;
 
-function SystemRow({ item, tone = "input" }) {
+  return (
+    <motion.div
+      style={reducedMotion ? undefined : { opacity, y }}
+      className="absolute inset-0 flex items-center gap-3 text-sm md:text-[15px]"
+    >
+      <span className="font-semibold uppercase tracking-[0.18em] text-[#7650ff]">{item.kicker}</span>
+      <span className="hidden h-px w-8 bg-slate-300 md:block" />
+      <span className="text-slate-600">{item.text}</span>
+    </motion.div>
+  );
+}
+
+function OpportunityRow({ item, index, progress, reducedMotion }) {
   const Icon = item.icon;
-  const isOutput = tone === "output";
-
-  return (
-    <div className="flex min-h-[58px] items-center gap-3 border-b border-slate-200/75 py-3 last:border-b-0 xl:min-h-[62px] xl:py-3.5">
-      <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
-          isOutput
-            ? "border-[#7650ff]/15 bg-[#7650ff]/[0.06] text-[#6744df]"
-            : "border-slate-200 bg-slate-50 text-slate-600"
-        }`}
-      >
-        <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
-      </div>
-      <div className="min-w-0">
-        <div className="text-[15px] font-semibold tracking-[-0.015em] text-[#101a31]">{item.label}</div>
-        <div className="mt-0.5 text-[12px] leading-5 text-slate-500">{item.detail}</div>
-      </div>
-    </div>
+  const y = useTransform(progress, [0, 0.3, 0.54], [item.chaosY, item.chaosY * 0.45, 0]);
+  const rotate = useTransform(
+    progress,
+    [0, 0.32, 0.54],
+    [item.chaosRotate, item.chaosRotate * 0.4, 0]
   );
-}
+  const unresolvedOpacity = useTransform(progress, [0.24, 0.48], [1, 0]);
+  const resolvedOpacity = useTransform(progress, [0.42, 0.6], [0, 1]);
+  const rowAccent = useTransform(progress, [0.36, 0.52, 0.72], [0, 1, 0.26]);
 
-function NexOpsCore({ active = true, reducedMotion = false }) {
+  const finalStyle = { y: 0, rotate: 0 };
+
   return (
-    <div className="relative flex items-center justify-center">
+    <motion.div
+      style={reducedMotion ? finalStyle : { y, rotate }}
+      className="relative grid min-h-[70px] grid-cols-[1.35fr_0.82fr_0.82fr_1fr] items-center gap-4 border-b border-slate-200/80 bg-white px-5 last:border-b-0 lg:min-h-[74px] lg:px-6"
+    >
       <motion.div
+        style={reducedMotion ? { opacity: 0.2 } : { opacity: rowAccent }}
         aria-hidden="true"
-        className="absolute h-[226px] w-[226px] rounded-[66px] border border-[#7650ff]/10 xl:h-[250px] xl:w-[250px] xl:rounded-[72px]"
-        animate={
-          active && !reducedMotion
-            ? { scale: [0.98, 1.04, 0.98], opacity: [0.42, 0.18, 0.42] }
-            : { scale: 1, opacity: 0.26 }
-        }
-        transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute inset-y-0 left-0 w-[3px] bg-[#7650ff]"
       />
-      <div className="absolute h-[198px] w-[198px] rounded-[56px] bg-[#7650ff]/[0.035] blur-[1px] xl:h-[218px] xl:w-[218px] xl:rounded-[60px]" />
 
-      <div className="relative flex h-[172px] w-[172px] flex-col items-center justify-center rounded-[44px] border border-[#7650ff]/20 bg-white px-5 text-center shadow-[0_28px_70px_-34px_rgba(54,35,112,0.38)] xl:h-[190px] xl:w-[190px] xl:rounded-[48px]">
-        <div className="mb-2.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-[#7650ff] xl:mb-3">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
-          Núcleo activo
-        </div>
-        <img src={brandLogo} alt="" className="h-8 w-auto xl:h-9" />
-        <div className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#0c1730] xl:text-[24px]">NexOps</div>
-        <div className="mt-2.5 text-[10px] font-medium leading-[1.5] text-slate-500 xl:mt-3 xl:text-[11px] xl:leading-[1.55]">
-          Centraliza · Ordena
-          <br />
-          Automatiza
+      <div className="min-w-0">
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-500">
+            <Icon className="h-4 w-4" strokeWidth={1.8} />
+          </div>
+          <div className="min-w-0">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400">
+              {item.source}
+            </div>
+            <div className="truncate text-[13px] font-semibold tracking-[-0.015em] text-[#111b31] lg:text-[14px]">
+              {item.opportunity}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="relative min-h-9 text-[12px] lg:text-[13px]">
+        <motion.span
+          style={reducedMotion ? { opacity: 0 } : { opacity: unresolvedOpacity }}
+          className="absolute inset-0 flex items-center font-medium text-[#ad4b58]"
+        >
+          Sin responsable
+        </motion.span>
+        <motion.span
+          style={reducedMotion ? { opacity: 1 } : { opacity: resolvedOpacity }}
+          className="absolute inset-0 flex items-center gap-2 font-semibold text-slate-700"
+        >
+          <UserRound className="h-3.5 w-3.5 text-[#7650ff]" />
+          {item.owner}
+        </motion.span>
+      </div>
+
+      <div className="relative min-h-9 text-[12px] lg:text-[13px]">
+        <motion.span
+          style={reducedMotion ? { opacity: 0 } : { opacity: unresolvedOpacity }}
+          className="absolute inset-0 flex items-center text-slate-400"
+        >
+          Sin clasificar
+        </motion.span>
+        <motion.span
+          style={reducedMotion ? { opacity: 1 } : { opacity: resolvedOpacity }}
+          className="absolute inset-0 flex items-center font-semibold text-[#46516a]"
+        >
+          {item.status}
+        </motion.span>
+      </div>
+
+      <div className="relative min-h-9 text-[12px] lg:text-[13px]">
+        <motion.span
+          style={reducedMotion ? { opacity: 0 } : { opacity: unresolvedOpacity }}
+          className="absolute inset-0 flex items-center gap-2 font-medium text-[#ad4b58]"
+        >
+          <Clock3 className="h-3.5 w-3.5" />
+          Sin seguimiento
+        </motion.span>
+        <motion.span
+          style={reducedMotion ? { opacity: 1 } : { opacity: resolvedOpacity }}
+          className="absolute inset-0 flex items-center gap-2 font-semibold text-slate-700"
+        >
+          <Clock3 className="h-3.5 w-3.5 text-[#7650ff]" />
+          {item.next}
+        </motion.span>
+      </div>
+    </motion.div>
   );
 }
 
-function DesktopSystem({ progress, reducedMotion }) {
-  const inputOpacity = useTransform(progress, [0, 0.08, 0.18], [0, 0.45, 1]);
-  const inputX = useTransform(progress, [0, 0.18], [-24, 0]);
-  const inputLineLength = useTransform(progress, [0.1, 0.38], [0, 1]);
-  const inputLineOpacity = useTransform(progress, [0.08, 0.18, 0.38], [0, 0.48, 0.9]);
-  const coreOpacity = useTransform(progress, [0.3, 0.44], [0.2, 1]);
-  const coreScale = useTransform(progress, [0.3, 0.44], [0.92, 1]);
-  const outputLineLength = useTransform(progress, [0.44, 0.7], [0, 1]);
-  const outputLineOpacity = useTransform(progress, [0.42, 0.52, 0.72], [0, 0.4, 0.9]);
-  const outputOpacity = useTransform(progress, [0.58, 0.76], [0, 1]);
-  const outputX = useTransform(progress, [0.58, 0.76], [24, 0]);
-  const footerOpacity = useTransform(progress, [0.74, 0.9], [0, 1]);
-
-  const inputStyle = reducedMotion ? { opacity: 1, x: 0 } : { opacity: inputOpacity, x: inputX };
-  const inputPathStyle = reducedMotion
-    ? { pathLength: 1, opacity: 0.9 }
-    : { pathLength: inputLineLength, opacity: inputLineOpacity };
-  const coreStyle = reducedMotion ? { opacity: 1, scale: 1 } : { opacity: coreOpacity, scale: coreScale };
-  const outputPathStyle = reducedMotion
-    ? { pathLength: 1, opacity: 0.9 }
-    : { pathLength: outputLineLength, opacity: outputLineOpacity };
-  const outputStyle = reducedMotion ? { opacity: 1, x: 0 } : { opacity: outputOpacity, x: outputX };
-  const footerStyle = reducedMotion ? { opacity: 1 } : { opacity: footerOpacity };
+function DesktopOperation({ progress, reducedMotion }) {
+  const headersOpacity = useTransform(progress, [0.38, 0.54], [0, 1]);
+  const chaosCountOpacity = useTransform(progress, [0.1, 0.42], [1, 0]);
+  const finalCountOpacity = useTransform(progress, [0.68, 0.88], [0, 1]);
+  const scanLeft = useTransform(progress, [0.32, 0.58], ["0%", "100%"]);
+  const scanOpacity = useTransform(progress, [0.28, 0.36, 0.58, 0.66], [0, 1, 1, 0]);
+  const automationOpacity = useTransform(progress, [0.58, 0.72], [0, 1]);
+  const automationY = useTransform(progress, [0.58, 0.72], [18, 0]);
+  const cleanupOpacity = useTransform(progress, [0.76, 0.92], [0, 1]);
 
   return (
-    <div className="relative hidden min-h-[450px] overflow-hidden rounded-[36px] border border-slate-200/90 bg-[linear-gradient(105deg,#ffffff_0%,#fbfbfe_43%,#f7f5ff_55%,#fbfcff_100%)] shadow-[0_36px_90px_-62px_rgba(15,23,42,0.32)] md:block lg:min-h-[480px] xl:min-h-[520px]">
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between border-b border-slate-200/80 px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 xl:py-4">
-        <span>Sistema comercial + operativo</span>
-        <span className="flex items-center gap-2 text-[#6744df]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
-          Información conectada
-        </span>
+    <div className="relative hidden overflow-hidden rounded-[34px] border border-slate-200/90 bg-[#f7f8fb] shadow-[0_36px_90px_-64px_rgba(15,23,42,0.34)] md:block">
+      <div className="flex min-h-[54px] items-center justify-between border-b border-slate-200/80 bg-white px-5 lg:px-6">
+        <div>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Operación comercial · Hoy
+          </div>
+          <div className="mt-1 text-[13px] font-semibold text-[#111b31]">Bandeja de oportunidades</div>
+        </div>
+
+        <div className="relative min-w-[230px] text-right text-[11px] font-semibold uppercase tracking-[0.14em]">
+          <motion.div
+            style={reducedMotion ? { opacity: 0 } : { opacity: chaosCountOpacity }}
+            className="absolute inset-0 flex items-center justify-end gap-2 text-[#ad4b58]"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ad4b58]" />
+            3 sin responsable · 4 sin seguimiento
+          </motion.div>
+          <motion.div
+            style={reducedMotion ? { opacity: 1 } : { opacity: finalCountOpacity }}
+            className="flex items-center justify-end gap-2 text-[#5e3fd1]"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
+            18 activas · 0 sin responsable
+          </motion.div>
+        </div>
       </div>
 
-      <svg
-        viewBox="0 0 1200 520"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 top-[38px] h-[calc(100%_-_84px)] w-full xl:top-[40px] xl:h-[calc(100%_-_88px)]"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="inputFlow" x1="0" x2="1">
-            <stop offset="0%" stopColor="#cbd3df" />
-            <stop offset="100%" stopColor="#7650ff" />
-          </linearGradient>
-          <linearGradient id="outputFlow" x1="0" x2="1">
-            <stop offset="0%" stopColor="#7650ff" />
-            <stop offset="100%" stopColor="#a7b2c6" />
-          </linearGradient>
-          <marker id="flowArrowIn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7650ff" opacity="0.8" />
-          </marker>
-          <marker id="flowArrowOut" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa6ba" opacity="0.85" />
-          </marker>
-        </defs>
-
-        {INPUT_PATHS.map((path) => (
-          <motion.path
-            key={path}
-            d={path}
-            fill="none"
-            stroke="url(#inputFlow)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            markerEnd="url(#flowArrowIn)"
-            style={inputPathStyle}
-          />
-        ))}
-        {OUTPUT_PATHS.map((path) => (
-          <motion.path
-            key={path}
-            d={path}
-            fill="none"
-            stroke="url(#outputFlow)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            markerEnd="url(#flowArrowOut)"
-            style={outputPathStyle}
-          />
-        ))}
-      </svg>
-
-      <div className="relative z-10 grid min-h-[450px] grid-cols-[minmax(220px,0.95fr)_240px_minmax(235px,1.05fr)] items-center gap-9 px-7 pb-12 pt-16 lg:min-h-[480px] lg:grid-cols-[minmax(230px,0.95fr)_255px_minmax(245px,1.05fr)] lg:gap-12 lg:px-9 xl:min-h-[520px] xl:grid-cols-[minmax(230px,0.95fr)_280px_minmax(250px,1.05fr)] xl:gap-20 xl:px-12 xl:pb-14 xl:pt-20">
-        <motion.div style={inputStyle}>
-          <div className="mb-3 flex items-center justify-between xl:mb-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">01 · Entradas</span>
-            <span className="hidden text-[10px] text-slate-400 lg:inline">Canales dispersos</span>
-          </div>
-          <div className="bg-white/90 px-1">
-            {INPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} />
-            ))}
-          </div>
+      <div className="relative bg-white px-4 pb-4 pt-3 lg:px-5 lg:pb-5">
+        <motion.div
+          style={reducedMotion ? { opacity: 1 } : { opacity: headersOpacity }}
+          className="grid grid-cols-[1.35fr_0.82fr_0.82fr_1fr] gap-4 px-5 pb-2 pt-1 text-[9px] font-bold uppercase tracking-[0.17em] text-slate-400 lg:px-6"
+        >
+          <span>Oportunidad</span>
+          <span>Responsable</span>
+          <span>Estado</span>
+          <span>Próximo paso</span>
         </motion.div>
 
-        <motion.div style={coreStyle}>
-          <div className="mb-4 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-[#7650ff] xl:mb-6">02 · Núcleo NexOps</div>
-          <NexOpsCore active reducedMotion={reducedMotion} />
-          <div className="mx-auto mt-5 flex max-w-[230px] items-center justify-center gap-2 text-center text-[10px] font-medium leading-4 text-slate-500 xl:mt-7 xl:max-w-[240px]">
-            <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#7650ff]" />
-            Reglas, contexto y automatización en el mismo circuito
-          </div>
-        </motion.div>
+        <div className="relative overflow-hidden rounded-[20px] border border-slate-200/90 bg-white">
+          <motion.div
+            aria-hidden="true"
+            style={
+              reducedMotion
+                ? { left: "100%", opacity: 0 }
+                : { left: scanLeft, opacity: scanOpacity }
+            }
+            className="pointer-events-none absolute inset-y-0 z-20 w-[2px] bg-[#7650ff] shadow-[0_0_26px_7px_rgba(118,80,255,0.16)]"
+          />
 
-        <motion.div style={outputStyle}>
-          <div className="mb-3 flex items-center justify-between xl:mb-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6744df]">03 · Control</span>
-            <span className="hidden text-[10px] text-slate-400 lg:inline">Operación visible</span>
+          <motion.div
+            style={reducedMotion ? { opacity: 0 } : { opacity: scanOpacity }}
+            className="pointer-events-none absolute left-5 top-3 z-20 text-[9px] font-bold uppercase tracking-[0.18em] text-[#7650ff]"
+          >
+            NexOps ordenando circuito
+          </motion.div>
+
+          {OPPORTUNITIES.map((item, index) => (
+            <OpportunityRow
+              key={`${item.source}-${item.opportunity}`}
+              item={item}
+              index={index}
+              progress={progress}
+              reducedMotion={reducedMotion}
+            />
+          ))}
+        </div>
+
+        <motion.div
+          style={
+            reducedMotion
+              ? { opacity: 1, y: 0 }
+              : { opacity: automationOpacity, y: automationY }
+          }
+          className="mt-4 grid grid-cols-[1.1fr_1fr_1fr] border-t border-slate-200/80 pt-4 text-[11px]"
+        >
+          <div className="pr-5">
+            <div className="flex items-center gap-2 font-semibold text-[#111b31]">
+              <Bot className="h-4 w-4 text-[#7650ff]" />
+              Trabajo repetitivo absorbido
+            </div>
+            <div className="mt-1 text-slate-500">Clasificación y recordatorios salen del equipo.</div>
           </div>
-          <div className="bg-white/90 px-1">
-            {OUTPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} tone="output" />
-            ))}
+          <div className="border-l border-slate-200 px-5">
+            <div className="flex items-center gap-2 font-semibold text-slate-700">
+              <CheckCircle2 className="h-4 w-4 text-[#7650ff]" />
+              6 tareas resueltas
+            </div>
+            <div className="mt-1 text-slate-500">Seguimientos y actualizaciones ejecutadas.</div>
+          </div>
+          <div className="border-l border-slate-200 pl-5">
+            <div className="flex items-center gap-2 font-semibold text-slate-700">
+              <Zap className="h-4 w-4 text-[#7650ff]" />
+              2 excepciones escaladas
+            </div>
+            <div className="mt-1 text-slate-500">Sólo lo que requiere criterio humano.</div>
           </div>
         </motion.div>
       </div>
 
       <motion.div
-        style={footerStyle}
-        className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 border-t border-slate-200/80 bg-white/80 px-6 py-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 backdrop-blur-sm xl:py-4"
+        style={reducedMotion ? { opacity: 1 } : { opacity: cleanupOpacity }}
+        className="flex items-center justify-between border-t border-slate-200/80 bg-white px-5 py-3.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500 lg:px-6"
       >
-        <span>Captar</span>
-        <span className="text-[#7650ff]">·</span>
-        <span>Ordenar</span>
-        <span className="text-[#7650ff]">·</span>
-        <span>Automatizar</span>
-        <span className="text-[#7650ff]">·</span>
-        <span>Controlar</span>
+        <span>Estados claros</span>
+        <span>Responsables visibles</span>
+        <span className="text-[#5e3fd1]">Excepciones bajo control</span>
       </motion.div>
     </div>
   );
 }
 
-function MobileSystem({ reducedMotion }) {
-  const reveal = (delay = 0) => ({
-    initial: reducedMotion ? false : { opacity: 0, y: 16 },
+function MobileSnapshot({ step, reducedMotion }) {
+  const reveal = {
+    initial: reducedMotion ? false : { opacity: 0, y: 18 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.25 },
-    transition: { duration: reducedMotion ? 0 : 0.55, delay, ease: [0.2, 0.7, 0.2, 1] },
-  });
+    viewport: { once: true, amount: 0.3 },
+    transition: { duration: reducedMotion ? 0 : 0.55, ease: [0.2, 0.72, 0.2, 1] },
+  };
+
+  if (step === "chaos") {
+    return (
+      <motion.div {...reveal} className="border-y border-slate-200 bg-white">
+        {OPPORTUNITIES.slice(0, 3).map((item) => {
+          const Icon = item.icon;
+          return (
+            <div key={item.opportunity} className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-4 last:border-b-0">
+              <Icon className="h-4 w-4 shrink-0 text-slate-400" />
+              <div className="min-w-0 flex-1">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">{item.source}</div>
+                <div className="truncate text-[13px] font-semibold text-[#111b31]">{item.opportunity}</div>
+              </div>
+              <div className="text-right text-[10px] font-semibold leading-4 text-[#ad4b58]">Sin responsable<br />Sin seguimiento</div>
+            </div>
+          );
+        })}
+      </motion.div>
+    );
+  }
+
+  if (step === "intervention") {
+    return (
+      <motion.div {...reveal} className="border-y border-[#7650ff]/15 bg-[#7650ff]/[0.035] px-4 py-6">
+        <div className="flex items-center gap-3 text-[#5e3fd1]">
+          <span className="h-2 w-2 rounded-full bg-[#7650ff]" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em]">NexOps interviene</span>
+        </div>
+        <p className="mt-3 text-[14px] leading-6 text-slate-600">
+          La misma oportunidad recibe estado, responsable y próximo paso. Lo repetitivo se deriva al sistema.
+        </p>
+      </motion.div>
+    );
+  }
+
+  if (step === "crm") {
+    return (
+      <motion.div {...reveal} className="overflow-hidden border-y border-slate-200 bg-white">
+        {OPPORTUNITIES.slice(0, 3).map((item) => (
+          <div key={item.opportunity} className="border-b border-slate-200/80 px-4 py-4 last:border-b-0">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">{item.source}</div>
+                <div className="mt-0.5 text-[13px] font-semibold text-[#111b31]">{item.opportunity}</div>
+              </div>
+              <div className="text-right text-[10px] font-semibold text-[#5e3fd1]">{item.status}</div>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-[11px] text-slate-500">
+              <span className="flex items-center gap-1.5"><UserRound className="h-3.5 w-3.5 text-[#7650ff]" />{item.owner}</span>
+              <span className="flex items-center gap-1.5"><Clock3 className="h-3.5 w-3.5 text-[#7650ff]" />{item.next}</span>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    );
+  }
 
   return (
-    <div className="overflow-hidden rounded-[30px] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#faf9ff_52%,#ffffff_100%)] md:hidden">
-      <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-        <span>Sistema NexOps</span>
-        <span className="flex items-center gap-2 text-[#6744df]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
-          Conectado
-        </span>
+    <motion.div {...reveal} className="border-y border-slate-200 bg-white px-4 py-5">
+      <div className="flex items-center gap-2 text-[12px] font-semibold text-[#111b31]">
+        <Bot className="h-4 w-4 text-[#7650ff]" />
+        6 tareas repetitivas resueltas automáticamente
       </div>
-
-      <div className="px-5 pb-6 pt-7">
-        <motion.div {...reveal(0)}>
-          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.19em] text-slate-500">01 · Canales de entrada</div>
-          <div className="rounded-2xl border border-slate-200/80 bg-white px-4">
-            {INPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} />
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div {...reveal(0.1)} className="mx-auto flex h-14 w-10 items-center justify-center">
-          <div className="relative h-10 w-px bg-gradient-to-b from-slate-300 to-[#7650ff]">
-            <span className="absolute -bottom-0.5 -left-[3px] h-2 w-2 rotate-45 border-b border-r border-[#7650ff]" />
-          </div>
-        </motion.div>
-
-        <motion.div {...reveal(0.16)}>
-          <div className="mb-4 text-center text-[9px] font-bold uppercase tracking-[0.19em] text-[#7650ff]">02 · Núcleo NexOps</div>
-          <NexOpsCore active reducedMotion={reducedMotion} />
-          <p className="mx-auto mt-6 max-w-[270px] text-center text-[12px] leading-5 text-slate-500">
-            Centraliza información, aplica reglas y automatiza el seguimiento sin perder contexto.
-          </p>
-        </motion.div>
-
-        <motion.div {...reveal(0.24)} className="mx-auto flex h-14 w-10 items-center justify-center">
-          <div className="relative h-10 w-px bg-gradient-to-b from-[#7650ff] to-slate-300">
-            <span className="absolute -bottom-0.5 -left-[3px] h-2 w-2 rotate-45 border-b border-r border-slate-400" />
-          </div>
-        </motion.div>
-
-        <motion.div {...reveal(0.3)}>
-          <div className="mb-3 text-[9px] font-bold uppercase tracking-[0.19em] text-[#6744df]">03 · Operación bajo control</div>
-          <div className="rounded-2xl border border-[#7650ff]/10 bg-white px-4">
-            {OUTPUTS.map((item) => (
-              <SystemRow key={item.label} item={item} tone="output" />
-            ))}
-          </div>
-        </motion.div>
+      <div className="mt-4 flex items-center gap-2 text-[12px] font-semibold text-[#111b31]">
+        <Zap className="h-4 w-4 text-[#7650ff]" />
+        2 excepciones escaladas al equipo
       </div>
+      <div className="mt-5 border-t border-slate-200 pt-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5e3fd1]">
+        0 oportunidades sin responsable
+      </div>
+    </motion.div>
+  );
+}
 
-      <motion.div
-        {...reveal(0.36)}
-        className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-200/80 bg-white/80 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-500"
-      >
-        <span>Captar</span><span className="text-[#7650ff]">·</span>
-        <span>Ordenar</span><span className="text-[#7650ff]">·</span>
-        <span>Automatizar</span><span className="text-[#7650ff]">·</span>
-        <span>Controlar</span>
-      </motion.div>
+function MobileStory({ reducedMotion }) {
+  return (
+    <div className="md:hidden">
+      <div className="space-y-24">
+        <article>
+          <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#7650ff]">01 · Entra el ruido</div>
+          <h3 className="text-[32px] font-semibold leading-[1.02] tracking-[-0.045em] text-[#0c1730]">Más volumen, menos visibilidad.</h3>
+          <p className="mt-4 text-[15px] leading-7 text-slate-600">Los canales crecen antes que la capacidad de seguimiento del equipo.</p>
+          <div className="mt-7"><MobileSnapshot step="chaos" reducedMotion={reducedMotion} /></div>
+        </article>
+
+        <article>
+          <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#7650ff]">02 · Intervención</div>
+          <h3 className="text-[32px] font-semibold leading-[1.02] tracking-[-0.045em] text-[#0c1730]">NexOps ordena el circuito, no agrega otra pantalla.</h3>
+          <div className="mt-7"><MobileSnapshot step="intervention" reducedMotion={reducedMotion} /></div>
+        </article>
+
+        <article>
+          <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#7650ff]">03 · CRM</div>
+          <h3 className="text-[32px] font-semibold leading-[1.02] tracking-[-0.045em] text-[#0c1730]">Cada oportunidad encuentra dueño y próximo paso.</h3>
+          <div className="mt-7"><MobileSnapshot step="crm" reducedMotion={reducedMotion} /></div>
+        </article>
+
+        <article>
+          <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#7650ff]">04 · Automatización</div>
+          <h3 className="text-[32px] font-semibold leading-[1.02] tracking-[-0.045em] text-[#0c1730]">El equipo trabaja las excepciones. El sistema absorbe el resto.</h3>
+          <div className="mt-7"><MobileSnapshot step="automation" reducedMotion={reducedMotion} /></div>
+        </article>
+      </div>
     </div>
   );
 }
@@ -319,28 +458,40 @@ export default function OperationStory() {
     <section
       id="operation-story"
       ref={sectionRef}
-      className={`relative bg-white ${reducedMotion ? "md:h-auto" : "md:h-[300vh]"}`}
+      className={`relative bg-white ${reducedMotion ? "md:h-auto" : "md:h-[430vh]"}`}
     >
       <div
-        className={`px-5 py-24 md:flex md:items-center md:px-6 md:py-8 lg:px-8 ${
+        className={`px-5 py-24 md:px-6 lg:px-8 ${
           reducedMotion
-            ? "md:relative md:h-auto"
-            : "md:sticky md:top-[72px] md:h-[calc(100svh-72px)]"
+            ? "md:relative md:py-28"
+            : "md:sticky md:top-[72px] md:flex md:h-[calc(100svh-72px)] md:items-center md:py-6"
         }`}
       >
         <div className="mx-auto w-full max-w-[1450px]">
-          <div className="mb-10 max-w-[940px] md:mb-6 lg:mb-7 xl:mb-9">
-            <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">Del ruido al control</div>
-            <h2 className="text-[clamp(2.6rem,4.3vw,5.1rem)] font-semibold leading-[0.98] tracking-[-0.06em] text-[#0c1730]">
-              Todo lo que pasa en tu operación, en un solo sistema
+          <div className="mb-10 max-w-[980px] md:mb-6 lg:mb-8">
+            <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">De operación dispersa a sistema visible</div>
+            <h2 className="text-[clamp(2.65rem,4.5vw,5.25rem)] font-semibold leading-[0.97] tracking-[-0.06em] text-[#0c1730]">
+              El control no se explica. Se ve.
             </h2>
-            <p className="mt-5 max-w-[780px] text-[16px] leading-7 text-slate-600 md:text-[17px] md:leading-7 xl:mt-6 xl:text-[18px] xl:leading-8">
-              Centralizamos tus canales, ordenamos el seguimiento y automatizamos tareas para que vendas con más control y menos fricción.
+            <p className="mt-5 max-w-[800px] text-[16px] leading-7 text-slate-600 md:text-[17px] xl:text-[18px] xl:leading-8">
+              Mirá cómo la misma operación pasa de mensajes y oportunidades sueltas a un CRM con responsables, seguimiento y automatización real.
             </p>
           </div>
 
-          <DesktopSystem progress={scrollYProgress} reducedMotion={reducedMotion} />
-          <MobileSystem reducedMotion={reducedMotion} />
+          <div className="relative mb-5 hidden h-7 md:block">
+            {NARRATIVE.map((item, index) => (
+              <NarrativeLine
+                key={item.kicker}
+                progress={scrollYProgress}
+                item={item}
+                index={index}
+                reducedMotion={reducedMotion}
+              />
+            ))}
+          </div>
+
+          <DesktopOperation progress={scrollYProgress} reducedMotion={reducedMotion} />
+          <MobileStory reducedMotion={reducedMotion} />
         </div>
       </div>
     </section>
