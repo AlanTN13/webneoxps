@@ -18,6 +18,7 @@ Todas las fotos de esta tanda fueron descargadas desde Unsplash y se sirven loca
 | `public/assets/insights/cover-gobernanza-ia.jpg` | Qué debería preparar una empresa ante la regulación de IA | [Unsplash](https://unsplash.com/photos/5fNmWej4tAA) | Scott Graham | Unsplash License |
 | `public/assets/insights/cover-datos-sensibles-ia.jpg` | Qué revisar antes de enviar datos sensibles a una IA | [Unsplash](https://unsplash.com/photos/M5tzZtFCOfs) | Taylor Vick | Unsplash License |
 | `public/assets/insights/cover-infraestructura-ia.jpg` | La infraestructura de IA también es una decisión de negocio | [Unsplash](https://unsplash.com/photos/yETqkLnhsUI) | Matthew Henry | Unsplash License |
+| `public/assets/insights/cover-rpa-vs-api.jpg` | RPA vs. automatización por API: cuál conviene según el proceso | [Unsplash](https://unsplash.com/photos/n3DNE1aN31M) | Bluestonex | Unsplash License |
 
 ## Reutilizaciones fotográficas aprobadas
 
