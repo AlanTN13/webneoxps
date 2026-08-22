@@ -118,7 +118,7 @@ function NarrativeLine({ progress, item, index, reducedMotion }) {
   );
 }
 
-function OpportunityRow({ item, index, progress, reducedMotion }) {
+function OpportunityRow({ item, progress, reducedMotion }) {
   const Icon = item.icon;
   const y = useTransform(progress, [0, 0.3, 0.54], [item.chaosY, item.chaosY * 0.45, 0]);
   const rotate = useTransform(
@@ -277,11 +277,10 @@ function DesktopOperation({ progress, reducedMotion }) {
             NexOps ordenando circuito
           </motion.div>
 
-          {OPPORTUNITIES.map((item, index) => (
+          {OPPORTUNITIES.map((item) => (
             <OpportunityRow
               key={`${item.source}-${item.opportunity}`}
               item={item}
-              index={index}
               progress={progress}
               reducedMotion={reducedMotion}
             />
