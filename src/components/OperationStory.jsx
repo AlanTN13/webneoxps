@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   motion,
   useMotionValue,
@@ -8,114 +8,285 @@ import {
 } from "framer-motion";
 
 const STAGES = [
-  { number: "01", kicker: "Entrada", title: "Todo empieza con una oportunidad." },
-  { number: "02", kicker: "Fricción", title: "Cuando crece el volumen, también aparece fricción." },
-  { number: "03", kicker: "Orden", title: "Ahora cada oportunidad sabe qué sigue." },
   {
+    id: "entry",
+    number: "01",
+    kicker: "Entrada",
+    title: "Todo empieza con una oportunidad.",
+    enter: [0, 0.025],
+    hold: [0.025, 0.16],
+    exit: [0.16, 0.18],
+  },
+  {
+    id: "friction",
+    number: "02",
+    kicker: "Fricción",
+    title: "Cuando crece el volumen, también aparece fricción.",
+    enter: [0.2, 0.22],
+    hold: [0.22, 0.36],
+    exit: [0.36, 0.38],
+  },
+  {
+    id: "order",
+    number: "03",
+    kicker: "Orden",
+    title: "Ahora cada oportunidad sabe qué sigue.",
+    enter: [0.4, 0.42],
+    hold: [0.42, 0.56],
+    exit: [0.56, 0.58],
+  },
+  {
+    id: "automation",
     number: "04",
     kicker: "Automatización",
     title: "Lo repetitivo se resuelve. La excepción llega a una persona.",
+    enter: [0.6, 0.62],
+    hold: [0.62, 0.78],
+    exit: [0.78, 0.8],
   },
-  { number: "05", kicker: "Resultado", title: "Atendida. Trazable. Con próximo paso." },
+  {
+    id: "result",
+    number: "05",
+    kicker: "Resultado",
+    title: "Atendida. Trazable. Con próximo paso.",
+    enter: [0.82, 0.84],
+    hold: [0.84, 0.94],
+    exit: [0.94, 0.955],
+  },
 ];
 
-const STAGE_WINDOWS = [
-  [0, 0.025, 0.16, 0.185],
-  [0.195, 0.22, 0.36, 0.385],
-  [0.395, 0.42, 0.56, 0.585],
-  [0.595, 0.62, 0.78, 0.805],
-  [0.815, 0.84, 1, 1],
-];
+const STAGE_BY_ID = Object.fromEntries(STAGES.map((stage) => [stage.id, stage]));
+const CLOSING_WINDOW = [STAGE_BY_ID.result.exit[1] + 0.01, 0.985];
+
+const HOLD_CENTER = (stage) => (stage.hold[0] + stage.hold[1]) / 2;
+const RANGE_POINT = (range, ratio) => range[0] + (range[1] - range[0]) * ratio;
 
 const FRAGMENTS = [
   {
     friction: "¿Quién responde?",
     alert: "sin responsable",
-    frictionX: -335,
-    frictionY: -8,
-    spawnX: -24,
-    spawnY: 6,
+    frictionAnchor: "frictionLeft",
+    contextAnchor: "contextOwner",
     context: "Responsable · Ana",
     final: "Ana · responsable",
-    contextX: 275,
-    contextY: 62,
   },
   {
     friction: "Enviar cotización",
-    frictionX: 300,
-    frictionY: -122,
-    spawnX: 18,
-    spawnY: -18,
+    frictionAnchor: "frictionTopRight",
+    contextAnchor: "contextNext",
     context: "Próximo paso · Enviar propuesta · 15:00",
     final: "Próximo paso · propuesta enviada",
-    contextX: 275,
-    contextY: 132,
   },
   {
     friction: "Hacer seguimiento",
-    frictionX: 350,
-    frictionY: 20,
-    spawnX: 22,
-    spawnY: 4,
+    frictionAnchor: "frictionRight",
+    contextAnchor: "contextStage",
     context: "Etapa · Calificado",
     final: "Calificado",
-    contextX: 275,
-    contextY: 97,
   },
   {
     friction: "Recordar mañana",
-    frictionX: -82,
-    frictionY: 142,
-    spawnX: -8,
-    spawnY: 22,
+    frictionAnchor: "frictionBottom",
+    contextAnchor: "contextNext",
     context: null,
     final: null,
-    contextX: 275,
-    contextY: 132,
   },
 ];
 
 const AUTOMATION_TASKS = [
-  { label: "clasificar", x: -325, y: -104 },
-  { label: "responder", x: -310, y: 108 },
-  { label: "recordar", x: 290, y: 132 },
-  { label: "actualizar", x: 325, y: -112 },
+  { label: "clasificar", anchor: "automationTopLeft" },
+  { label: "responder", anchor: "automationBottomLeft" },
+  { label: "recordar", anchor: "automationBottomRight" },
+  { label: "actualizar", anchor: "automationTopRight" },
 ];
 
 const MOBILE_FRICTION_TOP = ["¿Quién responde?", "Enviar cotización"];
 const MOBILE_FRICTION_BOTTOM = ["Hacer seguimiento", "Recordar mañana"];
 
-const STORY_RESPONSIVE_CSS = `
-  .nexops-story-copy { top: 36px; }
-  .nexops-story-scene { --story-scale: 1; }
-  @media (max-width: 1399px) and (min-width: 1200px) {
-    .nexops-story-scene { --story-scale: .90; }
+const GEOMETRY = {
+  wide: {
+    hero: { left: "46%", top: "50%" },
+    source: { left: "28%", top: "12%" },
+    frictionLeft: { left: "16%", top: "50%" },
+    frictionTopRight: { left: "68%", top: "22%" },
+    frictionRight: { left: "82%", top: "51%" },
+    frictionBottom: { left: "42%", top: "82%" },
+    contextOwner: { left: "70%", top: "58%" },
+    contextStage: { left: "70%", top: "69%" },
+    contextNext: { left: "70%", top: "80%" },
+    contextBracket: { left: "66%", top: "56%" },
+    automationTopLeft: { left: "18%", top: "28%" },
+    automationBottomLeft: { left: "18%", top: "74%" },
+    automationTopRight: { left: "79%", top: "25%" },
+    automationBottomRight: { left: "79%", top: "76%" },
+    exceptionStart: { left: "66%", top: "24%" },
+    humanEscalation: { left: "84%", top: "20%" },
+    secondaryLeft: { left: "34%", top: "64%" },
+    secondaryRight: { left: "59%", top: "69%" },
+    sourcePath: "M 28 12 C 34 19, 39 32, 45 44",
+    escalationPath: "M 67 24 C 73 23, 78 22, 84 20",
+  },
+  low: {
+    hero: { left: "45%", top: "52%" },
+    source: { left: "26%", top: "9%" },
+    frictionLeft: { left: "14%", top: "49%" },
+    frictionTopRight: { left: "66%", top: "20%" },
+    frictionRight: { left: "80%", top: "50%" },
+    frictionBottom: { left: "40%", top: "81%" },
+    contextOwner: { left: "68%", top: "57%" },
+    contextStage: { left: "68%", top: "68%" },
+    contextNext: { left: "68%", top: "79%" },
+    contextBracket: { left: "64%", top: "55%" },
+    automationTopLeft: { left: "16%", top: "27%" },
+    automationBottomLeft: { left: "16%", top: "73%" },
+    automationTopRight: { left: "77%", top: "24%" },
+    automationBottomRight: { left: "77%", top: "75%" },
+    exceptionStart: { left: "64%", top: "23%" },
+    humanEscalation: { left: "81%", top: "18%" },
+    secondaryLeft: { left: "35%", top: "63%" },
+    secondaryRight: { left: "57%", top: "68%" },
+    sourcePath: "M 26 9 C 32 17, 37 31, 44 45",
+    escalationPath: "M 65 23 C 71 22, 76 20, 81 18",
+  },
+  compact: {
+    hero: { left: "43%", top: "52%" },
+    source: { left: "24%", top: "10%" },
+    frictionLeft: { left: "12%", top: "49%" },
+    frictionTopRight: { left: "63%", top: "20%" },
+    frictionRight: { left: "76%", top: "50%" },
+    frictionBottom: { left: "39%", top: "82%" },
+    contextOwner: { left: "66%", top: "57%" },
+    contextStage: { left: "66%", top: "68%" },
+    contextNext: { left: "66%", top: "79%" },
+    contextBracket: { left: "62%", top: "55%" },
+    automationTopLeft: { left: "14%", top: "27%" },
+    automationBottomLeft: { left: "14%", top: "73%" },
+    automationTopRight: { left: "74%", top: "24%" },
+    automationBottomRight: { left: "74%", top: "75%" },
+    exceptionStart: { left: "61%", top: "23%" },
+    humanEscalation: { left: "78%", top: "18%" },
+    secondaryLeft: { left: "34%", top: "63%" },
+    secondaryRight: { left: "54%", top: "68%" },
+    sourcePath: "M 24 10 C 30 18, 35 31, 42 45",
+    escalationPath: "M 62 23 C 68 22, 73 20, 78 18",
+  },
+};
+
+const STORY_LAYOUT_CSS = `
+  .nexops-story-desktop {
+    --copy-zone: 190px;
+    --footer-zone: 92px;
+    --hero-min-height: 350px;
+    --hero-max-width: 1120px;
+    --opportunity-width: 480px;
   }
-  @media (max-width: 1199px) and (min-width: 768px) {
-    .nexops-story-scene { --story-scale: .74; }
+  .nexops-story-grid {
+    display: grid;
+    grid-template-rows: var(--copy-zone) minmax(var(--hero-min-height), 1fr) var(--footer-zone);
+  }
+  .nexops-copy-zone,
+  .nexops-hero-zone,
+  .nexops-footer-zone {
+    min-height: 0;
+    min-width: 0;
+  }
+  .nexops-hero-zone {
+    position: relative;
+    overflow: visible;
+  }
+  .nexops-scene {
+    position: absolute;
+    inset: 0;
+    width: min(100%, var(--hero-max-width));
+    margin-inline: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nexops-opportunity {
+    width: var(--opportunity-width);
+  }
+  @media (max-width: 1399px) and (min-width: 1200px) {
+    .nexops-story-desktop {
+      --copy-zone: 180px;
+      --footer-zone: 86px;
+      --hero-min-height: 335px;
+      --hero-max-width: 1060px;
+      --opportunity-width: 452px;
+    }
   }
   @media (max-height: 800px) and (min-width: 1200px) {
-    .nexops-story-copy { top: 22px; }
-    .nexops-story-scene { --story-scale: .78; }
+    .nexops-story-desktop {
+      --copy-zone: 164px;
+      --footer-zone: 78px;
+      --hero-min-height: 310px;
+      --hero-max-width: 1010px;
+      --opportunity-width: 438px;
+    }
+  }
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .nexops-story-desktop {
+      --copy-zone: 170px;
+      --footer-zone: 78px;
+      --hero-min-height: 305px;
+      --hero-max-width: 920px;
+      --opportunity-width: 398px;
+    }
   }
   @media (max-height: 800px) and (max-width: 1199px) and (min-width: 768px) {
-    .nexops-story-copy { top: 22px; }
-    .nexops-story-scene { --story-scale: .70; }
+    .nexops-story-desktop {
+      --copy-zone: 158px;
+      --footer-zone: 72px;
+      --hero-min-height: 292px;
+      --hero-max-width: 890px;
+      --opportunity-width: 386px;
+    }
   }
 `;
 
-function StageCopy({ progress, stage, index }) {
-  const [start, fadeIn, holdEnd, end] = STAGE_WINDOWS[index];
-  const isLast = index === STAGES.length - 1;
-  const opacity = useTransform(
+function getLayoutProfile() {
+  if (typeof window === "undefined") return "wide";
+  if (window.innerWidth < 1200) return "compact";
+  if (window.innerHeight <= 800 || window.innerWidth < 1400) return "low";
+  return "wide";
+}
+
+function useLayoutProfile() {
+  const [profile, setProfile] = useState(getLayoutProfile);
+
+  useEffect(() => {
+    let frame = 0;
+    const onResize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const next = getLayoutProfile();
+        setProfile((current) => (current === next ? current : next));
+      });
+    };
+
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  return profile;
+}
+
+function useStageOpacity(progress, stage) {
+  return useTransform(
     progress,
-    isLast ? [start, fadeIn, 1] : [start, fadeIn, holdEnd, end],
-    isLast ? [0, 1, 1] : [0, 1, 1, 0]
+    [stage.enter[0], stage.enter[1], stage.hold[1], stage.exit[1]],
+    [0, 1, 1, 0]
   );
+}
+
+function StageCopy({ progress, stage }) {
+  const opacity = useStageOpacity(progress, stage);
   const y = useTransform(
     progress,
-    isLast ? [start, fadeIn, 1] : [start, fadeIn, end],
-    isLast ? [8, 0, 0] : [8, 0, -6]
+    [stage.enter[0], stage.enter[1], stage.exit[1]],
+    [8, 0, -6]
   );
 
   return (
@@ -128,7 +299,7 @@ function StageCopy({ progress, stage, index }) {
         <span className="text-[#7650ff]">{stage.number}</span>
         <span>{stage.kicker}</span>
       </div>
-      <h2 className="text-[clamp(2.35rem,3.7vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
+      <h2 className="text-[clamp(2.25rem,3.7vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
         {stage.title}
       </h2>
     </motion.div>
@@ -136,15 +307,26 @@ function StageCopy({ progress, stage, index }) {
 }
 
 function OpportunitySurface({ progress }) {
-  const entryOpacity = useTransform(progress, [0, 0.03, 0.095], [0, 0, 1]);
-  const entryX = useTransform(progress, [0, 0.03, 0.095], [-40, -40, 0]);
-  const activeHairlineOpacity = useTransform(progress, [0.39, 0.47, 1], [0, 1, 1]);
-  const finalStatusOpacity = useTransform(progress, [0.84, 0.9, 1], [0, 1, 1]);
+  const entry = STAGE_BY_ID.entry;
+  const order = STAGE_BY_ID.order;
+  const result = STAGE_BY_ID.result;
+  const opacity = useTransform(progress, [entry.enter[0], entry.enter[1], 1], [0, 1, 1]);
+  const x = useTransform(progress, [entry.enter[0], entry.enter[1]], [-40, 0]);
+  const activeHairlineOpacity = useTransform(
+    progress,
+    [order.enter[0], order.enter[1], 1],
+    [0, 1, 1]
+  );
+  const finalStatusOpacity = useTransform(
+    progress,
+    [result.enter[0], result.enter[1], 1],
+    [0, 1, 1]
+  );
 
   return (
     <motion.div
-      style={{ opacity: entryOpacity, x: entryX }}
-      className="relative w-[480px] overflow-visible rounded-[28px_28px_28px_10px] border border-slate-200/90 bg-white px-7 py-5"
+      style={{ opacity, x }}
+      className="nexops-opportunity relative overflow-visible rounded-[28px_28px_28px_10px] border border-slate-200/90 bg-white px-7 py-5"
     >
       <motion.div
         aria-hidden="true"
@@ -155,7 +337,7 @@ function OpportunitySurface({ progress }) {
         <span>WhatsApp · desde campaña</span>
         <span className="font-semibold tracking-[0.08em] text-slate-400">11:42</span>
       </div>
-      <div className="mt-3 text-[22px] font-semibold leading-[1.18] tracking-[-0.035em] text-[#10192f]">
+      <div className="mt-3 text-[clamp(20px,1.75vw,23px)] font-semibold leading-[1.18] tracking-[-0.035em] text-[#10192f]">
         Hola, vi el anuncio. Quiero más información.
       </div>
       <div className="mt-3 flex h-4 justify-end">
@@ -170,30 +352,36 @@ function OpportunitySurface({ progress }) {
   );
 }
 
-function CampaignSource({ progress }) {
-  const opacity = useTransform(progress, [0, 0.03, 0.095, 0.16, 0.19], [0, 1, 1, 0.45, 0]);
-  const pathLength = useTransform(progress, [0.015, 0.095], [0, 1]);
+function CampaignSource({ progress, geometry }) {
+  const opacity = useStageOpacity(progress, STAGE_BY_ID.entry);
+  const pathLength = useTransform(
+    progress,
+    [STAGE_BY_ID.entry.enter[0], STAGE_BY_ID.entry.enter[1]],
+    [0, 1]
+  );
 
   return (
     <>
       <motion.div
-        style={{ opacity }}
-        className="absolute left-[22%] top-[13%] flex items-center gap-2 text-[12px] font-semibold tracking-[-0.015em] text-slate-500"
+        style={{ opacity, left: geometry.source.left, top: geometry.source.top }}
+        className="pointer-events-none absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-[12px] font-semibold tracking-[-0.015em] text-slate-500"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-[#7650ff]" />
         Campaña activa
       </motion.div>
       <svg
         aria-hidden="true"
-        viewBox="0 0 1050 430"
-        className="pointer-events-none absolute inset-0 h-full w-full"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full"
       >
         <motion.path
-          d="M 255 82 C 315 100, 350 135, 397 160"
+          d={geometry.sourcePath}
           fill="none"
           stroke="#7650ff"
           strokeOpacity="0.52"
-          strokeWidth="1.4"
+          strokeWidth="0.14"
+          vectorEffect="non-scaling-stroke"
           strokeLinecap="round"
           style={{ pathLength, opacity }}
         />
@@ -202,126 +390,162 @@ function CampaignSource({ progress }) {
   );
 }
 
-function MorphFragment({ progress, item }) {
-  const x = useTransform(
+function MorphFragment({ progress, item, geometry }) {
+  const friction = STAGE_BY_ID.friction;
+  const order = STAGE_BY_ID.order;
+  const automation = STAGE_BY_ID.automation;
+  const result = STAGE_BY_ID.result;
+  const frictionPoint = geometry[item.frictionAnchor];
+  const contextPoint = geometry[item.contextAnchor];
+
+  const left = useTransform(
     progress,
-    [0.16, 0.215, 0.37, 0.475],
-    [item.frictionX + item.spawnX, item.frictionX, item.frictionX, item.contextX]
+    [friction.enter[0], friction.hold[1], order.enter[1], 1],
+    [frictionPoint.left, frictionPoint.left, contextPoint.left, contextPoint.left]
   );
-  const y = useTransform(
+  const top = useTransform(
     progress,
-    [0.16, 0.215, 0.37, 0.475],
-    [item.frictionY + item.spawnY, item.frictionY, item.frictionY, item.contextY]
+    [friction.enter[0], friction.hold[1], order.enter[1], 1],
+    [frictionPoint.top, frictionPoint.top, contextPoint.top, contextPoint.top]
   );
-  const frictionOpacity = useTransform(progress, [0.16, 0.215, 0.37, 0.445], [0, 1, 1, 0]);
-  const contextOpacity = useTransform(progress, [0.425, 0.475, 0.79, 0.825], [0, 1, 1, 0]);
-  const finalOpacity = useTransform(progress, [0.835, 0.885, 1], [0, 1, 1]);
+  const nudgeY = useTransform(progress, [friction.enter[0], friction.enter[1]], [14, 0]);
+  const frictionOpacity = useTransform(
+    progress,
+    [friction.enter[0], friction.enter[1], friction.hold[1], order.enter[1]],
+    [0, 1, 1, 0]
+  );
+  const contextOpacity = useTransform(
+    progress,
+    [order.enter[0], order.enter[1], automation.hold[1], result.enter[0]],
+    [0, 1, 1, 0]
+  );
+  const finalOpacity = useTransform(
+    progress,
+    [result.enter[0], result.enter[1], 1],
+    [0, 1, 1]
+  );
 
   return (
-    <div
-      className="pointer-events-none absolute left-1/2 top-1/2 z-20"
-      style={{ transform: "translate(-50%, -50%)" }}
+    <motion.div
+      style={{ left, top, y: nudgeY }}
+      className="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap"
     >
-      <motion.div style={{ x, y }} className="relative whitespace-nowrap">
-        <motion.div
-          style={{ opacity: frictionOpacity }}
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <div className="flex items-center gap-2 text-[15px] font-medium tracking-[-0.018em] text-slate-500">
-            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-            <span>{item.friction}</span>
-          </div>
-          {item.alert ? (
-            <div className="mt-1.5 pl-3.5 text-[10px] font-semibold text-[#a85761]">{item.alert}</div>
-          ) : null}
-        </motion.div>
-
-        {item.context ? (
-          <>
-            <motion.div
-              style={{ opacity: contextOpacity }}
-              className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
-            >
-              <span className="h-px w-5 shrink-0 bg-[#7650ff]/65" />
-              <span>{item.context}</span>
-            </motion.div>
-            <motion.div
-              style={{ opacity: finalOpacity }}
-              className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
-            >
-              <span className="h-px w-5 shrink-0 bg-[#7650ff]/65" />
-              <span>{item.final}</span>
-            </motion.div>
-          </>
+      <motion.div style={{ opacity: frictionOpacity }} className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2">
+        <div className="flex items-center gap-2 text-[15px] font-medium tracking-[-0.018em] text-slate-500">
+          <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+          <span>{item.friction}</span>
+        </div>
+        {item.alert ? (
+          <div className="mt-1.5 pl-3.5 text-[10px] font-semibold text-[#a85761]">{item.alert}</div>
         ) : null}
       </motion.div>
-    </div>
+
+      {item.context ? (
+        <>
+          <motion.div
+            style={{ opacity: contextOpacity }}
+            className="absolute left-0 top-0 flex -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
+          >
+            <span className="h-px w-5 shrink-0 bg-[#7650ff]/65" />
+            <span>{item.context}</span>
+          </motion.div>
+          <motion.div
+            style={{ opacity: finalOpacity }}
+            className="absolute left-0 top-0 flex -translate-y-1/2 items-center gap-2 text-[14px] font-semibold tracking-[-0.02em] text-[#26324a]"
+          >
+            <span className="h-px w-5 shrink-0 bg-[#7650ff]/65" />
+            <span>{item.final}</span>
+          </motion.div>
+        </>
+      ) : null}
+    </motion.div>
   );
 }
 
-function ContextBracket({ progress }) {
-  const opacity = useTransform(progress, [0.4, 0.475, 0.82, 1], [0, 1, 0.78, 0.58]);
+function ContextBracket({ progress, geometry }) {
+  const order = STAGE_BY_ID.order;
+  const automation = STAGE_BY_ID.automation;
+  const result = STAGE_BY_ID.result;
+  const opacity = useTransform(
+    progress,
+    [order.enter[0], order.enter[1], automation.hold[1], result.enter[0]],
+    [0, 1, 1, 0]
+  );
 
   return (
     <motion.div
       aria-hidden="true"
-      style={{ opacity, transform: "translate(252px, 42px)" }}
-      className="pointer-events-none absolute left-1/2 top-1/2 z-10 h-[104px] w-[42px] border-b border-l border-[#7650ff]/35"
+      style={{
+        opacity,
+        left: geometry.contextBracket.left,
+        top: geometry.contextBracket.top,
+      }}
+      className="pointer-events-none absolute z-10 h-[112px] w-[30px] border-b border-l border-[#7650ff]/35"
     />
   );
 }
 
-function AutomationTask({ progress, task, index }) {
-  const start = 0.6 + index * 0.037;
-  const active = start + 0.02;
-  const check = start + 0.047;
-  const end = start + 0.09;
+function taskWindow(index) {
+  const automation = STAGE_BY_ID.automation;
+  const sequenceStart = automation.hold[0];
+  const sequenceEnd = RANGE_POINT(automation.hold, 0.44);
+  const step = (sequenceEnd - sequenceStart) / AUTOMATION_TASKS.length;
+  const start = sequenceStart + step * index;
+  return [start, start + step * 0.28, start + step * 0.66, start + step * 1.18];
+}
+
+function AutomationTask({ progress, task, index, geometry }) {
+  const [start, active, check, end] = taskWindow(index);
   const opacity = useTransform(progress, [start, active, check, end], [0, 1, 1, 0]);
-  const x = useTransform(progress, [start, check, end], [task.x, task.x, task.x * 0.46]);
-  const y = useTransform(progress, [start, check, end], [task.y, task.y, task.y * 0.46]);
-  const checkOpacity = useTransform(progress, [active, check, end], [0, 1, 1]);
+  const absorbScale = useTransform(progress, [check, end], [1, 0.88]);
+  const point = geometry[task.anchor];
 
   return (
-    <div
-      className="pointer-events-none absolute left-1/2 top-1/2 z-30"
-      style={{ transform: "translate(-50%, -50%)" }}
+    <motion.div
+      style={{
+        opacity,
+        scale: absorbScale,
+        left: point.left,
+        top: point.top,
+      }}
+      className="pointer-events-none absolute z-30 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-[-0.015em] text-[#7650ff]"
     >
-      <motion.div
-        style={{ opacity, x, y }}
-        className="flex items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-[-0.015em] text-[#7650ff]"
-      >
-        <span>{task.label}</span>
-        <motion.span style={{ opacity: checkOpacity }} className="text-[12px]">
-          ✓
-        </motion.span>
-      </motion.div>
-    </div>
+      <span>{task.label}</span>
+      <span className="text-[12px]">✓</span>
+    </motion.div>
   );
 }
 
-function ExceptionFlow({ progress }) {
-  const opacity = useTransform(progress, [0.68, 0.715, 0.77, 0.81], [0, 1, 1, 0]);
-  const exceptionX = useTransform(progress, [0.69, 0.79], [238, 270]);
-  const exceptionY = useTransform(progress, [0.69, 0.79], [-132, -126]);
-  const personOpacity = useTransform(progress, [0.71, 0.755, 0.79, 0.815], [0, 1, 1, 0]);
-  const pathLength = useTransform(progress, [0.72, 0.785], [0, 1]);
+function ExceptionFlow({ progress, geometry }) {
+  const automation = STAGE_BY_ID.automation;
+  const enterStart = RANGE_POINT(automation.hold, 0.43);
+  const enterEnd = RANGE_POINT(automation.hold, 0.49);
+  const opacity = useTransform(
+    progress,
+    [enterStart, enterEnd, automation.hold[1], automation.exit[1]],
+    [0, 1, 1, 0]
+  );
+  const pathLength = useTransform(progress, [enterStart, enterEnd], [0, 1]);
 
   return (
     <>
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 z-30"
-        style={{ transform: "translate(-50%, -50%)" }}
-      >
-        <motion.div
-          style={{ opacity, x: exceptionX, y: exceptionY }}
-          className="whitespace-nowrap text-[13px] font-semibold tracking-[-0.015em] text-[#7650ff]"
-        >
-          Excepción · validar condición comercial
-        </motion.div>
-      </div>
       <motion.div
-        style={{ opacity: personOpacity }}
-        className="pointer-events-none absolute left-[88%] top-[18%] z-30 flex items-center gap-2.5"
+        style={{
+          opacity,
+          left: geometry.exceptionStart.left,
+          top: geometry.exceptionStart.top,
+        }}
+        className="pointer-events-none absolute z-30 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[13px] font-semibold tracking-[-0.015em] text-[#7650ff]"
+      >
+        Excepción · validar condición comercial
+      </motion.div>
+      <motion.div
+        style={{
+          opacity,
+          left: geometry.humanEscalation.left,
+          top: geometry.humanEscalation.top,
+        }}
+        className="pointer-events-none absolute z-30 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2.5"
       >
         <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7650ff]/25 bg-white text-[11px] font-bold text-[#7650ff]">
           S
@@ -330,15 +554,17 @@ function ExceptionFlow({ progress }) {
       </motion.div>
       <svg
         aria-hidden="true"
-        viewBox="0 0 1050 430"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
         className="pointer-events-none absolute inset-0 z-20 h-full w-full"
       >
         <motion.path
-          d="M 760 85 C 825 84, 870 82, 930 80"
+          d={geometry.escalationPath}
           fill="none"
           stroke="#7650ff"
           strokeOpacity="0.55"
-          strokeWidth="1.4"
+          strokeWidth="0.14"
+          vectorEffect="non-scaling-stroke"
           strokeLinecap="round"
           style={{ pathLength, opacity }}
         />
@@ -347,37 +573,30 @@ function ExceptionFlow({ progress }) {
   );
 }
 
-function SecondaryOpportunity({ progress, x, y, message }) {
-  const opacity = useTransform(progress, [0.84, 0.9, 1], [0, 0.15, 0.15]);
-  const scale = useTransform(progress, [0.84, 0.9, 1], [0.72, 0.76, 0.76]);
+function SecondaryOpportunity({ progress, point, message }) {
+  const result = STAGE_BY_ID.result;
+  const opacity = useTransform(progress, [result.enter[0], result.enter[1], 1], [0, 0.15, 0.15]);
+  const scale = useTransform(progress, [result.enter[0], result.enter[1], 1], [0.72, 0.76, 0.76]);
 
   return (
-    <div
-      className="pointer-events-none absolute left-1/2 top-1/2 z-0"
-      style={{ transform: "translate(-50%, -50%)" }}
+    <motion.div
+      style={{ opacity, scale, left: point.left, top: point.top }}
+      className="pointer-events-none absolute z-0 w-[min(420px,42vw)] -translate-x-1/2 -translate-y-1/2 rounded-[26px_26px_26px_9px] border border-slate-200 bg-white px-7 py-5"
     >
-      <motion.div
-        style={{ opacity, scale, x, y }}
-        className="w-[460px] rounded-[26px_26px_26px_9px] border border-slate-200 bg-white px-7 py-5"
-      >
-        <div className="text-[9px] font-bold uppercase tracking-[0.17em] text-slate-400">
-          WhatsApp · desde campaña
-        </div>
-        <div className="mt-3 text-[20px] font-semibold leading-[1.2] tracking-[-0.03em] text-slate-500">
-          {message}
-        </div>
-      </motion.div>
-    </div>
+      <div className="text-[9px] font-bold uppercase tracking-[0.17em] text-slate-400">WhatsApp · desde campaña</div>
+      <div className="mt-3 text-[20px] font-semibold leading-[1.2] tracking-[-0.03em] text-slate-500">{message}</div>
+    </motion.div>
   );
 }
 
 function ResultMicrostates({ progress }) {
-  const opacity = useTransform(progress, [0.9, 0.94, 1], [0, 1, 1]);
+  const result = STAGE_BY_ID.result;
+  const opacity = useTransform(progress, [result.enter[0], result.enter[1], 1], [0, 1, 1]);
 
   return (
     <motion.div
       style={{ opacity }}
-      className="pointer-events-none absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-7 whitespace-nowrap text-[11px] font-semibold tracking-[0.01em] text-slate-500"
+      className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[11px] font-semibold tracking-[0.01em] text-slate-500"
     >
       <span>0 sin responsable</span>
       <span className="text-[#7650ff]/60">·</span>
@@ -389,115 +608,114 @@ function ResultMicrostates({ progress }) {
 }
 
 function DesktopVisual({ progress }) {
+  const profile = useLayoutProfile();
+  const geometry = GEOMETRY[profile];
+
   return (
-    <div className="relative h-full w-full">
-      <CampaignSource progress={progress} />
+    <div className="nexops-scene h-full">
+      <CampaignSource progress={progress} geometry={geometry} />
       <SecondaryOpportunity
         progress={progress}
-        x={-145}
-        y={56}
+        point={geometry.secondaryLeft}
         message="Quiero conocer opciones para mi empresa."
       />
       <SecondaryOpportunity
         progress={progress}
-        x={150}
-        y={76}
+        point={geometry.secondaryRight}
         message="Necesito una propuesta para este mes."
       />
       {FRAGMENTS.map((item) => (
-        <MorphFragment key={item.friction} progress={progress} item={item} />
+        <MorphFragment key={item.friction} progress={progress} item={item} geometry={geometry} />
       ))}
-      <ContextBracket progress={progress} />
+      <ContextBracket progress={progress} geometry={geometry} />
       {AUTOMATION_TASKS.map((task, index) => (
-        <AutomationTask key={task.label} progress={progress} task={task} index={index} />
+        <AutomationTask
+          key={task.label}
+          progress={progress}
+          task={task}
+          index={index}
+          geometry={geometry}
+        />
       ))}
-      <ExceptionFlow progress={progress} />
+      <ExceptionFlow progress={progress} geometry={geometry} />
       <div
-        className="absolute left-1/2 top-1/2 z-20"
-        style={{ transform: "translate(-50%, -50%)" }}
+        className="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2"
+        style={{ left: geometry.hero.left, top: geometry.hero.top }}
       >
         <OpportunitySurface progress={progress} />
       </div>
-      <ResultMicrostates progress={progress} />
-    </div>
-  );
-}
-
-function StoryScene({ progress }) {
-  return (
-    <div
-      className="nexops-story-scene absolute left-1/2 top-1/2 h-[430px] w-[1050px] origin-center"
-      style={{ transform: "translate(-50%, -50%) scale(var(--story-scale))" }}
-    >
-      <DesktopVisual progress={progress} />
     </div>
   );
 }
 
 function DesktopStory({ progress }) {
-  const promiseOpacity = useTransform(progress, [0.96, 0.985, 1], [0, 1, 1]);
+  const promiseOpacity = useTransform(progress, CLOSING_WINDOW, [0, 1]);
 
   return (
-    <div className="sticky top-[72px] hidden h-[calc(100svh-72px)] overflow-hidden bg-[#fdfdfc] px-6 md:block lg:px-8">
-      <div className="relative mx-auto h-full max-w-[1248px]">
-        <div className="nexops-story-copy absolute left-0 z-40 h-[190px] w-[520px] max-w-[48vw]">
-          {STAGES.map((stage, index) => (
-            <StageCopy key={stage.number} progress={progress} stage={stage} index={index} />
+    <div className="nexops-story-desktop sticky top-[72px] hidden h-[calc(100svh-72px)] overflow-hidden bg-[#fdfdfc] px-6 md:block lg:px-8">
+      <div className="nexops-story-grid mx-auto h-full max-w-[1248px]">
+        <div className="nexops-copy-zone relative z-40 pt-6">
+          {STAGES.map((stage) => (
+            <StageCopy key={stage.id} progress={progress} stage={stage} />
           ))}
         </div>
-        <div className="absolute inset-x-0 bottom-[68px] top-[205px]">
-          <StoryScene progress={progress} />
+        <div className="nexops-hero-zone">
+          <DesktopVisual progress={progress} />
         </div>
-        <motion.div
-          style={{ opacity: promiseOpacity }}
-          className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-center text-[clamp(1.4rem,2.2vw,2rem)] font-semibold tracking-[-0.045em] text-[#0c1730]"
-        >
-          Más ventas. Más control. Menos trabajo manual.
-        </motion.div>
+        <div className="nexops-footer-zone relative flex flex-col items-center justify-center gap-3">
+          <ResultMicrostates progress={progress} />
+          <motion.div
+            style={{ opacity: promiseOpacity }}
+            className="text-center text-[clamp(1.35rem,2.2vw,2rem)] font-semibold tracking-[-0.045em] text-[#0c1730]"
+          >
+            Más ventas. Más control. Menos trabajo manual.
+          </motion.div>
+        </div>
       </div>
     </div>
   );
 }
 
-function StaticDesktopFrame({ stage, index, progressValue }) {
-  const progress = useMotionValue(progressValue);
+function StaticDesktopFrame({ stage, index }) {
+  const progress = useMotionValue(HOLD_CENTER(stage));
 
   return (
-    <section className="relative bg-[#fdfdfc] px-6 py-16 lg:px-8">
-      <div className="mx-auto max-w-[1248px]">
-        <div className="max-w-[520px]">
-          <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            <span className="mr-3 text-[#7650ff]">{stage.number}</span>
-            {stage.kicker}
+    <section className="nexops-story-desktop bg-[#fdfdfc] px-6 py-12 lg:px-8">
+      <div className="nexops-story-grid mx-auto min-h-[720px] max-w-[1248px]">
+        <div className="nexops-copy-zone relative pt-3">
+          <div className="max-w-[520px]">
+            <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
+              <span className="mr-3 text-[#7650ff]">{stage.number}</span>
+              {stage.kicker}
+            </div>
+            <h2 className="text-[clamp(2.25rem,3.7vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
+              {stage.title}
+            </h2>
           </div>
-          <h2 className="text-[clamp(2.35rem,3.7vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
-            {stage.title}
-          </h2>
         </div>
-        <div className="relative mt-10 h-[430px] overflow-hidden">
-          <StoryScene progress={progress} />
+        <div className="nexops-hero-zone">
+          <DesktopVisual progress={progress} />
         </div>
-        {index === STAGES.length - 1 ? (
-          <div className="mt-8 text-center text-[clamp(1.4rem,2.2vw,2rem)] font-semibold tracking-[-0.045em] text-[#0c1730]">
-            Más ventas. Más control. Menos trabajo manual.
-          </div>
-        ) : null}
+        <div className="nexops-footer-zone flex flex-col items-center justify-center gap-3">
+          {index === STAGES.length - 1 ? (
+            <>
+              <ResultMicrostates progress={progress} />
+              <div className="text-center text-[clamp(1.35rem,2.2vw,2rem)] font-semibold tracking-[-0.045em] text-[#0c1730]">
+                Más ventas. Más control. Menos trabajo manual.
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
     </section>
   );
 }
 
 function ReducedDesktopStory() {
-  const progressValues = [0.11, 0.29, 0.5, 0.72, 0.96];
   return (
     <div className="hidden md:block">
       {STAGES.map((stage, index) => (
-        <StaticDesktopFrame
-          key={stage.number}
-          stage={stage}
-          index={index}
-          progressValue={progressValues[index]}
-        />
+        <StaticDesktopFrame key={stage.id} stage={stage} index={index} />
       ))}
     </div>
   );
@@ -514,9 +732,7 @@ function MobileOpportunity({ final = false }) {
         Hola, vi el anuncio. Quiero más información.
       </div>
       <div className="mt-3 flex h-4 justify-end">
-        {final ? (
-          <span className="text-[10px] font-semibold text-[#7650ff]">Seguimiento activo</span>
-        ) : null}
+        {final ? <span className="text-[10px] font-semibold text-[#7650ff]">Seguimiento activo</span> : null}
       </div>
     </div>
   );
@@ -530,10 +746,7 @@ function MobileContext({ final = false, className = "" }) {
   return (
     <div className={`mx-auto w-full max-w-[350px] space-y-3 pl-3 ${className}`}>
       {items.map((item) => (
-        <div
-          key={item}
-          className="flex items-center gap-2 text-[13px] font-semibold tracking-[-0.015em] text-slate-600"
-        >
+        <div key={item} className="flex items-center gap-2 text-[13px] font-semibold tracking-[-0.015em] text-slate-600">
           <span className="h-px w-5 shrink-0 bg-[#7650ff]/55" />
           <span>{item}</span>
         </div>
@@ -548,12 +761,8 @@ function MobileSecondary({ children, top }) {
       className="absolute left-1/2 z-0 w-[310px] max-w-[88%] -translate-x-1/2 rounded-[22px_22px_22px_8px] border border-slate-200 bg-white px-5 py-4 opacity-[0.16]"
       style={{ top }}
     >
-      <div className="text-[8px] font-bold uppercase tracking-[0.16em] text-slate-400">
-        WhatsApp · desde campaña
-      </div>
-      <div className="mt-2 text-[16px] font-semibold leading-[1.2] tracking-[-0.03em] text-slate-500">
-        {children}
-      </div>
+      <div className="text-[8px] font-bold uppercase tracking-[0.16em] text-slate-400">WhatsApp · desde campaña</div>
+      <div className="mt-2 text-[16px] font-semibold leading-[1.2] tracking-[-0.03em] text-slate-500">{children}</div>
     </div>
   );
 }
@@ -572,14 +781,15 @@ function MobileResultStack() {
 
 function MobileFrame({ stage, index, reducedMotion }) {
   const initial = reducedMotion ? false : { opacity: 0, y: 14 };
+  const isAutomation = stage.id === "automation";
 
   return (
     <motion.article
       initial={initial}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.28 }}
+      viewport={{ once: true, amount: 0.26 }}
       transition={{ duration: reducedMotion ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }}
-      className="relative flex min-h-[76svh] flex-col justify-center px-5 py-14 sm:py-16"
+      className={`relative flex min-h-[72svh] flex-col justify-center px-5 py-14 sm:py-16 ${isAutomation ? "min-h-[82svh]" : ""}`}
     >
       <div className="mx-auto w-full max-w-[390px]">
         {index === 0 ? (
@@ -595,9 +805,7 @@ function MobileFrame({ stage, index, reducedMotion }) {
               <div key={item} className={itemIndex === 1 ? "text-right" : ""}>
                 <span className="mr-1.5 text-slate-400">•</span>
                 {item}
-                {itemIndex === 0 ? (
-                  <div className="mt-1 text-[9px] font-semibold text-[#a85761]">sin responsable</div>
-                ) : null}
+                {itemIndex === 0 ? <div className="mt-1 text-[9px] font-semibold text-[#a85761]">sin responsable</div> : null}
               </div>
             ))}
           </div>
@@ -629,13 +837,9 @@ function MobileFrame({ stage, index, reducedMotion }) {
                 </div>
               ))}
             </div>
-            <div className="mt-8 pl-3 text-[12px] font-semibold text-[#7650ff]">
-              Excepción · validar condición comercial
-            </div>
+            <div className="mt-8 pl-3 text-[12px] font-semibold text-[#7650ff]">Excepción · validar condición comercial</div>
             <div className="ml-auto mt-5 flex w-fit items-center gap-2 pr-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7650ff]/25 text-[11px] font-bold text-[#7650ff]">
-                S
-              </div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7650ff]/25 text-[11px] font-bold text-[#7650ff]">S</div>
               <div className="text-[12px] font-semibold text-slate-600">Sofía · equipo</div>
             </div>
           </div>
@@ -676,12 +880,7 @@ function MobileStory({ reducedMotion }) {
   return (
     <div className="bg-[#fdfdfc] md:hidden">
       {STAGES.map((stage, index) => (
-        <MobileFrame
-          key={stage.number}
-          stage={stage}
-          index={index}
-          reducedMotion={reducedMotion}
-        />
+        <MobileFrame key={stage.id} stage={stage} index={index} reducedMotion={reducedMotion} />
       ))}
     </div>
   );
@@ -701,10 +900,10 @@ export default function OperationStory() {
       ref={sectionRef}
       className={`relative bg-[#fdfdfc] ${reducedMotion ? "md:h-auto" : "md:h-[520vh]"}`}
     >
-      <style>{STORY_RESPONSIVE_CSS}</style>
+      <style>{STORY_LAYOUT_CSS}</style>
       <div className="sr-only">
         {STAGES.map((stage) => (
-          <div key={`sr-${stage.number}`}>
+          <div key={`sr-${stage.id}`}>
             <h2>{stage.title}</h2>
           </div>
         ))}
