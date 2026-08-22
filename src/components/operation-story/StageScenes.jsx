@@ -111,7 +111,7 @@ export function AutomationScene() {
 
 function SecondaryOpportunity({ children }) {
   return (
-    <div className="rounded-[22px_22px_22px_8px] border border-slate-200/80 bg-white px-5 py-4 opacity-35">
+    <div className="rounded-[22px_22px_22px_8px] border border-slate-200/80 bg-white px-5 py-4 opacity-[0.35]">
       <div className="text-[8px] font-bold uppercase tracking-[0.16em] text-slate-400">WhatsApp · desde campaña</div>
       <div className="mt-2 text-[15px] font-semibold leading-[1.2] tracking-[-0.025em] text-slate-500">{children}</div>
     </div>
