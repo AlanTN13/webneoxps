@@ -6,37 +6,37 @@ const STAGES = [
     number: "01",
     kicker: "Señales",
     title: "Todo empieza con una oportunidad.",
-    body: "WhatsApp, campaña y web alimentan la misma operación sin convertirla todavía en una interfaz.",
+    body: "WhatsApp, campaña y web alimentan la misma operación.",
   },
   {
     number: "02",
     kicker: "Volumen",
     title: "Cuando crece el volumen, también puede crecer el desorden.",
-    body: "Más señales entran, algunas pierden continuidad y empiezan a aparecer huecos de seguimiento.",
+    body: "Más señales entran y empiezan a aparecer huecos de seguimiento.",
   },
   {
     number: "03",
     kicker: "Captación",
     title: "Generamos oportunidades. No impresiones.",
-    body: "La ruta de entrada se activa y el flujo gana volumen sin perder la misma columna vertebral.",
+    body: "La ruta de entrada se activa y el flujo gana volumen sin cambiar de operación.",
   },
   {
     number: "04",
     kicker: "CRM + orden",
     title: "Cada oportunidad encuentra estado, responsable y próximo paso.",
-    body: "Lo que estaba fuera de eje vuelve a alinearse y la operación empieza a explicar sola qué sigue.",
+    body: "Lo que estaba fuera de eje vuelve a alinearse y el siguiente paso queda visible.",
   },
   {
     number: "05",
     kicker: "Agente IA",
-    title: "El sistema absorbe lo repetitivo. Tu equipo trabaja donde aporta criterio.",
-    body: "Clasificar, responder, recordar y actualizar dejan de consumir trabajo humano; las excepciones escalan.",
+    title: "El sistema absorbe lo repetitivo. Tu equipo aporta criterio.",
+    body: "Clasificar, responder, recordar y actualizar dejan de consumir trabajo humano.",
   },
   {
     number: "06",
     kicker: "Resultado",
     title: "Más ventas. Más control. Menos trabajo manual.",
-    body: "La misma operación termina más limpia, estable y fácil de leer que cuando empezó.",
+    body: "La misma operación termina más limpia, estable y fácil de leer.",
   },
 ];
 
@@ -45,60 +45,60 @@ const OPPORTUNITIES = [
     source: "WhatsApp",
     label: "Consulta comercial",
     left: "17%",
-    drift: -58,
-    shift: -14,
+    drift: -62,
+    shift: -16,
     issue: "sin seguimiento",
     meta: "Nuevo · Ana · Hoy 14:30",
     task: "responder",
-    taskOffset: -122,
+    taskOffset: -128,
     keepFinal: true,
   },
   {
     source: "Campaña",
     label: "Lead de campaña",
     left: "34%",
-    drift: 48,
-    shift: 18,
+    drift: 54,
+    shift: 20,
     issue: "sin responsable",
     meta: "Calificado · Leo · Mañana 10:00",
     task: "clasificar",
-    taskOffset: 118,
+    taskOffset: 130,
     keepFinal: true,
   },
   {
     source: "Web",
     label: "Solicitud de demo",
     left: "51%",
-    drift: -42,
-    shift: -10,
+    drift: -46,
+    shift: -12,
     issue: "sin clasificar",
     meta: "Demo · Sofía · Hoy 16:00",
     task: "actualizar",
-    taskOffset: -116,
+    taskOffset: -128,
     keepFinal: true,
   },
   {
     source: "WhatsApp",
     label: "Nueva consulta",
     left: "68%",
-    drift: 66,
-    shift: 14,
+    drift: 72,
+    shift: 16,
     issue: "sin seguimiento",
     meta: "En gestión · Ana · Viernes",
     task: "recordar",
-    taskOffset: 124,
+    taskOffset: 132,
     keepFinal: false,
   },
   {
     source: "Campaña",
     label: "Lead remarketing",
     left: "84%",
-    drift: -52,
-    shift: 10,
+    drift: -58,
+    shift: 12,
     issue: "sin responsable",
     meta: "Excepción · Leo · Revisar",
     task: "excepción → equipo",
-    taskOffset: -120,
+    taskOffset: -130,
     keepFinal: false,
     exception: true,
   },
@@ -130,7 +130,7 @@ function StageCopy({ progress, stage, index }) {
       : [start, fadeIn, holdEnd, end];
   const opacityOutput = isFirst ? [1, 1, 0] : isLast ? [0, 1, 1] : [0, 1, 1, 0];
   const yInput = isFirst ? [0, end] : [start, fadeIn, end];
-  const yOutput = isFirst ? [0, -18] : [20, 0, isLast ? 0 : -18];
+  const yOutput = isFirst ? [0, -14] : [14, 0, isLast ? 0 : -14];
 
   const opacity = useTransform(progress, opacityInput, opacityOutput);
   const y = useTransform(progress, yInput, yOutput);
@@ -139,17 +139,16 @@ function StageCopy({ progress, stage, index }) {
     <motion.div
       aria-hidden="true"
       style={{ opacity, y }}
-      className="pointer-events-none absolute inset-x-0 top-0 max-w-[980px]"
+      className="pointer-events-none absolute inset-x-0 top-0 max-w-[760px]"
     >
-      <div className="mb-4 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">
-        <span className="text-[#7650ff]">{stage.number}</span>
-        <span className="h-px w-8 bg-slate-300" />
+      <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+        <span className="mr-3 text-[#7650ff]">{stage.number}</span>
         <span>{stage.kicker}</span>
       </div>
-      <h2 className="max-w-[920px] text-[clamp(2.45rem,4.7vw,5.25rem)] font-semibold leading-[0.97] tracking-[-0.06em] text-[#0c1730]">
+      <h2 className="max-w-[760px] text-[clamp(2rem,3.15vw,3.75rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
         {stage.title}
       </h2>
-      <p className="mt-5 max-w-[720px] text-[15px] leading-7 text-slate-600 lg:text-[17px] lg:leading-8">
+      <p className="mt-3 max-w-[620px] text-[14px] leading-6 text-slate-600 lg:text-[15px] lg:leading-7">
         {stage.body}
       </p>
     </motion.div>
@@ -181,31 +180,31 @@ function OpportunityNode({ progress, item, index, reducedMotion }) {
   const staticOpacity = item.keepFinal ? 1 : 0.2;
 
   return (
-    <div className="absolute top-1/2 z-20 w-[150px] -translate-x-1/2 -translate-y-1/2" style={{ left: item.left }}>
+    <div className="absolute top-1/2 z-20 w-[190px] -translate-x-1/2 -translate-y-1/2 lg:w-[210px]" style={{ left: item.left }}>
       <motion.div
         style={reducedMotion ? { opacity: staticOpacity, x: 0, y: 0 } : { opacity, x, y }}
         className="relative text-center"
       >
         <motion.div
           style={{ backgroundColor: reducedMotion ? "#0c1730" : markerColor }}
-          className="mx-auto h-3 w-3 rounded-full ring-4 ring-white"
+          className="mx-auto h-3.5 w-3.5 rounded-full ring-[6px] ring-white"
         />
-        <div className="mt-4 text-[9px] font-bold uppercase tracking-[0.18em] text-slate-400">{item.source}</div>
+        <div className="mt-5 text-[13px] font-bold uppercase tracking-[0.12em] text-slate-400 lg:text-[14px]">{item.source}</div>
         <motion.div
           style={{ color: reducedMotion ? "#0c1730" : labelColor }}
-          className="mt-1 text-[14px] font-semibold leading-5 tracking-[-0.02em]"
+          className="mt-1.5 text-[15px] font-semibold leading-5 tracking-[-0.025em] lg:text-[16px]"
         >
           {item.label}
         </motion.div>
         <motion.div
           style={{ opacity: reducedMotion ? 0 : issueOpacity }}
-          className="mt-2 text-[10px] font-semibold text-[#a23b4a]"
+          className="mt-2.5 text-[11px] font-semibold text-[#a23b4a]"
         >
           {item.issue}
         </motion.div>
         <motion.div
           style={{ opacity: reducedMotion ? 1 : metaOpacity }}
-          className="mx-auto mt-2 max-w-[145px] text-[10px] font-medium leading-4 text-slate-500"
+          className="mx-auto mt-2 max-w-[190px] text-[11px] font-medium leading-4 text-slate-500"
         >
           {item.meta}
         </motion.div>
@@ -228,36 +227,36 @@ function TaskSignal({ progress, item, reducedMotion }) {
     <motion.div
       aria-hidden="true"
       style={reducedMotion ? { opacity: item.exception ? 0.55 : 0, y: 0 } : { opacity, y }}
-      className={`relative z-30 -translate-x-1/2 text-[10px] font-semibold tracking-[-0.01em] ${
+      className={`relative z-30 -translate-x-1/2 text-[11px] font-semibold tracking-[-0.01em] lg:text-[12px] ${
         item.exception ? "text-[#7650ff]" : "text-slate-500"
       }`}
     >
-      <span className="border-b border-[#7650ff]/35 pb-1">{item.task}</span>
+      <span className="pb-1">{item.task}</span>
     </motion.div>
   );
 }
 
 function DesktopRail({ progress, reducedMotion }) {
-  const routeWidth = useTransform(progress, [0.31, 0.48, 0.78], ["0%", "38%", "86%"]);
+  const routeWidth = useTransform(progress, [0.31, 0.48, 0.78], ["0%", "38%", "84%"]);
   const routeOpacity = useTransform(progress, [0.27, 0.34, 0.92, 1], [0, 1, 1, 0.35]);
-  const flowLeft = useTransform(progress, [0.31, 0.78], ["7%", "91%"]);
+  const flowLeft = useTransform(progress, [0.31, 0.78], ["8%", "92%"]);
   const flowOpacity = useTransform(progress, [0.29, 0.36, 0.78, 0.86], [0, 1, 1, 0]);
   const resultsOpacity = useTransform(progress, [0.84, 0.93, 1], [0, 1, 1]);
   const promiseOpacity = useTransform(progress, [0.9, 0.97, 1], [0, 1, 1]);
 
   return (
-    <div className="relative hidden min-h-[500px] overflow-hidden border-y border-slate-200/80 md:block lg:min-h-[530px] xl:min-h-[560px]">
-      <div className="absolute inset-x-[7%] top-1/2 h-px -translate-y-1/2 bg-slate-300" />
+    <div className="relative hidden h-full overflow-visible md:block">
+      <div className="absolute inset-x-[8%] top-1/2 h-[2px] -translate-y-1/2 bg-slate-300/90" />
       <motion.div
-        style={reducedMotion ? { width: "86%", opacity: 0.35 } : { width: routeWidth, opacity: routeOpacity }}
-        className="absolute left-[7%] top-1/2 h-[2px] -translate-y-1/2 bg-[#7650ff]"
+        style={reducedMotion ? { width: "84%", opacity: 0.35 } : { width: routeWidth, opacity: routeOpacity }}
+        className="absolute left-[8%] top-1/2 h-[3px] -translate-y-1/2 bg-[#7650ff]"
       />
       <motion.div
         style={reducedMotion ? { opacity: 0 } : { left: flowLeft, opacity: flowOpacity }}
-        className="absolute top-1/2 z-10 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7650ff] shadow-[0_0_0_7px_rgba(118,80,255,0.08)]"
+        className="absolute top-1/2 z-10 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7650ff] shadow-[0_0_0_9px_rgba(118,80,255,0.08)]"
       />
 
-      <div className="absolute left-[7%] top-1/2 -translate-y-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+      <div className="absolute left-[8%] top-1/2 -translate-y-14 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">
         operación comercial
       </div>
 
@@ -283,16 +282,16 @@ function DesktopRail({ progress, reducedMotion }) {
 
       <motion.div
         style={{ opacity: reducedMotion ? 1 : resultsOpacity }}
-        className="absolute bottom-14 left-[7%] right-[7%] flex items-end justify-between gap-8 border-t border-slate-200/70 pt-5"
+        className="absolute bottom-[2%] left-[8%] right-[8%] flex items-end justify-between gap-8"
       >
-        <div className="flex flex-wrap gap-x-8 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+        <div className="flex flex-wrap gap-x-8 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
           <span>0 oportunidades sin responsable</span>
           <span>seguimiento activo</span>
           <span>repetitivo automatizado</span>
         </div>
         <motion.div
           style={{ opacity: reducedMotion ? 1 : promiseOpacity }}
-          className="hidden shrink-0 text-right text-[13px] font-semibold tracking-[-0.02em] text-[#0c1730] xl:block"
+          className="hidden shrink-0 text-right text-[14px] font-semibold tracking-[-0.02em] text-[#0c1730] xl:block"
         >
           Más ventas · Más control · Menos trabajo manual
         </motion.div>
@@ -308,11 +307,11 @@ function MobileStage({ stage, index, reducedMotion }) {
 
   return (
     <motion.article
-      initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.35 }}
-      transition={{ duration: reducedMotion ? 0 : 0.55, ease: [0.2, 0.7, 0.2, 1] }}
-      className="relative min-h-[68svh] pl-14"
+      transition={{ duration: reducedMotion ? 0 : 0.5, ease: [0.2, 0.7, 0.2, 1] }}
+      className="relative min-h-[64svh] pl-14"
     >
       <div className="absolute left-[13px] top-0 bottom-0 w-px bg-slate-200" />
       <div
@@ -321,24 +320,24 @@ function MobileStage({ stage, index, reducedMotion }) {
         }`}
       />
 
-      <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+      <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
         {stage.number} · {stage.kicker}
       </div>
-      <h2 className="mt-4 text-[clamp(2.15rem,10vw,3.7rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
+      <h2 className="mt-4 text-[clamp(2rem,9vw,3.4rem)] font-semibold leading-[0.99] tracking-[-0.05em] text-[#0c1730]">
         {stage.title}
       </h2>
-      <p className="mt-5 max-w-md text-[15px] leading-7 text-slate-600">{stage.body}</p>
+      <p className="mt-4 max-w-md text-[15px] leading-7 text-slate-600">{stage.body}</p>
 
-      <div className="mt-10 space-y-7">
+      <div className="mt-9 space-y-7">
         {MOBILE_STATES[index].map((item, itemIndex) => (
           <div key={item} className="relative pl-7">
             <span
-              className={`absolute left-0 top-[7px] h-2 w-2 rounded-full ${
+              className={`absolute left-0 top-[7px] h-2.5 w-2.5 rounded-full ${
                 result || active ? "bg-[#7650ff]" : itemIndex === 2 ? "bg-slate-400" : "bg-[#0c1730]"
               }`}
             />
             <div
-              className={`text-[13px] font-semibold leading-5 ${
+              className={`text-[14px] font-semibold leading-5 ${
                 index === 1 ? "text-slate-600" : automation && item.includes("excepción") ? "text-[#7650ff]" : "text-[#0c1730]"
               }`}
             >
@@ -355,10 +354,10 @@ function MobileOperation({ reducedMotion }) {
   return (
     <div className="px-5 pb-24 pt-20 md:hidden">
       <div className="mx-auto max-w-lg">
-        <div className="mb-20 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">
+        <div className="mb-16 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">
           Una operación · seis estados
         </div>
-        <div className="space-y-20">
+        <div className="space-y-16">
           {STAGES.map((stage, index) => (
             <MobileStage key={stage.number} stage={stage} index={index} reducedMotion={reducedMotion} />
           ))}
@@ -370,18 +369,20 @@ function MobileOperation({ reducedMotion }) {
 
 function ReducedDesktop({ progress }) {
   return (
-    <div className="hidden px-6 py-24 md:block lg:px-8">
-      <div className="mx-auto max-w-[1450px]">
-        <div className="mb-12 max-w-[940px]">
-          <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#7650ff]">Resultado</div>
-          <h2 className="text-[clamp(2.5rem,4.7vw,5.2rem)] font-semibold leading-[0.97] tracking-[-0.06em] text-[#0c1730]">
+    <div className="hidden px-6 py-20 md:block lg:px-8">
+      <div className="mx-auto max-w-[1500px]">
+        <div className="mb-8 max-w-[760px]">
+          <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#7650ff]">Resultado</div>
+          <h2 className="text-[clamp(2rem,3.15vw,3.75rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0c1730]">
             Más ventas. Más control. Menos trabajo manual.
           </h2>
-          <p className="mt-5 max-w-[720px] text-[17px] leading-8 text-slate-600">
-            La operación conserva una sola columna vertebral: oportunidades alineadas, responsables visibles, seguimiento activo y trabajo repetitivo automatizado.
+          <p className="mt-3 max-w-[620px] text-[15px] leading-7 text-slate-600">
+            Oportunidades alineadas, responsables visibles, seguimiento activo y trabajo repetitivo automatizado.
           </p>
         </div>
-        <DesktopRail progress={progress} reducedMotion />
+        <div className="h-[430px]">
+          <DesktopRail progress={progress} reducedMotion />
+        </div>
       </div>
     </div>
   );
@@ -415,14 +416,14 @@ export default function OperationStory() {
         <ReducedDesktop progress={scrollYProgress} />
       ) : (
         <div className="sticky top-[72px] hidden h-[calc(100svh-72px)] overflow-hidden px-6 md:block lg:px-8">
-          <div className="mx-auto flex h-full max-w-[1450px] flex-col py-8 lg:py-10">
-            <div className="relative z-20 min-h-[250px] lg:min-h-[285px] xl:min-h-[305px]">
+          <div className="relative mx-auto h-full max-w-[1500px]">
+            <div className="absolute inset-x-0 top-[5%] z-30 h-[210px]">
               {STAGES.map((stage, index) => (
                 <StageCopy key={stage.number} progress={scrollYProgress} stage={stage} index={index} />
               ))}
             </div>
 
-            <div className="relative min-h-0 flex-1 pb-5">
+            <div className="absolute inset-x-0 top-[55%] h-[56%] min-h-[360px] -translate-y-1/2">
               <DesktopRail progress={scrollYProgress} reducedMotion={false} />
             </div>
 
