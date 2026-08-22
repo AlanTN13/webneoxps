@@ -16,7 +16,7 @@ export default function OperationStage({ stage, activeStage, onSelect, children 
                 type="button"
                 onClick={() => onSelect(index)}
                 aria-pressed={activeStage === index}
-                className={`border-b pb-1 text-[11px] font-semibold tracking-[0.08em] transition-colors ${
+                className={`border-b pb-1 text-[11px] font-semibold tracking-[0.08em] ${
                   activeStage === index
                     ? "border-[#7650ff] text-[#7650ff]"
                     : "border-transparent text-slate-400 hover:text-slate-700"
