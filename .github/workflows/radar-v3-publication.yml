@@ -1,0 +1,71 @@
+name: Radar V3 Autonomous Publication
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  actions: read
+  checks: read
+  contents: write
+  deployments: read
+  issues: write
+  pull-requests: write
+  statuses: read
+
+concurrency:
+  group: radar-v3-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'radar/') &&
+      github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RADAR_PR_NUMBER: ${{ github.event.pull_request.number }}
+      RADAR_SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }}
+      RADAR_SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+      RADAR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      RADAR_TRACE_PATH: ${{ runner.temp }}/radar-v3-result.json
+      RADAR_PRODUCTION_ORIGIN: https://www.nexopstech.com
+      RADAR_REQUIRED_CHECKS: validate,Vercel
+    steps:
+      - name: Initialize run trace
+        shell: bash
+        run: |
+          printf '%s\n' '{"schemaVersion":1,"workflow":"radar-v3","status":"STARTING","outcome":"UNKNOWN"}' > "$RADAR_TRACE_PATH"
+
+      # pull_request_target is privileged: only the trusted base SHA is executable.
+      # The candidate bundle is later fetched by SHA and parsed strictly as data.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install exact dependencies
+        run: npm ci
+
+      - name: Execute autonomous publication
+        shell: bash
+        run: |
+          engine_run_id="${RADAR_SOURCE_BRANCH#radar/}"
+          npm run radar:v3 -- ".radar/runs/${engine_run_id}/decision.json"
+
+      - name: Preserve run trace
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-v3-${{ github.run_id }}
+          path: ${{ runner.temp }}/radar-v3-result.json
+          if-no-files-found: error
+          retention-days: 90

@@ -13,8 +13,11 @@
     "news:covers": "node scripts/generate-news-covers.mjs",
     "news:run": "node scripts/news-run.mjs",
     "news:validate": "node scripts/news-validate.mjs",
-    "news:test": "node --test tests/news/content-engine.test.mjs",
-    "news:seo": "node scripts/generate-news-seo.mjs"
+    "news:test": "node --test tests/news/*.test.mjs",
+    "news:seo": "node scripts/generate-news-seo.mjs",
+    "radar:v3": "node scripts/radar-v3-ci.mjs",
+    "radar:v3:no-publication": "node scripts/radar-v3-no-publication.mjs",
+    "radar:v3:history": "node scripts/radar-v3-history-query.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.23.12",

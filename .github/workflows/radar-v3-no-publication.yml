@@ -1,0 +1,31 @@
+name: Radar V3 NO_PUBLICATION History
+run-name: NO_PUBLICATION persistence
+
+on:
+  repository_dispatch:
+    types: [radar_no_publication]
+
+permissions:
+  contents: write
+
+jobs:
+  persist:
+    name: persist
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.RADAR_HISTORY_TOKEN }}
+      RADAR_HISTORY_REPOSITORY: ${{ secrets.RADAR_HISTORY_REPOSITORY }}
+      RADAR_HISTORY_BRANCH: ${{ vars.RADAR_HISTORY_BRANCH }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.repository.default_branch }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate, sanitize and persist the decision
+        run: npm run radar:v3:no-publication -- "$GITHUB_EVENT_PATH"
