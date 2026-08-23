@@ -56,7 +56,7 @@ function mockServices({ failAt } = {}) {
       verifyProduction: () => step("verify", { articleUrl: `https://www.nexopstech.com/noticias/${article.slug}`, ogImage: `https://www.nexopstech.com${article.ogImage}` }),
       rollbackMaterialization: () => step("rollback-materialization"),
       prepareRollback: () => step("prepare-rollback", { branch: "radar/rollback-run", compareUrl: "https://github.com/AlanTN13/webneoxps/compare/main...radar%2Frollback-run?expand=1", previousDeploymentId: "dpl_previous" }),
-      persistNoPublication: () => step("persist-no-publication", { reference: "radar-history:no-publication/run.json", created: true }),
+      persistNoPublication: () => step("persist-no-publication", { reference: "private-store:no-publication/run.json", created: true }),
       recordTrace: async (trace) => {
         calls.push("trace");
         traces.push(structuredClone(trace));

@@ -16,9 +16,9 @@ async function main() {
   const store = process.env.RADAR_HISTORY_LOCAL_DIR
     ? new FileNoPublicationStore(process.env.RADAR_HISTORY_LOCAL_DIR)
     : new GitHubNoPublicationStore({
-      repository: process.env.GITHUB_REPOSITORY,
+      repository: process.env.RADAR_HISTORY_REPOSITORY,
       token: process.env.GH_TOKEN,
-      branch: process.env.RADAR_HISTORY_BRANCH || "radar-history",
+      branch: process.env.RADAR_HISTORY_BRANCH,
     });
   let storage;
   const trace = await executeRadarV3({
@@ -40,15 +40,12 @@ async function main() {
   if (process.env.GITHUB_STEP_SUMMARY) {
     await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, [
       "## Radar V3 — NO_PUBLICATION persistido",
-      `- Engine run: \`${record.engineRunId}\``,
-      `- Política: \`${record.policyVersion}\``,
-      `- Score público: \`${record.score.total}\``,
-      `- Store: \`${storage.reference}\``,
       `- Resultado: \`${storage.created ? "CREATED" : "IDEMPOTENT"}\``,
+      "- Store privado: `CONFIRMED`",
       "",
     ].join("\n"), "utf8");
   }
-  console.log(JSON.stringify(output));
+  console.log(JSON.stringify({ outcome: record.outcome, persisted: true, created: storage.created }));
 }
 
 main().catch((error) => {

@@ -51,9 +51,9 @@ function requiredText(value, field, maxLength = 500) {
 function assertKnownKeys(value, allowed, field) {
   if (!plainObject(value)) throw new Error(`${field} debe ser un objeto`);
   const unknown = Object.keys(value).filter((key) => !allowed.has(key));
-  if (unknown.length) throw new Error(`${field} contiene campos no públicos: ${unknown.join(", ")}`);
+  if (unknown.length) throw new Error(`${field} contiene campos no persistibles: ${unknown.join(", ")}`);
   const sensitive = Object.keys(value).find((key) => SENSITIVE_KEY.test(key));
-  if (sensitive) throw new Error(`${field}.${sensitive} no puede persistirse en el historial público`);
+  if (sensitive) throw new Error(`${field}.${sensitive} no puede persistirse en el historial`);
 }
 
 function optionalText(value, field, maxLength = 500) {
@@ -72,13 +72,13 @@ function normalizeSource(source) {
 
 function normalizeBreakdown(breakdown) {
   if (!Array.isArray(breakdown) || breakdown.length === 0 || breakdown.length > 20) {
-    throw new Error("scoreBreakdown debe tener entre 1 y 20 criterios públicos");
+    throw new Error("scoreBreakdown debe tener entre 1 y 20 criterios normalizados");
   }
   const seen = new Set();
   return breakdown.map((item, index) => {
     assertKnownKeys(item, BREAKDOWN_KEYS, `scoreBreakdown[${index}]`);
     const criterion = requiredText(item.criterion, `scoreBreakdown[${index}].criterion`, 64);
-    if (!PUBLIC_CRITERION.test(criterion)) throw new Error(`${criterion} no es un alias público de criterio válido`);
+    if (!PUBLIC_CRITERION.test(criterion)) throw new Error(`${criterion} no es un alias normalizado de criterio válido`);
     if (seen.has(criterion)) throw new Error(`scoreBreakdown repite el criterio ${criterion}`);
     seen.add(criterion);
     if (typeof item.score !== "number" || !Number.isFinite(item.score) || item.score < 0 || item.score > 100) {
@@ -94,7 +94,7 @@ function normalizeEditorialMetadata(metadata = {}) {
   for (const [key, value] of Object.entries(metadata)) {
     if (key === "secondaryEntities") {
       if (!Array.isArray(value) || value.length > 10 || value.some((item) => typeof item !== "string" || !item.trim() || item.length > 120)) {
-        throw new Error("editorialMetadata.secondaryEntities debe ser un array público de hasta 10 textos");
+        throw new Error("editorialMetadata.secondaryEntities debe ser un array de hasta 10 textos");
       }
       normalized[key] = value.map((item) => item.trim());
     } else {
@@ -131,7 +131,7 @@ export function createNoPublicationRecord(payload) {
 
   const record = {
     schemaVersion: 1,
-    store: "git:refs/heads/radar-history",
+    store: "github-private",
     outcome: "NO_PUBLICATION",
     engineRunId,
     timestamp,
@@ -179,7 +179,7 @@ export class FileNoPublicationStore {
     } catch (error) {
       if (error.code !== "EEXIST") throw error;
       const existing = await fs.readFile(destination, "utf8");
-      if (existing !== content) throw new Error(`engineRunId ${record.engineRunId} ya existe con otro contenido`);
+      if (existing !== content) throw new Error("La corrida ya existe con otro contenido");
       return { created: false, path: relativePath, reference: destination };
     }
   }
@@ -193,8 +193,8 @@ class GitHubApiError extends Error {
 }
 
 export class GitHubNoPublicationStore {
-  constructor({ repository, token, branch = "radar-history", fetchImpl = fetch }) {
-    if (!repository?.includes("/") || !token) throw new Error("GitHub store requiere repository y token");
+  constructor({ repository, token, branch, fetchImpl = fetch }) {
+    if (!repository?.includes("/") || !branch || !token) throw new Error("GitHub store privado requiere repository, branch y token");
     this.repository = repository;
     this.token = token;
     this.branch = branch;
@@ -240,11 +240,15 @@ export class GitHubNoPublicationStore {
   }
 
   async persist(record) {
+    const repository = await this.api("GET", "");
+    if (repository.private !== true || repository.visibility !== "private") {
+      throw new Error("El store configurado debe ser un repositorio privado");
+    }
     const relativePath = noPublicationRecordPath(record);
     const content = serialize(record);
     const existing = await this.existingContent(relativePath);
     if (existing !== null) {
-      if (existing !== content) throw new Error(`engineRunId ${record.engineRunId} ya existe con otro contenido`);
+      if (existing !== content) throw new Error("La corrida ya existe con otro contenido");
       return { created: false, path: relativePath, reference: `refs/heads/${this.branch}:${relativePath}` };
     }
 
@@ -269,7 +273,7 @@ export class GitHubNoPublicationStore {
         if (![409, 422].includes(error.status) || attempt === 4) throw error;
         const racedContent = await this.existingContent(relativePath);
         if (racedContent !== null) {
-          if (racedContent !== content) throw new Error(`engineRunId ${record.engineRunId} ya existe con otro contenido`);
+          if (racedContent !== content) throw new Error("La corrida ya existe con otro contenido");
           return { created: false, path: relativePath, reference: `refs/heads/${this.branch}:${relativePath}` };
         }
       }

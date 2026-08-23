@@ -93,7 +93,7 @@ test("NO_PUBLICATION rechaza know-how sensible y no crea ningún registro", asyn
   const unsafe = payload({ scoringFormula: "0.6 * novelty + 0.4 * authority" });
   const result = await runCli(rootDirectory, unsafe, "unsafe");
   assert.notEqual(result.processResult.status, 0);
-  assert.match(result.processResult.stderr, /campos no públicos/);
+  assert.match(result.processResult.stderr, /campos no persistibles/);
   await assert.rejects(fs.access(path.join(rootDirectory, "history")));
 
   const signedAsset = payload({
@@ -116,5 +116,5 @@ test("NO_PUBLICATION nunca sobrescribe un engineRunId con contenido diferente", 
   assert.equal(first.processResult.status, 0, first.processResult.stderr);
   const collision = await runCli(rootDirectory, payload({ reason: "Un motivo incompatible para el mismo ID." }), "collision");
   assert.notEqual(collision.processResult.status, 0);
-  assert.match(collision.processResult.stderr, /ya existe con otro contenido/);
+  assert.match(collision.processResult.stderr, /corrida ya existe con otro contenido/);
 });

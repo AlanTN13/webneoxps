@@ -1,5 +1,5 @@
 name: Radar V3 NO_PUBLICATION History
-run-name: NO_PUBLICATION · ${{ github.event.client_payload.engineRunId }}
+run-name: NO_PUBLICATION persistence
 
 on:
   repository_dispatch:
@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      GH_TOKEN: ${{ github.token }}
-      RADAR_HISTORY_BRANCH: radar-history
-      RADAR_NO_PUBLICATION_RESULT: ${{ runner.temp }}/radar-v3-no-publication.json
+      GH_TOKEN: ${{ secrets.RADAR_HISTORY_TOKEN }}
+      RADAR_HISTORY_REPOSITORY: ${{ secrets.RADAR_HISTORY_REPOSITORY }}
+      RADAR_HISTORY_BRANCH: ${{ vars.RADAR_HISTORY_BRANCH }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,12 +29,3 @@ jobs:
 
       - name: Validate, sanitize and persist the decision
         run: npm run radar:v3:no-publication -- "$GITHUB_EVENT_PATH"
-
-      - name: Preserve the public projection as a run artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: radar-v3-no-publication-${{ github.run_id }}
-          path: ${{ runner.temp }}/radar-v3-no-publication.json
-          if-no-files-found: warn
-          retention-days: 90

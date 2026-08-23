@@ -55,20 +55,20 @@ La decisión externa tiene una de estas formas:
 }
 ```
 
-Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina sin crear rama de contenido ni PR y sin mutar el corpus; antes de cerrar debe persistir su proyección pública mediante el canal durable descripto abajo. `PUBLICATION` valida contrato, threshold, attestations editoriales y dedupe antes de escribir. Exige portada aprobada por el contrato visual, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, `news:audit`, tests, lint, build/SEO y `git diff --cached --check`, y recién entonces crea el commit atómico.
+Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina sin crear rama de contenido ni PR y sin mutar el corpus público; antes de cerrar debe persistir su proyección privada mediante el canal durable descripto abajo. `PUBLICATION` valida contrato, threshold, attestations editoriales y dedupe antes de escribir. Exige portada aprobada por el contrato visual, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, `news:audit`, tests, lint, build/SEO y `git diff --cached --check`, y recién entonces crea el commit atómico.
 
 `gateReport` es la constancia estructurada del Radar externo. Todos sus flags deben ser `true`, `criticalWarnings` debe estar vacío y `article.engineScore` debe alcanzar `engineThreshold`. La web sigue sin calcular el score: verifica que la decisión externa haya declarado y superado el threshold vigente.
 
 ## Historial durable de `NO_PUBLICATION`
 
-El store primario es la rama Git huérfana `radar-history`, separada de `main`. Cada corrida crea de forma atómica e inmutable:
+El store primario es un **repositorio privado dedicado**, distinto de `webneoxps`. Su repo y rama se inyectan por configuración; cada corrida crea allí de forma atómica e inmutable:
 
 ```text
-refs/heads/radar-history
+refs/heads/<RADAR_HISTORY_BRANCH>
 └── no-publication/<engineRunId>.json
 ```
 
-No se abre PR, no se escribe en `src/data/news` y el historial no depende del artifact de 90 días. El artifact sigue existiendo sólo como diagnóstico secundario del workflow. La primera corrida crea la rama; las siguientes agregan commits con actualización optimista. Un retry idéntico es idempotente y un mismo `engineRunId` con contenido distinto falla sin sobrescribir el registro.
+No se abre PR, no se escribe en `src/data/news` y ningún registro o artifact con datos rechazados queda en el repositorio público. La primera corrida crea la rama privada como root commit; las siguientes agregan commits con actualización optimista. Un retry idéntico es idempotente y un mismo `engineRunId` con contenido distinto falla sin sobrescribir el registro.
 
 El core considera `NO_PUBLICATION` cerrado únicamente después de que `persistNoPublication()` confirma el store durable. Si falta el adapter o falla la escritura, el outcome final es `FAILED`, no un falso `NO_PUBLICATION` exitoso.
 
@@ -117,9 +117,17 @@ La identidad GitHub autorizada del Radar llama:
 gh api repos/AlanTN13/webneoxps/dispatches --method POST --input no-publication-dispatch.json
 ```
 
-La entrega HTTP `204` sólo confirma que GitHub aceptó el evento. La corrida externa debe localizar el run `NO_PUBLICATION · <engineRunId>` y comprobar que el workflow `Radar V3 NO_PUBLICATION History` terminó en `success`; recién entonces puede declarar persistido el outcome.
+La entrega HTTP `204` sólo confirma que GitHub aceptó el evento. La corrida externa debe comprobar que el workflow `Radar V3 NO_PUBLICATION History` terminó en `success`; recién entonces puede declarar persistido el outcome. El run público usa un nombre genérico y no imprime ni sube como artifact el candidato, fuente, scores, fingerprint o metadata.
 
 ### Consulta
+
+La consulta requiere credenciales de lectura sobre el store privado:
+
+```bash
+export RADAR_HISTORY_REPOSITORY="<owner/repo-privado>"
+export RADAR_HISTORY_BRANCH="<rama-historial>"
+export GH_TOKEN="<token-read-only>"
+```
 
 Lista completa:
 
@@ -133,13 +141,13 @@ Una corrida:
 npm run radar:v3:history -- radar-2026-08-24-001
 ```
 
-También puede consultarse directamente con la API/tree de GitHub sobre `refs/heads/radar-history`. `GH_TOKEN` es opcional para lectura porque el repositorio es público, aunque se recomienda para evitar límites anónimos.
+También puede consultarse directamente con la API Git de GitHub sobre el repo privado y `refs/heads/$RADAR_HISTORY_BRANCH`. La lectura falla si falta cualquiera de las tres variables.
 
-### Proyección pública y protección de know-how
+### Proyección privada y protección de know-how
 
-El store conserva: `engineRunId`, timestamp, outcome, título, tema, fuente, score total, breakdown por alias público de criterio, versión de política, motivo de rechazo, `topicFingerprint`, metadata editorial permitida y referencia/crédito del asset cuando existió.
+El store privado conserva: `engineRunId`, timestamp, outcome, título, tema, fuente, score total, breakdown por alias normalizado de criterio, versión de política, motivo de rechazo, `topicFingerprint`, metadata editorial permitida y referencia/crédito del asset cuando existió.
 
-No se persiste el payload interno. El schema usa allowlists cerradas y rechaza campos desconocidos o sensibles: pesos, thresholds, fórmulas, prompts, razonamiento, notas de investigación, configuración de modelos e instrucciones. El breakdown público admite sólo `{ criterion, score }`: no pesos ni reglas de cálculo. También se rechazan patrones de credenciales y URLs firmadas.
+No se persiste el payload interno completo. El schema usa allowlists cerradas y rechaza campos desconocidos o sensibles: pesos, thresholds, fórmulas, prompts, razonamiento, notas de investigación, configuración de modelos e instrucciones. El breakdown admite sólo `{ criterion, score }`: no pesos ni reglas de cálculo. También se rechazan patrones de credenciales y URLs firmadas. `webneoxps` contiene únicamente el motor, el contrato y el workflow; los registros viven fuera del repo público.
 
 ## Handoff operativo del Radar externo
 
@@ -185,7 +193,7 @@ Sólo después de esas verificaciones la corrida se registra como `SUCCESS`. Un 
 
 ## Trazabilidad y rollback
 
-Cada workflow escribe `radar-v3-result.json`, lo conserva 90 días como artifact y resume el resultado en GitHub Actions. El PR recibe un comentario final con `engineRunId`, commit, merge SHA, deployment ID/estado, URL pública y rollback.
+Cada workflow de `PUBLICATION` escribe `radar-v3-result.json`, lo conserva 90 días como artifact y resume el resultado en GitHub Actions. El PR recibe un comentario final con `engineRunId`, commit, merge SHA, deployment ID/estado, URL pública y rollback. `NO_PUBLICATION` no genera artifacts públicos con datos editoriales.
 
 Antes del merge se registra el deployment Vercel vigente. Si el merge ocurrió pero producción no supera el gate, Radar V3:
 
@@ -207,6 +215,16 @@ Para que futuras notas funcionen sin aprobación manual:
 - la integración Git de Vercel debe mantener `main` como Production Branch y reportar el status `Vercel`;
 - el dominio productivo esperado es `https://www.nexopstech.com` (`RADAR_PRODUCTION_ORIGIN` permite cambiarlo);
 - nunca se agregan tokens de Vercel, OpenAI ni modelos al repo para este flujo.
+
+Para el historial privado de rechazados, el repositorio público configura:
+
+- secret `RADAR_HISTORY_TOKEN`: token fino o token de GitHub App limitado al repositorio privado, con `Contents: write`;
+- secret `RADAR_HISTORY_REPOSITORY`: destino privado en formato `owner/repo`;
+- variable `RADAR_HISTORY_BRANCH`: rama append-only del historial.
+
+El repositorio privado debe inicializarse una vez —por ejemplo, con su rama default y un README— para que GitHub permita crear la referencia del historial. La rama configurada puede no existir: el adapter la crea con el primer root commit.
+
+No hay valores por defecto para esos tres campos. Antes de cada lectura o escritura el adapter consulta metadata del destino y exige `private=true` y `visibility=private`. Si falta configuración, el destino no es privado o la API no confirma la escritura, el core termina `FAILED`. Para consultas humanas se recomienda otro token con sólo `Contents: read`.
 
 `concurrency: radar-v3-production` serializa corridas: nunca hay dos publicaciones intentando llegar a producción a la vez.
 

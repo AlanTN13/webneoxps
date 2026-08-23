@@ -1,6 +1,10 @@
-const repository = process.env.GITHUB_REPOSITORY || "AlanTN13/webneoxps";
-const branch = process.env.RADAR_HISTORY_BRANCH || "radar-history";
+const repository = process.env.RADAR_HISTORY_REPOSITORY;
+const branch = process.env.RADAR_HISTORY_BRANCH;
 const token = process.env.GH_TOKEN;
+
+if (!repository?.includes("/") || !branch || !token) {
+  throw new Error("La consulta requiere RADAR_HISTORY_REPOSITORY, RADAR_HISTORY_BRANCH y GH_TOKEN");
+}
 
 async function api(endpoint) {
   const response = await fetch(`https://api.github.com/repos/${repository}${endpoint}`, {
@@ -16,6 +20,10 @@ async function api(endpoint) {
 }
 
 async function main() {
+  const repositoryMetadata = await api("");
+  if (repositoryMetadata.private !== true || repositoryMetadata.visibility !== "private") {
+    throw new Error("El store configurado no es privado");
+  }
   const requestedRunId = process.argv[2] && process.argv[2] !== "--list" ? process.argv[2] : null;
   const ref = await api(`/git/ref/heads/${encodeURIComponent(branch)}`);
   const tree = await api(`/git/trees/${ref.object.sha}?recursive=1`);
