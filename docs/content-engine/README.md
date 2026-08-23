@@ -1,30 +1,118 @@
-# NexOps Content Destination V1
+# NexOps Content Engine + Radar V3
 
 ## Arquitectura
 
 La web no busca, puntúa, agenda ni genera contenido. El Radar/editor vive fuera de este repo.
 
-Flujo aprobado:
+Flujo autónomo aprobado:
 
-`Radar externo -> JSON normalizado -> npm run news:add -- candidate.json -> npm run news:validate -> commit -> Vercel`
+`Radar externo -> decision.json + PR de handoff no-draft -> materialización atómica -> gates -> checks verdes -> merge -> Vercel production READY -> URL/OG verificados`
 
-Para autonomía limitada, el punto de entrada operativo es `npm run news:run -- decision.json --commit`. La ejecución debe hacerse sobre una rama limpia y luego subir ese único commit para revisión/merge. No hace polling, no publica directamente y no requiere credenciales editoriales nuevas.
+Alan no aprueba nota por nota. Una corrida `PUBLICATION` válida se publica sin intervención humana; el PR se conserva como registro auditable y nunca se hace push directo a `main`. `npm run news:run -- decision.json --commit` sigue siendo el primitivo local de materialización, pero el punto de entrada operativo completo es `.github/workflows/radar-v3-publication.yml` mediante `npm run radar:v3`.
+
+El PR que incorpora Radar V3 es la única revisión manual de esta política. El workflow no debe ejecutarse autónomamente hasta que esa implementación esté mergeada en `main`.
 
 La decisión externa tiene una de estas formas:
 
 ```json
-{ "outcome": "NO_PUBLICATION", "reason": "No hubo candidato que supere los gates editoriales externos." }
+{
+  "outcome": "NO_PUBLICATION",
+  "engineRunId": "radar-2026-08-24-001",
+  "reason": "No hubo candidato que supere los gates editoriales externos."
+}
 ```
 
 ```json
 {
   "outcome": "PUBLICATION",
+  "engineRunId": "radar-2026-08-24-002",
   "article": "./candidate.json",
-  "coverAsset": "./cover.png"
+  "coverAsset": "./cover.png",
+  "gateReport": {
+    "engineThreshold": 85,
+    "sourceVerified": true,
+    "rightsVerified": true,
+    "coverSemantic": true,
+    "coverResponsive": true,
+    "clientClaimsAuthorizedOrAbsent": true,
+    "noCriticalWarnings": true,
+    "criticalWarnings": []
+  }
 }
 ```
 
-Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina exitosamente sin mutar el corpus. `PUBLICATION` valida el contrato y dedupe antes de escribir, exige que `coverImage` apunte a `/assets/insights/<archivo>`, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, tests, lint, build y `git diff --check`, y recién entonces crea un commit atómico con ambos archivos. Un retry se rechaza antes de sobrescribir. Si un gate falla, elimina los dos destinos y deja el worktree recuperable.
+Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina en el Radar externo sin crear rama ni PR y sin mutar el corpus; sólo registra el motivo. `PUBLICATION` valida contrato, threshold, attestations editoriales y dedupe antes de escribir. Exige portada aprobada por el contrato visual, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, `news:audit`, tests, lint, build/SEO y `git diff --cached --check`, y recién entonces crea el commit atómico.
+
+`gateReport` es la constancia estructurada del Radar externo. Todos sus flags deben ser `true`, `criticalWarnings` debe estar vacío y `article.engineScore` debe alcanzar `engineThreshold`. La web sigue sin calcular el score: verifica que la decisión externa haya declarado y superado el threshold vigente.
+
+## Handoff operativo del Radar externo
+
+`NO_PUBLICATION` se registra en la corrida externa y termina antes de crear rama o PR. Sólo `PUBLICATION` usa una rama efímera creada desde el `main` vigente:
+
+```text
+radar/<engineRunId>
+└── .radar/runs/<engineRunId>/
+    ├── decision.json
+    ├── candidate.json
+    └── cover.png
+```
+
+La rama de entrada sólo puede contener ese bundle. El Radar externo abre inmediatamente un PR **no-draft** contra `main` usando su identidad GitHub autorizada. Ese PR es el sobre trazable de handoff, no una solicitud de aprobación humana: `pull_request_target` dispara Radar V3 desde el workflow confiable de `main`.
+
+```bash
+gh pr create \
+  --base main \
+  --head "radar/<engineRunId>" \
+  --title "content: <título>" \
+  --body "Radar V3 PUBLICATION · <engineRunId>"
+```
+
+El workflow nunca hace checkout ni ejecuta código del PR: usa exclusivamente el SHA confiable de `main`, inspecciona el diff remoto y descarga el bundle como datos desde el SHA inmutable del handoff. Rechaza forks, drafts, symlinks, archivos fuera de la corrida y bundles mayores a 4 archivos/20 MB. En `PUBLICATION`, el commit generado reemplaza la rama efímera mediante `force-with-lease` ligado al SHA original, elimina el bundle y deja como diff neto únicamente artículo + portada. Una rama atrasada respecto de `main`, otro PR Radar abierto, una modificación concurrente de la rama o un cambio de `main` durante la corrida hacen fallar cerrado y obligan a decidir nuevamente sobre el corpus vigente.
+
+## Gates y merge autónomo
+
+El PR de handoff debe existir **no-draft** contra `main`. Radar V3 lo actualiza con el commit materializado, espera su rollup real, requiere como mínimo `validate` y `Vercel`, y rechaza cualquier otro check informado en estado fallido. El propio workflow en curso se excluye para evitar un deadlock.
+
+Antes de mergear vuelve a comprobar que `main` sea el mismo SHA usado en preflight. Sólo entonces ejecuta squash merge mediante GitHub; no usa push directo a `main`, comentario `aprobado`, review humana ni auto-merge anticipado. Si un gate local, editorial, de CI o preview falla, el PR no se mergea y la corrida queda `FAILED`.
+
+## Gate post-producción
+
+Después del merge se espera el status `Vercel` asociado al nuevo SHA de `main`. `success` se registra como deployment `target=production`, `state=READY`, junto con el deployment ID extraído del enlace de Vercel. Ese status por sí solo no alcanza: la corrida verifica además en `https://www.nexopstech.com` que:
+
+- `/noticias/<slug>` responda `200`;
+- `og:url` coincida con la URL canónica;
+- `og:title` coincida con `seoTitle`;
+- `og:image` coincida con la portada declarada;
+- la portada pública responda como imagen.
+
+Sólo después de esas verificaciones la corrida se registra como `SUCCESS`. Un status `failure/error`, un timeout o una inconsistencia de URL/OG se considera fallo de producción.
+
+## Trazabilidad y rollback
+
+Cada workflow escribe `radar-v3-result.json`, lo conserva 90 días como artifact y resume el resultado en GitHub Actions. El PR recibe un comentario final con `engineRunId`, commit, merge SHA, deployment ID/estado, URL pública y rollback.
+
+Antes del merge se registra el deployment Vercel vigente. Si el merge ocurrió pero producción no supera el gate, Radar V3:
+
+1. no declara éxito;
+2. crea `radar/rollback-<engineRunId>-<sha>` desde el `main` fallido;
+3. revierte el merge en un commit nuevo;
+4. publica esa rama y deja un enlace de comparación listo para abrir el PR de rollback, que **no** se mergea automáticamente;
+5. registra el deployment anterior y el comando `vercel rollback <deploymentId>` para intervención técnica.
+
+El rollback es deliberadamente humano porque ocurre sólo cuando la automatización ya modificó `main` y el estado de producción es incierto.
+
+## Configuración única del repositorio
+
+Para que futuras notas funcionen sin aprobación manual:
+
+- el Radar externo debe poder crear el PR de handoff con su identidad GitHub autorizada; GitHub Actions no necesita permiso global para crear o aprobar PRs;
+- el workflow recibe sólo permisos explícitos para actualizar la rama, comentar y mergear el PR después de los gates;
+- `main` no debe exigir una review humana para los PR del Radar; los gates obligatorios son técnicos/editoriales automáticos;
+- la integración Git de Vercel debe mantener `main` como Production Branch y reportar el status `Vercel`;
+- el dominio productivo esperado es `https://www.nexopstech.com` (`RADAR_PRODUCTION_ORIGIN` permite cambiarlo);
+- nunca se agregan tokens de Vercel, OpenAI ni modelos al repo para este flujo.
+
+`concurrency: radar-v3-production` serializa corridas: nunca hay dos publicaciones intentando llegar a producción a la vez.
 
 Cada pieza publicada vive en `src/data/news/<slug>.json`. El frontend la incorpora en build y mantiene las URLs públicas `/noticias` y `/noticias/:slug`.
 
