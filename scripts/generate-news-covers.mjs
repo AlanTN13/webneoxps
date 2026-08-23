@@ -39,27 +39,26 @@ const windowChrome = (x, y, width, height, label = "") => `
 function shell({ slug, accent = "#8b5cf6", accent2 = "#38bdf8", art, backgroundImage = "" }) {
   const image = backgroundImage
     ? `<image href="${backgroundImage}" x="0" y="0" width="1600" height="900" preserveAspectRatio="xMidYMid slice"/><rect width="1600" height="900" fill="url(#photoWash)"/>`
-    : `<rect width="1600" height="900" fill="url(#background)"/><rect width="1600" height="900" fill="url(#grid)" opacity=".35"/>`;
+    : `<rect width="1600" height="900" fill="url(#background)"/>
+      <ellipse cx="170" cy="790" rx="520" ry="330" fill="${accent2}" opacity=".07"/>
+      <ellipse cx="1450" cy="90" rx="430" ry="300" fill="${accent}" opacity=".1"/>`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
   <title id="title">${esc(slug)}</title>
   <desc id="desc">Portada editorial original de NexOps Insights.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#07111f"/><stop offset=".58" stop-color="#111b34"/><stop offset="1" stop-color="#25134d"/></linearGradient>
-    <linearGradient id="photoWash" x1="0" y1="0" x2="1600" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#020617" stop-opacity=".15"/><stop offset=".55" stop-color="#020617" stop-opacity=".4"/><stop offset="1" stop-color="#020617" stop-opacity=".96"/></linearGradient>
+    <linearGradient id="photoWash" x1="0" y1="0" x2="1600" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#020617" stop-opacity=".04"/><stop offset=".53" stop-color="#020617" stop-opacity=".28"/><stop offset="1" stop-color="#020617" stop-opacity=".91"/></linearGradient>
     <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${accent}"/><stop offset="1" stop-color="${accent2}"/></linearGradient>
-    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#64748b" stroke-opacity=".12"/></pattern>
     <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#020617" flood-opacity=".28"/></filter>
     <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="16"/></filter>
   </defs>
   ${image}
-  <circle cx="1390" cy="110" r="230" fill="${accent}" opacity=".09" filter="url(#glow)"/>
-  <path d="M80 72H138" stroke="${accent2}" stroke-width="4" stroke-linecap="round"/>
-  ${text(158, 80, "NEXOPS  /  INSIGHTS", 18, 750, "#cbd5e1", 'letter-spacing=".18em"')}
   <g>${art}</g>
-  <path d="M80 828H1520" stroke="#94a3b8" stroke-opacity=".18"/>
-  ${text(80, 858, "EDITORIAL SYSTEM · LANDSCAPE 16:9", 14, 650, "#64748b", 'letter-spacing=".14em"')}
-  <circle cx="1516" cy="850" r="8" fill="${accent}"/><circle cx="1488" cy="850" r="8" fill="${accent2}" opacity=".8"/>
+  <g opacity=".55">
+    <rect x="1472" y="54" width="54" height="28" rx="14" fill="#07111f" fill-opacity=".72" stroke="#ffffff" stroke-opacity=".18"/>
+    ${text(1499, 74, "N", 15, 850, "#e2e8f0", 'text-anchor="middle"')}
+  </g>
 </svg>`;
 }
 
@@ -93,8 +92,9 @@ async function main() {
       accent: "#8b5cf6",
       accent2: "#38bdf8",
       art: `${windowChrome(150, 140, 1300, 610, "Google Search")}
-        ${text(250, 237, "G", 54, 800, "#4285f4")}${text(292, 237, "o", 46, 700, "#ea4335")}${text(324, 237, "o", 46, 700, "#fbbc05")}${text(356, 237, "g", 46, 700, "#4285f4")}${text(389, 237, "l", 46, 700, "#34a853")}${text(405, 237, "e", 46, 700, "#ea4335")}
-        ${roundRect(500, 185, 750, 66, "#ffffff", "#cbd5e1", 33)}${text(540, 228, "cómo automatizar reportes de ventas", 23, 500, "#334155")}
+        <circle cx="291" cy="218" r="34" fill="#ffffff" stroke="#dbe3ee" stroke-width="3"/><path d="M276 219a15 15 0 1 1 10 14" fill="none" stroke="#4285f4" stroke-width="7" stroke-linecap="round"/><path d="M286 233l17 17" stroke="#34a853" stroke-width="7" stroke-linecap="round"/>
+        ${text(345, 227, "Google Search", 31, 750, "#334155")}
+        ${roundRect(585, 185, 665, 66, "#ffffff", "#cbd5e1", 33)}${text(625, 228, "cómo automatizar reportes de ventas", 23, 500, "#334155")}
         ${roundRect(230, 300, 820, 330, "#f5f3ff", "#c4b5fd", 26)}${pill(270, 334, 164, "AI OVERVIEW", "#6d28d9")}
         ${text(270, 415, "La automatización conecta datos del CRM,", 24, 650, "#1e293b")}${text(270, 451, "facturación y planillas en un reporte único.", 24, 650, "#1e293b")}
         ${roundRect(270, 500, 210, 84, "#ffffff", "#ddd6fe", 18)}${roundRect(500, 500, 210, 84, "#ffffff", "#ddd6fe", 18)}${roundRect(730, 500, 210, 84, "#ffffff", "#ddd6fe", 18)}
@@ -248,14 +248,15 @@ async function main() {
     await fs.writeFile(path.join(OUTPUT_DIR, `${slug}.svg`), `${svg}\n`, "utf8");
   }
   const entries = Object.keys(covers);
-  const contactSheet = `<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="980" viewBox="0 0 1800 980">
-    <rect width="1800" height="980" fill="#020617"/>
+  const contactSheet = `<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1370" viewBox="0 0 1800 1370">
+    <rect width="1800" height="1370" fill="#020617"/>
+    ${text(24, 34, "CONTACT SHEET FINAL · CARD 400 × 225", 15, 750, "#94a3b8", 'letter-spacing=".1em"')}
     ${entries.map((slug, index) => {
       const column = index % 4;
       const row = Math.floor(index / 4);
       const x = 24 + column * 444;
-      const y = 24 + row * 190;
-      return `<rect x="${x}" y="${y}" width="420" height="166" rx="14" fill="#0f172a" stroke="#334155"/><image href="./${slug}.svg" x="${x + 8}" y="${y + 8}" width="404" height="142" preserveAspectRatio="xMidYMid meet"/><text x="${x + 12}" y="${y + 160}" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="650" fill="#cbd5e1">${esc(slug)}</text>`;
+      const y = 50 + row * 262;
+      return `<rect x="${x}" y="${y}" width="420" height="250" rx="14" fill="#0f172a" stroke="#334155"/><image href="./${slug}.svg" x="${x + 10}" y="${y + 10}" width="400" height="225" preserveAspectRatio="xMidYMid meet"/><text x="${x + 12}" y="${y + 245}" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="650" fill="#cbd5e1">${esc(slug)}</text>`;
     }).join("")}
   </svg>`;
   await fs.writeFile(path.join(OUTPUT_DIR, "contact-sheet.svg"), `${contactSheet}\n`, "utf8");
