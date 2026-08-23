@@ -151,7 +151,7 @@
       "text": "El criterio NexOps es que la infraestructura deje de ser una caja negra, sin obligar a la empresa a operar un centro de datos. La solución debe usar la capacidad proporcional al problema, hacer visibles sus costos y fallas y conservar control sobre el proceso. La energía es el límite físico de la IA; para una empresa, su traducción cotidiana es una arquitectura más eficiente, observable y resiliente."
     }
   ],
-  "coverImage": "/assets/insights/cover-infraestructura-ia.jpg",
+  "coverImage": "/assets/insights/editorial/la-burbuja-de-la-ia-no-esta-en-wall-street.png",
   "relatedSlugs": [
     "agentes-ia-produccion-control-limites",
     "agente-ia-no-es-empleado-digital-limites",
@@ -164,5 +164,24 @@
     "copy": "Diseñamos infraestructura y flujos de IA con capacidad proporcional, monitoreo y continuidad operativa."
   },
   "legacySanityId": "af725d0f-1658-48c0-9b91-401fcf760bf0",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "data-infrastructure",
+  "primaryEntity": "Infraestructura física de IA",
+  "secondaryEntities": [
+    "Centros de datos",
+    "Energía",
+    "Capacidad",
+    "Costo"
+  ],
+  "visualSubject": "Centro de datos como protagonista con lectura editorial de energía, capacidad de cómputo y costo.",
+  "assetSource": "hybrid-editorial",
+  "assetCredit": "Imagen base generada con OpenAI ImageGen y composición de datos original NexOps.",
+  "coverAlt": "Centro de datos de IA acompañado por indicadores de energía, capacidad y costo.",
+  "coverFocus": {
+    "mobile": "43% 50%",
+    "desktop": "50% 50%"
+  },
+  "ogImage": "/assets/insights/editorial/la-burbuja-de-la-ia-no-esta-en-wall-street.png",
+  "coverWidth": 1600,
+  "coverHeight": 900
 }

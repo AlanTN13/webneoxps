@@ -56,16 +56,24 @@ function FallbackArtwork({ post, className }) {
 export default function NewsVisual({ post, className = "aspect-video", eager = false }) {
   const [failedImage, setFailedImage] = useState(null);
   const hasUsableCover = post?.coverImage && failedImage !== post.coverImage;
+  const coverStyle = {
+    "--news-cover-position-mobile": post?.coverFocus?.mobile || "50% 50%",
+    "--news-cover-position-desktop": post?.coverFocus?.desktop || "50% 50%",
+  };
 
   if (hasUsableCover) {
     return (
       <div className={`relative w-full overflow-hidden bg-slate-100 ${className}`}>
         <img
           src={post.coverImage}
-          alt={post.title || ""}
+          alt={post.coverAlt || post.title || ""}
           loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : "auto"}
+          width={post.coverWidth || 1600}
+          height={post.coverHeight || 900}
+          style={coverStyle}
           onError={() => setFailedImage(post.coverImage)}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          className="news-cover-image h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
         />
       </div>
     );

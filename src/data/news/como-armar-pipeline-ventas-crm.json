@@ -263,5 +263,24 @@
     "label": "Ordenar el pipeline y automatizar el seguimiento",
     "href": "/servicios/software-integrations"
   },
-  "coverImage": "/assets/insights/cover-whatsapp-crm-guia.jpg"
+  "coverImage": "/assets/insights/editorial/como-armar-pipeline-ventas-crm.png",
+  "visualType": "product-interface",
+  "primaryEntity": "Pipeline de ventas CRM",
+  "secondaryEntities": [
+    "Oportunidades",
+    "Responsables",
+    "Próxima acción",
+    "Conversión"
+  ],
+  "visualSubject": "Pipeline tipo kanban con etapas, oportunidades, responsables, acciones y conversión.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Interfaz CRM editorial original NexOps.",
+  "coverAlt": "Pipeline CRM con oportunidades que avanzan de nuevo a calificado, propuesta y cerrado.",
+  "ogImage": "/assets/insights/editorial/como-armar-pipeline-ventas-crm.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

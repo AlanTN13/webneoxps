@@ -275,5 +275,24 @@
     "label": "Elegir la arquitectura adecuada para automatizar tu proceso",
     "href": "/servicios/process-automation"
   },
-  "coverImage": "/assets/insights/cover-rpa-vs-api.jpg"
+  "coverImage": "/assets/insights/editorial/rpa-vs-automatizacion-api.png",
+  "visualType": "comparison",
+  "primaryEntity": "RPA versus automatización por API",
+  "secondaryEntities": [
+    "Robot de interfaz",
+    "Eventos",
+    "Endpoints",
+    "Enfoque híbrido"
+  ],
+  "visualSubject": "Comparación entre robot operando una interfaz, endpoints API y una solución híbrida.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama comparativo original NexOps.",
+  "coverAlt": "Comparación visual entre RPA sobre una interfaz, automatización por API y enfoque híbrido.",
+  "ogImage": "/assets/insights/editorial/rpa-vs-automatizacion-api.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

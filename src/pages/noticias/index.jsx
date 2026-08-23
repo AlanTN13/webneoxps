@@ -147,7 +147,7 @@ export default function Noticias() {
               <article className="group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-sm transition hover:border-indigo-200 hover:shadow-lg">
                 <div className="grid lg:grid-cols-[1.2fr_1fr]">
                   <Link to={`/noticias/${featuredPost.slug}`} aria-label={`Leer ${featuredPost.title}`} className="block min-h-0 min-w-0">
-                    <NewsVisual post={featuredPost} eager className="aspect-[16/10] min-h-64 lg:aspect-auto lg:h-full lg:min-h-[23rem]" />
+                    <NewsVisual post={featuredPost} eager className="aspect-video min-h-0 lg:h-full" />
                   </Link>
                   <div className="flex min-w-0 flex-col justify-center p-6 sm:p-9 lg:p-10">
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-indigo-600">
@@ -191,7 +191,7 @@ export default function Noticias() {
                 {gridPosts.map((post) => (
                   <article key={post.slug} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg">
                     <Link to={`/noticias/${post.slug}`} aria-label={`Leer ${post.title}`}>
-                      <NewsVisual post={post} className="aspect-[16/10]" />
+                      <NewsVisual post={post} className="aspect-video" />
                     </Link>
                     <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-6">
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">

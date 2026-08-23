@@ -159,7 +159,7 @@
       "text": "El criterio NexOps es tratar el cambio en búsqueda como un problema de sistema, no como una táctica aislada. El contenido, la arquitectura web, la medición y el seguimiento comercial forman un mismo circuito. AI Overviews puede modificar dónde ocurre la respuesta, pero la empresa todavía necesita entender la demanda, demostrar capacidad y facilitar una decisión. Ese es el activo que conviene construir."
     }
   ],
-  "coverImage": "/assets/insights/cover-ai-overviews-seo.jpg",
+  "coverImage": "/assets/insights/editorial/ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo.png",
   "relatedSlugs": [
     "como-automatizar-reportes-de-ventas",
     "automatizar-un-proceso-roto-falla-mas-rapido"
@@ -171,5 +171,22 @@
     "copy": "Ordenamos métricas y fuentes para que el equipo pueda medir demanda, comportamiento y resultados sin depender de reportes aislados."
   },
   "legacySanityId": "nexops-news-2026-05-05-ai-overviews-seo",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "product-interface",
+  "primaryEntity": "Google Search AI Overviews",
+  "secondaryEntities": [
+    "Resultados orgánicos",
+    "Fuentes citadas"
+  ],
+  "visualSubject": "SERP reconocible con AI Overview, respuesta generada, fuentes y resultados orgánicos desplazados.",
+  "assetSource": "official-product-reference",
+  "assetCredit": "Composición original NexOps basada en la documentación pública de Google Search Central.",
+  "coverAlt": "Página de Google Search con un AI Overview, fuentes citadas y resultados orgánicos.",
+  "ogImage": "/assets/insights/editorial/ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

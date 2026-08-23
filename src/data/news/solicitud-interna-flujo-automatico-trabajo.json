@@ -6,7 +6,7 @@
   "territory": "automatizacion-procesos",
   "category": "Automatización",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-solicitud-flujo.jpg",
+  "coverImage": "/assets/insights/editorial/solicitud-interna-flujo-automatico-trabajo.png",
   "excerpt": "Caso aplicado para convertir pedidos dispersos en un flujo con ingreso, clasificación, responsables, estados, excepciones, seguimiento y métricas.",
   "seoTitle": "De solicitud interna a flujo automático de trabajo",
   "metaDescription": "Caso aplicado para convertir pedidos dispersos en un flujo con ingreso, clasificación, responsables, estados, excepciones, seguimiento y métricas.",
@@ -199,5 +199,25 @@
     "href": "/servicios/process-automation"
   },
   "topicFingerprint": "caso:automatizacion-procesos:solicitud-interna-flujo-automatico-trabajo",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "workflow-interface",
+  "primaryEntity": "Flujo automático de solicitudes internas",
+  "secondaryEntities": [
+    "Formulario",
+    "Clasificación",
+    "Responsable",
+    "Estados",
+    "Métricas"
+  ],
+  "visualSubject": "Solicitud que atraviesa clasificación, asignación, estados, excepción y medición.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama de workflow editorial original NexOps.",
+  "coverAlt": "Solicitud interna que avanza por clasificación, responsable, estados, excepción y métricas.",
+  "ogImage": "/assets/insights/editorial/solicitud-interna-flujo-automatico-trabajo.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

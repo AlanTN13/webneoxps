@@ -6,7 +6,7 @@
   "territory": "crm-automatizacion-comercial",
   "category": "CRM",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-whatsapp-crm-caso.jpg",
+  "coverImage": "/assets/insights/editorial/whatsapp-crm-circuito-automatico-seguimiento-leads.png",
   "excerpt": "Caso aplicado de un flujo WhatsApp a CRM con identificación, clasificación, asignación, próxima acción y métricas para no perder oportunidades.",
   "seoTitle": "WhatsApp a CRM: circuito automático de seguimiento",
   "metaDescription": "Caso aplicado de un flujo WhatsApp a CRM con identificación, clasificación, asignación, próxima acción y métricas para no perder oportunidades.",
@@ -312,5 +312,25 @@
     "href": "/servicios/software-integrations"
   },
   "topicFingerprint": "caso:crm-automatizacion-comercial:whatsapp-crm-circuito-automatico-seguimiento-leads",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "process-diagram",
+  "primaryEntity": "Circuito automático de seguimiento WhatsApp CRM",
+  "secondaryEntities": [
+    "Identificación",
+    "Clasificación",
+    "Asignación",
+    "Próxima acción",
+    "KPI"
+  ],
+  "visualSubject": "Circuito de punta a punta desde el chat hasta el CRM, la siguiente acción y el resultado medido.",
+  "assetSource": "official-product-reference",
+  "assetCredit": "Composición original NexOps con referencia visual de WhatsApp Business.",
+  "coverAlt": "Circuito de seguimiento desde WhatsApp hasta identificación, clasificación, CRM y KPI.",
+  "ogImage": "/assets/insights/editorial/whatsapp-crm-circuito-automatico-seguimiento-leads.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

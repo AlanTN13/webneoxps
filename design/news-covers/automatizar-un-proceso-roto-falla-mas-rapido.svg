@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Proceso roto</title>
+  <desc id="desc">Portada editorial original de NexOps Insights.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#07111f"/><stop offset=".58" stop-color="#111b34"/><stop offset="1" stop-color="#25134d"/></linearGradient>
+    <linearGradient id="photoWash" x1="0" y1="0" x2="1600" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#020617" stop-opacity=".04"/><stop offset=".53" stop-color="#020617" stop-opacity=".28"/><stop offset="1" stop-color="#020617" stop-opacity=".91"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f43f5e"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#020617" flood-opacity=".28"/></filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="16"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#background)"/>
+      <ellipse cx="170" cy="790" rx="520" ry="330" fill="#f59e0b" opacity=".07"/>
+      <ellipse cx="1450" cy="90" rx="430" ry="300" fill="#f43f5e" opacity=".1"/>
+  <g><text x="120" y="170" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="800" fill="#cbd5e1" letter-spacing=".12em">AUTOMATIZAR NO CORRIGE EL PROCESO</text>
+        <rect x="150" y="320" width="240" height="120" rx="22" fill="#111d31" stroke="#38bdf8" stroke-width="3" filter="url(#shadow)"/><circle cx="190" cy="380" r="16" fill="#38bdf8"/><text x="222" y="388" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="800" fill="#e2e8f0" >ENTRADA</text><rect x="500" y="320" width="240" height="120" rx="22" fill="#111d31" stroke="#8b5cf6" stroke-width="3" filter="url(#shadow)"/><circle cx="540" cy="380" r="16" fill="#8b5cf6"/><text x="572" y="388" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="800" fill="#e2e8f0" >REGLA</text><rect x="850" y="320" width="240" height="120" rx="22" fill="#111d31" stroke="#f43f5e" stroke-width="3" filter="url(#shadow)"/><circle cx="890" cy="380" r="16" fill="#f43f5e"/><text x="922" y="388" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="800" fill="#e2e8f0" >EXCEPCIÓN</text><rect x="1200" y="320" width="240" height="120" rx="22" fill="#111d31" stroke="#22c55e" stroke-width="3" filter="url(#shadow)"/><circle cx="1240" cy="380" r="16" fill="#22c55e"/><text x="1272" y="388" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="800" fill="#e2e8f0" >SALIDA</text>
+        <path d="M 400 380 L 474 380" fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round" /><path d="M 472 370 L 490 380 L 472 390" fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M 750 380 L 824 380" fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round" /><path d="M 822 370 L 840 380 L 822 390" fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M 1100 380 L 1174 380" fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round" /><path d="M 1172 370 L 1190 380 L 1172 390" fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M970 455C970 640 515 650 515 470" fill="none" stroke="#f43f5e" stroke-width="10" stroke-linecap="round" stroke-dasharray="18 14"/><path d="M500 488l15-30 26 21" fill="none" stroke="#f43f5e" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="580" y="590" width="190" height="42" rx="21" fill="#9f1239" stroke="none" /><text x="675" y="618" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#f8fafc" text-anchor="middle" letter-spacing=".04em">RETRABAJO ×3</text><rect x="830" y="590" width="210" height="42" rx="21" fill="#7c2d12" stroke="none" /><text x="935" y="618" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#f8fafc" text-anchor="middle" letter-spacing=".04em">ERROR AMPLIFICADO</text><path d="M780 470l-45 88h54l-20 88 90-120h-58l33-56z" fill="#fbbf24" stroke="#fef3c7" stroke-width="4"/></g>
+  <g opacity=".55">
+    <rect x="1472" y="54" width="54" height="28" rx="14" fill="#07111f" fill-opacity=".72" stroke="#ffffff" stroke-opacity=".18"/>
+    <text x="1499" y="74" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="850" fill="#e2e8f0" text-anchor="middle">N</text>
+  </g>
+</svg>

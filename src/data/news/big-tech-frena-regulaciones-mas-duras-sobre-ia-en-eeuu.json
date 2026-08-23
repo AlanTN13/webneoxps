@@ -153,7 +153,7 @@
       "text": "El criterio NexOps es no tratar gobernanza como una capa que se agrega después. Un buen flujo nace con entradas delimitadas, permisos mínimos, estados observables, validaciones proporcionales y una forma clara de detenerse. Eso permite adaptar la solución cuando cambian una norma, un proveedor o el negocio sin reconstruir todo desde cero."
     }
   ],
-  "coverImage": "/assets/insights/cover-gobernanza-ia.jpg",
+  "coverImage": "/assets/insights/editorial/big-tech-frena-regulaciones-mas-duras-sobre-ia-en-eeuu.png",
   "relatedSlugs": [
     "openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google",
     "agentes-ia-produccion-control-limites",
@@ -166,5 +166,23 @@
     "copy": "Diseñamos agentes alrededor de procesos reales, con permisos, validaciones y trazabilidad acordes al impacto."
   },
   "legacySanityId": "nexops-news-2026-05-10-regulacion-ia-eeuu",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "document-visual",
+  "primaryEntity": "Gobernanza y regulación de IA",
+  "secondaryEntities": [
+    "NIST AI RMF",
+    "AI Act",
+    "Controles"
+  ],
+  "visualSubject": "Documento institucional y circuito de inventario, riesgo, controles y responsable.",
+  "assetSource": "official-product-reference",
+  "assetCredit": "Composición original NexOps basada en NIST AI RMF y documentación pública del AI Act.",
+  "coverAlt": "Documento de gobernanza de IA conectado con inventario, riesgo, controles y responsable.",
+  "ogImage": "/assets/insights/editorial/big-tech-frena-regulaciones-mas-duras-sobre-ia-en-eeuu.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

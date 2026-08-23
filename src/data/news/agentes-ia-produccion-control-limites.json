@@ -6,7 +6,7 @@
   "territory": "ia-aplicada-empresas",
   "category": "IA aplicada",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-agentes-ia-produccion.jpg",
+  "coverImage": "/assets/insights/editorial/agentes-ia-produccion-control-limites.png",
   "excerpt": "Los agentes de IA ya operan sobre sistemas empresariales. Qué permisos, evaluaciones, métricas y límites hacen falta para usarlos con control.",
   "seoTitle": "Agentes de IA en producción: control, métricas y límites",
   "metaDescription": "Los agentes de IA ya operan sobre sistemas empresariales. Qué permisos, evaluaciones, métricas y límites hacen falta para usarlos con control.",
@@ -210,5 +210,24 @@
       "name": "OpenAI",
       "url": "https://openai.com/index/introducing-openai-presence/"
     }
-  ]
+  ],
+  "visualType": "operations-interface",
+  "primaryEntity": "Control de agentes de IA en producción",
+  "secondaryEntities": [
+    "Ejecuciones",
+    "Evaluaciones",
+    "Permisos",
+    "Revisión humana"
+  ],
+  "visualSubject": "Consola operacional con ejecuciones, estados, evaluación, permisos y revisión humana.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Interfaz editorial original NexOps basada en patrones de observabilidad de agentes.",
+  "coverAlt": "Consola de agentes de IA con ejecuciones, evaluaciones, permisos y revisión humana.",
+  "ogImage": "/assets/insights/editorial/agentes-ia-produccion-control-limites.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

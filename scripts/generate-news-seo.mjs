@@ -1,7 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getReadingTimeMinutes } from "../src/data/news/reading-time.js";
-import { applyCoverOverride } from "../src/data/news/cover-overrides.js";
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, "dist");
@@ -23,7 +22,7 @@ async function readArticles() {
   const articles = [];
   for (const name of names) {
     const article = JSON.parse(await fs.readFile(path.join(NEWS_DIR, name), "utf8"));
-    articles.push(applyCoverOverride(article));
+    articles.push(article);
   }
   return articles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 }
@@ -70,7 +69,7 @@ function jsonLd(article) {
     dateModified: article.updatedAt || article.publishedAt,
     timeRequired: `PT${readingTime}M`,
     mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
-    image: [absoluteUrl(article.coverImage)],
+    image: [absoluteUrl(article.ogImage || article.coverImage)],
     author: { "@type": "Organization", name: "NexOps", url: SITE_URL },
     publisher: {
       "@type": "Organization",
@@ -95,7 +94,7 @@ function breadcrumbJsonLd(article) {
   }).replaceAll("<", "\\u003c");
 }
 
-function injectHead(template, { title, description, canonical, image, article }) {
+function injectHead(template, { title, description, canonical, image, imageAlt, imageWidth, imageHeight, article }) {
   const clean = template
     .replace(/<title>[\s\S]*?<\/title>/i, "")
     .replace(/<meta\s+name=["']description["'][^>]*>/gi, "")
@@ -110,6 +109,11 @@ function injectHead(template, { title, description, canonical, image, article })
     `<meta property="og:description" content="${escapeHtml(description)}">`,
     `<meta property="og:url" content="${escapeHtml(canonical)}">`,
     `<meta property="og:image" content="${escapeHtml(image || FALLBACK_IMAGE)}">`,
+    ...(image ? [
+      `<meta property="og:image:alt" content="${escapeHtml(imageAlt || title)}">`,
+      `<meta property="og:image:width" content="${escapeHtml(imageWidth || 1600)}">`,
+      `<meta property="og:image:height" content="${escapeHtml(imageHeight || 900)}">`,
+    ] : []),
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${escapeHtml(title)}">`,
     `<meta name="twitter:description" content="${escapeHtml(description)}">`,
@@ -164,7 +168,10 @@ async function main() {
         title: article.seoTitle,
         description: article.metaDescription,
         canonical,
-        image: absoluteUrl(article.coverImage),
+        image: absoluteUrl(article.ogImage || article.coverImage),
+        imageAlt: article.coverAlt,
+        imageWidth: article.coverWidth,
+        imageHeight: article.coverHeight,
         article,
       }),
       articleFallback(article),

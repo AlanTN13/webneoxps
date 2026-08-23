@@ -6,7 +6,7 @@
   "territory": "ia-aplicada-empresas",
   "category": "IA aplicada",
   "publishedAt": "2026-08-18",
-  "coverImage": "/assets/insights/cover-gobernanza-ia.jpg",
+  "coverImage": "/assets/insights/editorial/ia-necesita-contexto-del-negocio.png",
   "excerpt": "Una IA puede redactar bien y aun así sumar trabajo si cada persona debe reconstruir a mano el contexto. Qué información, reglas y estado necesita un sistema para operar con criterio.",
   "seoTitle": "Por qué la IA necesita contexto del negocio, no sólo prompts",
   "metaDescription": "Una IA empresarial genera más valor cuando conoce datos, reglas, historial, permisos y estado del proceso. Cómo diseñar contexto útil sin depender de prompts eternos.",
@@ -197,5 +197,24 @@
   "cta": {
     "label": "Diseñar IA conectada al proceso real",
     "href": "/servicios/ai-agents"
+  },
+  "visualType": "architecture-diagram",
+  "primaryEntity": "Contexto operativo para agentes de IA",
+  "secondaryEntities": [
+    "Reglas",
+    "Datos",
+    "Estado",
+    "Políticas"
+  ],
+  "visualSubject": "Reglas, datos y estado alimentan a un agente y condicionan sus respuestas, acciones y controles.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama de arquitectura editorial original NexOps.",
+  "coverAlt": "Reglas, datos y estado alimentando a un agente de IA y condicionando sus acciones.",
+  "ogImage": "/assets/insights/editorial/ia-necesita-contexto-del-negocio.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
   }
 }
