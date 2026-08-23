@@ -147,7 +147,7 @@ export default function Noticias() {
               <article className="group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-sm transition hover:border-indigo-200 hover:shadow-lg">
                 <div className="grid lg:grid-cols-[1.2fr_1fr]">
                   <Link to={`/noticias/${featuredPost.slug}`} aria-label={`Leer ${featuredPost.title}`} className="block min-h-0 min-w-0">
-                    <NewsVisual post={featuredPost} eager className="aspect-[16/10] min-h-64 lg:aspect-auto lg:h-full lg:min-h-[23rem]" />
+                    <NewsVisual post={featuredPost} eager sizes="(min-width: 1024px) 55vw, 100vw" className="aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[23rem]" />
                   </Link>
                   <div className="flex min-w-0 flex-col justify-center p-6 sm:p-9 lg:p-10">
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-indigo-600">

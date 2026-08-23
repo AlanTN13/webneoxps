@@ -10,8 +10,16 @@ import { validateCoverCollection } from "../../scripts/news-image-policy.mjs";
 import { readNewsFiles } from "../../scripts/news-validate.mjs";
 import { getContentWordCount, getReadingTimeMinutes } from "../../src/data/news/reading-time.js";
 
-const PHOTO_A = "https://images.unsplash.com/photo-1758873271949-742d6648b6b0?auto=format&fit=crop&q=80&w=1600";
-const PHOTO_B = "https://images.unsplash.com/photo-1758873268444-73528cd3ec93?auto=format&fit=crop&q=80&w=1600";
+const PHOTO_A = "https://images.unsplash.com/photo-1758873271949-742d6648b6b0?auto=format&fit=crop&h=1000&q=80&w=1600";
+const PHOTO_B = "https://images.unsplash.com/photo-1758873268444-73528cd3ec93?auto=format&fit=crop&h=1000&q=80&w=1600";
+const COVER_EDITORIAL = {
+  kind: "operation",
+  label: "Seguimiento comercial",
+  alt: "Equipo operando un sistema comercial",
+  accent: "#4f46e5",
+  objectPositionMobile: "50% 50%",
+  objectPositionDesktop: "50% 50%",
+};
 
 const validArticle = {
   title: "Cómo automatizar el seguimiento de leads sin perder trazabilidad",
@@ -22,6 +30,7 @@ const validArticle = {
   category: "crm",
   publishedAt: "2026-08-13",
   coverImage: PHOTO_A,
+  coverEditorial: COVER_EDITORIAL,
   excerpt: "Una guía práctica para ordenar el seguimiento comercial y reducir tareas manuales sin perder control del proceso.",
   seoTitle: "Cómo automatizar el seguimiento de leads en tu empresa",
   metaDescription: "Qué automatizar en el seguimiento de leads, qué señales mirar y cómo mantener trazabilidad comercial sin sumar tareas manuales al equipo.",
@@ -94,6 +103,17 @@ test("portadas deben ser fotografías remotas aprobadas y únicas", () => {
     engineRunId: "run-2026-08-13-002",
   };
   assert.ok(validateCoverCollection([validArticle, duplicate]).some((error) => error.includes("coverImage duplicada")));
+});
+
+test("portadas exigen criterio editorial, recorte responsive y asset landscape", () => {
+  const withoutEditorial = { ...validArticle, coverEditorial: undefined };
+  assert.ok(validateCoverCollection([withoutEditorial]).some((error) => error.includes("coverEditorial es obligatorio")));
+
+  const vertical = { ...validArticle, coverImage: `${PHOTO_A.split("?")[0]}?auto=format&fit=crop&h=1600&w=1000` };
+  assert.ok(validateCoverCollection([vertical]).some((error) => error.includes("asset landscape")));
+
+  const invalidFocus = { ...validArticle, coverEditorial: { ...COVER_EDITORIAL, objectPositionMobile: "center" } };
+  assert.ok(validateCoverCollection([invalidFocus]).some((error) => error.includes("objectPositionMobile")));
 });
 
 test("loader lee una noticia por archivo y conserva el payload", async () => {
@@ -295,6 +315,10 @@ test("el corpus saneado usa fotografías reales únicas en todas las noticias", 
     assert.ok(article.contentType, `${article.slug} no tiene contentType`);
     assert.ok(article.territory, `${article.slug} no tiene territory`);
     assert.match(article.coverImage, /^https:\/\/images\.(?:unsplash|pexels)\.com\//);
+    assert.match(article.coverImage, /[?&]h=1000(?:&|$)/);
+    assert.ok(article.coverEditorial?.label, `${article.slug} no tiene criterio editorial de portada`);
+    assert.ok(article.coverEditorial?.objectPositionMobile, `${article.slug} no tiene foco mobile`);
+    assert.ok(article.coverEditorial?.objectPositionDesktop, `${article.slug} no tiene foco desktop`);
     assert.ok(!covers.has(article.coverImage), `${article.slug} repite portada`);
     covers.add(article.coverImage);
   }

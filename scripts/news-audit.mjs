@@ -19,7 +19,7 @@ try {
     console.error(`news:audit ERROR — ${errors.length} problema(s)`);
     process.exitCode = 1;
   } else {
-    console.log(`news:audit OK — ${result.articles.length} noticia(s), 100% portadas reales únicas + metadata SEO/OG lista para build`);
+    console.log(`news:audit OK — ${result.articles.length} noticia(s), 100% portadas landscape únicas + criterio editorial/foco responsive + metadata SEO/OG lista para build`);
   }
 } catch (error) {
   console.error(`news:audit ERROR — ${error.message}`);

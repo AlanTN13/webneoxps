@@ -4,6 +4,8 @@ const REAL_PHOTO_HOSTS = new Set([
 ]);
 
 const FORBIDDEN_HINT = /(?:generated|generada|ai[-_ ]?image|illustration|ilustracion|render|mockup|abstract|logo|placeholder|default|generic)/i;
+const COVER_KINDS = new Set(["brand", "operation", "analysis"]);
+const OBJECT_POSITION = /^(?:100|\d{1,2})(?:\.\d+)?%\s+(?:100|\d{1,2})(?:\.\d+)?%$/;
 
 const text = (value) => typeof value === "string" && value.trim().length > 0;
 
@@ -37,12 +39,41 @@ export function validateRealPhotoCover(article, label = article?.slug || "notici
   return errors;
 }
 
+export function validateEditorialCover(article, label = article?.slug || "noticia") {
+  const errors = [];
+  const editorial = article?.coverEditorial;
+  if (!editorial || typeof editorial !== "object") return [`${label}: coverEditorial es obligatorio`];
+
+  if (!COVER_KINDS.has(editorial.kind)) errors.push(`${label}: coverEditorial.kind inválido`);
+  if (!text(editorial.label)) errors.push(`${label}: coverEditorial.label es obligatorio`);
+  if (!text(editorial.alt)) errors.push(`${label}: coverEditorial.alt es obligatorio`);
+  if (!/^#[0-9a-f]{6}$/i.test(editorial.accent || "")) errors.push(`${label}: coverEditorial.accent debe ser hexadecimal`);
+
+  for (const field of ["objectPositionMobile", "objectPositionDesktop"]) {
+    if (!OBJECT_POSITION.test(editorial[field] || "")) errors.push(`${label}: coverEditorial.${field} debe usar dos porcentajes`);
+  }
+
+  try {
+    const url = new URL(article.coverImage);
+    const width = Number(url.searchParams.get("w"));
+    const height = Number(url.searchParams.get("h"));
+    if (width < 1200 || height < 675 || width / height < 1.5) {
+      errors.push(`${label}: coverImage debe entregar un asset landscape de al menos 1200×675`);
+    }
+  } catch {
+    // validateRealPhotoCover informa la URL inválida.
+  }
+
+  return errors;
+}
+
 export function validateCoverCollection(articles = []) {
   const errors = [];
   const owners = new Map();
   for (const article of articles) {
     const label = article?.slug || "<sin-slug>";
     errors.push(...validateRealPhotoCover(article, label));
+    errors.push(...validateEditorialCover(article, label));
     if (!text(article?.coverImage)) continue;
     const key = normalizeCoverImage(article.coverImage);
     if (owners.has(key)) {

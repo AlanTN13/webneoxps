@@ -220,3 +220,13 @@
 .hero-orb-core {
   animation: hero-orb-breathe 3.8s ease-in-out infinite reverse;
 }
+
+.insight-cover-image {
+  object-position: var(--cover-position-mobile, 50% 50%);
+}
+
+@media (min-width: 640px) {
+  .insight-cover-image {
+    object-position: var(--cover-position-desktop, var(--cover-position-mobile, 50% 50%));
+  }
+}
