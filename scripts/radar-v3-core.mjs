@@ -106,6 +106,8 @@ export async function executeRadarV3({ decision, article = null, services, now =
     trace.status = "NO_PUBLICATION";
     trace.completedAt = now();
     try {
+      if (typeof services.persistNoPublication !== "function") throw new Error("NO_PUBLICATION requiere un store durable");
+      trace.noPublicationStore = await services.persistNoPublication({ decision, trace });
       await services.recordTrace(trace);
       return trace;
     } catch (error) {

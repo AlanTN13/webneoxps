@@ -56,6 +56,7 @@ function mockServices({ failAt } = {}) {
       verifyProduction: () => step("verify", { articleUrl: `https://www.nexopstech.com/noticias/${article.slug}`, ogImage: `https://www.nexopstech.com${article.ogImage}` }),
       rollbackMaterialization: () => step("rollback-materialization"),
       prepareRollback: () => step("prepare-rollback", { branch: "radar/rollback-run", compareUrl: "https://github.com/AlanTN13/webneoxps/compare/main...radar%2Frollback-run?expand=1", previousDeploymentId: "dpl_previous" }),
+      persistNoPublication: () => step("persist-no-publication", { reference: "radar-history:no-publication/run.json", created: true }),
       recordTrace: async (trace) => {
         calls.push("trace");
         traces.push(structuredClone(trace));
@@ -81,6 +82,18 @@ test("Radar V3 NO_PUBLICATION no materializa, no abre PR y no muta el repo", asy
   const trace = await executeRadarV3({ decision, services: mock.services });
   assert.equal(trace.status, "NO_PUBLICATION");
   assert.equal(trace.reason, decision.reason);
+  assert.equal(trace.noPublicationStore.created, true);
+  assert.deepEqual(mock.calls, ["persist-no-publication", "trace"]);
+});
+
+test("Radar V3 NO_PUBLICATION falla cerrado si no existe un store durable", async () => {
+  const mock = mockServices();
+  delete mock.services.persistNoPublication;
+  const decision = { outcome: "NO_PUBLICATION", engineRunId: "radar-2026-08-23-003", reason: "No hay candidato sólido." };
+  await assert.rejects(
+    executeRadarV3({ decision, services: mock.services }),
+    (error) => error instanceof RadarV3Error && error.trace.status === "FAILED" && error.trace.reason.includes("store durable"),
+  );
   assert.deepEqual(mock.calls, ["trace"]);
 });
 

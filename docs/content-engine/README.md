@@ -18,7 +18,21 @@ La decisión externa tiene una de estas formas:
 {
   "outcome": "NO_PUBLICATION",
   "engineRunId": "radar-2026-08-24-001",
-  "reason": "No hubo candidato que supere los gates editoriales externos."
+  "timestamp": "2026-08-24T12:00:00.000Z",
+  "title": "Actualización menor de una plataforma CRM",
+  "topic": "Cambio de interfaz sin impacto operativo comprobable",
+  "source": { "name": "Documentación oficial", "url": "https://example.com/update" },
+  "scoreTotal": 61,
+  "scoreBreakdown": [
+    { "criterion": "relevance", "score": 72 },
+    { "criterion": "novelty", "score": 41 },
+    { "criterion": "editorial-fit", "score": 68 }
+  ],
+  "policyVersion": "radar-v3.1",
+  "reason": "No hubo candidato que superara los gates editoriales externos.",
+  "topicFingerprint": "crm:product-update:minor-ui",
+  "editorialMetadata": { "contentType": "actualidad", "category": "crm" },
+  "assetReference": null
 }
 ```
 
@@ -41,13 +55,95 @@ La decisión externa tiene una de estas formas:
 }
 ```
 
-Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina en el Radar externo sin crear rama ni PR y sin mutar el corpus; sólo registra el motivo. `PUBLICATION` valida contrato, threshold, attestations editoriales y dedupe antes de escribir. Exige portada aprobada por el contrato visual, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, `news:audit`, tests, lint, build/SEO y `git diff --cached --check`, y recién entonces crea el commit atómico.
+Las rutas se resuelven desde el archivo de decisión. `NO_PUBLICATION` termina sin crear rama de contenido ni PR y sin mutar el corpus; antes de cerrar debe persistir su proyección pública mediante el canal durable descripto abajo. `PUBLICATION` valida contrato, threshold, attestations editoriales y dedupe antes de escribir. Exige portada aprobada por el contrato visual, materializa artículo+asset con rollback ante fallos, ejecuta `news:validate`, `news:audit`, tests, lint, build/SEO y `git diff --cached --check`, y recién entonces crea el commit atómico.
 
 `gateReport` es la constancia estructurada del Radar externo. Todos sus flags deben ser `true`, `criticalWarnings` debe estar vacío y `article.engineScore` debe alcanzar `engineThreshold`. La web sigue sin calcular el score: verifica que la decisión externa haya declarado y superado el threshold vigente.
 
+## Historial durable de `NO_PUBLICATION`
+
+El store primario es la rama Git huérfana `radar-history`, separada de `main`. Cada corrida crea de forma atómica e inmutable:
+
+```text
+refs/heads/radar-history
+└── no-publication/<engineRunId>.json
+```
+
+No se abre PR, no se escribe en `src/data/news` y el historial no depende del artifact de 90 días. El artifact sigue existiendo sólo como diagnóstico secundario del workflow. La primera corrida crea la rama; las siguientes agregan commits con actualización optimista. Un retry idéntico es idempotente y un mismo `engineRunId` con contenido distinto falla sin sobrescribir el registro.
+
+El core considera `NO_PUBLICATION` cerrado únicamente después de que `persistNoPublication()` confirma el store durable. Si falta el adapter o falla la escritura, el outcome final es `FAILED`, no un falso `NO_PUBLICATION` exitoso.
+
+El Radar externo envía una `repository_dispatch` de tipo `radar_no_publication`. El workflow confiable `.github/workflows/radar-v3-no-publication.yml` valida y sanitiza `client_payload` antes de escribir en el store:
+
+```json
+{
+  "event_type": "radar_no_publication",
+  "client_payload": {
+    "outcome": "NO_PUBLICATION",
+    "engineRunId": "radar-2026-08-24-001",
+    "timestamp": "2026-08-24T12:00:00.000Z",
+    "title": "Actualización menor de una plataforma CRM",
+    "topic": "Cambio de interfaz sin impacto operativo comprobable",
+    "source": { "name": "Documentación oficial", "url": "https://example.com/update" },
+    "scoreTotal": 61,
+    "scoreBreakdown": [
+      { "criterion": "relevance", "score": 72 },
+      { "criterion": "novelty", "score": 41 },
+      { "criterion": "editorial-fit", "score": 68 }
+    ],
+    "policyVersion": "radar-v3.1",
+    "reason": "No supera el umbral editorial por baja novedad.",
+    "topicFingerprint": "crm:product-update:minor-ui",
+    "editorialMetadata": {
+      "contentType": "actualidad",
+      "contentPurpose": "actualidad",
+      "territory": "crm-automatizacion-comercial",
+      "category": "crm",
+      "primaryEntity": "Plataforma CRM",
+      "visualType": "product-interface"
+    },
+    "assetReference": {
+      "kind": "official-product-reference",
+      "reference": "https://example.com/update/cover.png",
+      "source": "Documentación oficial",
+      "credit": "Referencia evaluada; no publicada."
+    }
+  }
+}
+```
+
+La identidad GitHub autorizada del Radar llama:
+
+```bash
+gh api repos/AlanTN13/webneoxps/dispatches --method POST --input no-publication-dispatch.json
+```
+
+La entrega HTTP `204` sólo confirma que GitHub aceptó el evento. La corrida externa debe localizar el run `NO_PUBLICATION · <engineRunId>` y comprobar que el workflow `Radar V3 NO_PUBLICATION History` terminó en `success`; recién entonces puede declarar persistido el outcome.
+
+### Consulta
+
+Lista completa:
+
+```bash
+npm run radar:v3:history -- --list
+```
+
+Una corrida:
+
+```bash
+npm run radar:v3:history -- radar-2026-08-24-001
+```
+
+También puede consultarse directamente con la API/tree de GitHub sobre `refs/heads/radar-history`. `GH_TOKEN` es opcional para lectura porque el repositorio es público, aunque se recomienda para evitar límites anónimos.
+
+### Proyección pública y protección de know-how
+
+El store conserva: `engineRunId`, timestamp, outcome, título, tema, fuente, score total, breakdown por alias público de criterio, versión de política, motivo de rechazo, `topicFingerprint`, metadata editorial permitida y referencia/crédito del asset cuando existió.
+
+No se persiste el payload interno. El schema usa allowlists cerradas y rechaza campos desconocidos o sensibles: pesos, thresholds, fórmulas, prompts, razonamiento, notas de investigación, configuración de modelos e instrucciones. El breakdown público admite sólo `{ criterion, score }`: no pesos ni reglas de cálculo. También se rechazan patrones de credenciales y URLs firmadas.
+
 ## Handoff operativo del Radar externo
 
-`NO_PUBLICATION` se registra en la corrida externa y termina antes de crear rama o PR. Sólo `PUBLICATION` usa una rama efímera creada desde el `main` vigente:
+`NO_PUBLICATION` se persiste mediante `repository_dispatch` y termina antes de crear rama de contenido o PR. Sólo `PUBLICATION` usa una rama efímera creada desde el `main` vigente:
 
 ```text
 radar/<engineRunId>
