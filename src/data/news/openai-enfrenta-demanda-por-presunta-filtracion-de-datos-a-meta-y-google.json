@@ -176,7 +176,7 @@
       "text": "El criterio NexOps es diseñar el recorrido del dato antes de escalar el agente. Una solución útil no necesita conocer toda la empresa: necesita entradas delimitadas, permisos mínimos, estados visibles y una salida controlada. Cuanto mejor definido está el proceso, menos información innecesaria circula y más fácil resulta detectar una excepción."
     }
   ],
-  "coverImage": "/assets/insights/cover-datos-sensibles-ia.jpg",
+  "coverImage": "/assets/insights/editorial/openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google.png",
   "relatedSlugs": [
     "big-tech-frena-regulaciones-mas-duras-sobre-ia-en-eeuu",
     "agente-ia-no-es-empleado-digital-limites",
@@ -189,5 +189,24 @@
     "copy": "Diseñamos flujos de IA con entradas delimitadas, accesos mínimos, validaciones y trazabilidad operativa."
   },
   "legacySanityId": "nexops-news-2026-05-02-openai-demanda-datos",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "security-diagram",
+  "primaryEntity": "Gobierno de datos enviados a proveedores de IA",
+  "secondaryEntities": [
+    "Clasificación",
+    "Redacción",
+    "Permisos",
+    "Sistemas conectados"
+  ],
+  "visualSubject": "Datos sensibles pasan por clasificación, redacción y autorización antes del proveedor de IA y los sistemas conectados.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama de seguridad editorial original NexOps basado en NIST AI RMF.",
+  "coverAlt": "Datos sensibles clasificados, redactados y autorizados antes de llegar a un proveedor de IA.",
+  "ogImage": "/assets/insights/editorial/openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

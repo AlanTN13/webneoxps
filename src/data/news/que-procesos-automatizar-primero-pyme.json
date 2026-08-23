@@ -256,5 +256,23 @@
     "label": "Priorizar qué automatizar primero",
     "href": "/servicios/process-automation"
   },
-  "coverImage": "/assets/insights/cover-solicitud-flujo.jpg"
+  "coverImage": "/assets/insights/editorial/que-procesos-automatizar-primero-pyme.png",
+  "visualType": "data-visualization",
+  "primaryEntity": "Matriz de priorización de automatizaciones",
+  "secondaryEntities": [
+    "Impacto",
+    "Factibilidad",
+    "Riesgo"
+  ],
+  "visualSubject": "Procesos ubicados en una matriz de impacto y factibilidad con prioridad visible.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Matriz editorial original NexOps.",
+  "coverAlt": "Matriz de impacto y factibilidad con procesos ubicados y una prioridad destacada.",
+  "ogImage": "/assets/insights/editorial/que-procesos-automatizar-primero-pyme.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

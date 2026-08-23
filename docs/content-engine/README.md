@@ -68,9 +68,25 @@ o múltiples fuentes:
 
 `actualidad` requiere al menos una fuente verificable.
 
+### Contrato editorial de portada
+
+Toda publicación nueva debe declarar:
+
+- `visualType`: tipo editorial admitido por `news-image-policy.mjs` (`product-interface`, `process-diagram`, `data-visualization`, `contextual-photo`, etc.).
+- `primaryEntity`: entidad, producto, proceso o idea que protagoniza la imagen.
+- `secondaryEntities`: entidades secundarias opcionales.
+- `visualSubject`: descripción concreta de lo que la portada comunica sin depender del título.
+- `assetSource`: procedencia controlada (`nexops-original`, `official-product-reference`, `licensed-photo`, `generated-original` o `hybrid-editorial`).
+- `assetCredit`: crédito o trazabilidad editorial.
+- `coverImage` y `ogImage`: ruta local bajo `/assets/insights/` o URL HTTPS.
+- `coverAlt`: alternativa accesible.
+- `coverWidth` y `coverHeight`: dimensiones reales; mínimo 1200×630 y relación landscape entre 1.5:1 y 2.1:1.
+- `coverFocus.mobile` y `coverFocus.desktop`: foco responsive expresado con dos porcentajes.
+
+La política verifica metadata, archivo local, dimensiones reales, orientación, unicidad y OG. El fallback branded existe sólo como resiliencia ante un error de carga; no vuelve opcional la portada del contrato editorial.
+
 ### Campos opcionales de presentación
 
-- `coverImage`: ruta local o URL autorizada. Si falta, la UI usa fallback branded.
 - `relatedSlugs`: slugs sugeridos para contenido relacionado.
 - `cta: { "label": "...", "href": "/servicios/..." }`.
 
@@ -107,6 +123,18 @@ No se usa Portable Text ni HTML arbitrario.
   "engineScore": 91,
   "generatedByEngine": true,
   "engineRunId": "radar-2026-08-13-001",
+  "visualType": "process-diagram",
+  "primaryEntity": "Seguimiento automático de leads",
+  "secondaryEntities": ["CRM", "Próxima acción"],
+  "visualSubject": "Lead que entra al CRM y avanza por un circuito trazable de seguimiento.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama editorial original NexOps.",
+  "coverImage": "/assets/insights/automatizar-seguimiento-leads.png",
+  "ogImage": "/assets/insights/automatizar-seguimiento-leads.png",
+  "coverAlt": "CRM conectado con un flujo automático de seguimiento de leads.",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": { "mobile": "50% 50%", "desktop": "50% 50%" },
   "content": [
     {
       "type": "paragraph",
@@ -199,13 +227,15 @@ Todo el corpus activo usa portadas locales registradas en `docs/insights-cover-s
 
 ### Directiva visual obligatoria del Radar
 
-La portada estándar de un Insight debe sentirse **fotográfica, documental y creíble**. Se priorizan fotografías reales y licenciadas de personas trabajando, procesos, documentos, operaciones, datos o entornos empresariales relacionados con el tema.
+La portada se selecciona en este orden: **entidad → producto/interfaz → diagrama/dato/flujo → fotografía contextual**. La fotografía es una alternativa editorial, no el formato obligatorio.
 
-- **No pasan el gate visual** las ilustraciones, diagramas decorativos, renders 3D, mockups conceptuales, fondos abstractos, robots, hologramas ni imágenes que se perciban como arte generado por IA.
-- La imagen no debe llevar título, fecha, propósito editorial, territorio, excerpt ni texto explicativo incrustado. Esa metadata pertenece a la UI.
-- Una foto técnicamente correcta también puede fallar si se siente genérica, artificial o repetitiva respecto de la grilla reciente.
-- El gate visual debe revisarse en el tamaño real de **Insight destacado en desktop**, además de la card estándar; una miniatura no es validación suficiente de calidad.
-- Si no hay una fotografía segura, relevante y con licencia/origen verificable, se usa el fallback branded o `NO_PUBLICATION`; no se fuerza una ilustración para completar la corrida.
-- Una excepción a esta directiva requiere aprobación humana explícita para esa pieza concreta.
+- Sin el título de la card debe poder inferirse el tema mirando la portada.
+- No pasa el gate `foto genérica + logo/etiqueta`: la composición completa debe construirse alrededor del protagonista.
+- Marcas y productos usan su universo reconocible sin alterar logos ni insinuar partnership.
+- Operación, CRM, automatización y data se representan con interfaces, pipelines, dashboards o sistemas concretos.
+- Los diagramas deben comunicar la idea central; no funcionar como decoración abstracta.
+- Se mantiene un sistema común NexOps —navy/violeta, aire, proporción y escala— sin reemplazar el contenido específico.
+- Cada asset es único, landscape desde origen y se revisa en destacado, card, detalle y OG, tanto desktop como mobile.
+- La portada no incluye el título del artículo, fecha, propósito, territorio ni excerpt. El texto interno se limita a labels propios de la interfaz o diagrama.
 
-Esta regla forma parte del contrato editorial: **una publicación nueva no queda lista sólo porque el contenido y CI estén verdes; la portada también tiene que pasar el gate fotográfico.**
+Una publicación nueva no queda lista sólo porque el contenido y CI estén verdes: la portada también debe superar el gate semántico y responsive.

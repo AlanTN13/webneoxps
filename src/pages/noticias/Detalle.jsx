@@ -48,7 +48,7 @@ export default function Detalle() {
         </header>
 
         <div className="mt-9 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <NewsVisual post={post} className="aspect-[16/8]" eager />
+          <NewsVisual post={post} className="aspect-video" eager />
         </div>
 
         <div className="mx-auto mt-10 max-w-3xl"><NewsContent content={post.content} /></div>

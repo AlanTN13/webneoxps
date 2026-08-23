@@ -6,7 +6,7 @@
   "territory": "automatizacion-procesos",
   "category": "Automatización",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-proceso-roto.jpg",
+  "coverImage": "/assets/insights/editorial/automatizar-un-proceso-roto-falla-mas-rapido.png",
   "excerpt": "Antes de automatizar hay que entender entradas, reglas, excepciones y responsables. La tecnología amplifica tanto el buen diseño como el desorden.",
   "seoTitle": "Automatizar un proceso roto hace que falle más rápido",
   "metaDescription": "Antes de automatizar hay que entender entradas, reglas, excepciones y responsables. La tecnología amplifica tanto el buen diseño como el desorden.",
@@ -223,5 +223,23 @@
     "href": "/servicios/process-automation"
   },
   "topicFingerprint": "criterio:automatizacion-procesos:automatizar-un-proceso-roto-falla-mas-rapido",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "process-diagram",
+  "primaryEntity": "Proceso defectuoso automatizado",
+  "secondaryEntities": [
+    "Retrabajo",
+    "Excepciones",
+    "Errores"
+  ],
+  "visualSubject": "Proceso con excepción, bucle de retrabajo y error amplificado por la automatización.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama editorial original NexOps.",
+  "coverAlt": "Flujo defectuoso con excepción, retrabajo y un error amplificado.",
+  "ogImage": "/assets/insights/editorial/automatizar-un-proceso-roto-falla-mas-rapido.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

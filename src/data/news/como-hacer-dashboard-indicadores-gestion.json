@@ -283,5 +283,24 @@
     "label": "Diseñar un dashboard conectado con decisiones reales",
     "href": "/servicios/data-visualization"
   },
-  "coverImage": "/assets/insights/cover-reportes-ventas.jpg"
+  "coverImage": "/assets/insights/editorial/como-hacer-dashboard-indicadores-gestion.png",
+  "visualType": "data-visualization",
+  "primaryEntity": "Dashboard de indicadores de gestión",
+  "secondaryEntities": [
+    "KPIs",
+    "Metas",
+    "Tendencias",
+    "Responsables"
+  ],
+  "visualSubject": "Dashboard con pocos KPIs, meta, tendencia, desvíos y responsables de acción.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Dashboard editorial original NexOps.",
+  "coverAlt": "Dashboard de gestión con KPIs, metas, tendencia, desvíos y responsables.",
+  "ogImage": "/assets/insights/editorial/como-hacer-dashboard-indicadores-gestion.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

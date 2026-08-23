@@ -1,9 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { constants as fsConstants } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { detectAddAction } from "./news-contract.mjs";
-import { validateCoverCollection } from "./news-image-policy.mjs";
+import { validateCoverAssetFile, validateCoverCollection } from "./news-image-policy.mjs";
 import { NEWS_DIR, readNewsFiles } from "./news-validate.mjs";
 
 const OUTCOMES = new Set(["NO_PUBLICATION", "PUBLICATION"]);
@@ -27,7 +28,7 @@ function gitOutput(args) {
   return result.stdout.trim();
 }
 
-export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR }) {
+export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR, publicDirectory = path.resolve("public") }) {
   if (!decisionPath) fail("Falta la ruta a la decisión JSON");
   const decision = JSON.parse(await fs.readFile(path.resolve(decisionPath), "utf8"));
   if (!OUTCOMES.has(decision.outcome)) fail("outcome debe ser NO_PUBLICATION o PUBLICATION");
@@ -37,9 +38,9 @@ export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR }
   }
 
   if (!decision.article) fail("PUBLICATION requiere article");
-  if (decision.coverAsset) fail("PUBLICATION ya no acepta coverAsset local: la noticia debe incluir una URL de fotografía real aprobada");
 
-  const articleSource = path.resolve(path.dirname(path.resolve(decisionPath)), decision.article);
+  const decisionDirectory = path.dirname(path.resolve(decisionPath));
+  const articleSource = path.resolve(decisionDirectory, decision.article);
   const article = JSON.parse(await fs.readFile(articleSource, "utf8"));
   await fs.mkdir(newsDirectory, { recursive: true });
   const existing = await readNewsFiles(newsDirectory);
@@ -49,16 +50,50 @@ export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR }
     fail("La publicación entra en conflicto con el corpus", [...imageErrors, ...(validation.errors || [])]);
   }
 
+  const localCover = article.coverImage?.startsWith("/");
+  const coverRelative = localCover ? article.coverImage.replace(/^\/+/, "") : null;
+  const publicRoot = path.resolve(publicDirectory);
+  const coverDestination = coverRelative ? path.resolve(publicRoot, coverRelative) : null;
+  if (coverDestination && !coverDestination.startsWith(`${publicRoot}${path.sep}`)) fail("coverImage sale del directorio public");
+
+  let coverSource = null;
+  if (decision.coverAsset) {
+    if (!localCover) fail("coverAsset requiere que coverImage sea una ruta local bajo /assets/insights/");
+    coverSource = path.resolve(decisionDirectory, decision.coverAsset);
+    const coverErrors = await validateCoverAssetFile(coverSource, article);
+    if (coverErrors.length) fail("El asset de portada no pasa la política editorial", coverErrors);
+  } else if (coverDestination) {
+    try { await fs.access(coverDestination); } catch { fail("La portada local no existe; materializala o declarala como coverAsset"); }
+  }
+
   const articleDestination = path.join(newsDirectory, `${article.slug}.json`);
   const token = `${process.pid}-${Date.now()}`;
   const articleStage = path.join(newsDirectory, `.${article.slug}.${token}.tmp`);
+  const coverStage = coverDestination ? `${coverDestination}.${token}.tmp` : null;
+  let articleCommitted = false;
+  let coverCommitted = false;
 
   try {
+    if (coverSource) {
+      await fs.mkdir(path.dirname(coverDestination), { recursive: true });
+      await fs.copyFile(coverSource, coverStage, fsConstants.COPYFILE_EXCL);
+      try { await fs.access(coverDestination); fail(`La portada ya existe: ${article.coverImage}`); } catch (error) {
+        if (error.message?.startsWith("La portada ya existe")) throw error;
+      }
+    }
     await fs.writeFile(articleStage, `${JSON.stringify(article, null, 2)}\n`, { flag: "wx" });
     await fs.rename(articleStage, articleDestination);
-    return { outcome: decision.outcome, changed: true, files: [articleDestination] };
+    articleCommitted = true;
+    if (coverSource) {
+      await fs.rename(coverStage, coverDestination);
+      coverCommitted = true;
+    }
+    return { outcome: decision.outcome, changed: true, files: [articleDestination, ...(coverSource ? [coverDestination] : [])] };
   } catch (error) {
     await fs.rm(articleStage, { force: true });
+    if (coverStage) await fs.rm(coverStage, { force: true });
+    if (articleCommitted) await fs.rm(articleDestination, { force: true });
+    if (coverCommitted) await fs.rm(coverDestination, { force: true });
     throw error;
   }
 }

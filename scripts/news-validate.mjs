@@ -1,8 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { validateCollection } from "./news-contract.mjs";
-import { validateCoverCollection } from "./news-image-policy.mjs";
-import { applyCoverOverride } from "../src/data/news/cover-overrides.js";
+import { validateCoverAssets, validateCoverCollection } from "./news-image-policy.mjs";
 
 export const NEWS_DIR = path.resolve("src/data/news");
 
@@ -32,7 +31,7 @@ export async function readNewsFiles(directory = NEWS_DIR) {
     if (`${parsed.slug}.json` !== file) {
       throw new Error(`${file}: el nombre debe coincidir con el slug (${parsed.slug}.json)`);
     }
-    articles.push(applyCoverOverride(parsed));
+    articles.push(parsed);
   }
   return articles;
 }
@@ -41,9 +40,10 @@ export async function validateRepositoryNews(directory = NEWS_DIR) {
   const articles = await readNewsFiles(directory);
   const editorial = validateCollection(articles);
   const imageErrors = validateCoverCollection(articles);
+  const assetErrors = await validateCoverAssets(articles);
   return {
     articles,
-    errors: [...editorial.errors, ...imageErrors],
+    errors: [...editorial.errors, ...imageErrors, ...assetErrors],
     warnings: editorial.warnings,
   };
 }
@@ -55,7 +55,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       for (const error of result.errors) console.error(`ERROR ${error}`);
       process.exitCode = 1;
     } else {
-      console.log(`news:validate OK — ${result.articles.length} noticia(s); dedupe editorial + portadas reales únicas OK`);
+      console.log(`news:validate OK — ${result.articles.length} noticia(s); contrato editorial multi-tipo + assets landscape únicos OK`);
     }
   } catch (error) {
     console.error(`news:validate ERROR — ${error.message}`);

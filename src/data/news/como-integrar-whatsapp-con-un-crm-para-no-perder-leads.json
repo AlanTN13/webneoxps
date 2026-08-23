@@ -6,7 +6,7 @@
   "territory": "crm-automatizacion-comercial",
   "category": "CRM",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-whatsapp-crm-guia.jpg",
+  "coverImage": "/assets/insights/editorial/como-integrar-whatsapp-con-un-crm-para-no-perder-leads.png",
   "excerpt": "Cómo conectar WhatsApp con un CRM, registrar cada consulta y automatizar el seguimiento comercial sin perder contexto ni control.",
   "seoTitle": "Integrar WhatsApp con CRM: guía para no perder leads",
   "metaDescription": "Cómo conectar WhatsApp con un CRM, registrar cada consulta y automatizar el seguimiento comercial sin perder contexto ni control.",
@@ -194,5 +194,23 @@
     "href": "/servicios/software-integrations"
   },
   "topicFingerprint": "seo:crm-automatizacion-comercial:como-integrar-whatsapp-con-un-crm-para-no-perder-leads",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "product-interface",
+  "primaryEntity": "Integración WhatsApp Business y CRM",
+  "secondaryEntities": [
+    "Ficha de lead",
+    "Historial",
+    "Próxima acción"
+  ],
+  "visualSubject": "Conversación de WhatsApp conectada directamente con una ficha y timeline de CRM.",
+  "assetSource": "official-product-reference",
+  "assetCredit": "Composición original NexOps con referencias visuales oficiales de WhatsApp Business.",
+  "coverAlt": "Conversación de WhatsApp Business conectada con una ficha de lead en el CRM.",
+  "ogImage": "/assets/insights/editorial/como-integrar-whatsapp-con-un-crm-para-no-perder-leads.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

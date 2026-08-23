@@ -6,7 +6,7 @@
   "territory": "crm-automatizacion-comercial",
   "category": "CRM",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-meta-business-agent.jpg",
+  "coverImage": "/assets/insights/editorial/meta-business-agent-whatsapp-leads-ventas.png",
   "excerpt": "Meta Business Agent lleva más acciones comerciales a WhatsApp. Qué cambia para CRM, seguimiento, permisos y control del proceso de ventas.",
   "seoTitle": "Meta Business Agent: impacto en WhatsApp y CRM",
   "metaDescription": "Meta Business Agent lleva más acciones comerciales a WhatsApp. Qué cambia para CRM, seguimiento, permisos y control del proceso de ventas.",
@@ -202,5 +202,23 @@
       "name": "Meta Newsroom",
       "url": "https://about.fb.com/news/2026/06/meta-business-agent/"
     }
-  ]
+  ],
+  "visualType": "brand-product",
+  "primaryEntity": "Meta Business Agent en WhatsApp",
+  "secondaryEntities": [
+    "WhatsApp Business",
+    "Calificación de leads",
+    "Próximo paso"
+  ],
+  "visualSubject": "Conversación comercial de WhatsApp y panel de calificación que consulta, califica y hace avanzar un lead.",
+  "assetSource": "official-product-reference",
+  "assetCredit": "Composición original NexOps con referencias visuales oficiales de Meta y WhatsApp.",
+  "coverAlt": "Meta Business Agent conversando por WhatsApp y calificando un lead comercial.",
+  "ogImage": "/assets/insights/editorial/meta-business-agent-whatsapp-leads-ventas.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

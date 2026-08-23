@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "news:add": "node scripts/news-add.mjs",
     "news:audit": "node scripts/news-audit.mjs",
+    "news:covers": "node scripts/generate-news-covers.mjs",
     "news:run": "node scripts/news-run.mjs",
     "news:validate": "node scripts/news-validate.mjs",
     "news:test": "node --test tests/news/content-engine.test.mjs",

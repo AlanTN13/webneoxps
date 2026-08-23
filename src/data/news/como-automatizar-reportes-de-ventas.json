@@ -6,7 +6,7 @@
   "territory": "data-analytics",
   "category": "Data & Analytics",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-reportes-ventas.jpg",
+  "coverImage": "/assets/insights/editorial/como-automatizar-reportes-de-ventas.png",
   "excerpt": "Una guía para integrar fuentes, definir métricas y automatizar reportes de ventas confiables sin depender de planillas y tareas manuales.",
   "seoTitle": "Cómo automatizar reportes de ventas paso a paso",
   "metaDescription": "Una guía para integrar fuentes, definir métricas y automatizar reportes de ventas confiables sin depender de planillas y tareas manuales.",
@@ -231,5 +231,24 @@
     "href": "/servicios/data-visualization"
   },
   "topicFingerprint": "seo:data-analytics:como-automatizar-reportes-de-ventas",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "data-flow",
+  "primaryEntity": "Reporte de ventas automatizado",
+  "secondaryEntities": [
+    "CRM",
+    "Planillas",
+    "Facturación",
+    "KPIs"
+  ],
+  "visualSubject": "Fuentes comerciales integradas en un modelo que actualiza un reporte programado.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Flujo de datos e interfaz editorial original NexOps.",
+  "coverAlt": "CRM, planillas y facturación conectados a un reporte de ventas programado.",
+  "ogImage": "/assets/insights/editorial/como-automatizar-reportes-de-ventas.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }

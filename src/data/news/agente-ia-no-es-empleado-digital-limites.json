@@ -6,7 +6,7 @@
   "territory": "ia-aplicada-empresas",
   "category": "IA aplicada",
   "publishedAt": "2026-08-13",
-  "coverImage": "/assets/insights/cover-agente-ia-limites.jpg",
+  "coverImage": "/assets/insights/editorial/agente-ia-no-es-empleado-digital-limites.png",
   "excerpt": "Tratar a un agente de IA como un rol completo oculta sus límites. Un criterio práctico para definir tareas, permisos, controles y escalamiento humano.",
   "seoTitle": "Un agente de IA no es un empleado digital",
   "metaDescription": "Tratar a un agente de IA como un rol completo oculta sus límites. Un criterio práctico para definir tareas, permisos, controles y escalamiento humano.",
@@ -221,5 +221,23 @@
     "href": "/servicios/ai-agents"
   },
   "topicFingerprint": "criterio:ia-aplicada-empresas:agente-ia-no-es-empleado-digital-limites",
-  "generatedByEngine": false
+  "generatedByEngine": false,
+  "visualType": "editorial-diagram",
+  "primaryEntity": "Agente de IA con límites operativos",
+  "secondaryEntities": [
+    "Permisos",
+    "Aprobación humana",
+    "Escalamiento"
+  ],
+  "visualSubject": "Agente contenido por acciones permitidas, bloqueadas, aprobación y derivación humana.",
+  "assetSource": "nexops-original",
+  "assetCredit": "Diagrama editorial original NexOps.",
+  "coverAlt": "Agente de IA rodeado por permisos, bloqueos, aprobación y escalamiento humano.",
+  "ogImage": "/assets/insights/editorial/agente-ia-no-es-empleado-digital-limites.png",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
 }
