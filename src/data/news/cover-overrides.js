@@ -14,7 +14,8 @@ export const COVER_OVERRIDES = Object.freeze({
   "openai-enfrenta-demanda-por-presunta-filtracion-de-datos-a-meta-y-google": "https://images.unsplash.com/photo-1712159018726-4564d92f3ec2?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600",
   "que-procesos-automatizar-primero-pyme": "https://images.unsplash.com/photo-1760872703636-f8d643a2b510?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600",
   "solicitud-interna-flujo-automatico-trabajo": "https://images.unsplash.com/photo-1762341122183-378b8b0238e6?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600",
-  "whatsapp-crm-circuito-automatico-seguimiento-leads": "https://images.unsplash.com/photo-1758873272345-40f377c21e7f?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600"
+  "whatsapp-crm-circuito-automatico-seguimiento-leads": "https://images.unsplash.com/photo-1758873272345-40f377c21e7f?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600",
+  "rpa-vs-automatizacion-api": "https://images.unsplash.com/photo-1760346546767-95b89356a6bb?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=85&w=1600"
 });
 
 export function applyCoverOverride(article) {
