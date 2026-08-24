@@ -11,7 +11,7 @@ async function main() {
   const inputPath = process.argv[2] || process.env.GITHUB_EVENT_PATH;
   if (!inputPath) throw new Error("Falta el JSON de repository_dispatch");
   const event = JSON.parse(await fs.readFile(path.resolve(inputPath), "utf8"));
-  const payload = event.client_payload || event;
+  const payload = event.client_payload?.record ?? event.client_payload ?? event;
   const record = createNoPublicationRecord(payload);
   const store = process.env.RADAR_HISTORY_LOCAL_DIR
     ? new FileNoPublicationStore(process.env.RADAR_HISTORY_LOCAL_DIR)
