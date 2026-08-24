@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "npm run news:audit && vite build && npm run news:seo",
     "lint": "eslint .",
+    "test": "npm run news:test && npm run radar:test",
     "preview": "vite preview",
     "news:add": "node scripts/news-add.mjs",
     "news:audit": "node scripts/news-audit.mjs",
@@ -14,6 +15,7 @@
     "news:run": "node scripts/news-run.mjs",
     "news:validate": "node scripts/news-validate.mjs",
     "news:test": "node --test tests/news/*.test.mjs",
+    "radar:test": "vitest run tests/radar",
     "news:seo": "node scripts/generate-news-seo.mjs",
     "radar:v3": "node scripts/radar-v3-ci.mjs",
     "radar:v3:no-publication": "node scripts/radar-v3-no-publication.mjs",
@@ -40,6 +42,7 @@
     "globals": "^16.3.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vitest": "^4.1.11"
   }
 }

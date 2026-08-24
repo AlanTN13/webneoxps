@@ -18,6 +18,7 @@ import SoftwareIntegrations from "./pages/servicios/SoftwareIntegrations.jsx";
 import ProcessAutomation from "./pages/servicios/ProcessAutomation.jsx";
 import FrontEndUX from "./pages/servicios/FrontEndUX.jsx";
 import RadarControlCenter from "./pages/radar/RadarControlCenter.jsx";
+import { radarFixture } from "./pages/radar/fixtures";
 
 import "./index.css";
 import ScrollToTop from "./components/ScrollToTop";
@@ -68,7 +69,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/noticias/:slug" element={<Detalle />} />
 
         {/* Radar Control Center — read-only */}
-        <Route path="/radar/*" element={<RadarControlCenter />} />
+        <Route path="/radar/*" element={<RadarControlCenter data={radarFixture} />} />
 
         {/* Fallback */}
         <Route path="*" element={<App />} />

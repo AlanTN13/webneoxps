@@ -241,7 +241,3 @@ export const radarFixture = {
     },
   ],
 } satisfies RadarControlCenterData;
-
-export function getCandidate(candidateId: string) {
-  return radarFixture.candidates.find((candidate) => candidate.id === candidateId);
-}

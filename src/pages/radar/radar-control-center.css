@@ -236,7 +236,7 @@
   .radar-run-row__chevron { grid-column: 3; grid-row: 1 / span 2; }
   .radar-view-header { align-items: flex-start; flex-direction: column; gap: 12px; }
   .radar-activity-summary { grid-template-columns: 1fr; }
-  .radar-table-heading { display: none; }
+  .radar-table-heading.radar-activity-grid { display: none; }
   .radar-activity-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 11px; }
   .radar-table-row { padding: 16px; }
   .radar-table-row > span, .radar-table-row > .radar-table-score { display: flex !important; justify-content: space-between; gap: 16px; grid-column: 1; }

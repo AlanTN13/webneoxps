@@ -17,13 +17,11 @@ import {
   GitCommitHorizontal,
   LayoutDashboard,
   Menu,
-  Radio,
   ScrollText,
   ShieldCheck,
   Sparkles,
   X,
 } from "lucide-react";
-import { getCandidate, radarFixture } from "./fixtures";
 import "./radar-control-center.css";
 
 const navItems = [
@@ -90,8 +88,8 @@ function MetricCard({ label, value, meta, tone, icon }) {
   );
 }
 
-function Overview() {
-  const { metrics, runs } = radarFixture;
+function Overview({ data }) {
+  const { generatedAt, metrics, runs } = data;
 
   return (
     <>
@@ -102,23 +100,23 @@ function Overview() {
           <p>Seguimiento read-only de candidatos, decisiones y publicaciones del Radar.</p>
         </div>
         <div className="radar-live-card">
-          <span><Radio size={15} /> Sistema operativo</span>
-          <strong>Todos los servicios estables</strong>
-          <small>Actualizado hace menos de un minuto</small>
+          <span><Database size={15} /> Snapshot read-only</span>
+          <strong>Datos de demostración</strong>
+          <small>Generado {formatDateTime(generatedAt)}</small>
         </div>
       </section>
 
       <section className="radar-metrics" aria-label="Métricas principales">
-        <MetricCard label="Runs hoy" value={metrics.runsToday} meta="3 en las últimas 2 h" tone="violet" icon={Activity} />
+        <MetricCard label="Runs hoy" value={metrics.runsToday} meta={`Snapshot ${formatTime(generatedAt)}`} tone="violet" icon={Activity} />
         <MetricCard label="Publicados" value={metrics.publishedThisWeek} meta="Esta semana" tone="green" icon={BookOpenCheck} />
         <MetricCard label="Rechazados" value={metrics.rejectedThisWeek} meta="Historial preservado" tone="amber" icon={ArchiveX} />
-        <MetricCard label="Runs saludables" value={`${metrics.successRate}%`} meta={`Promedio ${metrics.averageDuration}`} tone="blue" icon={ShieldCheck} />
+        <MetricCard label="Runs exitosos" value={`${metrics.successRate}%`} meta={`Promedio ${metrics.averageDuration}`} tone="blue" icon={ShieldCheck} />
       </section>
 
       <section className="radar-panel radar-runs-panel">
         <div className="radar-panel__header">
           <div>
-            <span className="radar-panel__kicker">Actividad en vivo</span>
+            <span className="radar-panel__kicker">Snapshot de actividad</span>
             <h2>Últimas ejecuciones</h2>
           </div>
           <Link to="/radar/activity" className="radar-text-link">Ver toda la actividad <ChevronRight size={16} /></Link>
@@ -157,14 +155,14 @@ function ViewHeader({ eyebrow, title, description, meta }) {
   );
 }
 
-function ActivityView() {
-  const { runs, metrics } = radarFixture;
+function ActivityView({ data }) {
+  const { runs, metrics } = data;
   return (
     <>
       <ViewHeader eyebrow="Activity / Runs" title="Ejecuciones recientes" description="Una línea de tiempo consolidada de las decisiones procesadas por Radar." meta={`${runs.length} runs en la muestra`} />
       <section className="radar-activity-summary" aria-label="Resumen de ejecuciones">
         <div><Activity size={17} /><span>Runs hoy</span><strong>{metrics.runsToday}</strong></div>
-        <div><CheckCircle2 size={17} /><span>Salud del sistema</span><strong>{metrics.successRate}%</strong></div>
+        <div><CheckCircle2 size={17} /><span>Runs exitosos</span><strong>{metrics.successRate}%</strong></div>
         <div><Clock3 size={17} /><span>Duración promedio</span><strong>{metrics.averageDuration}</strong></div>
       </section>
       <section className="radar-panel radar-table-panel">
@@ -188,9 +186,9 @@ function ActivityView() {
   );
 }
 
-function CandidateCollection({ status }) {
+function CandidateCollection({ data, status }) {
   const published = status === "published";
-  const candidates = radarFixture.candidates.filter((candidate) => candidate.status === status);
+  const candidates = data.candidates.filter((candidate) => candidate.status === status);
 
   return (
     <>
@@ -230,8 +228,8 @@ function ScoreRing({ score }) {
   );
 }
 
-function CandidateDetail({ candidateId }) {
-  const candidate = getCandidate(candidateId);
+function CandidateDetail({ candidateId, data }) {
+  const candidate = data.candidates.find((entry) => entry.id === candidateId);
   if (!candidate) return <PlaceholderView title="Candidato no encontrado" description="El fixture solicitado no contiene este identificador." />;
 
   const outcome = { published: "PUBLISHED", rejected: "REJECTED", reviewing: "RUNNING", failed: "FAILED" }[candidate.status];
@@ -292,12 +290,12 @@ function CandidateDetail({ candidateId }) {
   );
 }
 
-function AuditLog() {
+function AuditLog({ data }) {
   return (
     <>
       <ViewHeader eyebrow="Audit Log" title="Trazabilidad del sistema" description="Eventos relevantes del ciclo editorial, ordenados desde el más reciente." meta="Fixtures read-only" />
       <section className="radar-panel radar-audit-panel">
-        {radarFixture.audit.map((entry) => (
+        {data.audit.map((entry) => (
           <article className="radar-audit-entry" key={entry.id}>
             <div className={`radar-audit-entry__marker radar-audit-entry__marker--${entry.tone}`}><span /></div>
             <div className="radar-audit-entry__time"><strong>{formatTime(entry.occurredAt)}</strong><span>{formatDateTime(entry.occurredAt).split(",")[0]}</span></div>
@@ -320,13 +318,13 @@ function PlaceholderView({ title = "Vista no disponible", description = "Esta ru
   );
 }
 
-function CurrentView({ pathname }) {
-  if (pathname === "/radar" || pathname === "/radar/") return <Overview />;
-  if (pathname === "/radar/activity") return <ActivityView />;
-  if (pathname === "/radar/rejected") return <CandidateCollection status="rejected" />;
-  if (pathname === "/radar/published") return <CandidateCollection status="published" />;
-  if (pathname === "/radar/audit") return <AuditLog />;
-  if (pathname.startsWith("/radar/candidates/")) return <CandidateDetail candidateId={pathname.split("/").pop()} />;
+function CurrentView({ data, pathname }) {
+  if (pathname === "/radar" || pathname === "/radar/") return <Overview data={data} />;
+  if (pathname === "/radar/activity") return <ActivityView data={data} />;
+  if (pathname === "/radar/rejected") return <CandidateCollection data={data} status="rejected" />;
+  if (pathname === "/radar/published") return <CandidateCollection data={data} status="published" />;
+  if (pathname === "/radar/audit") return <AuditLog data={data} />;
+  if (pathname.startsWith("/radar/candidates/")) return <CandidateDetail candidateId={pathname.split("/").pop()} data={data} />;
   return <PlaceholderView />;
 }
 
@@ -336,7 +334,7 @@ function currentPageName(pathname) {
   return navItems.find((item) => item.path === pathname)?.label || "Control Center";
 }
 
-export default function RadarControlCenter() {
+export default function RadarControlCenter({ data }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const isOverview = location.pathname === "/radar" || location.pathname === "/radar/";
@@ -376,7 +374,7 @@ export default function RadarControlCenter() {
           <div><span>Radar workspace</span><strong>{currentPageName(location.pathname)}</strong></div>
           <div className="radar-topbar__meta"><span className="radar-environment"><span /> Preview data</span><div className="radar-avatar">AF</div></div>
         </header>
-        <div className="radar-content"><CurrentView pathname={location.pathname} /></div>
+        <div className="radar-content"><CurrentView data={data} pathname={location.pathname} /></div>
       </main>
     </div>
   );
