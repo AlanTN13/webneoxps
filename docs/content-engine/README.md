@@ -72,40 +72,42 @@ No se abre PR, no se escribe en `src/data/news` y ningún registro o artifact co
 
 El core considera `NO_PUBLICATION` cerrado únicamente después de que `persistNoPublication()` confirma el store durable. Si falta el adapter o falla la escritura, el outcome final es `FAILED`, no un falso `NO_PUBLICATION` exitoso.
 
-El Radar externo envía una `repository_dispatch` de tipo `radar_no_publication`. El workflow confiable `.github/workflows/radar-v3-no-publication.yml` valida y sanitiza `client_payload` antes de escribir en el store:
+El Radar externo envía una `repository_dispatch` de tipo `radar_no_publication`. Para respetar el límite de propiedades top-level de GitHub, el formato canónico encapsula el registro en `client_payload.record`. El receptor conserva compatibilidad con el formato directo anterior para corridas locales y clientes existentes. El workflow confiable `.github/workflows/radar-v3-no-publication.yml` valida y sanitiza el registro antes de escribir en el store:
 
 ```json
 {
   "event_type": "radar_no_publication",
   "client_payload": {
-    "outcome": "NO_PUBLICATION",
-    "engineRunId": "radar-2026-08-24-001",
-    "timestamp": "2026-08-24T12:00:00.000Z",
-    "title": "Actualización menor de una plataforma CRM",
-    "topic": "Cambio de interfaz sin impacto operativo comprobable",
-    "source": { "name": "Documentación oficial", "url": "https://example.com/update" },
-    "scoreTotal": 61,
-    "scoreBreakdown": [
-      { "criterion": "relevance", "score": 72 },
-      { "criterion": "novelty", "score": 41 },
-      { "criterion": "editorial-fit", "score": 68 }
-    ],
-    "policyVersion": "radar-v3.1",
-    "reason": "No supera el umbral editorial por baja novedad.",
-    "topicFingerprint": "crm:product-update:minor-ui",
-    "editorialMetadata": {
-      "contentType": "actualidad",
-      "contentPurpose": "actualidad",
-      "territory": "crm-automatizacion-comercial",
-      "category": "crm",
-      "primaryEntity": "Plataforma CRM",
-      "visualType": "product-interface"
-    },
-    "assetReference": {
-      "kind": "official-product-reference",
-      "reference": "https://example.com/update/cover.png",
-      "source": "Documentación oficial",
-      "credit": "Referencia evaluada; no publicada."
+    "record": {
+      "outcome": "NO_PUBLICATION",
+      "engineRunId": "radar-2026-08-24-001",
+      "timestamp": "2026-08-24T12:00:00.000Z",
+      "title": "Actualización menor de una plataforma CRM",
+      "topic": "Cambio de interfaz sin impacto operativo comprobable",
+      "source": { "name": "Documentación oficial", "url": "https://example.com/update" },
+      "scoreTotal": 61,
+      "scoreBreakdown": [
+        { "criterion": "relevance", "score": 72 },
+        { "criterion": "novelty", "score": 41 },
+        { "criterion": "editorial-fit", "score": 68 }
+      ],
+      "policyVersion": "radar-v3.1",
+      "reason": "No supera el umbral editorial por baja novedad.",
+      "topicFingerprint": "crm:product-update:minor-ui",
+      "editorialMetadata": {
+        "contentType": "actualidad",
+        "contentPurpose": "actualidad",
+        "territory": "crm-automatizacion-comercial",
+        "category": "crm",
+        "primaryEntity": "Plataforma CRM",
+        "visualType": "product-interface"
+      },
+      "assetReference": {
+        "kind": "official-product-reference",
+        "reference": "https://example.com/update/cover.png",
+        "source": "Documentación oficial",
+        "credit": "Referencia evaluada; no publicada."
+      }
     }
   }
 }

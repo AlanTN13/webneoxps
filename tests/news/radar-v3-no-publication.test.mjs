@@ -43,10 +43,11 @@ function payload(overrides = {}) {
   };
 }
 
-async function runCli(rootDirectory, eventPayload, suffix = "event") {
+async function runCli(rootDirectory, eventPayload, suffix = "event", { wrapRecord = false } = {}) {
   const eventPath = path.join(rootDirectory, `${suffix}.json`);
   const resultPath = path.join(rootDirectory, `${suffix}-result.json`);
-  await fs.writeFile(eventPath, JSON.stringify({ client_payload: eventPayload }), "utf8");
+  const clientPayload = wrapRecord ? { record: eventPayload } : eventPayload;
+  await fs.writeFile(eventPath, JSON.stringify({ client_payload: clientPayload }), "utf8");
   const processResult = spawnSync(process.execPath, [CLI, eventPath], {
     cwd: ROOT,
     encoding: "utf8",
@@ -59,7 +60,20 @@ async function runCli(rootDirectory, eventPayload, suffix = "event") {
   return { processResult, resultPath };
 }
 
-test("NO_PUBLICATION persiste en un store real, durable e idempotente sin tocar el corpus", async (t) => {
+test("NO_PUBLICATION acepta el contrato canónico encapsulado en client_payload.record", async (t) => {
+  const rootDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "radar-no-publication-record-"));
+  t.after(() => fs.rm(rootDirectory, { recursive: true, force: true }));
+
+  const canonical = await runCli(rootDirectory, payload(), "record", { wrapRecord: true });
+  assert.equal(canonical.processResult.status, 0, canonical.processResult.stderr);
+  const result = JSON.parse(await fs.readFile(canonical.resultPath, "utf8"));
+
+  assert.equal(result.record.engineRunId, "radar-2026-08-23-009");
+  assert.equal(result.storage.created, true);
+  assert.equal(result.storage.path, "no-publication/radar-2026-08-23-009.json");
+});
+
+test("NO_PUBLICATION conserva compatibilidad con client_payload directo", async (t) => {
   const rootDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "radar-no-publication-"));
   t.after(() => fs.rm(rootDirectory, { recursive: true, force: true }));
   const newsBefore = await fs.readdir(path.join(ROOT, "src/data/news"));
