@@ -1,20 +1,25 @@
 /* Carrusel infinito */
 @keyframes marquee {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); } /* hay dos strips iguales */
+  to   { transform: translateX(-50%); }
 }
+
+html {
+  scroll-padding-top: 72px;
+}
+
 .marquee-track {
   width: max-content;
   animation: marquee 24s linear infinite;
 }
+
 @media (max-width: 768px) {
   .marquee-track { animation-duration: 18s; }
 }
 
-
 /* Pinta todos los logos con un color uniforme usando el SVG como máscara */
 .logo-mask{
-  background-color: #9ca3af;           /* gris uniforme (slate-400) */
+  background-color: #9ca3af;
   opacity:.9;
   transition: background-color .2s ease, opacity .2s ease;
 
@@ -27,8 +32,9 @@
   -webkit-mask-size: contain;
   mask-size: contain;
 }
+
 .logo-mask:hover{
-  background-color:#111827;            /* slate-900 al hover */
+  background-color:#111827;
   opacity:1;
 }
 
@@ -38,4 +44,20 @@
   width: 100% !important;
   min-width: 0 !important;
   border: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
 }

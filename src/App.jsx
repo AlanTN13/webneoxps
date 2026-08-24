@@ -5,16 +5,15 @@ import Rellax from "rellax";
 import "./index.css";
 import "./App.css";
 
-import ServicesOverview from "./components/ServicesOverview";
 import HowWeWork from "./components/HowWeWork";
 import CTA from "./components/CTA";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
+import OperationStory from "./components/OperationStory";
 import Logos from "./components/Logos";
 import { useReveal } from "./hooks/useReveal";
 
 export default function App() {
-  // Parallax
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!prefersReduced.matches && window.innerWidth >= 640) {
@@ -36,7 +35,8 @@ export default function App() {
   return (
     <Layout>
       <Hero />
-      <ServicesOverview />
+      <div id="operation-story-start" className="scroll-mt-[72px]" aria-hidden="true" />
+      <OperationStory />
       <Logos />
       <HowWeWork />
       <CTA />
