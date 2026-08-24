@@ -1,152 +1,70 @@
-import { createElement, useEffect, useState } from "react";
+import { createElement, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Activity,
   ArrowLeft,
   ArrowUpRight,
-  ArchiveX,
   BookOpenCheck,
   CalendarDays,
-  CheckCircle2,
+  Check,
   ChevronRight,
-  CircleDot,
-  Clock3,
-  Database,
+  CircleAlert,
+  Compass,
   ExternalLink,
   FileSearch,
-  GitCommitHorizontal,
-  LayoutDashboard,
+  Gauge,
+  History,
+  Home,
+  Lightbulb,
   Menu,
-  ScrollText,
+  Minus,
+  Plus,
+  Radar,
+  Settings2,
   ShieldCheck,
   Sparkles,
+  Target,
+  TrendingUp,
   X,
 } from "lucide-react";
 import "./radar-control-center.css";
 
 const navItems = [
-  { label: "Overview", path: "/radar", icon: LayoutDashboard },
-  { label: "Activity / Runs", path: "/radar/activity", icon: Activity },
-  { label: "Rejected", path: "/radar/rejected", icon: ArchiveX },
-  { label: "Published", path: "/radar/published", icon: BookOpenCheck },
-  { label: "Audit Log", path: "/radar/audit", icon: ScrollText },
+  { label: "Inicio", path: "/radar", icon: Home },
+  { label: "Oportunidades", path: "/radar/opportunities", icon: Lightbulb },
+  { label: "Publicadas", path: "/radar/published", icon: BookOpenCheck },
+  { label: "Configuración", path: "/radar/configuration", icon: Settings2 },
+  { label: "Historial", path: "/radar/history", icon: History },
 ];
 
-const outcomeLabels = {
-  PUBLISHED: "Published",
-  REJECTED: "Rejected",
-  FAILED: "Failed",
-  RUNNING: "Running",
+const potentialLabels = { high: "Alto potencial", medium: "Potencial medio", low: "Bajo potencial" };
+const statusLabels = {
+  tracking: "En observación",
+  ready: "Lista para avanzar",
+  published: "Publicada",
+  discarded: "Descartada",
+  review: "Necesita atención",
 };
+const priorityLabels = { primary: "Principal", secondary: "Secundario", off: "Sin priorizar" };
 
-function formatTime(value) {
-  return new Intl.DateTimeFormat("es-AR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(value));
+function formatDate(value) {
+  return new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "short", year: "numeric" }).format(new Date(value));
 }
 
 function formatDateTime(value) {
   return new Intl.DateTimeFormat("es-AR", {
-    day: "2-digit",
+    day: "numeric",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date(value));
 }
 
-function purposeLabel(value) {
-  return {
-    actualidad: "Actualidad aplicada",
-    seo: "Guía y problema",
-    criterio: "Criterio NexOps",
-    caso: "Caso y aplicación",
-  }[value] || value;
-}
-
-function StatusPill({ outcome }) {
-  return (
-    <span className={`radar-status radar-status--${outcome.toLowerCase()}`}>
-      <span className="radar-status__dot" aria-hidden="true" />
-      {outcomeLabels[outcome]}
-    </span>
-  );
-}
-
-function MetricCard({ label, value, meta, tone, icon }) {
-  return (
-    <article className="radar-metric-card">
-      <div className={`radar-metric-card__icon radar-metric-card__icon--${tone}`}>
-        {createElement(icon, { size: 18, strokeWidth: 1.9 })}
-      </div>
-      <div>
-        <span className="radar-metric-card__label">{label}</span>
-        <strong>{value}</strong>
-        <small>{meta}</small>
-      </div>
-    </article>
-  );
-}
-
-function Overview({ data }) {
-  const { generatedAt, metrics, runs } = data;
-
-  return (
-    <>
-      <section className="radar-hero-panel">
-        <div>
-          <span className="radar-eyebrow"><Sparkles size={14} /> Control Center</span>
-          <h1>La operación editorial, en una sola vista.</h1>
-          <p>Seguimiento read-only de candidatos, decisiones y publicaciones del Radar.</p>
-        </div>
-        <div className="radar-live-card">
-          <span><Database size={15} /> Snapshot read-only</span>
-          <strong>Datos de demostración</strong>
-          <small>Generado {formatDateTime(generatedAt)}</small>
-        </div>
-      </section>
-
-      <section className="radar-metrics" aria-label="Métricas principales">
-        <MetricCard label="Runs hoy" value={metrics.runsToday} meta={`Snapshot ${formatTime(generatedAt)}`} tone="violet" icon={Activity} />
-        <MetricCard label="Publicados" value={metrics.publishedThisWeek} meta="Esta semana" tone="green" icon={BookOpenCheck} />
-        <MetricCard label="Rechazados" value={metrics.rejectedThisWeek} meta="Historial preservado" tone="amber" icon={ArchiveX} />
-        <MetricCard label="Runs exitosos" value={`${metrics.successRate}%`} meta={`Promedio ${metrics.averageDuration}`} tone="blue" icon={ShieldCheck} />
-      </section>
-
-      <section className="radar-panel radar-runs-panel">
-        <div className="radar-panel__header">
-          <div>
-            <span className="radar-panel__kicker">Snapshot de actividad</span>
-            <h2>Últimas ejecuciones</h2>
-          </div>
-          <Link to="/radar/activity" className="radar-text-link">Ver toda la actividad <ChevronRight size={16} /></Link>
-        </div>
-        <div className="radar-run-list">
-          {runs.slice(0, 4).map((run) => (
-            <Link to={`/radar/candidates/${run.candidateId}`} className="radar-run-row" key={run.id}>
-              <div className="radar-run-row__state"><CircleDot size={18} /></div>
-              <div className="radar-run-row__main">
-                <strong>{run.title}</strong>
-                <span>{run.source} · {run.engineRunId}</span>
-              </div>
-              <div className="radar-run-row__time">
-                <Clock3 size={14} /> {formatTime(run.startedAt)}
-              </div>
-              <StatusPill outcome={run.outcome} />
-              <ChevronRight className="radar-run-row__chevron" size={18} />
-            </Link>
-          ))}
-        </div>
-      </section>
-    </>
-  );
-}
-
 function ViewHeader({ eyebrow, title, description, meta }) {
   return (
     <header className="radar-view-header">
       <div>
-        <span className="radar-panel__kicker">{eyebrow}</span>
+        <span className="radar-kicker">{eyebrow}</span>
         <h1>{title}</h1>
         <p>{description}</p>
       </div>
@@ -155,152 +73,124 @@ function ViewHeader({ eyebrow, title, description, meta }) {
   );
 }
 
-function ActivityView({ data }) {
-  const { runs, metrics } = data;
+function PotentialPill({ potential }) {
+  return <span className={`radar-pill radar-pill--${potential}`}>{potentialLabels[potential]}</span>;
+}
+
+function StatusPill({ status }) {
+  return <span className={`radar-state radar-state--${status}`}><span />{statusLabels[status]}</span>;
+}
+
+function MetricCard({ icon, label, value, detail, tone }) {
   return (
-    <>
-      <ViewHeader eyebrow="Activity / Runs" title="Ejecuciones recientes" description="Una línea de tiempo consolidada de las decisiones procesadas por Radar." meta={`${runs.length} runs en la muestra`} />
-      <section className="radar-activity-summary" aria-label="Resumen de ejecuciones">
-        <div><Activity size={17} /><span>Runs hoy</span><strong>{metrics.runsToday}</strong></div>
-        <div><CheckCircle2 size={17} /><span>Runs exitosos</span><strong>{metrics.successRate}%</strong></div>
-        <div><Clock3 size={17} /><span>Duración promedio</span><strong>{metrics.averageDuration}</strong></div>
-      </section>
-      <section className="radar-panel radar-table-panel">
-        <div className="radar-table-heading radar-activity-grid" aria-hidden="true">
-          <span>Candidato</span><span>Inicio</span><span>Duración</span><span>Score público</span><span>Resultado</span><span />
-        </div>
-        <div className="radar-table-body">
-          {runs.map((run) => (
-            <Link to={`/radar/candidates/${run.candidateId}`} className="radar-table-row radar-activity-grid" key={run.id}>
-              <div className="radar-table-primary"><span className="radar-table-icon"><GitCommitHorizontal size={17} /></span><div><strong>{run.title}</strong><small>{run.source} · {run.engineRunId}</small></div></div>
-              <span data-label="Inicio">{formatDateTime(run.startedAt)}</span>
-              <span data-label="Duración">{run.duration}</span>
-              <strong className="radar-table-score" data-label="Score público">{run.scoreTotal}</strong>
-              <StatusPill outcome={run.outcome} />
-              <ChevronRight size={17} className="radar-table-chevron" />
-            </Link>
-          ))}
-        </div>
-      </section>
-    </>
+    <article className="radar-metric">
+      <span className={`radar-metric__icon radar-metric__icon--${tone}`}>{createElement(icon, { size: 19 })}</span>
+      <div><small>{label}</small><strong>{value}</strong><span>{detail}</span></div>
+    </article>
   );
 }
 
-function CandidateCollection({ data, status }) {
-  const published = status === "published";
-  const candidates = data.candidates.filter((candidate) => candidate.status === status);
-
+function OpportunityCard({ opportunity, featured = false }) {
   return (
-    <>
-      <ViewHeader
-        eyebrow={published ? "Published" : "Rejected"}
-        title={published ? "Contenido publicado" : "Candidatos rechazados"}
-        description={published ? "Piezas que completaron el circuito y llegaron a una URL pública verificada." : "Decisiones conservadas para trazabilidad, sin modificar el corpus público."}
-        meta={`${candidates.length} registros en la muestra`}
-      />
-      <section className="radar-collection-grid">
-        {candidates.map((candidate) => (
-          <Link to={`/radar/candidates/${candidate.id}`} className="radar-candidate-card" key={candidate.id}>
-            <div className="radar-candidate-card__top">
-              <StatusPill outcome={published ? "PUBLISHED" : "REJECTED"} />
-              <span className="radar-score-badge">{candidate.scoreTotal}<small>/100</small></span>
-            </div>
-            <div>
-              <span className="radar-candidate-card__type">{purposeLabel(candidate.contentPurpose)}</span>
-              <h2>{candidate.title}</h2>
-              <p>{candidate.summary}</p>
-            </div>
-            {!published && <div className="radar-decision-note"><ArchiveX size={15} /><span>{candidate.rejectionReason}</span></div>}
-            {published && <div className="radar-decision-note radar-decision-note--success"><CheckCircle2 size={15} /><span>Producción verificada</span></div>}
-            <footer><span>{candidate.sourceName}</span><span>{formatDateTime(candidate.decisionAt)}</span><ChevronRight size={17} /></footer>
-          </Link>
-        ))}
-      </section>
-    </>
-  );
-}
-
-function ScoreRing({ score }) {
-  return (
-    <div className="radar-score-ring" style={{ "--radar-score": `${score * 3.6}deg` }} aria-label={`Score público ${score} de 100`}>
-      <div><strong>{score}</strong><span>/100</span></div>
-    </div>
-  );
-}
-
-function CandidateDetail({ candidateId, data }) {
-  const candidate = data.candidates.find((entry) => entry.id === candidateId);
-  if (!candidate) return <PlaceholderView title="Candidato no encontrado" description="El fixture solicitado no contiene este identificador." />;
-
-  const outcome = { published: "PUBLISHED", rejected: "REJECTED", reviewing: "RUNNING", failed: "FAILED" }[candidate.status];
-  return (
-    <>
-      <Link to="/radar/activity" className="radar-back-link"><ArrowLeft size={16} /> Volver a Activity</Link>
-      <section className="radar-detail-hero">
-        <div className="radar-detail-hero__copy">
-          <div className="radar-detail-hero__meta"><StatusPill outcome={outcome} /><span>{purposeLabel(candidate.contentPurpose)}</span></div>
-          <h1>{candidate.title}</h1>
-          <p>{candidate.summary}</p>
-          <div className="radar-detail-tags"><span>{candidate.territory}</span><span>{candidate.engineRunId}</span></div>
-        </div>
-        <ScoreRing score={candidate.scoreTotal} />
-      </section>
-
-      <div className="radar-detail-grid">
-        <div className="radar-detail-main">
-          <section className="radar-panel radar-detail-section">
-            <div className="radar-panel__header"><div><span className="radar-panel__kicker">Evaluación pública</span><h2>Señales del candidato</h2></div><span className="radar-section-note">Sin fórmulas ni pesos internos</span></div>
-            <div className="radar-signal-list">
-              {candidate.publicSignals.map((signal) => (
-                <div className="radar-signal" key={signal.key}>
-                  <div><span>{signal.label}</span><strong>{signal.score}</strong></div>
-                  <div className="radar-signal__track"><span style={{ width: `${signal.score}%` }} /></div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="radar-panel radar-detail-section">
-            <div className="radar-panel__header"><div><span className="radar-panel__kicker">Decisión</span><h2>Resultado editorial</h2></div></div>
-            <div className={`radar-result-box radar-result-box--${candidate.status}`}>
-              {candidate.status === "published" ? <CheckCircle2 size={21} /> : candidate.status === "rejected" ? <ArchiveX size={21} /> : <Activity size={21} />}
-              <div>
-                <strong>{candidate.status === "published" ? "Publicado y verificado" : candidate.status === "rejected" ? "No publicado" : "Evaluación en curso"}</strong>
-                <p>{candidate.rejectionReason || (candidate.publishedUrl ? "La pieza completó los gates editoriales, técnicos y de producción." : "El run todavía no emitió una decisión final.")}</p>
-                {candidate.publishedUrl && <a href={candidate.publishedUrl}>Ver contenido publicado <ArrowUpRight size={15} /></a>}
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <aside className="radar-detail-aside">
-          <section className="radar-panel radar-detail-section">
-            <div className="radar-panel__header"><div><span className="radar-panel__kicker">Candidate</span><h2>Registro</h2></div></div>
-            <dl className="radar-facts">
-              <div><dt><Database size={14} /> Fuente</dt><dd><a href={candidate.sourceUrl} target="_blank" rel="noreferrer">{candidate.sourceName} <ExternalLink size={12} /></a></dd></div>
-              <div><dt><CalendarDays size={14} /> Recibido</dt><dd>{formatDateTime(candidate.submittedAt)}</dd></div>
-              {candidate.decisionAt && <div><dt><CheckCircle2 size={14} /> Decisión</dt><dd>{formatDateTime(candidate.decisionAt)}</dd></div>}
-              <div><dt><GitCommitHorizontal size={14} /> Run ID</dt><dd>{candidate.engineRunId}</dd></div>
-            </dl>
-          </section>
-          <div className="radar-readonly-note"><ShieldCheck size={17} /><div><strong>Vista de solo lectura</strong><p>Este prototipo no publica, recalcula ni modifica reglas.</p></div></div>
-        </aside>
+    <Link className={`radar-opportunity-card ${featured ? "radar-opportunity-card--featured" : ""}`} to={`/radar/opportunities/${opportunity.id}`}>
+      <div className="radar-opportunity-card__image">
+        <img src={opportunity.imageUrl} alt="" />
+        <PotentialPill potential={opportunity.potential} />
       </div>
+      <div className="radar-opportunity-card__body">
+        <div className="radar-opportunity-card__meta"><span>{opportunity.category}</span><StatusPill status={opportunity.status} /></div>
+        <h3>{opportunity.title}</h3>
+        <p>{opportunity.explanation}</p>
+        <footer><span>{opportunity.sourceName}</span><span>Ver oportunidad <ChevronRight size={15} /></span></footer>
+      </div>
+    </Link>
+  );
+}
+
+function HomeView({ data }) {
+  const featured = data.opportunities.filter((item) => item.potential === "high").slice(0, 3);
+  const attention = data.opportunities.find((item) => item.status === "review");
+
+  return (
+    <>
+      <section className="radar-hero">
+        <div className="radar-hero__copy">
+          <span className="radar-eyebrow"><Sparkles size={14} /> Inteligencia editorial autónoma</span>
+          <h1>Radar encuentra oportunidades y las convierte en contenido con criterio.</h1>
+          <p>Definí qué querés lograr. Radar observa el mercado, protege el foco de tu marca y avanza sólo cuando una oportunidad lo merece.</p>
+          <Link className="radar-primary-link" to="/radar/configuration">Definir cómo debe trabajar <ArrowUpRight size={16} /></Link>
+        </div>
+        <div className="radar-working-card">
+          <div className="radar-working-card__pulse"><Radar size={24} /><span /></div>
+          <span className="radar-kicker">Trabajando ahora</span>
+          <strong>{data.status.title}</strong>
+          <p>{data.status.detail}</p>
+          <small>Vista demostrativa · {formatDateTime(data.generatedAt)}</small>
+        </div>
+      </section>
+
+      <section className="radar-metrics" aria-label="Resultados de esta semana">
+        <MetricCard icon={Compass} label="Detectadas esta semana" value={data.summary.detectedThisWeek} detail="Oportunidades relevantes" tone="violet" />
+        <MetricCard icon={BookOpenCheck} label="Publicadas" value={data.summary.publishedThisWeek} detail="Contenido puesto a trabajar" tone="green" />
+        <MetricCard icon={Activity} label="En observación" value={data.summary.trackingNow} detail="Radar sigue buscando señales" tone="blue" />
+        <MetricCard icon={ShieldCheck} label="Descartadas" value={data.summary.discardedThisWeek} detail="Ruido que no llegó a tu marca" tone="amber" />
+      </section>
+
+      {attention && (
+        <Link className="radar-attention" to={`/radar/opportunities/${attention.id}`}>
+          <span className="radar-attention__icon"><CircleAlert size={19} /></span>
+          <div><strong>Hay una oportunidad que necesita tu atención</strong><p>{attention.title} tiene potencial, pero requiere confirmar el enfoque.</p></div>
+          <span>Revisar <ChevronRight size={16} /></span>
+        </Link>
+      )}
+
+      <section className="radar-section-heading">
+        <div><span className="radar-kicker">Lo más prometedor</span><h2>Oportunidades con impacto para el negocio</h2></div>
+        <Link to="/radar/opportunities">Ver todas <ChevronRight size={16} /></Link>
+      </section>
+      <section className="radar-opportunity-grid radar-opportunity-grid--home">
+        {featured.map((opportunity) => <OpportunityCard key={opportunity.id} opportunity={opportunity} featured />)}
+      </section>
     </>
   );
 }
 
-function AuditLog({ data }) {
+function OpportunitiesView({ data }) {
+  const [filter, setFilter] = useState("all");
+  const filtered = filter === "all" ? data.opportunities : data.opportunities.filter((item) => item.status === filter);
   return (
     <>
-      <ViewHeader eyebrow="Audit Log" title="Trazabilidad del sistema" description="Eventos relevantes del ciclo editorial, ordenados desde el más reciente." meta="Fixtures read-only" />
-      <section className="radar-panel radar-audit-panel">
-        {data.audit.map((entry) => (
-          <article className="radar-audit-entry" key={entry.id}>
-            <div className={`radar-audit-entry__marker radar-audit-entry__marker--${entry.tone}`}><span /></div>
-            <div className="radar-audit-entry__time"><strong>{formatTime(entry.occurredAt)}</strong><span>{formatDateTime(entry.occurredAt).split(",")[0]}</span></div>
-            <div className="radar-audit-entry__body"><strong>{entry.event}</strong><p>{entry.detail}</p><small>{entry.actor}</small></div>
-            <code>{entry.reference}</code>
+      <ViewHeader eyebrow="Oportunidades" title="Ideas que merecen una decisión" description="Radar ordena lo que encuentra por valor para el negocio y explica por qué conviene avanzar, esperar o descartar." meta={`${data.opportunities.length} oportunidades`} />
+      <div className="radar-filters" aria-label="Filtrar oportunidades">
+        {[
+          ["all", "Todas"], ["ready", "Listas"], ["tracking", "En observación"], ["review", "Con atención"], ["discarded", "Descartadas"],
+        ].map(([value, label]) => <button key={value} type="button" className={filter === value ? "is-active" : ""} onClick={() => setFilter(value)}>{label}</button>)}
+      </div>
+      <section className="radar-opportunity-grid">
+        {filtered.map((opportunity) => <OpportunityCard key={opportunity.id} opportunity={opportunity} />)}
+      </section>
+    </>
+  );
+}
+
+function PublishedView({ data }) {
+  return (
+    <>
+      <ViewHeader eyebrow="Publicadas" title="Contenido que Radar puso a trabajar" description="Cada pieza nace de una oportunidad concreta y queda vinculada con el motivo de negocio que justificó publicarla." meta={`${data.publications.length} publicaciones`} />
+      <section className="radar-publication-list">
+        {data.publications.map((publication) => (
+          <article className="radar-publication" key={publication.id}>
+            <img src={publication.imageUrl} alt="" />
+            <div className="radar-publication__body">
+              <div className="radar-publication__meta"><span>{publication.category}</span><span><Check size={13} /> Disponible</span></div>
+              <h2>{publication.title}</h2>
+              <p>{publication.reason}</p>
+              <footer>
+                <span><CalendarDays size={14} /> {formatDate(publication.publishedAt)}</span>
+                <span><Sparkles size={14} /> Publicación automática</span>
+                <a href={publication.url}>Ver publicación <ArrowUpRight size={15} /></a>
+              </footer>
+            </div>
           </article>
         ))}
       </section>
@@ -308,72 +198,225 @@ function AuditLog({ data }) {
   );
 }
 
-function PlaceholderView({ title = "Vista no disponible", description = "Esta ruta no forma parte del prototipo actual." }) {
+const selectivityOptions = [
+  { value: "selective", label: "Muy selectivo", detail: "Menos publicaciones, sólo con señales excepcionales." },
+  { value: "balanced", label: "Equilibrado", detail: "Prioriza calidad con una cadencia constante." },
+  { value: "active", label: "Más activo", detail: "Explora más oportunidades y acepta señales tempranas." },
+];
+const autonomyOptions = [
+  { value: "automatic", label: "Automático", detail: "Avanza solo cuando se cumplen todos tus límites." },
+  { value: "assisted", label: "Con confirmación", detail: "Pide aprobación antes de cada publicación." },
+  { value: "manual", label: "Sólo sugerencias", detail: "Detecta oportunidades, sin avanzar por su cuenta." },
+];
+const sourceOptions = [
+  { value: "official", label: "Sólo oficiales", detail: "Máxima autoridad, universo más acotado." },
+  { value: "recognized", label: "Oficiales y reconocidas", detail: "Buen equilibrio entre confianza y variedad." },
+  { value: "broad", label: "Exploración amplia", detail: "Suma fuentes emergentes que luego deben confirmarse." },
+];
+
+function ChoiceGroup({ label, description, options, value, onChange }) {
   return (
-    <section className="radar-panel radar-placeholder">
-      <FileSearch size={28} />
-      <h2>{title}</h2>
-      <p>{description}</p>
-    </section>
+    <fieldset className="radar-choice-group">
+      <legend>{label}</legend><p>{description}</p>
+      <div className="radar-choice-grid">
+        {options.map((option) => (
+          <button key={option.value} type="button" className={value === option.value ? "is-selected" : ""} onClick={() => onChange(option.value)}>
+            <span className="radar-radio">{value === option.value && <span />}</span>
+            <strong>{option.label}</strong><small>{option.detail}</small>
+          </button>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 
+function Toggle({ checked, onChange, label, description }) {
+  return (
+    <button type="button" role="switch" aria-checked={checked} className="radar-toggle-row" onClick={() => onChange(!checked)}>
+      <span><strong>{label}</strong><small>{description}</small></span>
+      <span className={`radar-switch ${checked ? "is-on" : ""}`}><span /></span>
+    </button>
+  );
+}
+
+function ConfigurationView({ initialConfiguration }) {
+  const [configuration, setConfiguration] = useState(() => structuredClone(initialConfiguration));
+  const update = (key, value) => setConfiguration((current) => ({ ...current, [key]: value }));
+  const activeTopics = configuration.topics.filter((topic) => topic.enabled).map((topic) => topic.label);
+  const primaryGoal = configuration.goals.find((goal) => goal.priority === "primary")?.label || "un objetivo principal";
+
+  function cycleGoal(goalId) {
+    const order = ["primary", "secondary", "off"];
+    update("goals", configuration.goals.map((goal) => goal.id === goalId ? { ...goal, priority: order[(order.indexOf(goal.priority) + 1) % order.length] } : goal));
+  }
+
+  function toggleTopic(topicId) {
+    update("topics", configuration.topics.map((topic) => topic.id === topicId ? { ...topic, enabled: !topic.enabled } : topic));
+  }
+
+  function toggleRestriction(restrictionId) {
+    update("restrictions", configuration.restrictions.map((item) => item.id === restrictionId ? { ...item, enabled: !item.enabled } : item));
+  }
+
+  function toggleDay(day) {
+    const enabledDays = configuration.enabledDays.includes(day)
+      ? configuration.enabledDays.filter((item) => item !== day)
+      : [...configuration.enabledDays, day];
+    update("enabledDays", enabledDays);
+  }
+
+  return (
+    <>
+      <ViewHeader eyebrow="Configuración" title="Decile a Radar qué querés lograr" description="Estas decisiones traducen tus objetivos de negocio en una forma de trabajar clara, selectiva y protegida." />
+      <div className="radar-demo-banner"><ShieldCheck size={18} /><div><strong>Simulación local</strong><span>Podés explorar libremente: estos cambios no se guardan ni afectan al Radar real.</span></div></div>
+
+      <div className="radar-config-layout">
+        <div className="radar-config-main">
+          <section className="radar-config-section">
+            <div className="radar-config-section__heading"><span>1</span><div><h2>Objetivos de negocio</h2><p>Marcá qué resultados debe priorizar Radar. Tocá cada opción para cambiar su peso.</p></div></div>
+            <div className="radar-goal-grid">
+              {configuration.goals.map((goal) => (
+                <button type="button" key={goal.id} className={`radar-goal-card radar-goal-card--${goal.priority}`} onClick={() => cycleGoal(goal.id)}>
+                  <span className="radar-goal-card__icon"><Target size={18} /></span>
+                  <strong>{goal.label}</strong><p>{goal.description}</p><small>{priorityLabels[goal.priority]}</small>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="radar-config-section">
+            <div className="radar-config-section__heading"><span>2</span><div><h2>Territorios que importan</h2><p>Radar concentrará su atención en los temas activos.</p></div></div>
+            <div className="radar-topic-list">
+              {configuration.topics.map((topic) => <button type="button" key={topic.id} className={topic.enabled ? "is-selected" : ""} onClick={() => toggleTopic(topic.id)}>{topic.enabled && <Check size={15} />}{topic.label}</button>)}
+            </div>
+          </section>
+
+          <section className="radar-config-section">
+            <div className="radar-config-section__heading"><span>3</span><div><h2>Criterio y autonomía</h2><p>Elegí cuánto debe filtrar y hasta dónde puede avanzar solo.</p></div></div>
+            <ChoiceGroup label="Nivel de selectividad" description="Define cuánta evidencia necesita una oportunidad para avanzar." options={selectivityOptions} value={configuration.selectivity} onChange={(value) => update("selectivity", value)} />
+            <ChoiceGroup label="Nivel de autonomía" description="Define cuándo Radar debe involucrarte en una decisión." options={autonomyOptions} value={configuration.autonomy} onChange={(value) => update("autonomy", value)} />
+            <ChoiceGroup label="Preferencia de fuentes" description="Define dónde puede buscar señales inicialmente." options={sourceOptions} value={configuration.sourcePreference} onChange={(value) => update("sourcePreference", value)} />
+          </section>
+
+          <section className="radar-config-section">
+            <div className="radar-config-section__heading"><span>4</span><div><h2>Límites de marca</h2><p>Condiciones que Radar debe respetar siempre.</p></div></div>
+            <div className="radar-toggle-list">
+              {configuration.restrictions.map((item) => <Toggle key={item.id} checked={item.enabled} onChange={() => toggleRestriction(item.id)} label={item.label} description={item.description} />)}
+            </div>
+          </section>
+
+          <section className="radar-config-section">
+            <div className="radar-config-section__heading"><span>5</span><div><h2>Ritmo de publicación</h2><p>Marcá una cadencia sostenible para tu marca.</p></div></div>
+            <div className="radar-rhythm-grid">
+              <div className="radar-stepper"><span><strong>Máximo por semana</strong><small>Radar nunca superará este límite.</small></span><div><button type="button" aria-label="Reducir máximo semanal" onClick={() => update("maximumPerWeek", Math.max(1, configuration.maximumPerWeek - 1))}><Minus size={16} /></button><strong>{configuration.maximumPerWeek}</strong><button type="button" aria-label="Aumentar máximo semanal" onClick={() => update("maximumPerWeek", Math.min(7, configuration.maximumPerWeek + 1))}><Plus size={16} /></button></div></div>
+              <div className="radar-days"><strong>Días habilitados</strong><div>{["Lun", "Mar", "Mié", "Jue", "Vie"].map((day) => <button key={day} type="button" className={configuration.enabledDays.includes(day) ? "is-selected" : ""} onClick={() => toggleDay(day)}>{day}</button>)}</div></div>
+              <Toggle checked={configuration.avoidSimilarTopics} onChange={(value) => update("avoidSimilarTopics", value)} label="Evitar temas parecidos seguidos" description="Ayuda a mantener una agenda editorial variada." />
+            </div>
+          </section>
+        </div>
+
+        <aside className="radar-config-summary">
+          <div className="radar-config-summary__icon"><Gauge size={22} /></div>
+          <span className="radar-kicker">Así trabajaría Radar</span>
+          <h2>Una operación autónoma, con límites visibles.</h2>
+          <p>Buscaría principalmente <strong>{activeTopics.slice(0, 3).join(", ") || "los temas que actives"}</strong> para <strong>{primaryGoal.toLowerCase()}</strong>.</p>
+          <ul>
+            <li><Check size={15} /> Publicaría hasta {configuration.maximumPerWeek} veces por semana.</li>
+            <li><Check size={15} /> Trabajaría en modo {autonomyOptions.find((item) => item.value === configuration.autonomy)?.label.toLowerCase()}.</li>
+            <li><Check size={15} /> Aplicaría {configuration.restrictions.filter((item) => item.enabled).length} límites de marca.</li>
+          </ul>
+          <div className="radar-config-summary__note">Esta vista explica el comportamiento esperado. No expone ni modifica la inteligencia propietaria de NexOps.</div>
+        </aside>
+      </div>
+    </>
+  );
+}
+
+function HistoryView({ data }) {
+  return (
+    <>
+      <ViewHeader eyebrow="Historial" title="Qué hizo Radar y por qué" description="Una línea de tiempo comprensible de oportunidades observadas, descartadas y publicadas." meta="Actividad demostrativa" />
+      <section className="radar-history">
+        {data.history.map((event) => (
+          <article className="radar-history__event" key={event.id}>
+            <span className={`radar-history__marker radar-history__marker--${event.tone}`} />
+            <time>{formatDateTime(event.occurredAt)}</time>
+            <div><strong>{event.title}</strong><p>{event.detail}</p>{event.technicalReference && <details><summary>Ver referencia técnica</summary><code>{event.technicalReference}</code></details>}</div>
+          </article>
+        ))}
+      </section>
+    </>
+  );
+}
+
+function OpportunityDetail({ opportunityId, data }) {
+  const opportunity = data.opportunities.find((item) => item.id === opportunityId);
+  if (!opportunity) return <PlaceholderView />;
+  const publication = data.publications.find((item) => item.opportunityId === opportunity.id);
+  return (
+    <>
+      <Link to="/radar/opportunities" className="radar-back-link"><ArrowLeft size={16} /> Volver a oportunidades</Link>
+      <section className="radar-detail-hero">
+        <img src={opportunity.imageUrl} alt="" />
+        <div>
+          <div className="radar-detail-hero__meta"><PotentialPill potential={opportunity.potential} /><StatusPill status={opportunity.status} /></div>
+          <span className="radar-kicker">{opportunity.category}</span>
+          <h1>{opportunity.title}</h1><p>{opportunity.summary}</p>
+        </div>
+      </section>
+      <div className="radar-detail-layout">
+        <div>
+          <section className="radar-panel"><span className="radar-kicker">Por qué importa</span><h2>Una oportunidad explicada en lenguaje de negocio</h2><p>{opportunity.explanation}</p><div className="radar-business-signal"><TrendingUp size={18} /><span>{opportunity.businessSignal}</span></div></section>
+          <section className="radar-panel"><span className="radar-kicker">Decisión actual</span><h2>{statusLabels[opportunity.status]}</h2><p>{opportunity.status === "discarded" ? "Radar decidió no ocupar espacio editorial con esta idea." : opportunity.status === "tracking" ? "Radar seguirá observando el tema hasta encontrar evidencia más firme." : opportunity.status === "review" ? "El potencial es alto, pero conviene confirmar el enfoque antes de avanzar." : "La oportunidad ya alcanzó un nivel suficiente para aportar valor."}</p>{publication && <a className="radar-primary-link radar-primary-link--light" href={publication.url}>Ver contenido publicado <ArrowUpRight size={15} /></a>}</section>
+        </div>
+        <aside className="radar-panel radar-opportunity-facts">
+          <span className="radar-kicker">Contexto</span><h2>De dónde surge</h2>
+          <dl><div><dt>Fuente</dt><dd><a href={opportunity.sourceUrl} target="_blank" rel="noreferrer">{opportunity.sourceName} <ExternalLink size={12} /></a></dd></div><div><dt>Detectada</dt><dd>{formatDateTime(opportunity.detectedAt)}</dd></div><div><dt>Tema</dt><dd>{opportunity.topic}</dd></div></dl>
+          <details className="radar-technical-details"><summary>Detalles adicionales</summary><p>Indicador público: {opportunity.publicScore}/100</p><code>{opportunity.technicalReference}</code></details>
+        </aside>
+      </div>
+    </>
+  );
+}
+
+function PlaceholderView() {
+  return <section className="radar-panel radar-placeholder"><FileSearch size={28} /><h2>Oportunidad no encontrada</h2><p>Esta demostración no contiene el registro solicitado.</p></section>;
+}
+
 function CurrentView({ data, pathname }) {
-  if (pathname === "/radar" || pathname === "/radar/") return <Overview data={data} />;
-  if (pathname === "/radar/activity") return <ActivityView data={data} />;
-  if (pathname === "/radar/rejected") return <CandidateCollection data={data} status="rejected" />;
-  if (pathname === "/radar/published") return <CandidateCollection data={data} status="published" />;
-  if (pathname === "/radar/audit") return <AuditLog data={data} />;
-  if (pathname.startsWith("/radar/candidates/")) return <CandidateDetail candidateId={pathname.split("/").pop()} data={data} />;
+  if (pathname === "/radar" || pathname === "/radar/") return <HomeView data={data} />;
+  if (pathname === "/radar/opportunities" || pathname === "/radar/rejected") return <OpportunitiesView data={data} />;
+  if (pathname === "/radar/published") return <PublishedView data={data} />;
+  if (pathname === "/radar/configuration") return <ConfigurationView initialConfiguration={data.configuration} />;
+  if (["/radar/history", "/radar/activity", "/radar/audit"].includes(pathname)) return <HistoryView data={data} />;
+  if (pathname.startsWith("/radar/opportunities/") || pathname.startsWith("/radar/candidates/")) return <OpportunityDetail opportunityId={pathname.split("/").pop()} data={data} />;
   return <PlaceholderView />;
 }
 
 function currentPageName(pathname) {
-  if (pathname.startsWith("/radar/candidates/")) return "Candidate detail";
-  if (pathname === "/radar/") return "Overview";
-  return navItems.find((item) => item.path === pathname)?.label || "Control Center";
+  if (pathname.startsWith("/radar/opportunities/") || pathname.startsWith("/radar/candidates/")) return "Detalle de oportunidad";
+  if (pathname === "/radar/" || pathname === "/radar") return "Inicio";
+  if (["/radar/activity", "/radar/audit"].includes(pathname)) return "Historial";
+  return navItems.find((item) => item.path === pathname)?.label || "Radar";
 }
 
 export default function RadarControlCenter({ data }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isOverview = location.pathname === "/radar" || location.pathname === "/radar/";
+  const pageName = useMemo(() => currentPageName(location.pathname), [location.pathname]);
 
-  useEffect(() => {
-    document.title = `${currentPageName(location.pathname)} · Radar Control Center`;
-  }, [location.pathname]);
+  useEffect(() => { document.title = `${pageName} · Radar Control Center`; }, [pageName]);
 
   return (
     <div className="radar-app">
       <aside className={`radar-sidebar ${mobileOpen ? "radar-sidebar--open" : ""}`}>
-        <div className="radar-brand">
-          <span className="radar-brand__mark">N</span>
-          <div><strong>Radar</strong><small>Control Center</small></div>
-          <button type="button" className="radar-icon-button radar-sidebar__close" onClick={() => setMobileOpen(false)} aria-label="Cerrar navegación"><X size={20} /></button>
-        </div>
-        <nav className="radar-nav" aria-label="Control Center">
-          <span className="radar-nav__label">Workspace</span>
-          {navItems.map(({ label, path, icon }) => {
-            const active = path === "/radar" ? isOverview : location.pathname.startsWith(path);
-            return (
-              <Link key={path} to={path} className={`radar-nav__item ${active ? "radar-nav__item--active" : ""}`} onClick={() => setMobileOpen(false)}>
-                {createElement(icon, { size: 18, strokeWidth: 1.8 })} {label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="radar-sidebar__footer">
-          <div className="radar-readonly"><ShieldCheck size={16} /><div><strong>Read-only</strong><small>Datos de demostración</small></div></div>
-        </div>
+        <div className="radar-brand"><span className="radar-brand__mark">N</span><div><strong>Radar</strong><small>by NexOps</small></div><button type="button" className="radar-icon-button radar-sidebar__close" onClick={() => setMobileOpen(false)} aria-label="Cerrar navegación"><X size={20} /></button></div>
+        <nav className="radar-nav" aria-label="Navegación de Radar"><span className="radar-nav__label">Control Center</span>{navItems.map(({ label, path, icon }) => { const active = path === "/radar" ? location.pathname === "/radar" || location.pathname === "/radar/" : location.pathname.startsWith(path); return <Link key={path} to={path} className={active ? "is-active" : ""} onClick={() => setMobileOpen(false)}>{createElement(icon, { size: 18 })}<span>{label}</span></Link>; })}</nav>
+        <div className="radar-sidebar__footer"><ShieldCheck size={17} /><div><strong>Entorno de demostración</strong><small>Sin cambios reales</small></div></div>
       </aside>
-      {mobileOpen && <button className="radar-scrim" type="button" aria-label="Cerrar navegación" onClick={() => setMobileOpen(false)} />}
-
+      {mobileOpen && <button type="button" className="radar-scrim" aria-label="Cerrar navegación" onClick={() => setMobileOpen(false)} />}
       <main className="radar-main">
-        <header className="radar-topbar">
-          <button type="button" className="radar-icon-button radar-menu-button" onClick={() => setMobileOpen(true)} aria-label="Abrir navegación"><Menu size={21} /></button>
-          <div><span>Radar workspace</span><strong>{currentPageName(location.pathname)}</strong></div>
-          <div className="radar-topbar__meta"><span className="radar-environment"><span /> Preview data</span><div className="radar-avatar">AF</div></div>
-        </header>
+        <header className="radar-topbar"><button type="button" className="radar-icon-button radar-menu-button" onClick={() => setMobileOpen(true)} aria-label="Abrir navegación"><Menu size={21} /></button><div><span>Radar Control Center</span><strong>{pageName}</strong></div><div className="radar-topbar__meta"><span className="radar-preview-badge"><span /> Simulación</span><span className="radar-avatar">AF</span></div></header>
         <div className="radar-content"><CurrentView data={data} pathname={location.pathname} /></div>
       </main>
     </div>

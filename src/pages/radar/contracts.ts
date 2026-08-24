@@ -1,67 +1,107 @@
-export type RunOutcome = "PUBLISHED" | "REJECTED" | "FAILED" | "RUNNING";
-export type CandidateStatus = "published" | "rejected" | "reviewing" | "failed";
-export type AuditTone = "success" | "warning" | "danger" | "info" | "neutral";
+export type OpportunityPotential = "high" | "medium" | "low";
+export type OpportunityStatus =
+  | "tracking"
+  | "ready"
+  | "published"
+  | "discarded"
+  | "review";
+export type GoalPriority = "primary" | "secondary" | "off";
+export type Selectivity = "selective" | "balanced" | "active";
+export type Autonomy = "automatic" | "assisted" | "manual";
+export type SourcePreference = "official" | "recognized" | "broad";
+export type ActivityTone = "success" | "attention" | "info" | "neutral";
 
-export interface PublicSignal {
-  key: "relevance" | "novelty" | "editorial-fit";
+export interface BusinessGoal {
+  id: string;
   label: string;
-  score: number;
+  description: string;
+  priority: GoalPriority;
 }
 
-export interface CandidateRecord {
+export interface BusinessTopic {
   id: string;
-  engineRunId: string;
+  label: string;
+  enabled: boolean;
+}
+
+export interface BusinessRestriction {
+  id: string;
+  label: string;
+  description: string;
+  enabled: boolean;
+}
+
+export interface BusinessConfiguration {
+  goals: BusinessGoal[];
+  topics: BusinessTopic[];
+  selectivity: Selectivity;
+  autonomy: Autonomy;
+  sourcePreference: SourcePreference;
+  restrictions: BusinessRestriction[];
+  maximumPerWeek: number;
+  enabledDays: string[];
+  avoidSimilarTopics: boolean;
+}
+
+export interface Opportunity {
+  id: string;
   title: string;
   topic: string;
+  category: string;
   summary: string;
   sourceName: string;
   sourceUrl: string;
-  contentPurpose: "actualidad" | "seo" | "criterio" | "caso";
-  territory: string;
-  status: CandidateStatus;
-  scoreTotal: number;
-  publicSignals: PublicSignal[];
-  submittedAt: string;
-  decisionAt?: string;
-  rejectionReason?: string;
-  publishedUrl?: string;
+  detectedAt: string;
+  potential: OpportunityPotential;
+  status: OpportunityStatus;
+  explanation: string;
+  businessSignal: string;
+  imageUrl: string;
+  publicScore: number;
+  technicalReference: string;
+  publicationId?: string;
 }
 
-export interface RunRecord {
+export interface Publication {
   id: string;
-  candidateId: string;
-  engineRunId: string;
-  outcome: RunOutcome;
-  startedAt: string;
-  finishedAt?: string;
-  duration: string;
-  source: string;
+  opportunityId: string;
   title: string;
-  scoreTotal: number;
+  category: string;
+  publishedAt: string;
+  url: string;
+  imageUrl: string;
+  reason: string;
+  origin: "automatic" | "manual";
+  status: "verified" | "processing";
 }
 
-export interface AuditEntry {
+export interface ActivityEvent {
   id: string;
   occurredAt: string;
-  event: string;
+  title: string;
   detail: string;
-  actor: "Radar Engine" | "Content Pipeline" | "Deployment Gate";
-  reference: string;
-  tone: AuditTone;
+  tone: ActivityTone;
+  technicalReference?: string;
 }
 
-export interface DashboardMetrics {
-  runsToday: number;
+export interface BusinessSummary {
+  detectedThisWeek: number;
   publishedThisWeek: number;
-  rejectedThisWeek: number;
-  successRate: number;
-  averageDuration: string;
+  trackingNow: number;
+  discardedThisWeek: number;
+  attentionRequired: number;
 }
 
 export interface RadarControlCenterData {
   generatedAt: string;
-  metrics: DashboardMetrics;
-  runs: RunRecord[];
-  candidates: CandidateRecord[];
-  audit: AuditEntry[];
+  status: {
+    state: "working" | "paused" | "attention";
+    title: string;
+    detail: string;
+  };
+  summary: BusinessSummary;
+  opportunities: Opportunity[];
+  publications: Publication[];
+  configuration: BusinessConfiguration;
+  history: ActivityEvent[];
 }

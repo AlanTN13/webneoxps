@@ -13,38 +13,43 @@ function renderRoute(pathname, data = radarFixture) {
 }
 
 describe("Radar Control Center", () => {
-  it("carga /radar desde la frontera de datos", () => {
+  it("presenta resultados de negocio desde la frontera de datos", () => {
     const data = structuredClone(radarFixture);
-    data.metrics.runsToday = 23;
+    data.summary.detectedThisWeek = 23;
 
     const html = renderRoute("/radar", data);
 
-    expect(html).toContain("La operación editorial, en una sola vista.");
+    expect(html).toContain("Radar encuentra oportunidades");
     expect(html).toContain(">23<");
-    expect(html).toContain("Datos de demostración");
-    expect(html).not.toContain("Todos los servicios estables");
-    expect(html).not.toContain("Actualizado hace menos de un minuto");
-    expect(html).not.toContain("3 en las últimas 2 h");
+    expect(html).toContain("Entorno de demostración");
+    expect(html).not.toContain("Runs hoy");
+    expect(html).not.toContain("Deployment Gate");
   });
 
-  it("renderiza los estados principales en Activity", () => {
-    const html = renderRoute("/radar/activity");
-
-    expect(html).toContain("Ejecuciones recientes");
-    expect(html).toContain("Published");
-    expect(html).toContain("Rejected");
-    expect(html).toContain("Running");
+  it.each([
+    ["/radar/opportunities", "Ideas que merecen una decisión"],
+    ["/radar/published", "Contenido que Radar puso a trabajar"],
+    ["/radar/configuration", "Decile a Radar qué querés lograr"],
+    ["/radar/history", "Qué hizo Radar y por qué"],
+  ])("renderiza la ruta de producto %s", (path, heading) => {
+    expect(renderRoute(path)).toContain(heading);
   });
 
-  it("no expone controles mutables", () => {
-    const html = renderRoute(
-      "/radar/candidates/candidate-agent-governance",
-    );
+  it("mantiene la configuración como simulación local explícita", () => {
+    const html = renderRoute("/radar/configuration");
 
-    expect(html).not.toMatch(/<(?:form|input|textarea|select)\b/i);
-    expect(html).not.toMatch(
-      /<button\b[^>]*>[^<]*(?:Publicar|Recalcular|Descartar|Editar|Guardar)/i,
-    );
-    expect(html).toContain("Vista de solo lectura");
+    expect(html).toContain("estos cambios no se guardan ni afectan al Radar real");
+    expect(html).toContain("Así trabajaría Radar");
+    expect(html).not.toMatch(/>Guardar</i);
+    expect(html).not.toMatch(/<form\b/i);
+  });
+
+  it("encapsula el detalle técnico y prioriza la explicación comercial", () => {
+    const html = renderRoute("/radar/opportunities/agent-governance");
+
+    expect(html).toContain("Una oportunidad explicada en lenguaje de negocio");
+    expect(html).toContain("Detalles adicionales");
+    expect(html).not.toContain("Señales del candidato");
+    expect(html).not.toContain("fórmulas");
   });
 });
