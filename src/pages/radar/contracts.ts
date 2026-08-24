@@ -10,6 +10,19 @@ export type Selectivity = "selective" | "balanced" | "active";
 export type Autonomy = "automatic" | "assisted" | "manual";
 export type SourcePreference = "official" | "recognized" | "broad";
 export type ActivityTone = "success" | "attention" | "info" | "neutral";
+export type DecisionDimension =
+  | "seo"
+  | "business"
+  | "timeliness"
+  | "source"
+  | "novelty"
+  | "editorial-risk";
+
+export interface DecisionReason {
+  dimension: DecisionDimension;
+  label: string;
+  evidence: string;
+}
 
 export interface BusinessGoal {
   id: string;
@@ -56,6 +69,9 @@ export interface Opportunity {
   status: OpportunityStatus;
   explanation: string;
   businessSignal: string;
+  decisionReasons: DecisionReason[];
+  decisionConclusion: string;
+  revisitNote?: string;
   imageUrl: string;
   publicScore: number;
   technicalReference: string;

@@ -31,6 +31,29 @@ export const radarFixture = {
       explanation:
         "Combina actualidad, autoridad de fuente y una pregunta concreta que ya preocupa a empresas que adoptan IA.",
       businessSignal: "Puede reforzar autoridad y captar búsquedas de alta intención.",
+      decisionReasons: [
+        {
+          dimension: "business",
+          label: "Relevancia para el negocio",
+          evidence: "Responde a una preocupación concreta de empresas que ya están incorporando agentes.",
+        },
+        {
+          dimension: "source",
+          label: "Calidad de fuente",
+          evidence: "La señal surge de una fuente directa y reconocida en el desarrollo de agentes de IA.",
+        },
+        {
+          dimension: "seo",
+          label: "Valor SEO",
+          evidence: "El enfoque coincide con una intención informativa clara: operar agentes con control y límites.",
+        },
+        {
+          dimension: "novelty",
+          label: "Novedad editorial",
+          evidence: "Permite bajar una conversación emergente a decisiones operativas concretas.",
+        },
+      ],
+      decisionConclusion: "Radar recomienda publicarla porque combina una necesidad real de negocio, una fuente directa y un enfoque editorial útil.",
       imageUrl: "/assets/insights/cover-gobernanza-ia.jpg",
       publicScore: 92,
       technicalReference: "radar-2026-08-24-042",
@@ -51,6 +74,29 @@ export const radarFixture = {
       explanation:
         "El tema tiene gran potencial, pero su nivel técnico exige una última revisión de enfoque antes de convertirlo en contenido.",
       businessSignal: "Abre una conversación valiosa con equipos que ya escalaron sus pruebas de IA.",
+      decisionReasons: [
+        {
+          dimension: "business",
+          label: "Relevancia para el negocio",
+          evidence: "Es especialmente útil para equipos que están pasando de pruebas aisladas a operaciones con varios agentes.",
+        },
+        {
+          dimension: "source",
+          label: "Calidad de fuente",
+          evidence: "La oportunidad está respaldada por una fuente de investigación reconocida.",
+        },
+        {
+          dimension: "novelty",
+          label: "Novedad editorial",
+          evidence: "El problema todavía tiene poca traducción práctica para responsables de negocio.",
+        },
+        {
+          dimension: "editorial-risk",
+          label: "Riesgo editorial",
+          evidence: "El enfoque puede volverse demasiado técnico si no se conecta con decisiones operativas.",
+        },
+      ],
+      decisionConclusion: "Radar ve una oportunidad valiosa, pero pide confirmar el enfoque para que la pieza siga siendo útil para líderes de negocio.",
       imageUrl: "/assets/insights/cover-infraestructura-ia.jpg",
       publicScore: 87,
       technicalReference: "radar-2026-08-24-038",
@@ -70,6 +116,29 @@ export const radarFixture = {
       explanation:
         "Resuelve un dolor frecuente y conecta con una búsqueda comercial clara: automatizar reportes sin perder control.",
       businessSignal: "Tiene utilidad inmediata para operaciones, ventas y finanzas.",
+      decisionReasons: [
+        {
+          dimension: "seo",
+          label: "Valor SEO",
+          evidence: "Responde a una intención concreta: automatizar reportes sin perder trazabilidad.",
+        },
+        {
+          dimension: "business",
+          label: "Relevancia para el negocio",
+          evidence: "El problema afecta a áreas que dependen de información frecuente para decidir.",
+        },
+        {
+          dimension: "source",
+          label: "Calidad de fuente",
+          evidence: "La fuente aporta contexto técnico suficiente para sostener una explicación responsable.",
+        },
+        {
+          dimension: "novelty",
+          label: "Novedad editorial",
+          evidence: "El ángulo prioriza control y responsables, no sólo ahorro de tareas.",
+        },
+      ],
+      decisionConclusion: "Radar recomienda publicarla porque conecta una búsqueda clara con un problema operativo frecuente y un enfoque accionable.",
       imageUrl: "/assets/insights/cover-reportes-ventas.jpg",
       publicScore: 89,
       technicalReference: "radar-2026-08-24-040",
@@ -90,6 +159,29 @@ export const radarFixture = {
       explanation:
         "Tiene encaje directo con la propuesta de NexOps y permite convertir criterio operativo en una pieza accionable.",
       businessSignal: "Puede atraer responsables que están definiendo su hoja de ruta de automatización.",
+      decisionReasons: [
+        {
+          dimension: "business",
+          label: "Relevancia para el negocio",
+          evidence: "Ayuda a priorizar inversiones y evita automatizar procesos que todavía no están bien definidos.",
+        },
+        {
+          dimension: "seo",
+          label: "Valor SEO",
+          evidence: "Responde a una pregunta habitual de equipos que están evaluando por dónde empezar.",
+        },
+        {
+          dimension: "novelty",
+          label: "Novedad editorial",
+          evidence: "Propone un marco de decisión, no una lista genérica de herramientas.",
+        },
+        {
+          dimension: "source",
+          label: "Calidad de fuente",
+          evidence: "La fuente ofrece un punto de partida reconocido que puede contrastarse con criterio operativo.",
+        },
+      ],
+      decisionConclusion: "Radar recomienda publicarla porque combina intención de búsqueda, conexión comercial y un método útil para tomar decisiones.",
       imageUrl: "/assets/insights/cover-proceso-roto.jpg",
       publicScore: 90,
       technicalReference: "radar-2026-08-23-036",
@@ -109,6 +201,30 @@ export const radarFixture = {
       explanation:
         "Es relevante para el público objetivo, aunque Radar espera evidencia más concreta antes de avanzar.",
       businessSignal: "Podría convertirse en una guía útil si aparecen casos de adopción verificables.",
+      decisionReasons: [
+        {
+          dimension: "business",
+          label: "Relevancia para el negocio",
+          evidence: "El tema se relaciona con seguimiento comercial y conversaciones que muchas empresas ya operan.",
+        },
+        {
+          dimension: "timeliness",
+          label: "Actualidad",
+          evidence: "La señal es reciente y todavía puede evolucionar con nuevos anuncios o casos.",
+        },
+        {
+          dimension: "source",
+          label: "Calidad de fuente",
+          evidence: "La fuente es directa, pero aún no aporta evidencia de impacto en operaciones reales.",
+        },
+        {
+          dimension: "novelty",
+          label: "Novedad editorial",
+          evidence: "El cambio todavía no ofrece un aprendizaje suficientemente distinto de guías ya publicadas.",
+        },
+      ],
+      decisionConclusion: "Radar la mantiene en observación porque el tema es relevante, pero todavía falta evidencia para justificar una nueva publicación.",
+      revisitNote: "La oportunidad queda guardada para reevaluarse si aparecen casos verificables o un cambio de alcance.",
       imageUrl: "/assets/insights/cover-meta-business-agent.jpg",
       publicScore: 76,
       technicalReference: "radar-2026-08-23-035",
@@ -128,6 +244,30 @@ export const radarFixture = {
       explanation:
         "El cambio es demasiado incremental y no aporta una idea suficientemente útil para publicar.",
       businessSignal: "Descartarla protege el foco editorial y evita sumar ruido.",
+      decisionReasons: [
+        {
+          dimension: "novelty",
+          label: "Poca novedad editorial",
+          evidence: "El cambio reorganiza controles visuales, pero no incorpora una capacidad nueva.",
+        },
+        {
+          dimension: "business",
+          label: "Baja conexión comercial",
+          evidence: "No modifica el flujo de ventas ni resuelve un problema operativo identificable.",
+        },
+        {
+          dimension: "seo",
+          label: "Valor SEO limitado",
+          evidence: "La oportunidad no sostiene por sí sola una pregunta o necesidad de búsqueda útil.",
+        },
+        {
+          dimension: "editorial-risk",
+          label: "Riesgo editorial",
+          evidence: "Publicarla agregaría contenido redundante y diluiría el foco temático de la marca.",
+        },
+      ],
+      decisionConclusion: "Radar decidió no publicarla para evitar contenido redundante, con poca novedad y sin una conexión clara con el negocio.",
+      revisitNote: "La señal queda guardada y puede reevaluarse si el producto suma un cambio con impacto operativo comprobable.",
       imageUrl: "/assets/insights/cover-whatsapp-crm-guia.jpg",
       publicScore: 61,
       technicalReference: "radar-2026-08-24-041",

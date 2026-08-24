@@ -47,6 +47,13 @@ const statusLabels = {
 };
 const priorityLabels = { primary: "Principal", secondary: "Secundario", off: "Sin priorizar" };
 
+function decisionHeading(status) {
+  if (status === "discarded") return "Por qué Radar decidió no publicarla";
+  if (status === "tracking") return "Por qué Radar sigue observándola";
+  if (status === "review") return "Por qué Radar pide una revisión";
+  return "Por qué Radar recomienda publicarla";
+}
+
 function formatDate(value) {
   return new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "short", year: "numeric" }).format(new Date(value));
 }
@@ -101,6 +108,12 @@ function OpportunityCard({ opportunity, featured = false }) {
         <div className="radar-opportunity-card__meta"><span>{opportunity.category}</span><StatusPill status={opportunity.status} /></div>
         <h3>{opportunity.title}</h3>
         <p>{opportunity.explanation}</p>
+        {!featured && (
+          <div className={`radar-card-decision radar-card-decision--${opportunity.status}`}>
+            <strong>{decisionHeading(opportunity.status)}</strong>
+            <p>{opportunity.decisionConclusion}</p>
+          </div>
+        )}
         <footer><span>{opportunity.sourceName}</span><span>Ver oportunidad <ChevronRight size={15} /></span></footer>
       </div>
     </Link>
@@ -366,8 +379,25 @@ function OpportunityDetail({ opportunityId, data }) {
       </section>
       <div className="radar-detail-layout">
         <div>
-          <section className="radar-panel"><span className="radar-kicker">Por qué importa</span><h2>Una oportunidad explicada en lenguaje de negocio</h2><p>{opportunity.explanation}</p><div className="radar-business-signal"><TrendingUp size={18} /><span>{opportunity.businessSignal}</span></div></section>
-          <section className="radar-panel"><span className="radar-kicker">Decisión actual</span><h2>{statusLabels[opportunity.status]}</h2><p>{opportunity.status === "discarded" ? "Radar decidió no ocupar espacio editorial con esta idea." : opportunity.status === "tracking" ? "Radar seguirá observando el tema hasta encontrar evidencia más firme." : opportunity.status === "review" ? "El potencial es alto, pero conviene confirmar el enfoque antes de avanzar." : "La oportunidad ya alcanzó un nivel suficiente para aportar valor."}</p>{publication && <a className="radar-primary-link radar-primary-link--light" href={publication.url}>Ver contenido publicado <ArrowUpRight size={15} /></a>}</section>
+          <section className={`radar-panel radar-decision-panel radar-decision-panel--${opportunity.status}`}>
+            <span className="radar-kicker">Criterio de Radar</span>
+            <h2>{decisionHeading(opportunity.status)}</h2>
+            <p>{opportunity.explanation}</p>
+            <div className="radar-reason-list">
+              {opportunity.decisionReasons.map((reason) => (
+                <article className={`radar-reason radar-reason--${reason.dimension}`} key={reason.dimension}>
+                  <span className="radar-reason__marker"><Check size={13} /></span>
+                  <div><strong>{reason.label}</strong><p>{reason.evidence}</p></div>
+                </article>
+              ))}
+            </div>
+            <div className="radar-decision-conclusion">
+              <Lightbulb size={18} />
+              <div><strong>Conclusión</strong><p>{opportunity.decisionConclusion}</p></div>
+            </div>
+            {opportunity.revisitNote && <div className="radar-revisit-note"><History size={15} /><span>{opportunity.revisitNote}</span></div>}
+          </section>
+          <section className="radar-panel"><span className="radar-kicker">Qué sucede ahora</span><h2>{statusLabels[opportunity.status]}</h2><p>{opportunity.status === "discarded" ? "Radar protege el foco editorial y conserva la señal por si el contexto cambia." : opportunity.status === "tracking" ? "Radar seguirá observando el tema hasta encontrar evidencia más firme." : opportunity.status === "review" ? "El potencial es alto, pero conviene confirmar el enfoque antes de avanzar." : "La oportunidad ya alcanzó un nivel suficiente para aportar valor."}</p><div className="radar-business-signal"><TrendingUp size={18} /><span>{opportunity.businessSignal}</span></div>{publication && <a className="radar-primary-link radar-primary-link--light" href={publication.url}>Ver contenido publicado <ArrowUpRight size={15} /></a>}</section>
         </div>
         <aside className="radar-panel radar-opportunity-facts">
           <span className="radar-kicker">Contexto</span><h2>De dónde surge</h2>

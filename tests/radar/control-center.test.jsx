@@ -47,9 +47,23 @@ describe("Radar Control Center", () => {
   it("encapsula el detalle técnico y prioriza la explicación comercial", () => {
     const html = renderRoute("/radar/opportunities/agent-governance");
 
-    expect(html).toContain("Una oportunidad explicada en lenguaje de negocio");
+    expect(html).toContain("Por qué Radar recomienda publicarla");
+    expect(html).toContain("Relevancia para el negocio");
+    expect(html).toContain("Calidad de fuente");
+    expect(html).toContain("Conclusión");
     expect(html).toContain("Detalles adicionales");
     expect(html).not.toContain("Señales del candidato");
     expect(html).not.toContain("fórmulas");
+    expect(html).not.toMatch(/volumen de búsquedas|conversiones|tráfico estimado/i);
+  });
+
+  it("explica el valor de no publicar y conserva la oportunidad", () => {
+    const html = renderRoute("/radar/opportunities/minor-crm-release");
+
+    expect(html).toContain("Por qué Radar decidió no publicarla");
+    expect(html).toContain("Poca novedad editorial");
+    expect(html).toContain("Baja conexión comercial");
+    expect(html).toContain("evitar contenido redundante");
+    expect(html).toContain("queda guardada");
   });
 });
