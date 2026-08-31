@@ -581,7 +581,7 @@ a {
 
 .nexy-stage__lead {
   top: 112px;
-  right: 18px;
+  left: 24px;
   width: min(360px, calc(100% - 42px));
   padding: 15px;
   border-radius: 18px;
@@ -688,21 +688,12 @@ a {
 .nexy-stage__character {
   position: absolute;
   z-index: 2;
-  right: -250px;
+  right: -280px;
   bottom: -5px;
   width: 800px;
   max-width: none;
   height: auto;
   filter: drop-shadow(0 24px 30px rgba(2,2,8,0.28));
-}
-
-.nexy-stage--compact {
-  min-height: 560px;
-  background: linear-gradient(145deg, rgba(120,103,242,0.16), rgba(255,255,255,0.045));
-}
-
-.nexy-stage--compact .nexy-stage__scene {
-  min-height: 505px;
 }
 
 .proof-strip {
@@ -929,7 +920,11 @@ a {
   flex-direction: column;
   gap: 0;
   margin: 0;
-  padding: 0;
+  padding: 12px 28px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 24px;
+  background: rgba(255,255,255,.045);
+  box-shadow: 0 32px 90px rgba(0,0,0,.18);
   list-style: none;
 }
 
@@ -937,8 +932,12 @@ a {
   display: grid;
   grid-template-columns: 34px 1fr;
   gap: 14px;
-  padding: 16px 0;
+  padding: 22px 0;
   border-top: 1px solid rgba(255,255,255,.13);
+}
+
+.operation-list li:first-child {
+  border-top: 0;
 }
 
 .operation-list li > span {
@@ -1746,14 +1745,12 @@ a {
   .nexy-stage { min-height: 435px; border-radius: 20px; }
   .nexy-stage__scene { min-height: 380px; }
   .nexy-stage__message { top: 17px; left: 12px; width: 238px; }
-  .nexy-stage__lead { top: 100px; right: 10px; }
+  .nexy-stage__lead { top: 100px; left: 10px; }
   .nexy-stage__lead-grid { grid-template-columns: 1fr 1fr; }
   .nexy-stage__lead-grid > span:last-child { grid-column: span 2; }
   .nexy-stage__agent { bottom: 56px; left: 11px; width: 235px; }
   .nexy-stage__done { right: 10px; bottom: 15px; }
-  .nexy-stage__character { right: -200px; bottom: -10px; width: 620px; opacity: .9; }
-  .nexy-stage--compact { min-height: 460px; }
-  .nexy-stage--compact .nexy-stage__scene { min-height: 405px; }
+  .nexy-stage__character { right: -200px; bottom: 25px; width: 620px; opacity: .9; }
   .proof-strip__inner { grid-template-columns: 1fr; gap: 24px; padding-block: 28px; }
   .proof-strip__logos { grid-template-columns: repeat(3,1fr); gap: 25px; }
   .proof-strip__logo { max-width: 92px; }

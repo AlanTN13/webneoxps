@@ -1,8 +1,8 @@
 import { Bot, Check, MessageCircleMore, Sparkles } from "lucide-react";
 
-export default function NexyStage({ compact = false }) {
+export default function NexyStage() {
   return (
-    <div className={`nexy-stage ${compact ? "nexy-stage--compact" : ""}`} aria-label="Una oportunidad avanza por el sistema NexOps">
+    <div className="nexy-stage" aria-label="Una oportunidad avanza por el sistema NexOps">
       <div className="nexy-stage__ambient nexy-stage__ambient--one" />
       <div className="nexy-stage__ambient nexy-stage__ambient--two" />
 
@@ -53,7 +53,7 @@ export default function NexyStage({ compact = false }) {
           alt="Nexy organizando una oportunidad comercial"
           width="1200"
           height="800"
-          fetchPriority={compact ? "auto" : "high"}
+          fetchPriority="high"
         />
       </div>
     </div>

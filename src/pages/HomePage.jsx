@@ -143,14 +143,13 @@ export default function HomePage() {
             <p>
               La escena no depende de magia: combina proceso, herramientas y criterio para que la operación avance sin perder contexto.
             </p>
-            <ol className="operation-list">
-              <li><span>1</span><div><strong>La consulta entra</strong><p>Desde WhatsApp, una campaña, la web o un canal comercial.</p></div></li>
-              <li><span>2</span><div><strong>El sistema organiza</strong><p>CRM registra, asigna responsable y conserva el historial.</p></div></li>
-              <li><span>3</span><div><strong>IA y automatización asisten</strong><p>Interpretan, preparan acciones y ejecutan tareas permitidas.</p></div></li>
-              <li><span>4</span><div><strong>El equipo interviene con foco</strong><p>Las excepciones llegan a una persona con el contexto necesario.</p></div></li>
-            </ol>
           </div>
-          <NexyStage compact />
+          <ol className="operation-list">
+            <li><span>1</span><div><strong>La consulta entra</strong><p>Desde WhatsApp, una campaña, la web o un canal comercial.</p></div></li>
+            <li><span>2</span><div><strong>El sistema organiza</strong><p>CRM registra, asigna responsable y conserva el historial.</p></div></li>
+            <li><span>3</span><div><strong>IA y automatización asisten</strong><p>Interpretan, preparan acciones y ejecutan tareas permitidas.</p></div></li>
+            <li><span>4</span><div><strong>El equipo interviene con foco</strong><p>Las excepciones llegan a una persona con el contexto necesario.</p></div></li>
+          </ol>
         </div>
       </section>
 
