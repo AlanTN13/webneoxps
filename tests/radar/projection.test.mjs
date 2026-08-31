@@ -41,7 +41,6 @@ describe("proyección segura del historial privado", () => {
     expect(projected.scoreBreakdown).toEqual([
       { dimension: "business", label: "Relevancia comercial", score: 72 },
       { dimension: "novelty", label: "Novedad", score: 41 },
-      { dimension: "novelty", label: "Novedad", score: 68 },
     ]);
     expect(JSON.stringify(projected)).not.toMatch(/weight|threshold|formula|prompt|fingerprint/i);
   });

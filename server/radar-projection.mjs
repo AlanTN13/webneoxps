@@ -42,12 +42,15 @@ function classifyRecord(record) {
 
 function projectBreakdown(value) {
   if (!Array.isArray(value)) return [];
-  return value.flatMap((entry) => {
+  const dimensions = new Map();
+  for (const entry of value) {
     const criterion = text(entry?.criterion, 64)?.toLowerCase();
     const mapped = criterion ? DIMENSIONS.get(criterion) : null;
-    if (!mapped || typeof entry?.score !== "number" || !Number.isFinite(entry.score) || entry.score < 0 || entry.score > 100) return [];
-    return [{ ...mapped, score: entry.score }];
-  });
+    if (!mapped || typeof entry?.score !== "number" || !Number.isFinite(entry.score) || entry.score < 0 || entry.score > 100) continue;
+    const previous = dimensions.get(mapped.dimension);
+    if (!previous || entry.score < previous.score) dimensions.set(mapped.dimension, { ...mapped, score: entry.score });
+  }
+  return [...dimensions.values()];
 }
 
 export function projectRadarHistoryRecord(record) {
