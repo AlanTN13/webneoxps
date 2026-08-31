@@ -218,7 +218,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" id="nosotros">
+      <section className="section" id="como-pensamos">
         <div className="site-shell about-system">
           <div className="about-system__visual">
             <header className="about-system__visual-head">
