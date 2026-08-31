@@ -2,16 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
-      "source": "/radar",
-      "destination": "https://portal.nexopstech.com/portal/radar",
-      "statusCode": 308
-    },
-    {
-      "source": "/radar/:path*",
-      "destination": "https://portal.nexopstech.com/portal/radar",
-      "statusCode": 308
-    },
-    {
       "source": "/noticias/google-reinventa-search-con-ia-y-cambia-el-juego-del-seo",
       "destination": "/noticias/ai-overviews-de-google-ya-impacta-el-trafico-web-y-el-seo",
       "statusCode": 308
