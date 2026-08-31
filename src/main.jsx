@@ -1,27 +1,27 @@
 // src/main.jsx
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App.jsx";
 
-// Noticias
-import Noticias from "./pages/noticias/index.jsx";
-import Detalle from "./pages/noticias/Detalle.jsx";
-
-// Servicios
-import DataEngineering from "./pages/servicios/DataEngineering.jsx";
-import DataVisualization from "./pages/servicios/DataVisualization.jsx";
-import AIInfrastructure from "./pages/servicios/AIInfrastructure.jsx";
-import AIAgents from "./pages/servicios/AIAgents.jsx";
-import SoftwareIntegrations from "./pages/servicios/SoftwareIntegrations.jsx";
-import ProcessAutomation from "./pages/servicios/ProcessAutomation.jsx";
-import FrontEndUX from "./pages/servicios/FrontEndUX.jsx";
-import RadarControlCenter from "./pages/radar/RadarControlCenter.jsx";
 import { radarFixture } from "./pages/radar/fixtures";
 
 import "./index.css";
+import "./App.css";
 import ScrollToTop from "./components/ScrollToTop";
+
+const Noticias = lazy(() => import("./pages/noticias/index.jsx"));
+const Detalle = lazy(() => import("./pages/noticias/Detalle.jsx"));
+const DataEngineering = lazy(() => import("./pages/servicios/DataEngineering.jsx"));
+const DataVisualization = lazy(() => import("./pages/servicios/DataVisualization.jsx"));
+const AIInfrastructure = lazy(() => import("./pages/servicios/AIInfrastructure.jsx"));
+const AIAgents = lazy(() => import("./pages/servicios/AIAgents.jsx"));
+const SoftwareIntegrations = lazy(() => import("./pages/servicios/SoftwareIntegrations.jsx"));
+const ProcessAutomation = lazy(() => import("./pages/servicios/ProcessAutomation.jsx"));
+const FrontEndUX = lazy(() => import("./pages/servicios/FrontEndUX.jsx"));
+const RadarControlCenter = lazy(() => import("./pages/radar/RadarControlCenter.jsx"));
+const SolutionLanding = lazy(() => import("./pages/SolutionLanding.jsx"));
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -30,9 +30,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       {/* 👇 Lo ponemos acá para que escuche todos los cambios de ruta */}
       <ScrollToTop />
 
+      <Suspense fallback={<div className="route-loading">Cargando NexOps…</div>}>
       <Routes>
         {/* Landing principal */}
         <Route path="/" element={<App />} />
+
+        {/* Nueva arquitectura comercial */}
+        <Route path="/soluciones/:slug" element={<SolutionLanding />} />
 
         {/* Landings de Servicios */}
         <Route
@@ -74,6 +78,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         {/* Fallback */}
         <Route path="*" element={<App />} />
       </Routes>
+      </Suspense>
     </BrowserRouter>
   </React.StrictMode>
 );

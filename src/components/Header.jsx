@@ -1,120 +1,88 @@
-// src/components/Header.jsx
+import { ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import brandLogo from "../assets/logo-nexops.svg";
-import { CALENDLY_LINK, NAV_LINKS } from "../config/constants";
+import { Link } from "react-router-dom";
+import { CALENDLY_LINK } from "../config/constants";
+import { solutions } from "../data/solutions";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  // para poder usar createPortal sin romper nada
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // bloquear scroll cuando el menú está abierto
-  useEffect(() => {
-    if (!mounted) return;
-    if (open) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
-  }, [open, mounted]);
-
-  const closeMenu = () => setOpen(false);
+    if (!open) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1440px] items-center px-4 py-4 sm:px-6 lg:px-8">
-        {/* Logo + nombre */}
-        <a href="/" className="flex items-center gap-3">
-          <img src={brandLogo} className="h-9 w-auto" alt="NexOps" />
-          <span className="font-extrabold text-slate-900 text-2xl tracking-tight">NexOps</span>
+    <header className="site-header">
+      <div className="site-shell site-header__inner">
+        <Link className="site-header__brand" to="/" aria-label="NexOps, inicio">
+          <img src="/nexops-mark.webp" alt="" width="128" height="128" />
+          <span>NexOps</span>
+        </Link>
+
+        <nav className="site-header__nav" aria-label="Navegación principal">
+          <div className="site-header__solutions">
+            <button type="button">Soluciones <ChevronDown size={15} /></button>
+            <div className="site-header__dropdown">
+              <div className="site-header__dropdown-intro">
+                <small>Sistema NexOps</small>
+                <strong>Capacidades que trabajan juntas.</strong>
+              </div>
+              <div className="site-header__dropdown-links">
+                {solutions.map((solution) => (
+                  <Link key={solution.slug} to={`/soluciones/${solution.slug}`}>
+                    <span>{solution.navLabel}</span>
+                    <small>{solution.eyebrow}</small>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          <Link to="/#casos">Casos</Link>
+          <Link to="/#nosotros">Nosotros</Link>
+          <Link to="/noticias">Insights</Link>
+          <Link to="/#contacto">Contacto</Link>
+        </nav>
+
+        <a className="site-header__cta" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
+          Hablar con NexOps
         </a>
 
-        {/* Wrapper derecha: nav + CTA (desktop) */}
-        <div className="ml-auto hidden items-center gap-10 sm:flex">
-          {/* Navegación desktop */}
-          <nav className="flex items-center gap-10 text-[17px] text-slate-600">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="transition-colors duration-200 hover:text-slate-950"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA desktop */}
-          <a
-            href={CALENDLY_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-white font-semibold shadow-[0_18px_40px_-24px_rgba(15,23,42,0.55)] transition-colors duration-200 hover:bg-slate-800"
-          >
-            Hablemos
-          </a>
-        </div>
-
-        {/* Botón menú mobile */}
-        <button
-          className="ml-auto text-3xl text-slate-700 sm:hidden"
-          onClick={() => setOpen(true)}
-          aria-label="Abrir menú"
-        >
-          ☰
+        <button className="site-header__menu" type="button" onClick={() => setOpen(true)} aria-label="Abrir menú">
+          <Menu size={23} />
         </button>
       </div>
 
-      {/* OVERLAY MOBILE en PORTAL */}
-      {mounted &&
-        open &&
-        createPortal(
-          <div className="fixed inset-0 z-[9999] flex flex-col bg-white">
-            {/* Top bar */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
-              <div className="flex items-center gap-3">
-                <img src={brandLogo} className="h-8 w-auto" alt="NexOps" />
-                <span className="font-extrabold text-slate-900 text-xl tracking-tight">
-                  NexOps
-                </span>
-              </div>
-              <button
-                className="text-3xl text-slate-700"
-                onClick={closeMenu}
-                aria-label="Cerrar menú"
-              >
-                ✕
-              </button>
+      {open && (
+        <div className="mobile-menu">
+          <div className="mobile-menu__head">
+            <Link className="site-header__brand" to="/" onClick={() => setOpen(false)}>
+              <img src="/nexops-mark.webp" alt="" width="128" height="128" />
+              <span>NexOps</span>
+            </Link>
+            <button type="button" onClick={() => setOpen(false)} aria-label="Cerrar menú"><X size={25} /></button>
+          </div>
+          <nav className="mobile-menu__nav" aria-label="Navegación mobile">
+            <small>Soluciones</small>
+            {solutions.map((solution) => (
+              <Link key={solution.slug} to={`/soluciones/${solution.slug}`} onClick={() => setOpen(false)}>
+                {solution.navLabel}<span>→</span>
+              </Link>
+            ))}
+            <div className="mobile-menu__secondary">
+              <Link to="/#casos" onClick={() => setOpen(false)}>Casos</Link>
+              <Link to="/#nosotros" onClick={() => setOpen(false)}>Nosotros</Link>
+              <Link to="/noticias" onClick={() => setOpen(false)}>Insights</Link>
+              <Link to="/#contacto" onClick={() => setOpen(false)}>Contacto</Link>
             </div>
-
-            {/* Banda título */}
-            <div className="px-6 py-3 border-b border-slate-200/80 text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">
-              NexOps Menu
-            </div>
-
-            {/* Links */}
-            <nav className="flex-1 flex flex-col px-6 py-4 text-lg text-slate-800 gap-1">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className="py-3 border-b border-slate-200/60"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-          </div>,
-          document.body
-        )}
+          </nav>
+          <a className="button button--lime" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
+            Hablar con NexOps
+          </a>
+        </div>
+      )}
     </header>
   );
 }

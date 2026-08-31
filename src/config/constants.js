@@ -13,9 +13,10 @@ export const CALENDLY_LINK = "https://calendly.com/nexopstech-info/30min";
 export const CALENDLY_LINK_45MIN = "https://calendly.com/nexopstech-info/45min";
 
 export const NAV_LINKS = [
-    { label: "Servicios", href: "/#servicios" },
-    { label: "Proceso", href: "/#proceso" },
-    { label: "Noticias", href: "/noticias" },
+    { label: "Soluciones", href: "/#soluciones" },
+    { label: "Casos", href: "/#casos" },
+    { label: "Nosotros", href: "/#nosotros" },
+    { label: "Insights", href: "/noticias" },
     { label: "Contacto", href: "/#contacto" },
 ];
 
