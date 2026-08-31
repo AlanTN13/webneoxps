@@ -27,6 +27,7 @@ import {
   TrendingUp,
   X,
 } from "lucide-react";
+import { initialRadarData, loadRadarData } from "./data";
 import "./radar-control-center.css";
 
 const navItems = [
@@ -97,11 +98,25 @@ function MetricCard({ icon, label, value, detail, tone }) {
   );
 }
 
+function EmptyState({ title, detail }) {
+  return <div className="radar-empty-state"><FileSearch size={24} /><strong>{title}</strong><p>{detail}</p></div>;
+}
+
+function ConnectionNotice({ connection }) {
+  if (connection.state === "live") return null;
+  return (
+    <div className={`radar-connection-notice radar-connection-notice--${connection.state}`} role="status">
+      <CircleAlert size={18} />
+      <div><strong>{connection.state === "loading" ? "Actualizando datos reales" : "Historial parcialmente disponible"}</strong><span>{connection.message}</span></div>
+    </div>
+  );
+}
+
 function OpportunityCard({ opportunity, featured = false }) {
   return (
     <Link className={`radar-opportunity-card ${featured ? "radar-opportunity-card--featured" : ""}`} to={`/radar/opportunities/${opportunity.id}`}>
       <div className="radar-opportunity-card__image">
-        <img src={opportunity.imageUrl} alt="" />
+        {opportunity.imageUrl ? <img src={opportunity.imageUrl} alt="" /> : <span className="radar-opportunity-card__fallback"><Radar size={28} /></span>}
         <PotentialPill potential={opportunity.potential} />
       </div>
       <div className="radar-opportunity-card__body">
@@ -138,7 +153,7 @@ function HomeView({ data }) {
           <span className="radar-kicker">Trabajando ahora</span>
           <strong>{data.status.title}</strong>
           <p>{data.status.detail}</p>
-          <small>Vista demostrativa · {formatDateTime(data.generatedAt)}</small>
+          <small>Última actualización · {formatDateTime(data.generatedAt)}</small>
         </div>
       </section>
 
@@ -164,6 +179,7 @@ function HomeView({ data }) {
       <section className="radar-opportunity-grid radar-opportunity-grid--home">
         {featured.map((opportunity) => <OpportunityCard key={opportunity.id} opportunity={opportunity} featured />)}
       </section>
+      {featured.length === 0 && <EmptyState title="Todavía no hay oportunidades publicables" detail="Radar mostrará acá las próximas decisiones reales cuando aparezcan." />}
     </>
   );
 }
@@ -182,6 +198,7 @@ function OpportunitiesView({ data }) {
       <section className="radar-opportunity-grid">
         {filtered.map((opportunity) => <OpportunityCard key={opportunity.id} opportunity={opportunity} />)}
       </section>
+      {filtered.length === 0 && <EmptyState title="No hay oportunidades en este estado" detail="La vista se actualizará cuando Radar registre una decisión real." />}
     </>
   );
 }
@@ -207,6 +224,7 @@ function PublishedView({ data }) {
           </article>
         ))}
       </section>
+      {data.publications.length === 0 && <EmptyState title="Todavía no hay publicaciones de Radar" detail="Las publicaciones autónomas aparecerán acá después de quedar verificadas." />}
     </>
   );
 }
@@ -348,7 +366,7 @@ function ConfigurationView({ initialConfiguration }) {
 function HistoryView({ data }) {
   return (
     <>
-      <ViewHeader eyebrow="Historial" title="Qué hizo Radar y por qué" description="Una línea de tiempo comprensible de oportunidades observadas, descartadas y publicadas." meta="Actividad demostrativa" />
+      <ViewHeader eyebrow="Historial" title="Qué hizo Radar y por qué" description="Una línea de tiempo comprensible de oportunidades descartadas y publicaciones verificadas." meta="Actividad real" />
       <section className="radar-history">
         {data.history.map((event) => (
           <article className="radar-history__event" key={event.id}>
@@ -358,6 +376,7 @@ function HistoryView({ data }) {
           </article>
         ))}
       </section>
+      {data.history.length === 0 && <EmptyState title="Todavía no hay actividad" detail="La primera decisión real de Radar aparecerá en este historial." />}
     </>
   );
 }
@@ -370,7 +389,7 @@ function OpportunityDetail({ opportunityId, data }) {
     <>
       <Link to="/radar/opportunities" className="radar-back-link"><ArrowLeft size={16} /> Volver a oportunidades</Link>
       <section className="radar-detail-hero">
-        <img src={opportunity.imageUrl} alt="" />
+        {opportunity.imageUrl ? <img src={opportunity.imageUrl} alt="" /> : <span className="radar-detail-hero__fallback"><Radar size={34} /></span>}
         <div>
           <div className="radar-detail-hero__meta"><PotentialPill potential={opportunity.potential} /><StatusPill status={opportunity.status} /></div>
           <span className="radar-kicker">{opportunity.category}</span>
@@ -387,7 +406,7 @@ function OpportunityDetail({ opportunityId, data }) {
               {opportunity.decisionReasons.map((reason) => (
                 <article className={`radar-reason radar-reason--${reason.dimension}`} key={reason.dimension}>
                   <span className="radar-reason__marker"><Check size={13} /></span>
-                  <div><strong>{reason.label}</strong><p>{reason.evidence}</p></div>
+                  <div><strong>{reason.label}{Number.isFinite(reason.score) && <span className="radar-reason__score">{reason.score}/100</span>}</strong><p>{reason.evidence}</p></div>
                 </article>
               ))}
             </div>
@@ -410,7 +429,7 @@ function OpportunityDetail({ opportunityId, data }) {
 }
 
 function PlaceholderView() {
-  return <section className="radar-panel radar-placeholder"><FileSearch size={28} /><h2>Oportunidad no encontrada</h2><p>Esta demostración no contiene el registro solicitado.</p></section>;
+  return <section className="radar-panel radar-placeholder"><FileSearch size={28} /><h2>Oportunidad no encontrada</h2><p>El registro solicitado no está disponible en las fuentes actuales de Radar.</p></section>;
 }
 
 function CurrentView({ data, pathname }) {
@@ -430,10 +449,25 @@ function currentPageName(pathname) {
   return navItems.find((item) => item.path === pathname)?.label || "Radar";
 }
 
-export default function RadarControlCenter({ data }) {
+function useRadarData(overrideData) {
+  const [liveData, setLiveData] = useState(() => overrideData || initialRadarData);
+  useEffect(() => {
+    if (overrideData) {
+      setLiveData(overrideData);
+      return undefined;
+    }
+    const controller = new AbortController();
+    loadRadarData(controller.signal).then(setLiveData).catch(() => undefined);
+    return () => controller.abort();
+  }, [overrideData]);
+  return liveData;
+}
+
+export default function RadarControlCenter({ data: overrideData }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pageName = useMemo(() => currentPageName(location.pathname), [location.pathname]);
+  const data = useRadarData(overrideData);
 
   useEffect(() => { document.title = `${pageName} · Radar Control Center`; }, [pageName]);
 
@@ -442,12 +476,12 @@ export default function RadarControlCenter({ data }) {
       <aside className={`radar-sidebar ${mobileOpen ? "radar-sidebar--open" : ""}`}>
         <div className="radar-brand"><span className="radar-brand__mark">N</span><div><strong>Radar</strong><small>by NexOps</small></div><button type="button" className="radar-icon-button radar-sidebar__close" onClick={() => setMobileOpen(false)} aria-label="Cerrar navegación"><X size={20} /></button></div>
         <nav className="radar-nav" aria-label="Navegación de Radar"><span className="radar-nav__label">Control Center</span>{navItems.map(({ label, path, icon }) => { const active = path === "/radar" ? location.pathname === "/radar" || location.pathname === "/radar/" : location.pathname.startsWith(path); return <Link key={path} to={path} className={active ? "is-active" : ""} onClick={() => setMobileOpen(false)}>{createElement(icon, { size: 18 })}<span>{label}</span></Link>; })}</nav>
-        <div className="radar-sidebar__footer"><ShieldCheck size={17} /><div><strong>Entorno de demostración</strong><small>Sin cambios reales</small></div></div>
+        <div className="radar-sidebar__footer"><ShieldCheck size={17} /><div><strong>Workspace NexOps</strong><small>{data.connection.state === "live" ? "Datos reales sincronizados" : "Estado parcial"}</small></div></div>
       </aside>
       {mobileOpen && <button type="button" className="radar-scrim" aria-label="Cerrar navegación" onClick={() => setMobileOpen(false)} />}
       <main className="radar-main">
-        <header className="radar-topbar"><button type="button" className="radar-icon-button radar-menu-button" onClick={() => setMobileOpen(true)} aria-label="Abrir navegación"><Menu size={21} /></button><div><span>Radar Control Center</span><strong>{pageName}</strong></div><div className="radar-topbar__meta"><span className="radar-preview-badge"><span /> Simulación</span><span className="radar-avatar">AF</span></div></header>
-        <div className="radar-content"><CurrentView data={data} pathname={location.pathname} /></div>
+        <header className="radar-topbar"><button type="button" className="radar-icon-button radar-menu-button" onClick={() => setMobileOpen(true)} aria-label="Abrir navegación"><Menu size={21} /></button><div><span>Radar Control Center</span><strong>{pageName}</strong></div><div className="radar-topbar__meta"><span className={`radar-preview-badge radar-preview-badge--${data.connection.state}`}><span /> {data.connection.state === "live" ? "Datos reales" : data.connection.state === "loading" ? "Actualizando" : "Atención"}</span><span className="radar-avatar">AF</span></div></header>
+        <div className="radar-content"><ConnectionNotice connection={data.connection} /><CurrentView data={data} pathname={location.pathname} /></div>
       </main>
     </div>
   );

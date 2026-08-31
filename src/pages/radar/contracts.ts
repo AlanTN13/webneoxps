@@ -22,6 +22,7 @@ export interface DecisionReason {
   dimension: DecisionDimension;
   label: string;
   evidence: string;
+  score?: number | null;
 }
 
 export interface BusinessGoal {
@@ -100,6 +101,12 @@ export interface ActivityEvent {
   technicalReference?: string;
 }
 
+export interface RadarConnection {
+  state: "live" | "degraded" | "loading";
+  message: string;
+  lastUpdatedAt: string;
+}
+
 export interface BusinessSummary {
   detectedThisWeek: number;
   publishedThisWeek: number;
@@ -110,6 +117,7 @@ export interface BusinessSummary {
 
 export interface RadarControlCenterData {
   generatedAt: string;
+  connection: RadarConnection;
   status: {
     state: "working" | "paused" | "attention";
     title: string;
