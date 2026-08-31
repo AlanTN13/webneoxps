@@ -536,9 +536,7 @@ a {
   min-height: 475px;
 }
 
-.nexy-stage__message,
-.nexy-stage__lead,
-.nexy-stage__agent,
+.nexy-stage__steps,
 .nexy-stage__done {
   position: absolute;
   z-index: 3;
@@ -549,129 +547,66 @@ a {
   backdrop-filter: blur(12px);
 }
 
-.nexy-stage__message {
-  top: 28px;
-  left: 24px;
-  display: flex;
-  width: 265px;
-  align-items: center;
-  gap: 11px;
-  padding: 13px;
-  border-radius: 15px;
-  font-size: 11px;
-  font-weight: 650;
-}
-
-.nexy-stage__message small,
-.nexy-stage__lead small {
-  display: block;
-  margin-bottom: 2px;
-  color: #777580;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
-
-.nexy-stage__message-icon {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 10px;
-  background: #ebe7ff;
-  color: var(--violet-deep);
-}
-
-.nexy-stage__lead {
-  top: 112px;
-  left: 24px;
-  width: min(360px, calc(100% - 42px));
-  padding: 15px;
+.nexy-stage__steps {
+  top: 22px;
+  left: 22px;
+  width: min(350px, calc(100% - 44px));
+  overflow: hidden;
   border-radius: 18px;
 }
 
-.nexy-stage__lead-head {
+.nexy-stage__step {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  font-weight: 760;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  padding: 15px 16px;
+  border-top: 1px solid rgba(19,19,26,.08);
 }
 
-.nexy-stage__avatar {
+.nexy-stage__step:first-child {
+  border-top: 0;
+}
+
+.nexy-stage__step-number {
   display: grid;
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   place-items: center;
   border-radius: 50%;
   background: #e9e5ff;
   color: #5948d1;
   font-size: 10px;
+  font-weight: 820;
 }
 
-.nexy-stage__score {
-  padding: 5px 8px;
-  border-radius: 999px;
-  background: #e8e3ff;
-  color: var(--violet-deep);
-  font-size: 9px;
+.nexy-stage__step small {
+  display: block;
+  color: #777580;
+  font-size: 8px;
+  font-weight: 820;
+  letter-spacing: .09em;
   text-transform: uppercase;
 }
 
-.nexy-stage__lead-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 6px;
-  margin-top: 12px;
+.nexy-stage__step strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.35;
 }
 
-.nexy-stage__lead-grid > span {
-  padding: 9px;
-  border-radius: 10px;
-  background: #f4f2ed;
-  font-size: 9px;
-  font-weight: 650;
-}
-
-.nexy-stage__agent {
-  bottom: 73px;
-  left: 25px;
-  width: 285px;
-  padding: 14px;
-  border-radius: 16px;
-}
-
-.nexy-stage__agent > span:first-child {
+.nexy-stage__step p {
   display: flex;
   align-items: center;
-  gap: 7px;
-  color: #5948d1;
-  font-size: 10px;
-  font-weight: 820;
-  text-transform: uppercase;
-}
-
-.nexy-stage__agent p {
-  margin: 8px 0;
-  font-size: 11px;
-  font-weight: 650;
-  line-height: 1.45;
-}
-
-.nexy-stage__agent-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  gap: 5px;
+  margin: 6px 0 0;
   color: #74717d;
   font-size: 9px;
 }
 
 .nexy-stage__done {
-  right: 26px;
-  bottom: 28px;
+  left: 24px;
+  bottom: 22px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -693,11 +628,12 @@ a {
 .nexy-stage__character {
   position: absolute;
   z-index: 2;
-  right: -280px;
-  bottom: -5px;
-  width: 800px;
+  right: -80px;
+  bottom: -28px;
+  width: 500px;
   max-width: none;
   height: auto;
+  opacity: .86;
   filter: drop-shadow(0 24px 30px rgba(2,2,8,0.28));
 }
 
@@ -1923,15 +1859,12 @@ a {
   .button-row { flex-direction: column; align-items: stretch; }
   .button { width: 100%; }
   .home-hero__signals { display: grid; grid-template-columns: 1fr; gap: 9px; }
-  .nexy-stage { min-height: 435px; border-radius: 20px; }
-  .nexy-stage__scene { min-height: 380px; }
-  .nexy-stage__message { top: 17px; left: 12px; width: 238px; }
-  .nexy-stage__lead { top: 100px; left: 10px; }
-  .nexy-stage__lead-grid { grid-template-columns: 1fr 1fr; }
-  .nexy-stage__lead-grid > span:last-child { grid-column: span 2; }
-  .nexy-stage__agent { bottom: 56px; left: 11px; width: 235px; }
-  .nexy-stage__done { right: 10px; bottom: 15px; }
-  .nexy-stage__character { right: -200px; bottom: 25px; width: 620px; opacity: .9; }
+  .nexy-stage { min-height: 560px; border-radius: 20px; }
+  .nexy-stage__scene { min-height: 505px; }
+  .nexy-stage__steps { top: 14px; left: 12px; width: calc(100% - 24px); }
+  .nexy-stage__step { padding: 13px 14px; }
+  .nexy-stage__done { left: 13px; bottom: 18px; font-size: 9px; }
+  .nexy-stage__character { right: -92px; bottom: -20px; width: 340px; opacity: .72; }
   .proof-strip__inner { grid-template-columns: 1fr; gap: 24px; padding-block: 28px; }
   .proof-strip__logos { grid-template-columns: repeat(3,1fr); gap: 25px; }
   .proof-strip__logo { max-width: 92px; }
