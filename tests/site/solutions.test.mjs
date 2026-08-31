@@ -1,13 +1,21 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import { realCases } from "../../src/data/cases.js";
 import { solutions, systemSteps } from "../../src/data/solutions.js";
+
+const vercelConfiguration = JSON.parse(readFileSync(new URL("../../vercel.json", import.meta.url), "utf8"));
 
 test("publishes the six approved solution routes", () => {
   assert.deepEqual(
     solutions.map(({ slug }) => slug),
     ["captacion", "crm", "agentes-ia", "automatizacion", "data-analytics", "desarrollo"],
   );
+});
+
+test("serves solution landings when opened directly in production", () => {
+  const rewrite = vercelConfiguration.rewrites.find(({ source }) => source === "/soluciones/:slug");
+  assert.equal(rewrite?.destination, "/index.html");
 });
 
 test("keeps each solution commercially complete and distinct", () => {

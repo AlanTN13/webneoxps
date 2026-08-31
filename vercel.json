@@ -39,6 +39,10 @@
       "destination": "https://nexopsticketera.vercel.app/backoffice/:path*"
     },
     {
+      "source": "/soluciones/:slug",
+      "destination": "/index.html"
+    },
+    {
       "source": "/noticias",
       "destination": "/noticias/index.html"
     },
