@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import NexyStage from "../components/NexyStage";
 import { CALENDLY_LINK } from "../config/constants";
+import { realCases } from "../data/cases";
 import { solutions, systemSteps } from "../data/solutions";
 
 const iconMap = {
@@ -35,27 +36,9 @@ const clientLogos = [
   ["/globaltrip_logo.svg", "GlobalTrip"],
 ];
 
-const ownerProblems = [
-  {
-    title: "Las consultas entran, pero el seguimiento se corta.",
-    before: "Conversaciones dispersas y responsables poco claros.",
-    after: "CRM, tareas y alertas sostienen cada oportunidad.",
-  },
-  {
-    title: "El equipo pierde tiempo moviendo información.",
-    before: "Planillas, doble carga y sistemas que no se hablan.",
-    after: "Automatizaciones conectan el flujo y registran qué pasó.",
-  },
-  {
-    title: "El dueño recibe números, pero no una lectura.",
-    before: "Reportes manuales y versiones distintas de la realidad.",
-    after: "Indicadores comunes muestran desvíos y decisiones.",
-  },
-];
-
 export default function HomePage() {
   useEffect(() => {
-    document.title = "NexOps — Ventas y operación como un solo sistema";
+    document.title = "NexOps — Ventas, tecnología y operación conectadas";
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", "NexOps conecta captación, CRM, inteligencia artificial, automatización y datos para mejorar la operación comercial de tu empresa.");
   }, []);
@@ -66,7 +49,7 @@ export default function HomePage() {
         <div className="site-shell home-hero__grid">
           <div className="home-hero__copy">
             <span className="eyebrow eyebrow--light">Sistema comercial conectado</span>
-            <h1>Ventas, tecnología y operación. Un solo sistema.</h1>
+            <h1>Hacemos que ventas, tecnología y operación trabajen como un solo sistema.</h1>
             <p>
               Captamos oportunidades, las ordenamos, automatizamos el seguimiento y convertimos los datos en decisiones claras para tu empresa.
             </p>
@@ -90,7 +73,7 @@ export default function HomePage() {
 
       <section className="proof-strip" aria-labelledby="proof-heading">
         <div className="site-shell proof-strip__inner">
-          <p id="proof-heading">Experiencia construyendo sistemas para equipos reales</p>
+          <p id="proof-heading">Experiencia del equipo en compañías y operaciones reales</p>
           <div className="proof-strip__logos">
             {clientLogos.map(([src, alt]) => (
               <span
@@ -117,15 +100,28 @@ export default function HomePage() {
             </p>
           </header>
 
-          <div className="system-flow">
-            <div className="system-flow__line" aria-hidden="true" />
-            {systemSteps.map((step, index) => (
-              <div className="system-flow__step" key={step.id}>
-                <span className="system-flow__index">0{index + 1}</span>
-                <strong>{step.label}</strong>
-                <p>{step.description}</p>
+          <div className="system-journey">
+            <div className="system-journey__header">
+              <div className="system-journey__lead">
+                <span>OP</span>
+                <div>
+                  <small>Una misma oportunidad</small>
+                  <strong>Consulta · Empresa Norte</strong>
+                </div>
               </div>
-            ))}
+              <div className="system-journey__status"><span /> Avanza con contexto</div>
+            </div>
+            <div className="system-flow">
+              <div className="system-flow__line" aria-hidden="true" />
+              {systemSteps.map((step, index) => (
+                <div className="system-flow__step" key={step.id}>
+                  <span className="system-flow__index">0{index + 1}</span>
+                  <strong>{step.label}</strong>
+                  <p>{step.description}</p>
+                  <small>{step.state}</small>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="system-flow__outcome">
@@ -144,12 +140,16 @@ export default function HomePage() {
               La escena no depende de magia: combina proceso, herramientas y criterio para que la operación avance sin perder contexto.
             </p>
           </div>
-          <ol className="operation-list">
-            <li><span>1</span><div><strong>La consulta entra</strong><p>Desde WhatsApp, una campaña, la web o un canal comercial.</p></div></li>
-            <li><span>2</span><div><strong>El sistema organiza</strong><p>CRM registra, asigna responsable y conserva el historial.</p></div></li>
-            <li><span>3</span><div><strong>IA y automatización asisten</strong><p>Interpretan, preparan acciones y ejecutan tareas permitidas.</p></div></li>
-            <li><span>4</span><div><strong>El equipo interviene con foco</strong><p>Las excepciones llegan a una persona con el contexto necesario.</p></div></li>
-          </ol>
+          <div className="operation-board">
+            <div className="operation-board__header"><span>Oportunidad activa</span><strong>Consulta · Empresa Norte</strong></div>
+            <ol className="operation-list">
+              <li><span>1</span><div><strong>La consulta entra</strong><p>Desde WhatsApp, una campaña, la web o un canal comercial.</p></div></li>
+              <li><span>2</span><div><strong>CRM registra y organiza</strong><p>Asigna responsable, conserva el historial y ordena el seguimiento.</p></div></li>
+              <li><span>3</span><div><strong>IA y automatización asisten</strong><p>Preparan respuestas, ejecutan tareas permitidas y dejan contexto.</p></div></li>
+              <li><span>4</span><div><strong>Una persona decide donde aporta</strong><p>Las excepciones llegan al equipo con la información necesaria.</p></div></li>
+              <li><span>5</span><div><strong>Queda próxima acción y trazabilidad</strong><p>El dueño puede ver qué pasó, qué sigue y dónde necesita intervenir.</p></div></li>
+            </ol>
+          </div>
         </div>
       </section>
 
@@ -190,23 +190,39 @@ export default function HomePage() {
 
       <section className="section section--lavender" id="casos">
         <div className="site-shell">
-          <header className="section-heading section-heading--center">
-            <span className="eyebrow">Escenarios reconocibles</span>
-            <h2>Problemas cotidianos que se convierten en una operación más clara.</h2>
+          <header className="case-heading">
+            <div>
+              <span className="eyebrow">Prueba real</span>
+              <h2>Sistemas que ya construimos para operaciones reales.</h2>
+            </div>
+            <p>
+              Cada caso cuenta el problema, la implementación y el cambio operativo que podemos sostener con evidencia.
+            </p>
           </header>
-          <div className="owner-problems">
-            {ownerProblems.map((problem, index) => (
-              <article className="owner-problem" key={problem.title}>
-                <span className="owner-problem__number">0{index + 1}</span>
-                <h3>{problem.title}</h3>
-                <div className="owner-problem__state">
-                  <small>Antes</small>
-                  <p>{problem.before}</p>
-                </div>
-                <ArrowRight className="owner-problem__arrow" size={20} />
-                <div className="owner-problem__state owner-problem__state--after">
-                  <small>Con NexOps</small>
-                  <p>{problem.after}</p>
+          <div className="case-studies">
+            {realCases.map((item, index) => (
+              <article className="case-study" key={item.id}>
+                <header className="case-study__header">
+                  <span className="case-study__number">0{index + 1}</span>
+                  <div>
+                    <small>Cliente / contexto</small>
+                    <h3>{item.context}</h3>
+                  </div>
+                  <span className="case-study__status"><Check size={14} /> {item.status}</span>
+                </header>
+                <div className="case-study__body">
+                  <div>
+                    <small>Problema</small>
+                    <p>{item.problem}</p>
+                  </div>
+                  <div>
+                    <small>Qué hicimos</small>
+                    <p>{item.work}</p>
+                  </div>
+                  <div className="case-study__result">
+                    <small>Cambio operativo comprobable</small>
+                    <p>{item.result}</p>
+                  </div>
                 </div>
               </article>
             ))}

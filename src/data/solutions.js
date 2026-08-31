@@ -3,26 +3,31 @@ export const systemSteps = [
     id: "captacion",
     label: "Captación",
     description: "La oportunidad entra desde campañas, web o WhatsApp.",
+    state: "Consulta detectada",
   },
   {
     id: "crm",
     label: "CRM",
     description: "Queda registrada, asignada y con una próxima acción.",
+    state: "Responsable asignado",
   },
   {
     id: "ia",
     label: "IA",
     description: "Interpreta contexto, califica y prepara la respuesta.",
+    state: "Contexto preparado",
   },
   {
     id: "automatizacion",
     label: "Automatización",
     description: "Ejecuta tareas y conecta los sistemas involucrados.",
+    state: "Tarea ejecutada",
   },
   {
     id: "data",
     label: "Data",
     description: "Registra el resultado y muestra qué está funcionando.",
+    state: "Resultado visible",
   },
 ];
 

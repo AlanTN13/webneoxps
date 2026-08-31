@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { realCases } from "../../src/data/cases.js";
 import { solutions, systemSteps } from "../../src/data/solutions.js";
 
 test("publishes the six approved solution routes", () => {
@@ -35,4 +36,17 @@ test("uses the approved Nexy family across the solution system", () => {
 
 test("the home system explains one connected commercial flow", () => {
   assert.deepEqual(systemSteps.map(({ label }) => label), ["Captación", "CRM", "IA", "Automatización", "Data"]);
+  assert.equal(new Set(systemSteps.map(({ state }) => state)).size, systemSteps.length);
+});
+
+test("the home proof uses three concrete evidence-backed cases", () => {
+  assert.deepEqual(realCases.map(({ id }) => id), ["globaltrip-news", "materials-erp", "attendance-operation"]);
+
+  for (const item of realCases) {
+    assert.ok(item.context.length > 12);
+    assert.ok(item.problem.length > 70);
+    assert.ok(item.work.length > 80);
+    assert.ok(item.result.length > 80);
+    assert.doesNotMatch(item.result, /\+\d|\d+%/);
+  }
 });
