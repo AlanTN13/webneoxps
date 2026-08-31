@@ -1254,54 +1254,139 @@ a {
 }
 
 .about-system__visual {
-  position: relative;
+  display: flex;
   min-height: 510px;
+  flex-direction: column;
   overflow: hidden;
+  padding: 22px;
   border-radius: 28px;
-  background: #ede9ff;
+  background:
+    radial-gradient(circle at 100% 0, rgba(120,103,242,.2), transparent 38%),
+    #ede9ff;
 }
 
-.about-system__visual::before,
-.about-system__visual::after {
+.about-system__visual-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #5d4bc8;
+  font-size: 10px;
+  font-weight: 820;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.about-system__visual-head small {
+  color: #7c7789;
+  font: inherit;
+  font-size: 8px;
+}
+
+.about-system__layers {
+  overflow: hidden;
+  margin-top: 20px;
+  border: 1px solid rgba(19,19,26,.11);
+  border-radius: 18px;
+  background: rgba(255,255,255,.72);
+}
+
+.about-system__layer {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 17px;
+  border-top: 1px solid rgba(19,19,26,.09);
+}
+
+.about-system__layer:first-child {
+  border-top: 0;
+}
+
+.about-system__layer > svg {
+  color: #6652dc;
+}
+
+.about-system__layer small {
+  display: block;
+  color: #716d79;
+  font-size: 8px;
+  font-weight: 820;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.about-system__layer strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.about-system__layer > span {
+  color: #8b8792;
+  font-size: 8px;
+  font-weight: 820;
+}
+
+.about-system__outcome {
+  position: relative;
+  overflow: hidden;
+  margin-top: auto;
+  padding: 22px;
+  border-radius: 20px;
+  background: var(--ink);
+  color: white;
+}
+
+.about-system__outcome::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  border: 1px solid rgba(95,77,213,.17);
+  right: -65px;
+  bottom: -95px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  transform: translate(-50%,-50%);
+  background: rgba(120,103,242,.32);
 }
 
-.about-system__visual::before { width: 360px; height: 360px; }
-.about-system__visual::after { width: 250px; height: 250px; }
-
-.about-system__visual img {
-  position: absolute;
-  z-index: 2;
-  right: 50%;
-  bottom: -10px;
-  width: 800px;
-  max-width: none;
-  height: auto;
-  transform: translateX(50%);
-  filter: drop-shadow(0 28px 34px rgba(47,38,96,.18));
+.about-system__outcome > small,
+.about-system__outcome > strong,
+.about-system__outcome > div {
+  position: relative;
+  z-index: 1;
 }
 
-.about-system__orbit {
-  position: absolute;
-  z-index: 3;
-  padding: 9px 13px;
-  border: 1px solid rgba(19,19,26,.12);
+.about-system__outcome > small {
+  color: var(--violet-soft);
+  font-size: 8px;
+  font-weight: 820;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.about-system__outcome > strong {
+  display: block;
+  max-width: 320px;
+  margin-top: 7px;
+  font-size: 27px;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.about-system__outcome > div {
+  display: flex;
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.about-system__outcome span {
+  padding: 7px 9px;
+  border: 1px solid rgba(255,255,255,.17);
   border-radius: 999px;
-  background: rgba(255,255,255,.85);
-  box-shadow: 0 14px 30px rgba(59,48,118,.12);
-  font-size: 10px;
-  font-weight: 780;
+  color: rgba(255,255,255,.73);
+  font-size: 8px;
+  font-weight: 720;
 }
-
-.about-system__orbit--one { top: 70px; left: 54px; }
-.about-system__orbit--two { top: 135px; right: 38px; }
-.about-system__orbit--three { bottom: 82px; left: 34px; }
 
 .about-system__copy > p {
   max-width: 650px;
@@ -1901,10 +1986,9 @@ a {
   .case-study__body { grid-template-columns: 1fr; margin: 20px 0 0; }
   .case-study__result { grid-column: auto; }
   .about-system__visual { min-height: 420px; }
-  .about-system__visual img { width: 680px; }
-  .about-system__orbit--one { left: 18px; }
-  .about-system__orbit--two { right: 12px; }
-  .about-system__orbit--three { left: 14px; }
+  .about-system__visual { padding: 16px; }
+  .about-system__layer { padding: 14px; }
+  .about-system__outcome { margin-top: 16px; padding: 20px; }
   .closing-cta__inner { min-height: 0; grid-template-columns: 1fr; padding-block: 75px; }
   .closing-cta .button { width: 100%; }
   .site-footer { padding-top: 58px; }

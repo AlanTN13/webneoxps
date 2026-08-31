@@ -233,10 +233,45 @@ export default function HomePage() {
       <section className="section" id="nosotros">
         <div className="site-shell about-system">
           <div className="about-system__visual">
-            <img src="/assets/nexis/nexi-core.webp" alt="Nexy conectando procesos y tecnología" loading="lazy" width="1200" height="800" />
-            <div className="about-system__orbit about-system__orbit--one">Negocio</div>
-            <div className="about-system__orbit about-system__orbit--two">Procesos</div>
-            <div className="about-system__orbit about-system__orbit--three">Tecnología</div>
+            <header className="about-system__visual-head">
+              <span>Un mismo sistema</span>
+              <small>NexOps / 01</small>
+            </header>
+            <div className="about-system__layers">
+              <div className="about-system__layer">
+                <CircleGauge size={21} />
+                <div>
+                  <small>Negocio</small>
+                  <strong>Objetivos y prioridades</strong>
+                </div>
+                <span>01</span>
+              </div>
+              <div className="about-system__layer">
+                <Workflow size={21} />
+                <div>
+                  <small>Procesos</small>
+                  <strong>Roles, reglas y seguimiento</strong>
+                </div>
+                <span>02</span>
+              </div>
+              <div className="about-system__layer">
+                <Blocks size={21} />
+                <div>
+                  <small>Tecnología</small>
+                  <strong>Automatización, IA y datos</strong>
+                </div>
+                <span>03</span>
+              </div>
+            </div>
+            <div className="about-system__outcome">
+              <small>Cuando todo trabaja conectado</small>
+              <strong>Capacidad de ejecución</strong>
+              <div>
+                <span>Decidir</span>
+                <span>Hacer</span>
+                <span>Medir</span>
+              </div>
+            </div>
           </div>
           <div className="about-system__copy">
             <span className="eyebrow">Cómo pensamos</span>
