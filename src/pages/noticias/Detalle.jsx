@@ -22,9 +22,9 @@ export default function Detalle() {
     return (
       <Layout>
         <div className="mx-auto max-w-3xl px-4 py-20">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Insight no encontrado</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Publicación no encontrada</p>
           <h1 className="mt-3 text-3xl font-semibold text-slate-900">Esta publicación no existe o cambió de URL.</h1>
-          <Link to="/noticias" className="mt-6 inline-flex font-medium text-indigo-600 hover:text-indigo-700">← Volver a Insights</Link>
+          <Link to="/noticias" className="mt-6 inline-flex font-medium text-indigo-600 hover:text-indigo-700">← Volver a novedades</Link>
         </div>
       </Layout>
     );
@@ -37,7 +37,7 @@ export default function Detalle() {
   return (
     <Layout>
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
-        <Link to="/noticias" className="text-sm text-slate-600 hover:text-slate-900">← Volver a Insights</Link>
+        <Link to="/noticias" className="text-sm text-slate-600 hover:text-slate-900">← Volver a novedades</Link>
 
         <header className="mt-6 max-w-3xl">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
@@ -76,7 +76,7 @@ export default function Detalle() {
         {related.length > 0 && (
           <section className="mt-14 border-t border-slate-200 pt-9">
             <div className="flex items-end justify-between gap-4">
-              <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Seguir leyendo</p><h2 className="mt-2 text-2xl font-semibold text-slate-900">Insights relacionados</h2></div>
+              <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Seguir leyendo</p><h2 className="mt-2 text-2xl font-semibold text-slate-900">Novedades relacionadas</h2></div>
               <Link to="/noticias" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">Ver todos</Link>
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-3">

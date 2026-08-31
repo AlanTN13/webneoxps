@@ -88,7 +88,7 @@ function breadcrumbJsonLd(article) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "NexOps", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Insights", item: `${SITE_URL}/noticias` },
+      { "@type": "ListItem", position: 2, name: "Novedades", item: `${SITE_URL}/noticias` },
       { "@type": "ListItem", position: 3, name: article.title, item: `${SITE_URL}/noticias/${article.slug}` },
     ],
   }).replaceAll("<", "\\u003c");
@@ -133,11 +133,11 @@ function injectStaticRoot(template, content) {
 
 function articleFallback(article) {
   const readingTime = getReadingTimeMinutes(article);
-  return `<main data-static-seo="article"><article><nav><a href="/">NexOps</a> / <a href="/noticias">Insights</a></nav><p>${escapeHtml(article.contentPurpose || article.category || article.contentType)} · ${readingTime} min de lectura</p><time datetime="${escapeHtml(article.publishedAt)}">${escapeHtml(article.publishedAt)}</time><h1>${escapeHtml(article.title)}</h1><p>${escapeHtml(article.excerpt)}</p>${renderContent(article.content)}<p><a href="/noticias">Ver más Insights de NexOps</a></p></article></main>`;
+  return `<main data-static-seo="article"><article><nav><a href="/">NexOps</a> / <a href="/noticias">Novedades</a></nav><p>${escapeHtml(article.contentPurpose || article.category || article.contentType)} · ${readingTime} min de lectura</p><time datetime="${escapeHtml(article.publishedAt)}">${escapeHtml(article.publishedAt)}</time><h1>${escapeHtml(article.title)}</h1><p>${escapeHtml(article.excerpt)}</p>${renderContent(article.content)}<p><a href="/noticias">Ver más novedades de NexOps</a></p></article></main>`;
 }
 
 function indexFallback(articles) {
-  return `<main data-static-seo="index"><h1>NexOps Insights</h1><p>Guías, actualidad aplicada, criterio y casos sobre automatización, IA, CRM y datos.</p><section>${articles.map((article) => `<article><h2><a href="/noticias/${escapeHtml(article.slug)}">${escapeHtml(article.title)}</a></h2><p>${escapeHtml(article.excerpt)}</p></article>`).join("")}</section></main>`;
+  return `<main data-static-seo="index"><h1>Novedades NexOps</h1><p>Guías, actualidad aplicada, criterio y casos sobre automatización, IA, CRM y datos.</p><section>${articles.map((article) => `<article><h2><a href="/noticias/${escapeHtml(article.slug)}">${escapeHtml(article.title)}</a></h2><p>${escapeHtml(article.excerpt)}</p></article>`).join("")}</section></main>`;
 }
 
 async function writePage(relativePath, html) {
@@ -152,7 +152,7 @@ async function main() {
 
   const indexHtml = injectStaticRoot(
     injectHead(template, {
-      title: "NexOps Insights | Automatización, IA, CRM y Data",
+      title: "Novedades NexOps | Automatización, IA, CRM y Data",
       description: "Actualidad, guías y análisis de NexOps para automatizar procesos, aplicar IA, mejorar CRM y convertir datos en decisiones empresariales.",
       canonical: `${SITE_URL}/noticias`,
       image: FALLBACK_IMAGE,

@@ -49,7 +49,7 @@ const servicesData = [
       { label: "Conversión", icon: <Magnet />, x: -8, y: 35 },
       { label: "Métricas", icon: <PieChart />, x: 25, y: -5 },
     ],
-    nexiImage: "/assets/nexis/nexicap.png",
+    nexiImage: "/assets/nexis/nexi-growth.webp",
     nexiCopy: "El Nexi que convierte contactos en oportunidades reales.",
     incluye: [
       "Campañas en Meta o Google configuradas",
@@ -82,7 +82,7 @@ const servicesData = [
       { label: "Reportes", icon: <BarChart3 />, x: 103, y: 40 },
       { label: "Seguimiento", icon: <Settings />, x: 72, y: 2 },
     ],
-    nexiImage: "/assets/nexis/nexisales.png",
+    nexiImage: "/assets/nexis/nexi-sales.webp",
     nexiCopy: "El Nexi que pone orden y visibilidad en las ventas.",
     incluye: [
       "Pipeline de ventas con etapas definidas",
@@ -115,7 +115,7 @@ const servicesData = [
       { label: "Bots", icon: <Bot />, x: -8, y: 65 },
       { label: "Mensajes", icon: <MessageSquare />, x: 25, y: 105 },
     ],
-    nexiImage: "/assets/nexis/nexiauto.png",
+    nexiImage: "/assets/nexis/nexi-flow.webp",
     nexiCopy: "El cerebro que conecta y coordina a todos los Nexi.",
     incluye: [
       "Seguimientos automáticos integrados",
@@ -148,7 +148,7 @@ const servicesData = [
       { label: "Facturación", icon: <Receipt />, x: 103, y: 60 },
       { label: "Stock", icon: <Package />, x: 72, y: 98 },
     ],
-    nexiImage: "/assets/nexis/nexiops.png",
+    nexiImage: "/assets/nexis/nexi-core.webp",
     nexiCopy: "El Nexi que se asegura de que todo lo vendido se cumpla.",
     incluye: [
       "Estados operativos automatizados",

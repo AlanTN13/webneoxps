@@ -26,3 +26,6 @@ node_modules/
 dist/
 public/radar-publications.json
 .env
+
+# Local visual verification artifacts (approved captures live in docs/screenshots)
+outputs/

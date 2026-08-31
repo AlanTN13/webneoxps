@@ -70,7 +70,7 @@ export default function Noticias() {
               <div>
                 <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-200">
                   <span className="h-px w-8 bg-indigo-300/80" aria-hidden="true" />
-                  NEXOPS INSIGHTS
+                  NOVEDADES NEXOPS
                 </p>
                 <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.06] tracking-[-0.035em] text-white sm:text-5xl lg:text-[3.45rem]">
                   Ideas prácticas para vender más, operar mejor y escalar con automatización e IA
@@ -141,7 +141,7 @@ export default function Noticias() {
           {showFeatured && (
             <section className="mt-14 sm:mt-20" aria-labelledby="featured-heading">
               <div className="mb-5 flex items-center gap-4">
-                <p id="featured-heading" className="shrink-0 text-xs font-semibold uppercase tracking-[0.17em] text-slate-500">Insight destacado</p>
+                <p id="featured-heading" className="shrink-0 text-xs font-semibold uppercase tracking-[0.17em] text-slate-500">Contenido destacado</p>
                 <span className="h-px flex-1 bg-slate-200" aria-hidden="true" />
               </div>
               <article className="group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-sm transition hover:border-indigo-200 hover:shadow-lg">
@@ -151,7 +151,7 @@ export default function Noticias() {
                   </Link>
                   <div className="flex min-w-0 flex-col justify-center p-6 sm:p-9 lg:p-10">
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-indigo-600">
-                      <span>{PURPOSE_OPTIONS[featuredPost.contentPurpose]?.label || "Insight"}</span>
+                      <span>{PURPOSE_OPTIONS[featuredPost.contentPurpose]?.label || "Artículo"}</span>
                       <span aria-hidden="true" className="text-slate-300">·</span>
                       <time dateTime={featuredPost.publishedAt} className="text-slate-500">{formatNewsDate(featuredPost.publishedAt)}</time>
                       <span aria-hidden="true" className="text-slate-300">·</span>
@@ -178,14 +178,14 @@ export default function Noticias() {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Seguí explorando</p>
                 <h2 id="insights-heading" className="mt-1 text-xl font-semibold text-slate-950 sm:text-2xl">
-                  {activePurpose === "all" ? "Todos los Insights" : PURPOSE_OPTIONS[activePurpose].label}
+                  {activePurpose === "all" ? "Todas las novedades" : PURPOSE_OPTIONS[activePurpose].label}
                 </h2>
               </div>
               <span className="shrink-0 text-sm text-slate-500">{visiblePosts.length} {visiblePosts.length === 1 ? "artículo" : "artículos"}</span>
             </div>
 
             {visiblePosts.length === 0 ? (
-              <div className="rounded-2xl border border-slate-200 bg-white px-6 py-10 text-sm text-slate-600">Todavía no hay Insights publicados en esta categoría.</div>
+              <div className="rounded-2xl border border-slate-200 bg-white px-6 py-10 text-sm text-slate-600">Todavía no hay novedades publicadas en esta categoría.</div>
             ) : (
               <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {gridPosts.map((post) => (
@@ -195,7 +195,7 @@ export default function Noticias() {
                     </Link>
                     <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-6">
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
-                        <span>{PURPOSE_OPTIONS[post.contentPurpose]?.label || "Insight"}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time><span aria-hidden="true">·</span><span>{formatReadingTime(post)}</span>
+                        <span>{PURPOSE_OPTIONS[post.contentPurpose]?.label || "Artículo"}</span><span aria-hidden="true">·</span><time dateTime={post.publishedAt}>{formatNewsDate(post.publishedAt)}</time><span aria-hidden="true">·</span><span>{formatReadingTime(post)}</span>
                       </div>
                       <Link to={`/noticias/${post.slug}`} className="mt-2 inline-block">
                         <h3 className="text-base font-semibold leading-snug text-slate-950 transition-colors group-hover:text-indigo-700 sm:text-lg">{post.title}</h3>
