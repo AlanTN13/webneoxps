@@ -196,7 +196,7 @@ export default function HomePage() {
               <h2>Lo que ya construimos, por tipo de operación.</h2>
             </div>
             <p>
-              Sin logos ni nombres propios: rubro, implementación y estado real de cada trabajo.
+              Una selección de sistemas desarrollados para resolver desafíos concretos en operaciones de distintos rubros.
             </p>
           </header>
           <div className="implementation-grid">
