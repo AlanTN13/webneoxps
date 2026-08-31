@@ -16,7 +16,7 @@ export const NAV_LINKS = [
     { label: "Soluciones", href: "/#soluciones" },
     { label: "Casos", href: "/#casos" },
     { label: "Nosotros", href: "/#nosotros" },
-    { label: "Insights", href: "/noticias" },
+    { label: "Novedades", href: "/noticias" },
     { label: "Contacto", href: "/#contacto" },
 ];
 

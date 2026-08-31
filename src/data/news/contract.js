@@ -61,11 +61,11 @@ export const INTERNAL_ROUTES = [
 ];
 
 export function getContentTypeLabel(contentType) {
-  return CONTENT_TYPES[contentType]?.label || "Insight";
+  return CONTENT_TYPES[contentType]?.label || "Artículo";
 }
 
 export function getContentPurposeLabel(contentPurpose) {
-  return CONTENT_PURPOSES[contentPurpose]?.label || "Insight";
+  return CONTENT_PURPOSES[contentPurpose]?.label || "Artículo";
 }
 
 export function getTerritoryConfig(territory) {
@@ -88,7 +88,7 @@ export const formatNewsDate = (value) => new Intl.DateTimeFormat("es-AR", {
   month: "short",
   year: "numeric",
 }).format(new Date(value.length === 10 ? `${value}T12:00:00Z` : value));
-export const getNewsLabel = (post) => post.territory ? getTerritoryConfig(post.territory).label : post.category || "Insight";
+export const getNewsLabel = (post) => post.territory ? getTerritoryConfig(post.territory).label : post.category || "Artículo";
 export const getNewsPurposeLabel = (post) => getContentPurposeLabel(post.contentPurpose);
 export const getNewsSources = (post) => {
   const items = [];
