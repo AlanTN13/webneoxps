@@ -345,12 +345,17 @@ test("los tres artículos consolidados tienen redirects 308 directos", async () 
     "/noticias/meta-acelera-la-carrera-de-ia-contra-openai-y-google": "/noticias/meta-business-agent-whatsapp-leads-ventas",
   };
 
-  assert.equal(configuration.redirects.length, 3);
+  assert.ok(configuration.redirects.length >= 3);
   for (const [source, destination] of Object.entries(expected)) {
     assert.equal(redirects.get(source)?.destination, destination);
     assert.equal(redirects.get(source)?.statusCode, 308);
     assert.ok(!expected[destination], `redirect encadenado desde ${source}`);
   }
+
+  assert.equal(redirects.get("/radar")?.destination, "https://portal.nexopstech.com/portal/radar");
+  assert.equal(redirects.get("/radar")?.statusCode, 308);
+  assert.equal(redirects.get("/radar/:path*")?.destination, "https://portal.nexopstech.com/portal/radar");
+  assert.equal(redirects.get("/radar/:path*")?.statusCode, 308);
 });
 
 test("las seis notas retiradas ya no tienen JSON publicable", async () => {
