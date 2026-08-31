@@ -192,38 +192,26 @@ export default function HomePage() {
         <div className="site-shell">
           <header className="case-heading">
             <div>
-              <span className="eyebrow">Prueba real</span>
-              <h2>Sistemas que ya construimos para operaciones reales.</h2>
+              <span className="eyebrow">Implementaciones reales</span>
+              <h2>Lo que ya construimos, por tipo de operación.</h2>
             </div>
             <p>
-              Cada caso cuenta el problema, la implementación y el cambio operativo que podemos sostener con evidencia.
+              Sin logos ni nombres propios: rubro, implementación y estado real de cada trabajo.
             </p>
           </header>
-          <div className="case-studies">
+          <div className="implementation-grid">
             {realCases.map((item, index) => (
-              <article className="case-study" key={item.id}>
-                <header className="case-study__header">
-                  <span className="case-study__number">0{index + 1}</span>
-                  <div>
-                    <small>Cliente / contexto</small>
-                    <h3>{item.context}</h3>
-                  </div>
-                  <span className="case-study__status"><Check size={14} /> {item.status}</span>
+              <article className="implementation-item" key={item.id}>
+                <header className="implementation-item__head">
+                  <span className="implementation-item__number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="implementation-item__sector">{item.sector}</span>
                 </header>
-                <div className="case-study__body">
-                  <div>
-                    <small>Problema</small>
-                    <p>{item.problem}</p>
-                  </div>
-                  <div>
-                    <small>Qué hicimos</small>
-                    <p>{item.work}</p>
-                  </div>
-                  <div className="case-study__result">
-                    <small>Cambio operativo comprobable</small>
-                    <p>{item.result}</p>
-                  </div>
-                </div>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
+                <footer className="implementation-item__meta">
+                  <span>{item.type}</span>
+                  <small><Check size={13} /> {item.status}</small>
+                </footer>
               </article>
             ))}
           </div>

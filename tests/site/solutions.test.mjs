@@ -39,14 +39,16 @@ test("the home system explains one connected commercial flow", () => {
   assert.equal(new Set(systemSteps.map(({ state }) => state)).size, systemSteps.length);
 });
 
-test("the home proof uses three concrete evidence-backed cases", () => {
-  assert.deepEqual(realCases.map(({ id }) => id), ["globaltrip-news", "materials-erp", "attendance-operation"]);
+test("the home proof uses ten anonymized implementation cases", () => {
+  assert.equal(realCases.length, 10);
+  assert.equal(new Set(realCases.map(({ id }) => id)).size, realCases.length);
 
   for (const item of realCases) {
-    assert.ok(item.context.length > 12);
-    assert.ok(item.problem.length > 70);
-    assert.ok(item.work.length > 80);
-    assert.ok(item.result.length > 80);
-    assert.doesNotMatch(item.result, /\+\d|\d+%/);
+    assert.ok(item.sector.length > 5);
+    assert.ok(item.title.length > 8);
+    assert.ok(item.summary.length > 70);
+    assert.ok(item.type.length > 2);
+    assert.ok(item.status.length > 7);
+    assert.doesNotMatch(`${item.sector} ${item.title} ${item.summary}`, /GlobalTrip|Casa Italia|Edelvives|Sommier Magno/i);
   }
 });

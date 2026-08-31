@@ -1161,89 +1161,84 @@ a {
   line-height: 1.65;
 }
 
-.case-studies {
+.implementation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   border-top: 1px solid rgba(19,19,26,.15);
 }
 
-.case-study {
-  padding: 29px 0 31px;
+.implementation-item {
+  display: flex;
+  min-height: 245px;
+  flex-direction: column;
+  padding: 27px 30px 28px 0;
   border-bottom: 1px solid rgba(19,19,26,.15);
 }
 
-.case-study__header {
-  display: grid;
-  grid-template-columns: 48px minmax(0,1fr) auto;
-  align-items: center;
-  gap: 16px;
+.implementation-item:nth-child(even) {
+  padding-right: 0;
+  padding-left: 30px;
+  border-left: 1px solid rgba(19,19,26,.15);
 }
 
-.case-study__number {
+.implementation-item__head,
+.implementation-item__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.implementation-item__number {
   color: #7765e8;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 820;
 }
 
-.case-study__header small,
-.case-study__body small {
+.implementation-item__sector {
   color: #716d79;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 820;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
 
-.case-study__header h3 {
-  margin: 4px 0 0;
-  font-size: 20px;
+.implementation-item h3 {
+  margin: 32px 0 0;
+  font-size: 24px;
+  line-height: 1.08;
   letter-spacing: -.04em;
 }
 
-.case-study__status {
+.implementation-item > p {
+  max-width: 520px;
+  margin: 13px 0 26px;
+  color: #4f4b59;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.implementation-item__meta {
+  margin-top: auto;
+}
+
+.implementation-item__meta > span {
+  padding: 7px 9px;
+  border: 1px solid rgba(19,19,26,.11);
+  border-radius: 999px;
+  background: rgba(255,255,255,.46);
+  color: #5f5b69;
+  font-size: 8px;
+  font-weight: 760;
+}
+
+.implementation-item__meta small {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 11px;
-  border: 1px solid rgba(87,69,196,.18);
-  border-radius: 999px;
-  background: rgba(255,255,255,.58);
+  gap: 5px;
   color: #5d4bc8;
   font-size: 9px;
   font-weight: 780;
-}
-
-.case-study__body {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 12px;
-  margin: 22px 0 0 64px;
-}
-
-.case-study__body > div {
-  min-height: 158px;
-  padding: 20px;
-  border: 1px solid rgba(19,19,26,.1);
-  border-radius: 15px;
-  background: rgba(255,255,255,.48);
-}
-
-.case-study__body p {
-  margin: 11px 0 0;
-  color: #4f4b59;
-  font-size: 12px;
-  line-height: 1.58;
-}
-
-.case-study__body .case-study__result {
-  border-color: rgba(120,103,242,.24);
-  background: var(--ink);
-}
-
-.case-study__result small {
-  color: var(--violet-soft);
-}
-
-.case-study__body .case-study__result p {
-  color: rgba(255,255,255,.75);
 }
 
 .about-system {
@@ -1913,9 +1908,6 @@ a {
   .solution-row__link { grid-column: 3; justify-content: flex-start; margin-top: -5px; }
   .case-heading { grid-template-columns: 1fr; gap: 18px; }
   .case-heading > p { max-width: 620px; }
-  .case-study__body { grid-template-columns: 1fr 1fr; }
-  .case-study__result { grid-column: span 2; }
-  .case-study__body > div { min-height: 0; }
   .about-system { gap: 60px; }
   .site-footer__grid { grid-template-columns: 1.5fr 1fr 1fr; }
   .site-footer__grid > div:last-child { grid-column: 2; }
@@ -1980,11 +1972,11 @@ a {
   .solution-row__link { grid-column: 2; }
   .case-heading { margin-bottom: 36px; }
   .case-heading h2 { font-size: clamp(2.25rem,10.5vw,3rem); }
-  .case-study { padding-block: 25px; }
-  .case-study__header { grid-template-columns: 34px 1fr; align-items: start; gap: 10px; }
-  .case-study__status { grid-column: 2; width: fit-content; }
-  .case-study__body { grid-template-columns: 1fr; margin: 20px 0 0; }
-  .case-study__result { grid-column: auto; }
+  .implementation-grid { grid-template-columns: 1fr; }
+  .implementation-item,
+  .implementation-item:nth-child(even) { min-height: 0; padding: 24px 0; border-left: 0; }
+  .implementation-item h3 { margin-top: 23px; font-size: 22px; }
+  .implementation-item > p { margin-bottom: 22px; }
   .about-system__visual { min-height: 420px; }
   .about-system__visual { padding: 16px; }
   .about-system__layer { padding: 14px; }
