@@ -71,7 +71,7 @@ export default function HomePage() {
               Captamos oportunidades, las ordenamos, automatizamos el seguimiento y convertimos los datos en decisiones claras para tu empresa.
             </p>
             <div className="button-row">
-              <a className="button button--lime" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
+              <a className="button button--brand" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
                 Hablar con NexOps <ArrowRight size={17} />
               </a>
               <a className="button button--ghost-light" href="#como-funciona">
@@ -93,7 +93,13 @@ export default function HomePage() {
           <p id="proof-heading">Experiencia construyendo sistemas para equipos reales</p>
           <div className="proof-strip__logos">
             {clientLogos.map(([src, alt]) => (
-              <img key={alt} src={src} alt={alt} loading="lazy" />
+              <span
+                className="proof-strip__logo"
+                key={alt}
+                role="img"
+                aria-label={alt}
+                style={{ "--logo-source": `url(${src})` }}
+              />
             ))}
           </div>
         </div>
@@ -171,7 +177,7 @@ export default function HomePage() {
                     <span>{solution.change}</span>
                   </div>
                   <div className="solution-row__nexy">
-                    <img src={solution.nexy} alt="" loading="lazy" width="720" height="900" />
+                    <img src={solution.nexy} alt="" loading="lazy" width="1200" height="800" />
                   </div>
                   <Link className="solution-row__link" to={`/soluciones/${solution.slug}`} aria-label={`Ver solución ${solution.title}`}>
                     Ver solución <ChevronRight size={18} />
@@ -212,7 +218,7 @@ export default function HomePage() {
       <section className="section" id="nosotros">
         <div className="site-shell about-system">
           <div className="about-system__visual">
-            <img src="/assets/nexis/nexiops.webp" alt="Nexy conectando procesos y tecnología" loading="lazy" width="720" height="900" />
+            <img src="/assets/nexis/nexi-core.webp" alt="Nexy conectando procesos y tecnología" loading="lazy" width="1200" height="800" />
             <div className="about-system__orbit about-system__orbit--one">Negocio</div>
             <div className="about-system__orbit about-system__orbit--two">Procesos</div>
             <div className="about-system__orbit about-system__orbit--three">Tecnología</div>
@@ -239,7 +245,7 @@ export default function HomePage() {
             <h2>Mostranos dónde se corta tu operación.</h2>
             <p>En una primera conversación identificamos el problema, el impacto y el mejor punto para empezar.</p>
           </div>
-          <a className="button button--lime button--large" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
+          <a className="button button--brand button--large" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
             Hablar con NexOps <ArrowRight size={18} />
           </a>
           <div className="closing-cta__note">

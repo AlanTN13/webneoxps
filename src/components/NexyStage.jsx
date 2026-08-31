@@ -49,10 +49,10 @@ export default function NexyStage({ compact = false }) {
 
         <img
           className="nexy-stage__character"
-          src="/assets/nexis/nexisales.webp"
+          src="/assets/nexis/nexi-sales.webp"
           alt="Nexy organizando una oportunidad comercial"
-          width="720"
-          height="900"
+          width="1200"
+          height="800"
           fetchPriority={compact ? "auto" : "high"}
         />
       </div>

@@ -10,7 +10,7 @@ const steps = [
     d: "Identificamos las tareas manuales y cuellos de botella que hoy frenan tu capacidad de venta.",
     e: "Mapa de Tareas Automatizables",
     color: "from-indigo-500 to-blue-500",
-    nexi: "/assets/nexis/nexiops.png"
+    nexi: "/assets/nexis/nexi-core.webp"
   },
   {
     icon: <PenTool />,
@@ -19,7 +19,7 @@ const steps = [
     d: "Diseñamos el flujo de trabajo ideal para liberar a tu equipo y que se enfoquen solo en cerrar negocios.",
     e: "Roadmap de Optimización Comercial",
     color: "from-blue-500 to-violet-500",
-    nexi: "/assets/nexis/nexiauto.png"
+    nexi: "/assets/nexis/nexi-flow.webp"
   },
   {
     icon: <Cpu />,
@@ -28,7 +28,7 @@ const steps = [
     d: "Activamos tus agentes y automatizaciones críticas para que el sistema trabaje por vos 24/7.",
     e: "Ecosistema en Producción",
     color: "from-violet-500 to-fuchsia-600",
-    nexi: "/assets/nexis/nexicap.png"
+    nexi: "/assets/nexis/nexi-ai.webp"
   },
   {
     icon: <BarChart3 />,
@@ -37,7 +37,7 @@ const steps = [
     d: "Medimos el tiempo liberado y el impacto en ingresos para escalar lo que más factura.",
     e: "Reporte de Impacto y ROI",
     color: "from-fuchsia-600 to-indigo-600",
-    nexi: "/assets/nexis/nexisales.png"
+    nexi: "/assets/nexis/nexi-growth.webp"
   },
 ];
 

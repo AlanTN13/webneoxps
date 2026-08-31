@@ -40,7 +40,7 @@ export const solutions = [
       "La campaña genera consultas, pero después nadie sabe cuáles se respondieron, cuáles avanzaron ni cuánto negocio produjeron.",
     change:
       "La captación deja de ser una fuente aislada de leads y se vuelve la primera etapa de un sistema comercial medible.",
-    nexy: "/assets/nexis/nexicap.webp",
+    nexy: "/assets/nexis/nexi-growth.webp",
     nexyRole: "Nexy detecta y encamina oportunidades",
     accent: "coral",
     icon: "Megaphone",
@@ -72,7 +72,7 @@ export const solutions = [
       "Las consultas entran, pero nadie sabe con certeza quién las está siguiendo, qué se habló o cuál es el próximo paso.",
     change:
       "El equipo trabaja sobre un proceso visible: cada oportunidad tiene dueño, estado, contexto y una acción pendiente.",
-    nexy: "/assets/nexis/nexisales.webp",
+    nexy: "/assets/nexis/nexi-sales.webp",
     nexyRole: "Nexy organiza y sostiene el seguimiento",
     accent: "indigo",
     icon: "PanelsTopLeft",
@@ -104,7 +104,7 @@ export const solutions = [
       "Un chatbot responde frases. La empresa necesita una IA que conozca el proceso, use contexto y respete límites.",
     change:
       "La IA deja de ser una demo aislada y se convierte en una capacidad controlada dentro del trabajo cotidiano.",
-    nexy: "/assets/nexis/nexiops.webp",
+    nexy: "/assets/nexis/nexi-ai.webp",
     nexyRole: "Nexy interpreta contexto y prepara acciones",
     accent: "violet",
     icon: "Sparkles",
@@ -136,7 +136,7 @@ export const solutions = [
       "Si una persona hace todos los días el mismo trabajo entre sistemas, el proceso es lento, frágil y difícil de escalar.",
     change:
       "Las tareas repetitivas se ejecutan de forma consistente y el equipo interviene donde realmente agrega criterio.",
-    nexy: "/assets/nexis/nexiauto.webp",
+    nexy: "/assets/nexis/nexi-flow.webp",
     nexyRole: "Nexy conecta y ejecuta tareas",
     accent: "cyan",
     icon: "Workflow",
@@ -168,9 +168,9 @@ export const solutions = [
       "Los números existen, pero están repartidos entre plataformas y el reporte llega tarde o requiere trabajo manual.",
     change:
       "El dueño ve indicadores consistentes, entiende desvíos y puede decidir con una misma versión de la realidad.",
-    nexy: "/assets/nexis/nexisales.webp",
+    nexy: "/assets/nexis/nexi-core.webp",
     nexyRole: "Nexy ordena señales y muestra lo relevante",
-    accent: "lime",
+    accent: "violet",
     icon: "ChartNoAxesCombined",
     capabilities: [
       "Definición de KPIs y modelo de medición",
@@ -200,7 +200,7 @@ export const solutions = [
       "El negocio necesita una capacidad específica y termina forzando planillas o software genérico que no acompaña el proceso.",
     change:
       "La empresa incorpora una herramienta enfocada, usable y preparada para integrarse, evolucionar y generar trazabilidad.",
-    nexy: "/assets/nexis/nexiops.webp",
+    nexy: "/assets/nexis/nexi-core.webp",
     nexyRole: "Nexy construye y conecta la solución",
     accent: "blue",
     icon: "Blocks",

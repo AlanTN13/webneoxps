@@ -78,7 +78,7 @@ export default function Header() {
               <Link to="/#contacto" onClick={() => setOpen(false)}>Contacto</Link>
             </div>
           </nav>
-          <a className="button button--lime" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
+          <a className="button button--brand" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
             Hablar con NexOps
           </a>
         </div>

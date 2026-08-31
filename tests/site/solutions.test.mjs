@@ -20,6 +20,19 @@ test("keeps each solution commercially complete and distinct", () => {
   }
 });
 
+test("uses the approved Nexy family across the solution system", () => {
+  assert.deepEqual(
+    new Set(solutions.map(({ nexy }) => nexy)),
+    new Set([
+      "/assets/nexis/nexi-growth.webp",
+      "/assets/nexis/nexi-sales.webp",
+      "/assets/nexis/nexi-ai.webp",
+      "/assets/nexis/nexi-flow.webp",
+      "/assets/nexis/nexi-core.webp",
+    ]),
+  );
+});
+
 test("the home system explains one connected commercial flow", () => {
   assert.deepEqual(systemSteps.map(({ label }) => label), ["Captación", "CRM", "IA", "Automatización", "Data"]);
 });

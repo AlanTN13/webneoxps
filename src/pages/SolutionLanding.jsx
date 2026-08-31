@@ -64,7 +64,7 @@ export default function SolutionLanding() {
               </div>
               <div className="solution-hero__visual">
                 <div className="solution-hero__role">{solution.nexyRole}</div>
-                <img src={solution.nexy} alt={solution.nexyRole} width="720" height="900" />
+                <img src={solution.nexy} alt={solution.nexyRole} width="1200" height="800" />
                 <div className="solution-hero__signal solution-hero__signal--one">Problema detectado</div>
                 <div className="solution-hero__signal solution-hero__signal--two">Siguiente acción</div>
                 <div className="solution-hero__signal solution-hero__signal--three">Resultado visible</div>
@@ -177,7 +177,7 @@ export default function SolutionLanding() {
               <h2>Veamos si este es el punto correcto para empezar.</h2>
               <p>Revisamos el problema, el flujo actual y el resultado que tiene sentido perseguir.</p>
             </div>
-            <a className="button button--lime button--large" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
+            <a className="button button--brand button--large" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
               Quiero resolver esto <ArrowRight size={18} />
             </a>
           </div>
