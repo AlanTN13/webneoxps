@@ -18,7 +18,6 @@ export default function Footer() {
           <small>Explorar</small>
           <Link to="/#como-funciona">Cómo funciona</Link>
           <Link to="/#casos">Casos</Link>
-          <Link to="/#nosotros">Nosotros</Link>
           <Link to="/noticias">Novedades</Link>
         </div>
         <div>

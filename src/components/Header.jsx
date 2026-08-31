@@ -43,7 +43,6 @@ export default function Header() {
               </div>
             </div>
             <Link to="/#casos">Casos</Link>
-            <Link to="/#nosotros">Nosotros</Link>
             <Link to="/noticias">Novedades</Link>
             <Link to="/#contacto">Contacto</Link>
           </nav>
@@ -76,7 +75,6 @@ export default function Header() {
             ))}
             <div className="mobile-menu__secondary">
               <Link to="/#casos" onClick={() => setOpen(false)}>Casos</Link>
-              <Link to="/#nosotros" onClick={() => setOpen(false)}>Nosotros</Link>
               <Link to="/noticias" onClick={() => setOpen(false)}>Novedades</Link>
               <Link to="/#contacto" onClick={() => setOpen(false)}>Contacto</Link>
             </div>
