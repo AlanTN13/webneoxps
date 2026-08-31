@@ -32,14 +32,13 @@ jobs:
       RADAR_SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }}
       RADAR_SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
       RADAR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-      RADAR_TRACE_PATH: ${{ runner.temp }}/radar-v3-result.json
       RADAR_PRODUCTION_ORIGIN: https://www.nexopstech.com
       RADAR_REQUIRED_CHECKS: validate,Vercel
     steps:
       - name: Initialize run trace
         shell: bash
         run: |
-          printf '%s\n' '{"schemaVersion":1,"workflow":"radar-v3","status":"STARTING","outcome":"UNKNOWN"}' > "$RADAR_TRACE_PATH"
+          printf '%s\n' '{"schemaVersion":1,"workflow":"radar-v3","status":"STARTING","outcome":"UNKNOWN"}' > "$RUNNER_TEMP/radar-v3-result.json"
 
       # pull_request_target is privileged: only the trusted base SHA is executable.
       # The candidate bundle is later fetched by SHA and parsed strictly as data.
