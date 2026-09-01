@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -111,6 +112,11 @@ test("acepta una solicitud manual y una programada con publicationGate cerrado",
   assert.equal(manual.trigger, "manual");
   assert.equal(scheduled.trigger, "scheduled");
   assert.equal(manual.publicationGate, false);
+  assert.equal(validateWorkerRequest(request({ callbackUrl: "https://portal.nexopstech.com" }), { allowedCallbackOrigins: ALLOWED }).callbackUrl, "https://portal.nexopstech.com");
+  assert.throws(
+    () => validateWorkerRequest(request({ requestedAt: "2026-09-01T18:00:00Z" }), { allowedCallbackOrigins: ALLOWED }),
+    /ISO-8601 UTC normalizado/,
+  );
 });
 
 test("manual_note exige review y una fuente HTTPS pública", () => {
@@ -152,9 +158,31 @@ test("la firma HMAC cubre timestamp y bytes exactos del callback", () => {
   const envelope = createCallbackEnvelope(normalizedRequest, normalizedResult);
   assert.equal(envelope.publicationGate, false);
   assert.equal(envelope.result.publicationGate, false);
+  assert.equal(envelope.resultDigest, createHash("sha256").update(canonicalJson(envelope.result)).digest("hex"));
   assert.deepEqual(Object.keys(envelope.result.candidate).sort(), [
     "businessReasons", "draft", "score", "sourceName", "sourceUrl", "title", "topic",
   ]);
+});
+
+test("vector contractual compartido conserva digests interoperables con Portal", () => {
+  const normalizedRequest = validateWorkerRequest(request({ callbackUrl: "https://portal.nexopstech.com" }), { allowedCallbackOrigins: ALLOWED });
+  const normalizedResult = validateWorkerResult({
+    schemaVersion: 1,
+    requestId: REQUEST_ID,
+    workspaceId: "nexops",
+    status: "failed",
+    generatedAt: "2026-09-01T18:10:00.000Z",
+    publicationGate: false,
+    publicMessage: "La corrida no pudo completarse.",
+    candidate: null,
+    resultReason: "Falló la investigación temporal.",
+    noPublication: null,
+    externalRunId: null,
+    externalRunUrl: null,
+  }, normalizedRequest);
+  const envelope = createCallbackEnvelope(normalizedRequest, normalizedResult);
+  assert.equal(envelope.requestDigest, "485b139c08079f03dd7407ae3dfc7ec0dffd14f2c61fb15cf5bf183ecdb4543a");
+  assert.equal(envelope.resultDigest, "3e56b166ebae52c0456ffed7a5ea77bb5ae77d74bde210f8c19c8ca47a2d7b9b");
 });
 
 test("intake ancla el request original y rechaza una mutación posterior", async (t) => {
@@ -200,4 +228,6 @@ test("delivery persiste resultado, NO_PUBLICATION e idempotencia antes de cerrar
   assert.ok(await fs.readFile(path.join(root, "deliveries", `${REQUEST_ID}.json`), "utf8"));
   assert.equal(callbacks[0].init.headers["idempotency-key"], REQUEST_ID);
   assert.equal(callbacks[0].init.headers["x-radar-delivery-id"], `radar-${REQUEST_ID}`);
+  const callbackBody = JSON.parse(callbacks[0].init.body);
+  assert.equal(callbackBody.resultDigest, createHash("sha256").update(canonicalJson(callbackBody.result)).digest("hex"));
 });

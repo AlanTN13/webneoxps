@@ -112,7 +112,8 @@ export function validateWorkerRequest(input, { allowedCallbackOrigins } = {}) {
     throw new Error("request.intent debe ser opportunity_search o manual_note");
   }
   if (input.publicationGate !== false) throw new Error("request.publicationGate debe permanecer en false");
-  const callbackUrl = httpsUrl(input.callbackUrl, "request.callbackUrl", { allowPrivate: true });
+  const callbackUrlValue = text(input.callbackUrl, "request.callbackUrl", 2_000);
+  const callbackUrl = httpsUrl(callbackUrlValue, "request.callbackUrl", { allowPrivate: true });
   allowedCallback(callbackUrl, allowedCallbackOrigins);
 
   let manualNote = null;
@@ -121,7 +122,11 @@ export function validateWorkerRequest(input, { allowedCallbackOrigins } = {}) {
     knownObject(input.manualNote, MANUAL_NOTE_KEYS, "request.manualNote");
     manualNote = {
       title: text(input.manualNote.title, "request.manualNote.title", 300, { optional: true }),
-      sourceUrl: httpsUrl(input.manualNote.sourceUrl, "request.manualNote.sourceUrl").toString(),
+      sourceUrl: (() => {
+        const value = text(input.manualNote.sourceUrl, "request.manualNote.sourceUrl", 2_000);
+        httpsUrl(value, "request.manualNote.sourceUrl");
+        return value;
+      })(),
       instructions: text(input.manualNote.instructions, "request.manualNote.instructions", 2_000, { optional: true }),
     };
   } else if (input.manualNote !== null) {
@@ -136,7 +141,7 @@ export function validateWorkerRequest(input, { allowedCallbackOrigins } = {}) {
     mode: input.mode,
     intent: input.intent,
     manualNote,
-    callbackUrl: callbackUrl.toString(),
+    callbackUrl: callbackUrlValue,
     publicationGate: false,
     requestedAt: normalizedTimestamp(input.requestedAt, "request.requestedAt"),
   };
@@ -146,9 +151,11 @@ export function validateWorkerRequest(input, { allowedCallbackOrigins } = {}) {
 
 function normalizeSource(input, field) {
   knownObject(input, SOURCE_KEYS, field);
+  const url = text(input.url, `${field}.url`, 2_000);
+  httpsUrl(url, `${field}.url`);
   return {
     name: text(input.name, `${field}.name`, 200),
-    url: httpsUrl(input.url, `${field}.url`).toString(),
+    url,
   };
 }
 
@@ -215,7 +222,11 @@ export function validateWorkerResult(input, request) {
   const externalRunId = text(input.externalRunId, "result.externalRunId", 200, { optional: true });
   const externalRunUrl = input.externalRunUrl === undefined || input.externalRunUrl === null
     ? null
-    : httpsUrl(input.externalRunUrl, "result.externalRunUrl").toString();
+    : (() => {
+      const value = text(input.externalRunUrl, "result.externalRunUrl", 2_000);
+      httpsUrl(value, "result.externalRunUrl");
+      return value;
+    })();
 
   let candidate = null;
   let noPublication = null;
@@ -302,7 +313,7 @@ export function createCallbackEnvelope(request, result) {
     intent: request.intent,
     publicationGate: false,
     requestDigest: digest(request),
-    resultDigest: digest(result),
+    resultDigest: digest(publicResult),
     result: publicResult,
   };
 }

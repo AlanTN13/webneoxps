@@ -76,6 +76,17 @@ mutación posterior para el mismo ID falla antes de cargar el secreto HMAC. Los 
 son SHA-256 hexadecimal sobre JSON canónico sin newline: claves ordenadas lexicográficamente en cada
 objeto y orden de arrays preservado.
 
+`requestDigest` cubre el request validado preservando las cadenas URL originales (trim, sin agregar
+slash) y `resultDigest` cubre exactamente `envelope.result`, la proyección pública recibida por el
+Portal. El digest privado se conserva sólo en el receipt como `privateResultDigest`.
+
+Vector fijo compartido para pruebas cruzadas: request manual/review con ID
+`c40b81b7-6ac4-4da1-92e8-86a7a50f9dc4`, callback `https://portal.nexopstech.com` y timestamp
+`2026-09-01T18:00:00.000Z` produce `requestDigest`
+`485b139c08079f03dd7407ae3dfc7ec0dffd14f2c61fb15cf5bf183ecdb4543a`. El resultado `failed`
+definido en `tests/news/radar-worker-bridge.test.mjs` produce `resultDigest`
+`3e56b166ebae52c0456ffed7a5ea77bb5ae77d74bde210f8c19c8ca47a2d7b9b`.
+
 ## Runbook vinculante para ChatGPT Work/Codex
 
 1. Listar PRs abiertos `radar-request/*` del repo privado y elegir el más antiguo sin resultado.

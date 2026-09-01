@@ -42,10 +42,10 @@ export async function deliverResultFiles({
   const root = path.resolve(historyRoot || ".");
   const persistedResultPath = path.resolve(root, "results", `${request.requestId}.json`);
   const deliveryPath = path.resolve(root, "deliveries", `${request.requestId}.json`);
-  const resultDigest = digest(result);
+  const privateResultDigest = digest(result);
   const existingDelivery = await existingJson(deliveryPath);
   if (existingDelivery) {
-    if (existingDelivery.resultDigest !== resultDigest) throw new Error("requestId ya fue entregado con otro resultado");
+    if (existingDelivery.privateResultDigest !== privateResultDigest) throw new Error("requestId ya fue entregado con otro resultado");
     return { duplicate: true, request, result, delivery: existingDelivery };
   }
 
@@ -76,7 +76,8 @@ export async function deliverResultFiles({
   const delivery = {
     schemaVersion: 1,
     requestId: request.requestId,
-    resultDigest,
+    privateResultDigest,
+    callbackResultDigest: envelope.resultDigest,
     callbackStatus: "DELIVERED",
     deliveredAt: now().toISOString(),
     noPublicationPath: noPublicationStorage?.path || null,
