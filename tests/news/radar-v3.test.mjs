@@ -6,7 +6,7 @@ const article = {
   title: "Cómo automatizar cobranzas sin perder trazabilidad",
   slug: "automatizar-cobranzas-sin-perder-trazabilidad",
   generatedByEngine: true,
-  engineRunId: "radar-2026-08-23-001",
+  engineRunId: "c40b81b7-6ac4-4da1-92e8-86a7a50f9dc4",
   engineScore: 92,
   topicFingerprint: "operaciones:cobranzas:automatizacion",
   coverImage: "/assets/insights/editorial/automatizar-cobranzas.png",
@@ -20,6 +20,20 @@ const publication = {
   engineRunId: article.engineRunId,
   article: "./candidate.json",
   coverAsset: "./cover.png",
+  publicationMode: "manual_review",
+  approval: {
+    type: "portal_explicit_manual_review",
+    runId: article.engineRunId,
+    workspaceId: "nexops",
+    approvedBy: "a40b81b7-6ac4-4da1-92e8-86a7a50f9dc4",
+    approvedAt: "2026-09-01T20:00:00.000Z",
+    compositionDigest: "a".repeat(64),
+  },
+  portalCallback: {
+    url: `https://portal.nexopstech.com/api/radar/runs/${article.engineRunId}/publication`,
+    runId: article.engineRunId,
+    compositionDigest: "a".repeat(64),
+  },
   gateReport: {
     engineThreshold: 85,
     sourceVerified: true,
@@ -130,4 +144,9 @@ test("Radar V3 exige threshold, ausencia de warnings críticos y attestations ed
   assert.ok(errors.some((error) => error.includes("no supera el threshold")));
   assert.ok(errors.some((error) => error.includes("coverSemantic")));
   assert.ok(errors.some((error) => error.includes("criticalWarnings debe estar vacío")));
+});
+
+test("Radar V3 rechaza publicación sin la segunda aprobación explícita del Portal", () => {
+  const errors = validateRadarDecision({ ...publication, approval: undefined }, article);
+  assert.ok(errors.some((error) => error.includes("aprobación explícita")));
 });

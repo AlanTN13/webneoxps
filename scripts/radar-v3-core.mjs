@@ -10,6 +10,8 @@ const REQUIRED_GATE_FLAGS = [
 
 const text = (value) => typeof value === "string" && value.trim().length > 0;
 const ENGINE_RUN_ID = /^[a-z0-9][a-z0-9._-]{5,80}$/;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const DIGEST = /^[0-9a-f]{64}$/;
 
 export class RadarV3Error extends Error {
   constructor(message, { cause, trace } = {}) {
@@ -38,6 +40,31 @@ export function validateRadarDecision(decision, article = null) {
   }
   if (article.generatedByEngine !== true) errors.push("PUBLICATION autónoma requiere generatedByEngine=true");
   if (!text(article.engineRunId) || article.engineRunId !== decision.engineRunId) errors.push("engineRunId de decision y article debe coincidir");
+
+  if (decision.publicationMode !== "manual_review") errors.push("PUBLICATION requiere publicationMode=manual_review");
+  const approval = decision.approval;
+  if (!approval || typeof approval !== "object" || Array.isArray(approval)) {
+    errors.push("PUBLICATION requiere aprobación explícita del Portal");
+  } else {
+    if (approval.type !== "portal_explicit_manual_review") errors.push("approval.type no prueba una revisión manual");
+    if (approval.runId !== decision.engineRunId || !UUID.test(approval.runId || "")) errors.push("approval.runId debe coincidir con engineRunId");
+    if (!text(approval.workspaceId) || !UUID.test(approval.approvedBy || "")) errors.push("approval debe identificar workspace y aprobador");
+    if (!Number.isFinite(Date.parse(approval.approvedAt || ""))) errors.push("approval.approvedAt debe ser una fecha válida");
+    if (!DIGEST.test(approval.compositionDigest || "")) errors.push("approval.compositionDigest debe ser SHA-256");
+  }
+  const callback = decision.portalCallback;
+  if (!callback || typeof callback !== "object" || Array.isArray(callback)) {
+    errors.push("PUBLICATION requiere callback al Portal");
+  } else {
+    let callbackUrl = null;
+    try { callbackUrl = new URL(callback.url); } catch { errors.push("portalCallback.url debe ser válida"); }
+    if (callbackUrl && (callbackUrl.protocol !== "https:" || callbackUrl.origin !== "https://portal.nexopstech.com" || callbackUrl.pathname !== `/api/radar/runs/${decision.engineRunId}/publication`)) {
+      errors.push("portalCallback.url debe apuntar al endpoint productivo exacto del Portal");
+    }
+    if (callback.runId !== decision.engineRunId || callback.compositionDigest !== approval?.compositionDigest) {
+      errors.push("portalCallback debe coincidir con la aprobación manual");
+    }
+  }
 
   const report = decision.gateReport;
   if (!report || typeof report !== "object" || Array.isArray(report)) {
@@ -77,6 +104,8 @@ function baseTrace(decision, article, now) {
       assetCredit: article.assetCredit,
     } : null,
     gateReport: decision.gateReport || null,
+    approval: decision.approval || null,
+    portalCallback: decision.portalCallback || null,
     github: {},
     production: {},
     rollback: { required: false, status: "NOT_REQUIRED" },
