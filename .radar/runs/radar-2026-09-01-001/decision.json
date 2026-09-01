@@ -1,0 +1,16 @@
+{
+  "outcome": "PUBLICATION",
+  "engineRunId": "radar-2026-09-01-001",
+  "article": "./candidate.json",
+  "coverAsset": "./cover.png",
+  "gateReport": {
+    "engineThreshold": 85,
+    "sourceVerified": true,
+    "rightsVerified": true,
+    "coverSemantic": true,
+    "coverResponsive": true,
+    "clientClaimsAuthorizedOrAbsent": true,
+    "noCriticalWarnings": true,
+    "criticalWarnings": []
+  }
+}
