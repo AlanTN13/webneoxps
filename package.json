@@ -20,6 +20,7 @@
     "site:test": "node --test tests/site/*.test.mjs",
     "news:seo": "node scripts/generate-news-seo.mjs",
     "radar:v3": "node scripts/radar-v3-ci.mjs",
+    "radar:v3:portal-callback": "node scripts/radar-v3-portal-callback.mjs",
     "radar:v3:no-publication": "node scripts/radar-v3-no-publication.mjs",
     "radar:v3:history": "node scripts/radar-v3-history-query.mjs",
     "radar:worker:intake": "node scripts/radar-worker-intake.mjs",

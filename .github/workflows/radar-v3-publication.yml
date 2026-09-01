@@ -1,4 +1,4 @@
-name: Radar V3 Autonomous Publication
+name: Radar V3 Manual Review Publication
 
 on:
   pull_request_target:
@@ -34,6 +34,7 @@ jobs:
       RADAR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
       RADAR_PRODUCTION_ORIGIN: https://www.nexopstech.com
       RADAR_REQUIRED_CHECKS: validate,Vercel
+      RADAR_PORTAL_CALLBACK_SECRET: ${{ secrets.RADAR_PORTAL_CALLBACK_SECRET }}
     steps:
       - name: Initialize run trace
         shell: bash
@@ -51,14 +52,27 @@ jobs:
         with:
           node-version: 24
 
+      - name: Require signed Portal callback
+        shell: bash
+        run: |
+          if [ "${#RADAR_PORTAL_CALLBACK_SECRET}" -lt 32 ]; then
+            echo "Missing RADAR_PORTAL_CALLBACK_SECRET" >&2
+            exit 1
+          fi
+
       - name: Install exact dependencies
         run: npm ci
 
-      - name: Execute autonomous publication
+      - name: Execute manually approved publication
         shell: bash
         run: |
           engine_run_id="${RADAR_SOURCE_BRANCH#radar/}"
           npm run radar:v3 -- ".radar/runs/${engine_run_id}/decision.json"
+
+      - name: Close publication in Portal
+        if: always()
+        shell: bash
+        run: node scripts/radar-v3-portal-callback.mjs "$RUNNER_TEMP/radar-v3-result.json"
 
       - name: Preserve run trace
         if: always()
