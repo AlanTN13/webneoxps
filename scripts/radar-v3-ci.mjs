@@ -18,11 +18,16 @@ const REQUIRED_CHECKS = (process.env.RADAR_REQUIRED_CHECKS || "validate,Vercel")
 const CHECK_TIMEOUT_MS = Number(process.env.RADAR_CHECK_TIMEOUT_MS || 20 * 60 * 1000);
 const DEPLOY_TIMEOUT_MS = Number(process.env.RADAR_DEPLOY_TIMEOUT_MS || 20 * 60 * 1000);
 const POLL_INTERVAL_MS = Number(process.env.RADAR_POLL_INTERVAL_MS || 10_000);
+const COMMAND_MAX_BUFFER = 20 * 1024 * 1024;
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 function command(commandName, args, { allowFailure = false, inherit = false } = {}) {
-  const result = spawnSync(commandName, args, { encoding: "utf8", stdio: inherit ? "inherit" : "pipe" });
+  const result = spawnSync(commandName, args, {
+    encoding: "utf8",
+    stdio: inherit ? "inherit" : "pipe",
+    maxBuffer: COMMAND_MAX_BUFFER,
+  });
   if (result.error) throw result.error;
   if (result.status !== 0 && !allowFailure) {
     throw new Error((result.stderr || result.stdout || `${commandName} ${args.join(" ")} falló`).trim());
