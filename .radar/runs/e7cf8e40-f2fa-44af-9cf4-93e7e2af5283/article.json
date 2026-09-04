@@ -1,0 +1,143 @@
+{
+  "title": "El modelo ya no alcanza: el nuevo diferencial de los agentes empresariales está en cómo trabajan",
+  "slug": "el-modelo-ya-no-alcanza-el-nuevo-diferencial-de-los-agentes-empresariales-esta-en-como-trabajan",
+  "contentPurpose": "actualidad",
+  "contentType": "actualidad",
+  "territory": "automatizacion-procesos",
+  "category": "Automatización",
+  "publishedAt": "2026-09-04T12:56:32.232Z",
+  "excerpt": "Microsoft llevó el GitHub Copilot harness a disponibilidad general dentro de Copilot Studio. La novedad confirma que la próxima ventaja no estará sólo en elegir una IA potente, sino en darle contexto, herramientas, límites y trazabilidad para ejecutar trabajo real.",
+  "seoTitle": "El modelo ya no alcanza: el nuevo diferencial de los agentes empresari",
+  "metaDescription": "Microsoft llevó el GitHub Copilot harness a disponibilidad general dentro de Copilot Studio. La novedad confirma que la próxima ventaja no estará sólo en elegir una IA potente, sin",
+  "primaryKeyword": "Automatización",
+  "searchIntent": "Entender el impacto operativo y evaluar una aplicación concreta",
+  "sourceName": "Microsoft Copilot Blog",
+  "sourceUrl": "https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/new-and-improved-github-copilot-harness-agent-skills-and-richer-context/",
+  "sources": [
+    {
+      "name": "Microsoft Copilot Blog",
+      "url": "https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/new-and-improved-github-copilot-harness-agent-skills-and-richer-context/"
+    }
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Durante la primera etapa de adopción de inteligencia artificial, muchas decisiones empresariales se resumían en una pregunta: qué modelo conviene usar. Esa pregunta sigue siendo importante, pero ya no alcanza para explicar por qué un agente funciona bien en una organización y otro queda reducido a una demostración interesante."
+    },
+    {
+      "type": "paragraph",
+      "text": "La diferencia empieza a estar en el sistema que rodea al modelo: cómo recibe contexto, qué herramientas puede utilizar, con qué identidad actúa, qué permisos tiene y qué evidencia deja después de ejecutar una tarea. Microsoft acaba de dar una señal clara en esa dirección al anunciar la disponibilidad general del GitHub Copilot harness dentro de Microsoft Copilot Studio."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Del asistente que responde al agente que ejecuta"
+    },
+    {
+      "type": "paragraph",
+      "text": "Un modelo puede redactar, clasificar o responder preguntas. Un agente empresarial, en cambio, necesita sostener una secuencia de trabajo. Debe interpretar un objetivo, recuperar información autorizada, decidir qué herramienta usar, adaptarse si una acción falla y registrar el resultado."
+    },
+    {
+      "type": "paragraph",
+      "text": "El harness es la capa que organiza esa ejecución. Según Microsoft, puede coordinar modelos, contexto, herramientas, servidores MCP y agentes conectados, además de ajustar su camino de trabajo a medida que avanza. En términos prácticos, funciona como el marco operativo que convierte una capacidad de lenguaje en un proceso controlado."
+    },
+    {
+      "type": "paragraph",
+      "text": "Esto cambia el criterio con el que una empresa debería evaluar una solución de IA. La comparación deja de ser únicamente qué modelo responde mejor y pasa a incluir preguntas más cercanas a la operación: puede usar los sistemas correctos, conoce el contexto del negocio, respeta los permisos y permite reconstruir lo que hizo."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Tres capas que definen el valor real"
+    },
+    {
+      "type": "paragraph",
+      "text": "La primera capa es la de las capacidades reutilizables. Copilot Studio incorpora skills para empaquetar instrucciones, herramientas y conocimiento de dominio. También dispone de workflows y servidores MCP como herramientas en disponibilidad general. La lógica es valiosa porque evita construir cada agente desde cero: una capacidad bien definida puede reutilizarse en distintos procesos sin duplicar reglas ni integraciones."
+    },
+    {
+      "type": "paragraph",
+      "text": "La segunda capa es el contexto. Microsoft presentó mejoras vinculadas con Work IQ, memoria y archivos para que los agentes puedan trabajar con información relevante y conservar continuidad. Algunas de estas funciones todavía están en vista previa, por lo que requieren una evaluación cuidadosa antes de incorporarlas a procesos críticos. Aun así, marcan una dirección concreta: un agente útil necesita comprender el entorno donde opera, no sólo el mensaje que acaba de recibir."
+    },
+    {
+      "type": "paragraph",
+      "text": "La tercera capa es la gobernanza. Desde julio de 2026, cada nuevo agente creado en Copilot Studio recibe una identidad mediante Microsoft Entra Agent ID. La plataforma también incorporó la exportación de telemetría a Application Insights a nivel de entorno, actualmente en vista previa. Identidad y observabilidad no son detalles técnicos: son lo que permite saber quién actuó, con qué permisos, sobre qué recurso y con qué resultado."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Qué implica para una empresa"
+    },
+    {
+      "type": "paragraph",
+      "text": "La noticia es especialmente relevante para organizaciones que quieren pasar de las pruebas aisladas a la automatización de tareas reales. Un agente no debería ingresar a producción sólo porque redacta bien. Debería demostrar que puede operar dentro de límites claros y que una persona puede intervenir cuando el caso lo requiere."
+    },
+    {
+      "type": "paragraph",
+      "text": "Una implementación razonable puede comenzar por un solo proceso acotado. Por ejemplo, preparar una oportunidad comercial, clasificar una solicitud de soporte o reunir información para una revisión humana. El agente recibe únicamente las herramientas necesarias, trabaja con permisos mínimos y deja un registro de cada paso significativo."
+    },
+    {
+      "type": "paragraph",
+      "text": "La revisión humana sigue siendo una pieza central cuando la salida afecta a un cliente, publica contenido o modifica datos sensibles. El objetivo no es agregar una aprobación decorativa, sino ubicarla en el punto donde realmente reduce riesgo. Si el agente sólo recopila y propone, la revisión puede concentrarse en la decisión final. Si además ejecuta acciones externas, la identidad, la trazabilidad y los límites de autorización pasan a ser obligatorios."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Una lista práctica antes de adoptar un agente"
+    },
+    {
+      "type": "paragraph",
+      "text": "Antes de elegir una plataforma o llevar un caso a producción, conviene revisar al menos cinco aspectos:"
+    },
+    {
+      "type": "paragraph",
+      "text": "1. **Objetivo verificable.** El agente debe tener una misión concreta y un resultado que pueda evaluarse. 2. **Contexto autorizado.** Tiene que acceder sólo a la información necesaria y conocer cuál es la fuente válida. 3. **Herramientas acotadas.** Cada integración debe responder a una necesidad del proceso, con permisos mínimos. 4. **Gate humano.** Las acciones sensibles necesitan una aprobación explícita y visible. 5. **Observabilidad.** La organización debe poder reconstruir qué ocurrió, cuánto demoró y por qué terminó de una manera determinada."
+    },
+    {
+      "type": "paragraph",
+      "text": "Este enfoque evita dos errores frecuentes. El primero es sobredimensionar el proyecto y pretender que el agente resuelva un proceso completo desde el primer día. El segundo es ocultar la complejidad detrás de una interfaz simple sin mostrar estados, fallos ni decisiones. La autonomía no elimina el control; lo vuelve más importante."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "La ventaja pasa del modelo al sistema"
+    },
+    {
+      "type": "paragraph",
+      "text": "La evolución de Copilot Studio muestra que el mercado de agentes empresariales está madurando. Los modelos seguirán mejorando y, en muchos casos, serán intercambiables. La ventaja sostenible estará en cómo una empresa conecta esos modelos con su conocimiento, sus reglas y sus herramientas sin perder gobernanza."
+    },
+    {
+      "type": "paragraph",
+      "text": "Por eso, el harness no debe leerse como una función aislada. Es una señal de que la unidad de valor ya no es una respuesta inteligente, sino una ejecución confiable. La empresa que diseñe bien ese entorno podrá delegar más trabajo manteniendo evidencia, permisos y revisión. La que se limite a elegir el modelo más llamativo probablemente obtenga buenas demostraciones, pero no una operación robusta."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fuente: [Microsoft Copilot Blog](https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/new-and-improved-github-copilot-harness-agent-skills-and-richer-context/)"
+    }
+  ],
+  "relatedSlugs": [],
+  "topicFingerprint": "automatizacion-procesos:automatización:e7cf8e40-f2fa-44af-9cf4-93e7e2af5283",
+  "engineRunId": "e7cf8e40-f2fa-44af-9cf4-93e7e2af5283",
+  "engineScore": 95,
+  "generatedByEngine": true,
+  "cta": {
+    "label": "Conversar con NexOps",
+    "href": "/#contacto"
+  },
+  "coverImage": "/assets/insights/editorial/el-modelo-ya-no-alcanza-el-nuevo-diferencial-de-los-agentes-empresariales-esta-en-como-trabajan.svg",
+  "visualType": "editorial-diagram",
+  "primaryEntity": "NexOps",
+  "secondaryEntities": [
+    "Automatización"
+  ],
+  "visualSubject": "Una representación editorial de Automatización aplicada a operaciones reales",
+  "assetSource": "nexops-original",
+  "assetCredit": "Composición editorial original de NexOps, aprobada manualmente desde Radar.",
+  "coverAlt": "Ilustración editorial de NexOps sobre Automatización",
+  "ogImage": "/assets/insights/editorial/el-modelo-ya-no-alcanza-el-nuevo-diferencial-de-los-agentes-empresariales-esta-en-como-trabajan.svg",
+  "coverWidth": 1600,
+  "coverHeight": 900,
+  "coverFocus": {
+    "mobile": "50% 50%",
+    "desktop": "50% 50%"
+  }
+}
