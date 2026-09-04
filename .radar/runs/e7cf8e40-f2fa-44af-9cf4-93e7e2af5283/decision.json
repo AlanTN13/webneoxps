@@ -1,0 +1,30 @@
+{
+  "outcome": "PUBLICATION",
+  "engineRunId": "e7cf8e40-f2fa-44af-9cf4-93e7e2af5283",
+  "publicationMode": "manual_review",
+  "article": "./article.json",
+  "coverAsset": "./cover.svg",
+  "approval": {
+    "type": "portal_explicit_manual_review",
+    "runId": "e7cf8e40-f2fa-44af-9cf4-93e7e2af5283",
+    "workspaceId": "nexops",
+    "approvedBy": "1a27cd84-4c4c-4fd9-b3af-55a68c514e15",
+    "approvedAt": "2026-09-04T12:56:32.232Z",
+    "compositionDigest": "729f17116617c330de65fb9a6a5210bbcf01f43f5ad73b9ecd75f8df240e1128"
+  },
+  "portalCallback": {
+    "url": "https://portal.nexopstech.com/api/radar/runs/e7cf8e40-f2fa-44af-9cf4-93e7e2af5283/publication",
+    "runId": "e7cf8e40-f2fa-44af-9cf4-93e7e2af5283",
+    "compositionDigest": "729f17116617c330de65fb9a6a5210bbcf01f43f5ad73b9ecd75f8df240e1128"
+  },
+  "gateReport": {
+    "engineThreshold": 80,
+    "sourceVerified": true,
+    "rightsVerified": true,
+    "coverSemantic": true,
+    "coverResponsive": true,
+    "clientClaimsAuthorizedOrAbsent": true,
+    "noCriticalWarnings": true,
+    "criticalWarnings": []
+  }
+}
