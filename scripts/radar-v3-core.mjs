@@ -41,6 +41,7 @@ export function validateRadarDecision(decision, article = null) {
   if (article.generatedByEngine !== true) errors.push("PUBLICATION autónoma requiere generatedByEngine=true");
   if (!text(article.engineRunId) || article.engineRunId !== decision.engineRunId) errors.push("engineRunId de decision y article debe coincidir");
 
+  if (decision.packageVersion !== 2) errors.push("PUBLICATION requiere packageVersion=2 y aprobación del paquete exacto");
   if (decision.publicationMode !== "manual_review") errors.push("PUBLICATION requiere publicationMode=manual_review");
   const approval = decision.approval;
   if (!approval || typeof approval !== "object" || Array.isArray(approval)) {
@@ -66,6 +67,11 @@ export function validateRadarDecision(decision, article = null) {
     }
   }
 
+  if (decision.packageVersion === 2) {
+    if (!DIGEST.test(decision.coverSha256 || "") || decision.coverAsset !== "./cover.png") errors.push("El paquete v2 requiere portada PNG y SHA-256");
+    if (!Array.isArray(article.sources) || !article.sources.length) errors.push("El paquete v2 requiere todas las fuentes");
+  }
+  if (callback?.attempt !== undefined && (!Number.isInteger(callback.attempt) || callback.attempt < 1 || callback.attempt > 100)) errors.push("portalCallback.attempt inválido");
   const report = decision.gateReport;
   if (!report || typeof report !== "object" || Array.isArray(report)) {
     errors.push("PUBLICATION requiere gateReport");

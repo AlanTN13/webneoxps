@@ -51,6 +51,8 @@ export function projectRadarPublication(article) {
     summary: text(article.excerpt, text(article.metaDescription, "Publicación generada por Radar.")),
     sourceName: source.name,
     sourceUrl: source.url,
+    sources: Array.isArray(article.sources) && article.sources.length ? article.sources : [source],
+    topicFingerprint: text(article.topicFingerprint, ""),
     score: article.engineScore,
     scoreBreakdown: [],
     publishedAt: publishedAt.toISOString(),
@@ -67,9 +69,21 @@ export async function generateRadarManifest({
 } = {}) {
   const names = (await fs.readdir(newsDirectory)).filter((name) => name.endsWith(".json")).sort();
   const publications = [];
+  const corpus = [];
 
   for (const name of names) {
     const article = JSON.parse(await fs.readFile(path.join(newsDirectory, name), "utf8"));
+    if (text(article.slug) && text(article.title)) {
+      const source = articleSource(article);
+      corpus.push({
+        slug: article.slug, title: article.title,
+        topicFingerprint: text(article.topicFingerprint, ""),
+        sources: Array.isArray(article.sources) && article.sources.length ? article.sources : [source],
+        primaryKeyword: text(article.primaryKeyword, ""),
+        publishedAt: text(article.publishedAt, ""),
+        url: `${SITE_URL}/noticias/${article.slug}`,
+      });
+    }
     const publication = projectRadarPublication(article);
     if (publication) publications.push(publication);
   }
@@ -80,6 +94,7 @@ export async function generateRadarManifest({
     workspace: "nexops",
     generatedAt,
     publications,
+    corpus,
   };
 
   await fs.mkdir(path.dirname(outputFile), { recursive: true });

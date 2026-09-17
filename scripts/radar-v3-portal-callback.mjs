@@ -24,12 +24,14 @@ const body = JSON.stringify({
   compositionDigest: callback.compositionDigest,
   status: published ? "published" : "failed",
   workflowUrl: repository && runId ? `https://github.com/${repository}/actions/runs/${runId}` : null,
-  mergeSha: published ? trace.github.mergeSha : null,
+  mergeSha: /^[0-9a-f]{40}$/.test(trace.github?.mergeSha || "") ? trace.github.mergeSha : null,
   finalUrl: published ? trace.production.verification.articleUrl : null,
   errorMessage: published ? null : String(trace.reason || "La publicación no completó los gates de webneoxps").slice(0, 500),
 });
 const timestamp = String(Math.floor(Date.now() / 1000));
-const deliveryId = `radar-publication-${trace.engineRunId}`;
+const attempt = callback.attempt ?? 1;
+if (!Number.isInteger(attempt) || attempt < 1 || attempt > 100) throw new Error("Intento de callback inválido");
+const deliveryId = `radar-publication-${trace.engineRunId}${attempt > 1 ? `-attempt-${attempt}` : ""}`;
 const signature = `v1=${createHmac("sha256", secret).update(`${timestamp}.${body}`).digest("hex")}`;
 const response = await fetch(callbackUrl, {
   method: "POST",

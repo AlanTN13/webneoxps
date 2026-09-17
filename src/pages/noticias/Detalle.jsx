@@ -14,9 +14,9 @@ import {
   getRelatedNews,
 } from "../../data/news/contract";
 
-export default function Detalle() {
+export default function Detalle({ previewPost = null }) {
   const { slug } = useParams();
-  const post = getNewsPostBySlug(slug);
+  const post = previewPost || getNewsPostBySlug(slug);
 
   if (!post) {
     return (

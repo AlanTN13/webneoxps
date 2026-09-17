@@ -11,6 +11,7 @@ import "./index.css";
 import "./App.css";
 import ScrollToTop from "./components/ScrollToTop";
 
+const RadarPreview = lazy(() => import("./pages/radar/RadarPreview.jsx"));
 const Noticias = lazy(() => import("./pages/noticias/index.jsx"));
 const Detalle = lazy(() => import("./pages/noticias/Detalle.jsx"));
 const DataEngineering = lazy(() => import("./pages/servicios/DataEngineering.jsx"));
@@ -73,6 +74,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/noticias/:slug" element={<Detalle />} />
 
         {/* Radar Control Center — read-only */}
+        <Route path="/radar/preview" element={<RadarPreview />} />
         <Route path="/radar/*" element={<RadarControlCenter data={radarFixture} />} />
 
         {/* Fallback */}
