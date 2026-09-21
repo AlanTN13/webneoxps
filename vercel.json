@@ -49,6 +49,29 @@
     {
       "source": "/noticias/:slug",
       "destination": "/noticias/:slug/index.html"
+    },
+    {
+      "source": "/radar/preview",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/radar/preview",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
     }
   ]
 }

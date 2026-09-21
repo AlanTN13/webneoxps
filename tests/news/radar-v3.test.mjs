@@ -3,6 +3,7 @@ import test from "node:test";
 import { executeRadarV3, RadarV3Error, validateRadarDecision } from "../../scripts/radar-v3-core.mjs";
 
 const article = {
+  sources: [{ name: "Official", url: "https://example.org/research" }],
   title: "Cómo automatizar cobranzas sin perder trazabilidad",
   slug: "automatizar-cobranzas-sin-perder-trazabilidad",
   generatedByEngine: true,
@@ -20,6 +21,8 @@ const publication = {
   engineRunId: article.engineRunId,
   article: "./candidate.json",
   coverAsset: "./cover.png",
+  packageVersion: 2,
+  coverSha256: "b".repeat(64),
   publicationMode: "manual_review",
   approval: {
     type: "portal_explicit_manual_review",

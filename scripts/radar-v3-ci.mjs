@@ -1,3 +1,4 @@
+import { verifyRadarPublicationPackage } from "./radar-publication-package.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -73,6 +74,7 @@ async function readDecision(decisionContext) {
       if (!coverPath.startsWith(`${runRoot}${path.sep}`)) throw new Error("coverAsset debe permanecer dentro del directorio de la corrida");
       const coverStat = await fs.lstat(coverPath);
       if (!coverStat.isFile() || coverStat.isSymbolicLink()) throw new Error("coverAsset debe ser un archivo regular");
+      verifyRadarPublicationPackage(decision, article, await fs.readFile(coverPath));
     }
   }
   return { decision, article };
@@ -105,7 +107,9 @@ async function hydrateDecisionBundle(decisionContext) {
 
 function assertSourceContext(decisionContext, decision) {
   if (!BRANCH?.startsWith("radar/")) throw new Error("Radar V3 sólo se ejecuta desde ramas radar/<engineRunId>");
-  if (decision.engineRunId && BRANCH !== `radar/${decision.engineRunId}`) throw new Error("La rama debe coincidir con radar/<engineRunId>");
+  const attempt = decision.portalCallback?.attempt || 1;
+  const expectedBranch = `radar/${decision.engineRunId}${attempt > 1 ? `-attempt-${attempt}` : ""}`;
+  if (decision.engineRunId && BRANCH !== expectedBranch) throw new Error("La rama debe coincidir con radar/<engineRunId>");
   if (gitOutput(["status", "--porcelain", "--untracked-files=no"])) throw new Error("El checkout confiable debe estar limpio");
   git(["fetch", "origin", "main"], { inherit: true });
   if (gitOutput(["rev-parse", "origin/main"]) !== BASE_SHA || gitOutput(["rev-parse", "HEAD"]) !== BASE_SHA) {

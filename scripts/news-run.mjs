@@ -7,6 +7,8 @@ import { detectAddAction } from "./news-contract.mjs";
 import { validateCoverAssetFile, validateCoverCollection } from "./news-image-policy.mjs";
 import { NEWS_DIR, readNewsFiles } from "./news-validate.mjs";
 
+import { verifyRadarPublicationPackage } from "./radar-publication-package.mjs";
+
 const OUTCOMES = new Set(["NO_PUBLICATION", "PUBLICATION"]);
 
 function fail(message, validationErrors = []) {
@@ -56,10 +58,12 @@ export async function runNewsDecision({ decisionPath, newsDirectory = NEWS_DIR, 
   const coverDestination = coverRelative ? path.resolve(publicRoot, coverRelative) : null;
   if (coverDestination && !coverDestination.startsWith(`${publicRoot}${path.sep}`)) fail("coverImage sale del directorio public");
 
+  if (decision.packageVersion === 2 && !decision.coverAsset) fail("El paquete aprobado requiere coverAsset.");
   let coverSource = null;
   if (decision.coverAsset) {
     if (!localCover) fail("coverAsset requiere que coverImage sea una ruta local bajo /assets/insights/");
     coverSource = path.resolve(decisionDirectory, decision.coverAsset);
+    verifyRadarPublicationPackage(decision, article, await fs.readFile(coverSource));
     const coverErrors = await validateCoverAssetFile(coverSource, article);
     if (coverErrors.length) fail("El asset de portada no pasa la política editorial", coverErrors);
   } else if (coverDestination) {

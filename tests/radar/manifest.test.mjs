@@ -52,6 +52,9 @@ describe("manifest público de Radar para el Portal", () => {
     const serialized = await fs.readFile(outputFile, "utf8");
 
     expect(manifest.publications).toHaveLength(1);
+    expect(manifest.corpus).toHaveLength(2);
+    expect(manifest.corpus[0]).toHaveProperty("sources");
+    expect(manifest.corpus[0]).toHaveProperty("topicFingerprint");
     expect(serialized).not.toMatch(/prompt|threshold|formula|secret/i);
   });
 });

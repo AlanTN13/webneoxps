@@ -67,6 +67,7 @@ jobs:
         shell: bash
         run: |
           engine_run_id="${RADAR_SOURCE_BRANCH#radar/}"
+          engine_run_id="${engine_run_id%%-attempt-*}"
           npm run radar:v3 -- ".radar/runs/${engine_run_id}/decision.json"
 
       - name: Close publication in Portal
