@@ -1,296 +1,211 @@
-import {
-  ArrowRight,
-  Blocks,
-  ChartNoAxesCombined,
-  Check,
-  ChevronRight,
-  CircleGauge,
-  Megaphone,
-  MessageCircleMore,
-  PanelsTopLeft,
-  Sparkles,
-  Workflow,
-} from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import NexyStage from "../components/NexyStage";
 import { CALENDLY_LINK } from "../config/constants";
 import { realCases } from "../data/cases";
-import { solutions, systemSteps } from "../data/solutions";
+import styles from "./HomePage.module.css";
 
-const iconMap = {
-  Megaphone,
-  PanelsTopLeft,
-  Sparkles,
-  Workflow,
-  ChartNoAxesCombined,
-  Blocks,
-};
-
-const clientLogos = [
-  ["/newsan_logo.svg", "Newsan"],
-  ["/cencosud_logo.svg", "Cencosud"],
-  ["/coke_logo.svg", "Coca-Cola"],
-  ["/colgate_logo.svg", "Colgate"],
-  ["/globaltrip_logo.svg", "GlobalTrip"],
+const services = [
+  {
+    number: "01",
+    name: "Automatización",
+    question: "¿Tu equipo dedica demasiado tiempo a tareas que se repiten?",
+    answer: "Ordenamos el proceso y automatizamos los pasos adecuados para reducir carga manual, errores y demoras. El equipo conserva el control y gana tiempo para atender lo que necesita criterio.",
+    situation: "Cuando el trabajo pasa por planillas, mensajes y seguimientos manuales.",
+  },
+  {
+    number: "02",
+    name: "Inteligencia artificial",
+    question: "¿El volumen de trabajo crece más rápido que la capacidad del equipo?",
+    answer: "Aplicamos IA a tareas concretas: buscar conocimiento, preparar respuestas, analizar información o asistir decisiones. Definimos límites y revisión humana antes de incorporarla a la operación.",
+    situation: "Cuando el contexto existe, pero cuesta encontrarlo y usarlo a tiempo.",
+  },
+  {
+    number: "03",
+    name: "CRM",
+    question: "¿Las oportunidades dependen de quién recuerda hacer el seguimiento?",
+    answer: "Organizamos consultas, responsables y próximas acciones en un proceso comercial visible. Cada conversación tiene contexto y el equipo sabe qué sigue.",
+    situation: "Cuando ventas y atención trabajan entre canales, personas y herramientas distintas.",
+  },
+  {
+    number: "04",
+    name: "Data & Analytics",
+    question: "¿Tenés datos, pero te cuesta ver qué está pasando en el negocio?",
+    answer: "Reunimos la información relevante y la convertimos en indicadores útiles. Así podés detectar desvíos, entender resultados y decidir con más claridad.",
+    situation: "Cuando los reportes llegan tarde o las decisiones se toman con información fragmentada.",
+  },
 ];
+
+const selectedCases = [
+  {
+    id: "foreign-trade-web",
+    challenge: "Explicar servicios y sostener un canal de contenidos con un circuito de publicación controlado.",
+    work: "Desarrollo de un sitio con estructura de servicios y publicación de contenidos.",
+    outcome: "Un canal web en producción para presentar la oferta y publicar con control.",
+  },
+  {
+    id: "industry-crm",
+    challenge: "Ordenar consultas y seguimiento dentro de una operación comercial B2B.",
+    work: "Diseño de pipeline, campos, reglas y automatizaciones de CRM.",
+    outcome: "Un proceso comercial estructurado que sigue en evolución.",
+  },
+  {
+    id: "materials-erp",
+    challenge: "Reunir información comercial y operativa en un mismo circuito.",
+    work: "Desarrollo de un ERP para clientes, productos, pedidos, compras y listas de precios.",
+    outcome: "Un sistema comercial integrado en producción.",
+  },
+];
+
+const method = [
+  ["Entender", "Escuchamos cómo funciona tu empresa y dónde está el desafío."],
+  ["Diseñar", "Elegimos el mejor punto de partida y definimos qué tiene que mejorar."],
+  ["Implementar", "Construimos la solución y la incorporamos al trabajo del equipo."],
+  ["Evolucionar", "Revisamos lo que ocurre y ajustamos a medida que el negocio cambia."],
+];
+
+function CaseStudy({ caseInfo, index }) {
+  const source = realCases.find(({ id }) => id === caseInfo.id);
+  return (
+    <article className={styles.caseStudy}>
+      <div className={styles.caseIdentity}>
+        <span className={styles.caseNumber}>0{index + 1} / EXPERIENCIA REAL</span>
+        <span className={styles.caseSector}>{source.sector}</span>
+        <h3>{source.title}</h3>
+        <span className={styles.caseStatus}><span />{source.status}</span>
+      </div>
+      <div className={styles.caseNarrative}>
+        <div><span>El desafío</span><p>{caseInfo.challenge}</p></div>
+        <div><span>Qué hicimos</span><p>{caseInfo.work}</p></div>
+        <div><span>Qué quedó</span><p>{caseInfo.outcome}</p></div>
+      </div>
+    </article>
+  );
+}
 
 export default function HomePage() {
   useEffect(() => {
-    document.title = "NexOps — Ventas, tecnología y operación conectadas";
-    const description = document.querySelector('meta[name="description"]');
-    description?.setAttribute("content", "NexOps conecta captación, CRM, inteligencia artificial, automatización y datos para mejorar la operación comercial de tu empresa.");
+    document.title = "NexOps — Tecnología y consultoría para crecer y operar mejor";
+    const existingDescription = document.querySelector('meta[name="description"]');
+    const description = existingDescription ?? document.createElement("meta");
+    const previousContent = description.getAttribute("content");
+    description.setAttribute("name", "description");
+    description.setAttribute("content", "NexOps acompaña a empresas a crecer y operar mejor. Consultoría e implementación en procesos, automatización, inteligencia artificial, CRM y datos.");
+    if (!existingDescription) document.head.appendChild(description);
+    return () => {
+      if (!existingDescription) description.remove();
+      else if (previousContent === null) description.removeAttribute("content");
+      else description.setAttribute("content", previousContent);
+    };
   }, []);
 
   return (
-    <Layout>
-      <section className="home-hero">
-        <div className="site-shell home-hero__grid">
-          <div className="home-hero__copy">
-            <span className="eyebrow eyebrow--light">Sistema comercial conectado</span>
-            <h1>Hacemos que ventas, tecnología y operación trabajen como un solo sistema.</h1>
-            <p>
-              Captamos oportunidades, las ordenamos, automatizamos el seguimiento y convertimos los datos en decisiones claras para tu empresa.
-            </p>
-            <div className="button-row">
-              <a className="button button--brand" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
-                Hablar con NexOps <ArrowRight size={17} />
-              </a>
-              <a className="button button--ghost-light" href="#como-funciona">
-                Ver cómo funciona
-              </a>
-            </div>
-            <div className="home-hero__signals" aria-label="Resultados del sistema">
-              <span><Check size={15} /> Más oportunidades atendidas</span>
-              <span><Check size={15} /> Menos tareas manuales</span>
-              <span><Check size={15} /> Más visibilidad</span>
-            </div>
-          </div>
-          <NexyStage />
-        </div>
-      </section>
-
-      <section className="proof-strip" aria-labelledby="proof-heading">
-        <div className="site-shell proof-strip__inner">
-          <p id="proof-heading">Experiencia del equipo en compañías y operaciones reales</p>
-          <div className="proof-strip__logos">
-            {clientLogos.map(([src, alt]) => (
-              <span
-                className="proof-strip__logo"
-                key={alt}
-                role="img"
-                aria-label={alt}
-                style={{ "--logo-source": `url(${src})` }}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--warm" id="como-funciona">
-        <div className="site-shell">
-          <header className="section-heading section-heading--split">
-            <div>
-              <span className="eyebrow">El sistema NexOps</span>
-              <h2>Una oportunidad no debería cambiar de dueño cada vez que cambia de herramienta.</h2>
-            </div>
-            <p>
-              Diseñamos el recorrido completo. Cada capa recibe contexto, hace su parte y deja trazabilidad para la siguiente.
-            </p>
-          </header>
-
-          <div className="system-journey">
-            <div className="system-journey__header">
-              <div className="system-journey__lead">
-                <span>OP</span>
-                <div>
-                  <small>Una misma oportunidad</small>
-                  <strong>Consulta · Empresa Norte</strong>
+    <Layout showFloatingWhatsApp={false}>
+      <div className={styles.home}>
+        <section className={styles.hero} aria-labelledby="home-title">
+          <div className={styles.shell}>
+            <div className={styles.heroTopline}><span>NEXOPS / CONSULTORÍA E IMPLEMENTACIÓN TECNOLÓGICA</span><span>NEGOCIO · PROCESOS · PERSONAS</span></div>
+            <div className={styles.heroGrid}>
+              <div className={styles.heroCopy}>
+                <h1 id="home-title">Ayudamos a empresas a <em>crecer y operar mejor.</em></h1>
+                <p>Entendemos tu negocio, ordenamos procesos e implementamos tecnología para mejorar ventas, eficiencia y decisiones. Te acompañamos desde el diagnóstico hasta el trabajo cotidiano.</p>
+                <div className={styles.heroActions}>
+                  <a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Conversemos sobre tu empresa <ArrowUpRight size={18} /></a>
+                  <a className={styles.quietLink} href="#nosotros">Conocé NexOps <ArrowDown size={16} /></a>
                 </div>
               </div>
-              <div className="system-journey__status"><span /> Avanza con contexto</div>
+              <div className={styles.heroPanel} aria-label="Resultados que buscamos junto a cada empresa">
+                <span className={styles.panelKicker}>CUANDO TODO TRABAJA MEJOR</span>
+                <div><span>01</span><strong>Más oportunidades bien atendidas.</strong></div>
+                <div><span>02</span><strong>Menos fricción en la operación.</strong></div>
+                <div><span>03</span><strong>Decisiones con información clara.</strong></div>
+                <span className={styles.panelSignature}>NEXOPS <span>↗</span></span>
+              </div>
             </div>
-            <div className="system-flow">
-              <div className="system-flow__line" aria-hidden="true" />
-              {systemSteps.map((step, index) => (
-                <div className="system-flow__step" key={step.id}>
-                  <span className="system-flow__index">0{index + 1}</span>
-                  <strong>{step.label}</strong>
-                  <p>{step.description}</p>
-                  <small>{step.state}</small>
-                </div>
+          </div>
+        </section>
+
+        <section className={styles.identity} id="nosotros">
+          <div className={`${styles.shell} ${styles.identityGrid}`}>
+            <div>
+              <span className={styles.eyebrow}>Somos NexOps</span>
+              <h2>Una empresa que entiende <em>empresas.</em></h2>
+            </div>
+            <div className={styles.identityCopy}>
+              <p className={styles.lead}>Somos una empresa de tecnología y transformación operativa. Trabajamos junto a quienes lideran negocios que necesitan crecer sin perder claridad ni control.</p>
+              <p>Miramos la estrategia, las personas y los procesos antes de elegir herramientas. Después diseñamos e implementamos soluciones que se integran a la forma real de trabajar de cada organización.</p>
+              <div className={styles.peopleLine}><span>AL FRENTE DE NEXOPS</span><strong>Alan Fernández y Joaquín</strong><p>Socios que conducen el trabajo con visión de negocio y capacidad de ejecución.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.trust} aria-labelledby="trust-title">
+          <div className={`${styles.shell} ${styles.trustGrid}`}>
+            <div><span className={styles.eyebrow}>Experiencia real</span><h2 id="trust-title">Desafíos distintos.<br />El mismo foco: que funcione.</h2></div>
+            <div><p>Trabajamos en proyectos para operaciones de comercio exterior, industria B2B, distribución y educación. Desde ordenar una venta hasta conectar información y trabajo de toda una empresa.</p><a className={styles.inlineLink} href="#casos">Ver implementaciones <ArrowRight size={18} /></a></div>
+          </div>
+        </section>
+
+        <section className={styles.services} id="soluciones">
+          <div className={styles.shell}>
+            <div className={styles.sectionHeading}><span className={styles.eyebrow}>En qué podemos ayudarte</span><h2>Empezamos por lo que hoy <em>frena a tu empresa.</em></h2><p>Podemos entrar por un problema puntual o acompañar una transformación más amplia. Estas son cuatro formas de crear capacidad donde más se necesita.</p></div>
+            <div className={styles.serviceList}>
+              {services.map((service) => (
+                <article className={styles.service} key={service.number}>
+                  <div className={styles.serviceLabel}><span>{service.number}</span><strong>{service.name}</strong></div>
+                  <div className={styles.serviceBody}><h3>{service.question}</h3><p>{service.answer}</p><span className={styles.situation}>{service.situation}</span></div>
+                </article>
               ))}
             </div>
           </div>
+        </section>
 
-          <div className="system-flow__outcome">
-            <CircleGauge size={20} />
-            <span>El dueño ve qué entró, qué se hizo y dónde necesita intervenir.</span>
+        <section className={styles.breadth} aria-labelledby="breadth-title">
+          <div className={`${styles.shell} ${styles.breadthGrid}`}>
+            <div><span className={styles.eyebrow}>Una capacidad más amplia</span><h2 id="breadth-title">El problema de tu negocio no tiene que caber en una categoría.</h2></div>
+            <div><p>Cuando hace falta, sumamos desarrollo de sistemas, integraciones, arquitectura tecnológica, optimización operativa, gestión del conocimiento y crecimiento digital. Elegimos y conectamos esas capacidades alrededor de un objetivo, sin obligarte a contratar piezas aisladas.</p></div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="section section--ink operation-section">
-        <div className="site-shell operation-section__grid">
-          <div className="operation-section__copy">
-            <span className="eyebrow eyebrow--light">NexOps en acción</span>
-            <h2>De una consulta suelta a una oportunidad con seguimiento.</h2>
-            <p>
-              La escena no depende de magia: combina proceso, herramientas y criterio para que la operación avance sin perder contexto.
-            </p>
-          </div>
-          <div className="operation-board">
-            <div className="operation-board__header"><span>Oportunidad activa</span><strong>Consulta · Empresa Norte</strong></div>
-            <ol className="operation-list">
-              <li><span>1</span><div><strong>La consulta entra</strong><p>Desde WhatsApp, una campaña, la web o un canal comercial.</p></div></li>
-              <li><span>2</span><div><strong>CRM registra y organiza</strong><p>Asigna responsable, conserva el historial y ordena el seguimiento.</p></div></li>
-              <li><span>3</span><div><strong>IA y automatización asisten</strong><p>Preparan respuestas, ejecutan tareas permitidas y dejan contexto.</p></div></li>
-              <li><span>4</span><div><strong>Una persona decide donde aporta</strong><p>Las excepciones llegan al equipo con la información necesaria.</p></div></li>
-              <li><span>5</span><div><strong>Queda próxima acción y trazabilidad</strong><p>El dueño puede ver qué pasó, qué sigue y dónde necesita intervenir.</p></div></li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="soluciones">
-        <div className="site-shell">
-          <header className="section-heading">
-            <span className="eyebrow">Soluciones conectadas</span>
-            <h2>Entramos por el problema. Construimos el sistema que lo resuelve.</h2>
-            <p>
-              Cada capacidad puede empezar como un proyecto concreto y quedar preparada para trabajar con el resto de la operación.
-            </p>
-          </header>
-
-          <div className="solutions-list">
-            {solutions.map((solution, index) => {
-              const Icon = iconMap[solution.icon];
-              return (
-                <article className={`solution-row solution-row--${solution.accent}`} key={solution.slug}>
-                  <div className="solution-row__index">0{index + 1}</div>
-                  <div className="solution-row__icon"><Icon size={24} /></div>
-                  <div className="solution-row__copy">
-                    <h3>{solution.shortTitle}</h3>
-                    <p>{solution.summary}</p>
-                    <span>{solution.change}</span>
-                  </div>
-                  <div className="solution-row__nexy">
-                    <img src={solution.nexy} alt="" loading="lazy" width="1200" height="800" />
-                  </div>
-                  <Link className="solution-row__link" to={`/soluciones/${solution.slug}`} aria-label={`Ver solución ${solution.title}`}>
-                    Ver solución <ChevronRight size={18} />
-                  </Link>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--lavender" id="casos">
-        <div className="site-shell">
-          <header className="case-heading">
-            <div>
-              <span className="eyebrow">Implementaciones reales</span>
-              <h2>Lo que ya construimos, por tipo de operación.</h2>
-            </div>
-            <p>
-              Una selección de sistemas desarrollados para resolver desafíos concretos en operaciones de distintos rubros.
-            </p>
-          </header>
-          <div className="implementation-grid">
-            {realCases.map((item, index) => (
-              <article className="implementation-item" key={item.id}>
-                <header className="implementation-item__head">
-                  <span className="implementation-item__number">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="implementation-item__sector">{item.sector}</span>
-                </header>
-                <h3>{item.title}</h3>
-                <p>{item.summary}</p>
-                <footer className="implementation-item__meta">
-                  <span>{item.type}</span>
-                  <small><Check size={13} /> {item.status}</small>
-                </footer>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="como-pensamos">
-        <div className="site-shell about-system">
-          <div className="about-system__visual">
-            <header className="about-system__visual-head">
-              <span>Un mismo sistema</span>
-              <small>NexOps / 01</small>
-            </header>
-            <div className="about-system__layers">
-              <div className="about-system__layer">
-                <CircleGauge size={21} />
-                <div>
-                  <small>Negocio</small>
-                  <strong>Objetivos y prioridades</strong>
-                </div>
-                <span>01</span>
-              </div>
-              <div className="about-system__layer">
-                <Workflow size={21} />
-                <div>
-                  <small>Procesos</small>
-                  <strong>Roles, reglas y seguimiento</strong>
-                </div>
-                <span>02</span>
-              </div>
-              <div className="about-system__layer">
-                <Blocks size={21} />
-                <div>
-                  <small>Tecnología</small>
-                  <strong>Automatización, IA y datos</strong>
-                </div>
-                <span>03</span>
-              </div>
-            </div>
-            <div className="about-system__outcome">
-              <small>Cuando todo trabaja conectado</small>
-              <strong>Capacidad de ejecución</strong>
-              <div>
-                <span>Decidir</span>
-                <span>Hacer</span>
-                <span>Medir</span>
-              </div>
+        <section className={styles.work} id="acompanamiento">
+          <div className={styles.shell}>
+            <div className={styles.sectionHeading}><span className={styles.eyebrow}>Dos formas de acompañarte</span><h2>Pensamos con vos.<br /><em>Y hacemos que suceda.</em></h2></div>
+            <div className={styles.workGrid}>
+              <article><span className={styles.workNumber}>01 / CONSULTORÍA</span><h3>Claridad para elegir el siguiente paso.</h3><p>Analizamos el negocio y su operación, identificamos oportunidades y definimos prioridades. Una buena decisión empieza por entender el problema y el impacto que vale la pena buscar.</p><div className={styles.workEvidence}><Check size={18} /> Diagnóstico, criterio y hoja de ruta</div></article>
+              <article><span className={styles.workNumber}>02 / IMPLEMENTACIÓN</span><h3>Capacidad para llevarlo a la práctica.</h3><p>Diseñamos, desarrollamos e integramos la solución con tu equipo. La puesta en marcha es parte del trabajo: acompañamos su adopción y seguimos mejorando lo que ya funciona.</p><div className={styles.workEvidence}><Check size={18} /> Ejecución, adopción y evolución</div></article>
             </div>
           </div>
-          <div className="about-system__copy">
-            <span className="eyebrow">Cómo pensamos</span>
-            <h2>No vendemos herramientas aisladas. Construimos capacidad de ejecución.</h2>
-            <p>
-              NexOps combina negocio, procesos, automatización, inteligencia artificial y datos para resolver problemas concretos y dejar una operación más sostenible.
-            </p>
-            <div className="about-system__principles">
-              <span><Check size={16} /> Entender antes de implementar</span>
-              <span><Check size={16} /> Integrar antes de duplicar</span>
-              <span><Check size={16} /> Medir el resultado, no la tecnología</span>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="closing-cta" id="contacto">
-        <div className="site-shell closing-cta__inner">
-          <div>
-            <span className="eyebrow eyebrow--light">El próximo paso</span>
-            <h2>Mostranos dónde se corta tu operación.</h2>
-            <p>En una primera conversación identificamos el problema, el impacto y el mejor punto para empezar.</p>
+        <section className={styles.cases} id="casos">
+          <div className={styles.shell}>
+            <div className={styles.sectionHeading}><span className={styles.eyebrow}>Implementaciones</span><h2>Trabajo concreto en <em>operaciones reales.</em></h2><p>Estos ejemplos están anonimizados y describen lo implementado y su estado. Cada empresa tiene su propio punto de partida.</p></div>
+            <div className={styles.caseList}>{selectedCases.map((caseInfo, index) => <CaseStudy caseInfo={caseInfo} index={index} key={caseInfo.id} />)}</div>
           </div>
-          <a className="button button--brand button--large" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
-            Hablar con NexOps <ArrowRight size={18} />
-          </a>
-          <div className="closing-cta__note">
-            <MessageCircleMore size={17} /> 30 minutos · conversación consultiva
+        </section>
+
+        <section className={styles.methodSection} id="como-funciona">
+          <div className={styles.shell}>
+            <div className={styles.sectionHeading}><span className={styles.eyebrow}>Cómo trabajamos</span><h2>Un camino claro,<br /><em>sin complicar lo simple.</em></h2><p>Primero entendemos el negocio. Después elegimos qué hacer, lo implementamos y aprendemos de la operación real.</p></div>
+            <ol className={styles.method}>{method.map(([title, description], index) => <li key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{description}</p></li>)}</ol>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className={styles.knowledge} aria-labelledby="knowledge-title">
+          <div className={`${styles.shell} ${styles.knowledgeGrid}`}>
+            <div><span className={styles.eyebrow}>Radar NexOps</span><h2 id="knowledge-title">Compartimos lo que aprendemos al mirar el negocio y la tecnología.</h2></div>
+            <div><p>Analizamos cambios, herramientas e ideas con una pregunta en mente: qué significa esto para una empresa que necesita decidir y actuar.</p><Link className={styles.inlineLink} to="/noticias">Explorar nuestras publicaciones <ArrowUpRight size={18} /></Link></div>
+          </div>
+        </section>
+
+        <section className={styles.contact} id="contacto">
+          <div className={`${styles.shell} ${styles.contactGrid}`}>
+            <div><span className={styles.eyebrow}>Hablemos de tu empresa</span><h2>Contanos qué querés <em>mejorar.</em></h2></div>
+            <div><p>No hace falta que llegues con la solución definida. En una primera conversación entendemos tu contexto, tus objetivos y dónde podríamos aportar más valor.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={19} /></a><small>Primero entendemos el negocio. Después hablamos de propuestas.</small></div>
+          </div>
+        </section>
+      </div>
     </Layout>
   );
 }
