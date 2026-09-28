@@ -1,11 +1,20 @@
-import { ChevronDown, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { CALENDLY_LINK } from "../config/constants";
-import { solutions } from "../data/solutions";
 
-export default function Header({ home = false }) {
+const links = [
+  { to: "/", label: "Inicio" },
+  { to: "/ecommerce", label: "Ecommerce" },
+  { to: "/consultoria", label: "Consultoría" },
+  { to: "/experiencia", label: "Experiencia" },
+  { to: "/#nosotros", label: "Nosotros" },
+  { to: "/noticias", label: "Ideas que impulsan" },
+  { to: "/#contacto", label: "Contacto" },
+];
+
+export default function Header() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -15,92 +24,17 @@ export default function Header({ home = false }) {
     return () => { document.body.style.overflow = previousOverflow; };
   }, [open]);
 
-  return (
-    <>
-      <header className="site-header">
-        <div className="site-shell site-header__inner">
-          <Link className="site-header__brand" to="/" aria-label="NexOps, inicio">
-            <img src="/nexops-mark.webp" alt="" width="128" height="128" />
-            <span>NexOps</span>
-          </Link>
-
-          <nav className="site-header__nav" aria-label="Navegación principal">
-            {home ? <>
-              <Link to="/#nosotros">Nosotros</Link>
-              <Link to="/implementacion">Implementación</Link>
-              <Link to="/consultoria">Consultoría</Link>
-              <Link to="/experiencia">Experiencia</Link>
-              <Link to="/noticias">Ideas que impulsan</Link>
-            </> : <>
-            <div className="site-header__solutions">
-              <button type="button">Soluciones <ChevronDown size={15} /></button>
-              <div className="site-header__dropdown">
-                <div className="site-header__dropdown-intro">
-                  <small>Sistema NexOps</small>
-                  <strong>Capacidades que trabajan juntas.</strong>
-                </div>
-                <div className="site-header__dropdown-links">
-                  {solutions.map((solution) => (
-                    <Link key={solution.slug} to={`/soluciones/${solution.slug}`}>
-                      <span>{solution.navLabel}</span>
-                      <small>{solution.eyebrow}</small>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <Link to="/#casos">Casos</Link>
-            <Link to="/noticias">Ideas que impulsan</Link>
-            <Link to="/#contacto">Contacto</Link>
-            </>}
-          </nav>
-
-          <a className="site-header__cta" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
-            Conversemos
-          </a>
-
-          <button className="site-header__menu" type="button" onClick={() => setOpen(true)} aria-label="Abrir menú">
-            <Menu size={23} />
-          </button>
-        </div>
-      </header>
-
-      {open && createPortal(
-        <div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menú principal">
-          <div className="mobile-menu__head">
-            <Link className="site-header__brand" to="/" onClick={() => setOpen(false)}>
-              <img src="/nexops-mark.webp" alt="" width="128" height="128" />
-              <span>NexOps</span>
-            </Link>
-            <button type="button" onClick={() => setOpen(false)} aria-label="Cerrar menú"><X size={25} /></button>
-          </div>
-          <nav className="mobile-menu__nav" aria-label="Navegación mobile">
-            {home ? <>
-              <Link to="/#nosotros" onClick={() => setOpen(false)}>Nosotros<span>→</span></Link>
-              <Link to="/implementacion" onClick={() => setOpen(false)}>Implementación<span>→</span></Link>
-              <Link to="/consultoria" onClick={() => setOpen(false)}>Consultoría<span>→</span></Link>
-              <Link to="/experiencia" onClick={() => setOpen(false)}>Experiencia<span>→</span></Link>
-              <Link to="/noticias" onClick={() => setOpen(false)}>Ideas que impulsan<span>→</span></Link>
-            </> : <>
-            <small>Soluciones</small>
-            {solutions.map((solution) => (
-              <Link key={solution.slug} to={`/soluciones/${solution.slug}`} onClick={() => setOpen(false)}>
-                {solution.navLabel}<span>→</span>
-              </Link>
-            ))}
-            <div className="mobile-menu__secondary">
-              <Link to="/#casos" onClick={() => setOpen(false)}>Casos</Link>
-              <Link to="/noticias" onClick={() => setOpen(false)}>Ideas que impulsan</Link>
-              <Link to="/#contacto" onClick={() => setOpen(false)}>Contacto</Link>
-            </div>
-            </>}
-          </nav>
-          <a className="button button--brand" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
-            Hablar con NexOps
-          </a>
-        </div>,
-        document.body,
-      )}
-    </>
-  );
+  return <>
+    <header className="site-header"><div className="site-shell site-header__inner">
+      <Link className="site-header__brand" to="/" aria-label="NexOps, inicio"><img src="/nexops-mark.webp" alt="" width="128" height="128" /><span>NexOps</span></Link>
+      <nav className="site-header__nav" aria-label="Navegación principal">{links.map((link) => <Link key={link.to} to={link.to}>{link.label}</Link>)}</nav>
+      <a className="site-header__cta" href={CALENDLY_LINK} target="_blank" rel="noreferrer">Conversemos</a>
+      <button className="site-header__menu" type="button" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu size={23} /></button>
+    </div></header>
+    {open && createPortal(<div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menú principal">
+      <div className="mobile-menu__head"><Link className="site-header__brand" to="/" onClick={() => setOpen(false)}><img src="/nexops-mark.webp" alt="" width="128" height="128" /><span>NexOps</span></Link><button type="button" onClick={() => setOpen(false)} aria-label="Cerrar menú"><X size={25} /></button></div>
+      <nav className="mobile-menu__nav" aria-label="Navegación mobile">{links.map((link) => <Link key={link.to} to={link.to} onClick={() => setOpen(false)}>{link.label}<span>→</span></Link>)}</nav>
+      <a className="button button--brand" href={CALENDLY_LINK} target="_blank" rel="noreferrer">Hablar con NexOps</a>
+    </div>, document.body)}
+  </>;
 }

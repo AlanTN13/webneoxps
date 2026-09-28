@@ -1,223 +1,81 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { CALENDLY_LINK } from "../config/constants";
-import { realCases } from "../data/cases";
 import styles from "./HomePage.module.css";
 
-const services = [
-  {
-    number: "01",
-    name: "Automatización",
-    question: "¿Tu equipo dedica demasiado tiempo a tareas que se repiten?",
-    answer: "Ordenamos el proceso y automatizamos los pasos adecuados para reducir carga manual, errores y demoras. El equipo conserva el control y gana tiempo para atender lo que necesita criterio.",
-    situation: "Cuando el trabajo pasa por planillas, mensajes y seguimientos manuales.",
-  },
-  {
-    number: "02",
-    name: "Inteligencia artificial",
-    question: "¿El volumen de trabajo crece más rápido que la capacidad del equipo?",
-    answer: "Aplicamos IA a tareas concretas: buscar conocimiento, preparar respuestas, analizar información o asistir decisiones. Definimos límites y revisión humana antes de incorporarla a la operación.",
-    situation: "Cuando el contexto existe, pero cuesta encontrarlo y usarlo a tiempo.",
-  },
-  {
-    number: "03",
-    name: "CRM",
-    question: "¿Las oportunidades dependen de quién recuerda hacer el seguimiento?",
-    answer: "Organizamos consultas, responsables y próximas acciones en un proceso comercial visible. Cada conversación tiene contexto y el equipo sabe qué sigue.",
-    situation: "Cuando ventas y atención trabajan entre canales, personas y herramientas distintas.",
-  },
-  {
-    number: "04",
-    name: "Data & Analytics",
-    question: "¿Tenés datos, pero te cuesta ver qué está pasando en el negocio?",
-    answer: "Reunimos la información relevante y la convertimos en indicadores útiles. Así podés detectar desvíos, entender resultados y decidir con más claridad.",
-    situation: "Cuando los reportes llegan tarde o las decisiones se toman con información fragmentada.",
-  },
+const clients = ["GlobalTrip", "OnlySellers", "Sommier Magno", "Casa Italia", "Edelvives", "Kenta"];
+const situations = [
+  ["Ecommerce", "Vendés en Mercado Libre, pero el canal propio no despega.", "Catálogo, precios, contenido y campañas tienen que trabajar juntos para no depender de una sola vidriera."],
+  ["Ecommerce", "Pagás por visitas y no tenés claro qué termina en ventas.", "Revisamos la tienda, el recorrido de compra, la inversión y los datos antes de pedirle más presupuesto a la pauta."],
+  ["Consultoría", "El equipo comercial recibe consultas, pero pierde el seguimiento.", "Ordenamos responsables, etapas y próximos pasos para que las oportunidades no dependan de la memoria de cada persona."],
+  ["Consultoría", "La empresa creció y ahora todo pasa por planillas y mensajes.", "Entramos a la operación para encontrar los cortes reales y definir qué conviene cambiar primero."],
 ];
-
-const selectedCases = [
-  {
-    id: "foreign-trade-web",
-    challenge: "Explicar servicios y sostener un canal de contenidos con un circuito de publicación controlado.",
-    work: "Desarrollo de un sitio con estructura de servicios y publicación de contenidos.",
-    outcome: "Un canal web en producción para presentar la oferta y publicar con control.",
-  },
-  {
-    id: "industry-crm",
-    challenge: "Ordenar consultas y seguimiento dentro de una operación comercial B2B.",
-    work: "Diseño de pipeline, campos, reglas y automatizaciones de CRM.",
-    outcome: "Un proceso comercial estructurado que sigue en evolución.",
-  },
-  {
-    id: "materials-erp",
-    challenge: "Reunir información comercial y operativa en un mismo circuito.",
-    work: "Desarrollo de un ERP para clientes, productos, pedidos, compras y listas de precios.",
-    outcome: "Un sistema comercial integrado en producción.",
-  },
+const proof = [
+  { client: "Sommier Magno", category: "ECOMMERCE Y MARKETPLACE", problem: "Lanzar web y Mercado Libre con catálogo, contenido y economía de canal coordinados.", work: "Acompañamos una salida por etapas, desde el catálogo piloto y las publicaciones hasta la preparación de contenido y pauta.", result: "Un piloto ordenado por catálogo y validaciones comerciales antes de ampliar la pauta.", href: "/experiencia#sommier-magno" },
+  { client: "OnlySellers", category: "EMAIL Y RELACIÓN CON CLIENTES", problem: "Sostener comunicación comercial sin improvisar cada envío.", work: "Organizamos segmentación, calendario y una biblioteca editorial para alimentar campañas de email.", result: "Un circuito de comunicación activo que permite revisar y ajustar cada campaña.", href: "/experiencia#onlysellers" },
+  { client: "Casa Italia", category: "OPERACIÓN Y SISTEMAS", problem: "Reunir pedidos, compras, productos y precios en un mismo trabajo comercial.", work: "Desarrollamos un ERP a medida y lo incorporamos a la operación por circuitos.", result: "Un sistema comercial en producción, con evolución guiada por el uso real.", href: "/experiencia#casa-italia" },
 ];
-
-const method = [
-  ["Entender", "Escuchamos cómo funciona tu empresa y dónde está el desafío."],
-  ["Diseñar", "Elegimos el mejor punto de partida y definimos qué tiene que mejorar."],
-  ["Implementar", "Construimos la solución y la incorporamos al trabajo del equipo."],
-  ["Evolucionar", "Revisamos lo que ocurre y ajustamos a medida que el negocio cambia."],
-];
-
-function CaseStudy({ caseInfo, index }) {
-  const source = realCases.find(({ id }) => id === caseInfo.id);
-  return (
-    <article className={styles.caseStudy}>
-      <div className={styles.caseIdentity}>
-        <span className={styles.caseNumber}>0{index + 1} / EXPERIENCIA REAL</span>
-        <span className={styles.caseSector}>{source.sector}</span>
-        <h3>{source.title}</h3>
-        <span className={styles.caseStatus}><span />{source.status}</span>
-      </div>
-      <div className={styles.caseNarrative}>
-        <div><span>El desafío</span><p>{caseInfo.challenge}</p></div>
-        <div><span>Qué hicimos</span><p>{caseInfo.work}</p></div>
-        <div><span>Qué quedó</span><p>{caseInfo.outcome}</p></div>
-      </div>
-    </article>
-  );
-}
 
 export default function HomePage() {
   useEffect(() => {
-    document.title = "NexOps — Tecnología y consultoría para crecer y operar mejor";
-    const existingDescription = document.querySelector('meta[name="description"]');
-    const description = existingDescription ?? document.createElement("meta");
-    const previousContent = description.getAttribute("content");
-    description.setAttribute("name", "description");
-    description.setAttribute("content", "NexOps acompaña a empresas a crecer y operar mejor. Consultoría e implementación en procesos, automatización, inteligencia artificial, CRM y datos.");
-    if (!existingDescription) document.head.appendChild(description);
+    document.title = "NexOps — Ecommerce y consultoría para crecer y operar mejor";
+    const existing = document.querySelector('meta[name="description"]');
+    const meta = existing ?? document.createElement("meta");
+    const previous = meta.getAttribute("content");
+    meta.setAttribute("name", "description");
+    meta.setAttribute("content", "Ecommerce y consultoría para empresas que quieren vender mejor y ordenar su operación. NexOps conecta estrategia, canales, procesos y tecnología con problemas reales de negocio.");
+    if (!existing) document.head.appendChild(meta);
     return () => {
-      if (!existingDescription) description.remove();
-      else if (previousContent === null) description.removeAttribute("content");
-      else description.setAttribute("content", previousContent);
+      if (!existing) meta.remove();
+      else if (previous === null) meta.removeAttribute("content");
+      else meta.setAttribute("content", previous);
     };
   }, []);
 
-  return (
-    <Layout showFloatingWhatsApp={false} home>
-      <div className={styles.home}>
-        <section className={styles.hero} aria-labelledby="home-title">
-          <div className={styles.shell}>
-            <div className={styles.heroGrid}>
-              <div className={styles.heroCopy}>
-                <span className={styles.heroEyebrow}>CONSULTORÍA + IMPLEMENTACIÓN TECNOLÓGICA</span>
-                <h1 id="home-title">Tu empresa puede <em>crecer y operar mejor.</em></h1>
-                <p>En NexOps entendemos tu negocio, ordenamos procesos e implementamos tecnología para mejorar ventas, eficiencia y decisiones. Te acompañamos desde la primera conversación hasta la operación real.</p>
-                <div className={styles.heroActions}>
-                  <a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Conversemos sobre tu empresa <ArrowUpRight size={18} /></a>
-                  <a className={styles.quietLink} href="#nosotros">Conocé NexOps <ArrowDown size={16} /></a>
-                </div>
-                <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>Negocio primero. Tecnología con propósito.</strong><br />Consultoría e implementación en un mismo equipo.</p></div>
-              </div>
-              <figure className={styles.heroVisual}>
-                <img src="/assets/nexops-conversation-editorial.webp" alt="Imagen editorial de profesionales conversando sobre un proceso de negocio" fetchPriority="high" />
-                <figcaption><span>01 / ENTENDER</span><strong>La mejor solución empieza por una conversación.</strong></figcaption>
-                <small>Imagen editorial ilustrativa</small>
-              </figure>
-            </div>
-            <div className={styles.heroPanel} aria-label="Objetivos que trabajamos con cada empresa">
-              <span className={styles.panelKicker}>LO QUE BUSCAMOS MEJORAR</span>
-              <div><span>01</span><strong>Más oportunidades bien atendidas.</strong></div>
-              <div><span>02</span><strong>Menos fricción en la operación.</strong></div>
-              <div><span>03</span><strong>Decisiones con información clara.</strong></div>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.identity} id="nosotros">
-          <div className={`${styles.shell} ${styles.identityGrid}`}>
-            <div>
-              <span className={styles.eyebrow}>Somos NexOps</span>
-              <h2>Una empresa que entiende <em>empresas.</em></h2>
-            </div>
-            <div className={styles.identityCopy}>
-              <p className={styles.lead}>Venimos de trabajar en proyectos complejos dentro de grandes empresas. Creamos NexOps para acercar ese criterio a empresas y PyMEs que necesitan crecer sin perder claridad ni control.</p>
-              <p>Entramos al negocio, entendemos el problema y recién después elegimos la tecnología. Diseñamos e implementamos soluciones que se integran a la forma real de trabajar de cada organización.</p>
-              <div className={styles.peopleLine}><span className={styles.peopleMonogram}>N↗</span><div><span>CÓMO NOS VINCULAMOS</span><strong>Un equipo presente, de la decisión a la operación.</strong><p>Trabajamos con quienes lideran cada empresa y acompañamos la adopción hasta que la solución funciona en el día a día.</p></div></div>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.trust} aria-labelledby="trust-title">
-          <div className={styles.shell}>
-            <div className={styles.trustIntro}><div><span className={styles.eyebrow}>Experiencia real</span><h2 id="trust-title">No nos quedamos en la idea.<br /><em>Lo llevamos a la operación.</em></h2></div><p>Ya trabajamos en desafíos de comercio exterior, industria B2B y distribución. La experiencia cambia de sector; el compromiso de entender y ejecutar se mantiene.</p></div>
-            <div className={styles.trustCards}>
-              {selectedCases.map((caseInfo) => {
-                const source = realCases.find(({ id }) => id === caseInfo.id);
-                return <div className={styles.trustCard} key={source.id}><span>{source.sector}</span><strong>{source.title}</strong><small>{source.status}</small></div>;
-              })}
-            </div>
-            <Link className={styles.inlineLink} to="/experiencia">Conocé nuestra experiencia <ArrowRight size={18} /></Link>
-          </div>
-        </section>
-
-        <section className={styles.services} id="soluciones">
-          <div className={styles.shell}>
-            <div className={styles.sectionHeading}><span className={styles.eyebrow}>En qué podemos ayudarte</span><h2>Empezamos por lo que hoy <em>frena a tu empresa.</em></h2><p>Podemos entrar por un problema puntual o acompañar una transformación más amplia. Estas son cuatro formas de crear capacidad donde más se necesita.</p></div>
-            <div className={styles.serviceList}>
-              {services.map((service) => (
-                <article className={styles.service} key={service.number}>
-                  <div className={styles.serviceLabel}><span>{service.number}</span><strong>{service.name}</strong></div>
-                  <div className={styles.serviceBody}><h3>{service.question}</h3><p>{service.answer}</p><span className={styles.situation}>{service.situation}</span></div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.breadth} aria-labelledby="breadth-title">
-          <div className={`${styles.shell} ${styles.breadthGrid}`}>
-            <div><span className={styles.eyebrow}>Una capacidad más amplia</span><h2 id="breadth-title">El problema de tu negocio no tiene que caber en una categoría.</h2></div>
-            <div><p>Cuando hace falta, sumamos desarrollo de sistemas, integraciones, arquitectura tecnológica, optimización operativa, gestión del conocimiento y crecimiento digital. Elegimos y conectamos esas capacidades alrededor de un objetivo, sin obligarte a contratar piezas aisladas.</p></div>
-          </div>
-        </section>
-
-        <section className={styles.work} id="acompanamiento">
-          <div className={styles.shell}>
-            <div className={styles.sectionHeading}><span className={styles.eyebrow}>Dos formas de acompañarte</span><h2>Pensamos con vos.<br /><em>Y hacemos que suceda.</em></h2></div>
-            <div className={styles.workGrid}>
-              <article><span className={styles.workNumber}>01 / CONSULTORÍA</span><h3>Claridad para elegir el siguiente paso.</h3><p>Analizamos el negocio y su operación, identificamos oportunidades y definimos prioridades. Una buena decisión empieza por entender el problema y el impacto que vale la pena buscar.</p><div className={styles.workEvidence}><Check size={18} /> Diagnóstico, criterio y hoja de ruta</div><Link className={styles.inlineLink} to="/consultoria">Conocer Consultoría <ArrowRight size={17} /></Link></article>
-              <article><span className={styles.workNumber}>02 / IMPLEMENTACIÓN</span><h3>Capacidad para llevarlo a la práctica.</h3><p>Diseñamos, desarrollamos e integramos la solución con tu equipo. La puesta en marcha es parte del trabajo: acompañamos su adopción y seguimos mejorando lo que ya funciona.</p><div className={styles.workEvidence}><Check size={18} /> Ejecución, adopción y evolución</div><Link className={styles.inlineLink} to="/implementacion">Conocer Implementación <ArrowRight size={17} /></Link></article>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.cases} id="casos">
-          <div className={styles.shell}>
-            <div className={styles.sectionHeading}><span className={styles.eyebrow}>Implementaciones</span><h2>Trabajo concreto en <em>operaciones reales.</em></h2><p>Estos ejemplos están anonimizados y describen lo implementado y su estado. Cada empresa tiene su propio punto de partida.</p></div>
-            <div className={styles.caseList}>{selectedCases.map((caseInfo, index) => <CaseStudy caseInfo={caseInfo} index={index} key={caseInfo.id} />)}</div>
-            <Link className={styles.inlineLink} to="/experiencia">Ver más proyectos y estados <ArrowRight size={18} /></Link>
-          </div>
-        </section>
-
-        <section className={styles.methodSection} id="como-funciona">
-          <div className={styles.shell}>
-            <div className={styles.sectionHeading}><span className={styles.eyebrow}>Cómo trabajamos</span><h2>Un camino claro,<br /><em>sin complicar lo simple.</em></h2><p>Primero entendemos el negocio. Después elegimos qué hacer, lo implementamos y aprendemos de la operación real.</p></div>
-            <ol className={styles.method}>{method.map(([title, description], index) => <li key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{description}</p></li>)}</ol>
-          </div>
-        </section>
-
-        <section className={styles.knowledge} aria-labelledby="knowledge-title">
-          <div className={`${styles.shell} ${styles.knowledgeGrid}`}>
-            <div><span className={styles.eyebrow}>Ideas que impulsan</span><h2 id="knowledge-title">Compartimos lo que aprendemos al mirar el negocio y la tecnología.</h2></div>
-            <div><p>Analizamos cambios, herramientas e ideas con una pregunta en mente: qué significa esto para una empresa que necesita decidir y actuar.</p><Link className={styles.inlineLink} to="/noticias">Explorar ideas para tu negocio <ArrowUpRight size={18} /></Link></div>
-          </div>
-        </section>
-
-        <section className={styles.contact} id="contacto">
-          <div className={`${styles.shell} ${styles.contactGrid}`}>
-            <div><span className={styles.eyebrow}>Hablemos de tu empresa</span><h2>Contanos qué querés <em>mejorar.</em></h2></div>
-            <div><p>No hace falta que llegues con la solución definida. En una primera conversación entendemos tu contexto, tus objetivos y dónde podríamos aportar más valor.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={19} /></a><small>Primero entendemos el negocio. Después hablamos de propuestas.</small></div>
-          </div>
-        </section>
+  return <Layout showFloatingWhatsApp={false} home><div className={styles.home}>
+    <section className={styles.hero} aria-labelledby="home-title"><div className={styles.shell}><div className={styles.heroGrid}>
+      <div className={styles.heroCopy}>
+        <span className={styles.heroEyebrow}>ECOMMERCE + CONSULTORÍA DE NEGOCIO</span>
+        <h1 id="home-title">Vendé mejor. <em>Hacé que tu empresa funcione mejor.</em></h1>
+        <p>Si tu tienda recibe visitas pero no vende lo suficiente, o si tu empresa creció y la operación se volvió difícil de manejar, podemos ayudarte. Entramos al negocio, encontramos lo que frena el avance y trabajamos con vos para cambiarlo.</p>
+        <div className={styles.heroActions}><Link className={styles.primary} to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link><Link className={styles.quietLink} to="/consultoria">Necesito ordenar mi empresa <ArrowRight size={18} /></Link></div>
+        <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>Negocio primero. Trabajo que se implementa.</strong><br />Experiencia en canales de venta, procesos y sistemas reales.</p></div>
       </div>
-    </Layout>
-  );
+      <figure className={styles.heroVisual}><img src="/assets/nexops-conversation-editorial.webp" alt="Imagen editorial ilustrativa de profesionales conversando sobre un negocio" fetchPriority="high" /><figcaption><span>ENTENDER → ACTUAR</span><strong>El punto de partida es lo que hoy le pasa a tu empresa.</strong></figcaption><small>Imagen editorial ilustrativa</small></figure>
+    </div></div></section>
+
+    <section className={styles.doors} id="soluciones" aria-labelledby="doors-title"><div className={styles.shell}>
+      <span className={styles.eyebrow}>DOS FORMAS DE AYUDARTE</span><h2 id="doors-title">¿Qué necesitás resolver <em>hoy?</em></h2>
+      <div className={styles.doorGrid}>
+        <article className={styles.doorEcommerce}><span className={styles.doorNumber}>01 / VENDÉS ONLINE</span><h3>Ecommerce</h3><p>Tenés tienda, vendés en Mercado Libre o querés abrir un canal propio. Unimos estrategia, catálogo, campañas, contenido y operación para que vender online sea un negocio más sano.</p><div className={styles.doorSituations}><span>Tráfico que no convierte</span><span>Dependencia del marketplace</span><span>Pauta sin claridad</span></div><Link to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link></article>
+        <article className={styles.doorConsulting}><span className={styles.doorNumber}>02 / NECESITÁS ORDENAR</span><h3>Consultoría</h3><p>Las ventas pierden seguimiento, los sistemas no se hablan o el equipo sostiene demasiadas tareas a mano. Entendemos el negocio y definimos con vos qué cambiar y en qué orden.</p><div className={styles.doorSituations}><span>Procesos desordenados</span><span>Datos dispersos</span><span>IA sin rumbo claro</span></div><Link to="/consultoria">Quiero entender por dónde empezar <ArrowUpRight size={18} /></Link></article>
+      </div>
+    </div></section>
+
+    <section className={styles.authority} id="nosotros" aria-labelledby="authority-title"><div className={styles.shell}>
+      <div className={styles.authorityTop}><div><span className={styles.eyebrow}>POR QUÉ NEXOPS</span><h2 id="authority-title">Venimos de resolver <em>problemas complejos.</em></h2></div><div><p>Traemos más de una década de experiencia en tecnología y proyectos complejos dentro de empresas grandes. Hoy aplicamos ese criterio a negocios que necesitan vender mejor y operar sin depender de parches.</p><p>Entendemos qué está pasando, trabajamos con quienes llevan el negocio y llevamos las decisiones a la operación.</p></div></div>
+      <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div>{clients.map((name) => <strong key={name}>{name}</strong>)}</div></div>
+    </div></section>
+
+    <section className={styles.problemSection} aria-labelledby="problems-title"><div className={styles.shell}>
+      <div className={styles.problemIntro}><span className={styles.eyebrow}>SITUACIONES QUE CONOCEMOS</span><h2 id="problems-title">Tal vez esto te está pasando <em>a vos.</em></h2></div>
+      <div className={styles.problemList}>{situations.map(([label, title, copy], index) => <article key={title}><span>0{index + 1} / {label}</span><div><h3>{title}</h3><p>{copy}</p></div></article>)}</div>
+    </div></section>
+
+    <section className={styles.proofSection} id="casos" aria-labelledby="cases-title"><div className={styles.shell}>
+      <div className={styles.proofIntro}><div><span className={styles.eyebrow}>TRABAJO REAL</span><h2 id="cases-title">Clientes con nombre. <em>Problemas con contexto.</em></h2></div><p>En cada proyecto entramos por una situación concreta. Acá podés ver qué hicimos y qué quedó funcionando o en marcha.</p></div>
+      <div className={styles.proofGrid}>{proof.map((item) => <article key={item.client}><span>{item.category}</span><h3>{item.client}</h3><p><strong>El problema:</strong> {item.problem}</p><p><strong>Qué hicimos:</strong> {item.work}</p><p><strong>Qué cambió:</strong> {item.result}</p><Link to={item.href}>Ver el caso <ArrowRight size={17} /></Link></article>)}</div>
+      <Link className={styles.inlineLink} to="/experiencia">Conocer nuestra experiencia <ArrowRight size={18} /></Link>
+    </div></section>
+
+    <section className={styles.methodSection} id="como-funciona" aria-labelledby="method-title"><div className={styles.shell}>
+      <div className={styles.methodIntro}><span className={styles.eyebrow}>CÓMO TRABAJAMOS</span><h2 id="method-title">Primero el problema. <em>Después la solución.</em></h2><p>Revisamos el negocio con vos, elegimos una prioridad, la ponemos a trabajar y ajustamos con lo que muestra la operación.</p></div>
+      <div className={styles.methodRow}><div><span>01</span><strong>Entender</strong><p>Qué se pierde, dónde se traba y quién vive el problema.</p></div><div><span>02</span><strong>Priorizar</strong><p>Qué cambio tiene sentido ahora y qué puede esperar.</p></div><div><span>03</span><strong>Hacer</strong><p>Implementar con el equipo, no dejar un documento en un cajón.</p></div><div><span>04</span><strong>Mejorar</strong><p>Mirar el uso y los resultados para ajustar el trabajo.</p></div></div>
+    </div></section>
+
+    <section className={styles.knowledge} aria-labelledby="knowledge-title"><div className={`${styles.shell} ${styles.knowledgeGrid}`}><div><span className={styles.eyebrow}>IDEAS QUE IMPULSAN</span><h2 id="knowledge-title">Ideas útiles para vender y operar mejor.</h2></div><div><p>Lo que aprendemos sobre comercio digital, procesos, datos e IA, explicado desde decisiones que una empresa tiene que tomar.</p><Link className={styles.inlineLink} to="/noticias">Explorar ideas <ArrowUpRight size={18} /></Link></div></div></section>
+    <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>HABLEMOS DE TU EMPRESA</span><h2>Contanos qué te está <em>frenando.</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
+  </div></Layout>;
 }

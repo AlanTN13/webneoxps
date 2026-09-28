@@ -23,9 +23,9 @@ const ProcessAutomation = lazy(() => import("./pages/servicios/ProcessAutomation
 const FrontEndUX = lazy(() => import("./pages/servicios/FrontEndUX.jsx"));
 const RadarControlCenter = lazy(() => import("./pages/radar/RadarControlCenter.jsx"));
 const SolutionLanding = lazy(() => import("./pages/SolutionLanding.jsx"));
-const ImplementationPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ImplementationPage })));
-const ConsultingPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ConsultingPage })));
-const ExperiencePage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ExperiencePage })));
+const EcommercePage = lazy(() => import("./pages/CommercialPages.jsx").then((module) => ({ default: module.EcommercePage })));
+const ConsultingPage = lazy(() => import("./pages/CommercialPages.jsx").then((module) => ({ default: module.ConsultingPage })));
+const ExperiencePage = lazy(() => import("./pages/CommercialPages.jsx").then((module) => ({ default: module.ExperiencePage })));
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -40,7 +40,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
 
         {/* Páginas institucionales */}
-        <Route path="/implementacion" element={<ImplementationPage />} />
+        <Route path="/ecommerce" element={<EcommercePage />} />
+        <Route path="/implementacion" element={<Navigate to="/ecommerce" replace />} />
         <Route path="/consultoria" element={<ConsultingPage />} />
         <Route path="/experiencia" element={<ExperiencePage />} />
         {/* Formación permanece desarrollada, pero fuera de la Web pública. */}
