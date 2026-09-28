@@ -45,7 +45,8 @@ PATCH MODE / EXECUTION PREFLIGHT
 
 EXECUTION RECEIPT
 
-- Rótulo público elegido: «Ideas que impulsan». Lleva a la misma ruta `/noticias`; se ajustaron menú desktop/mobile, footer y sección de Home, más la etiqueta visual del índice de artículos. Radar conserva su nombre y funcionamiento internos.
+- Rótulo público elegido: «Ideas que impulsan». Lleva a la misma ruta `/noticias`; se ajustaron menú desktop/mobile, footer y sección de Home, más la etiqueta visual y los rótulos de navegación del índice y detalle de artículos. Radar conserva su nombre y funcionamiento internos.
 - Formación sigue implementada en `InstitutionalPages.jsx`, pero fue retirada de la navegación y la ruta `/formacion` redirige a `/`. No se borró su contenido.
 - `npm run lint`, `npm run site:test` (6 pruebas) y `npm run build`: PASS. Smoke en build local: menú y footer sin enlaces de Formación, `/formacion` vuelve a Home, el nuevo rótulo abre `/noticias` con contenido, sin errores de consola ni desborde a 390/1280 px. Captura: `navigation-mobile-menu.png`.
-- Preview remota del PR y Knowledge Delta en AlanOS: pendientes de verificar y registrar después del push. Sin merge ni producción.
+- Preview remota del PR: `/formacion` redirige a Home, sin enlace visible a Formación; `/noticias` presenta «Ideas que impulsan» en menú, encabezado y footer. Captura: `navigation-preview.png`. Check Netlify SUCCESS en `afafb2d`; el ajuste final de rótulos queda sujeto al siguiente deploy. Sin merge ni producción.
+- Knowledge Delta en AlanOS: pendiente de registrar tras verificar el deploy final.
