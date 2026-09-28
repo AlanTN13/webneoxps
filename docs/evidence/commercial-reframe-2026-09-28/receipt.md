@@ -30,3 +30,26 @@
 - Validación local: `npm run lint`, `npm run site:test` (6/6) y `npm run build` pasaron. Navegador a 1440 px y 390 px: Home, Ecommerce, Consultoría y Experiencia cargan con H1 correcto y sin desborde horizontal; el menú móvil abre, permite ir a Consultoría y se cierra; el enlace de Home a Sommier Magno llega a `/experiencia#sommier-magno` y desplaza al caso.
 - Capturas de revisión en esta carpeta: `home-desktop.png`, `home-mobile.png`, `ecommerce-desktop.png`, `ecommerce-mobile.png`, `consultoria-desktop.png`, `consultoria-mobile.png`, `experiencia-desktop.png`, `experiencia-mobile.png`, `menu-mobile.png`.
 - Estado de entrega: implementación `15df41a` publicada en la rama del [PR #76](https://github.com/AlanTN13/webneoxps/pull/76). CI `validate`, Vercel y deploy-preview de Netlify terminaron en PASS. La [preview remota](https://deploy-preview-76--webnexops.netlify.app/) se abrió y se comprobaron Home, `/ecommerce`, `/consultoria` y `/experiencia` con H1 correctos; `/implementacion` redirige a `/ecommerce`, `/formacion` a Home y no hay enlaces visibles a Formación. Consola remota sin errores. PR draft, pendiente de revisión comercial de Alan. Sin merge ni publicación en producción.
+
+## ITERACIÓN DE FUERZA COMERCIAL — EXECUTION PREFLIGHT / PATCH MODE
+
+- Rol/superficie y autorización: entrega en el PR draft #76 existente. Alan pidió explícitamente una pasada focalizada de fuerza comercial, claridad y prueba social sobre Home, Ecommerce, Consultoría y Experiencia, sin rediseño completo.
+- Fuente vigente: AlanOS `37195ac`, contrato `Alan/01_Architecture/Execution_Runtime_Contract.md` verificado contra `origin/main` el 2026-09-28; `README_NexOps.md` y última decisión de arquitectura comercial; web `cd75ed9` limpia y PR #76 draft en ese commit.
+- Budget/tipo/riesgo: M/T2/R2 por copy comercial público y atribución de clientes. Un escritor; mantener los componentes, layout, header, paleta y rutas actuales.
+- Delta permitido: hero y dos puertas de Home, autoridad temprana, problemas/acciones de Ecommerce y Consultoría, relato de casos en Experiencia y ajustes CSS mínimos para legibilidad.
+- Congelado: Radar backend/editorial, scoring, automatizaciones, producción, Talento, Formación pública, partnerships/certificaciones, arquitectura visual y rutas ajenas a estas cuatro páginas.
+- Aceptación/validación: dos ofertas inequívocas con síntomas y CTA; autoridad sustentada; problemas seguidos de trabajo concreto; casos cliente → problema → trabajo → qué quedó en marcha; lint, tests de sitio, build y un smoke desktop/mobile de las cuatro rutas. Preview Netlify para Alan.
+- Permisos/recuperación: sólo commits en la rama draft existente, reversibles por Git. No merge ni producción.
+- STOP/BUDGET_RISK: si un logo, métrica o afirmación carece de fuente, usar nombre tipográfico u omitirla. Si la aceptación exige alterar una superficie congelada, detener la expansión.
+
+## ITERACIÓN DE FUERZA COMERCIAL — EXECUTION RECEIPT
+
+- Home: hero más directo; las dos puertas bajo el hero muestran título de comprador, cuatro síntomas y CTA propio. La autoridad sigue inmediatamente después, ahora con tres trabajos verificables y ocho clientes autorizados. Se eliminó el bloque posterior que repetía los mismos síntomas para adelantar los casos.
+- Ecommerce: cinco fricciones de venta online, cada una seguida de «Qué hacemos» con una acción concreta. Se mantuvo la oferta de producto, tienda, Mercado Libre, pauta, contenido, email, rentabilidad e integraciones, sin convertirla en inventario técnico.
+- Consultoría: seis situaciones reconocibles con respuesta operativa; metodología y posibles entregables siguen después del dolor. Se conservó su hero y la dirección visual.
+- Experiencia: hero y casos anclados en trabajos específicos. Cada historia distingue problema, trabajo y qué quedó funcionando o en marcha; el estado sigue secundario. El componente admite una métrica opcional, pero no muestra ninguna hasta contar con evidencia publicable.
+- Prueba social: nombres autorizados; el único logo incorporado es el SVG de GlobalTrip ya presente en `public/globaltrip_logo.svg`. No se inventaron cifras, resultados cuantificados, testimonios, premios ni certificaciones.
+- Checks locales: `git diff --check`, `npm run lint`, `npm run site:test` (6/6) y `npm run build` PASS. Navegador local a 1440 y 423 px: Home, Ecommerce, Consultoría y Experiencia cargan con H1 correcto y sin desborde horizontal; GlobalTrip SVG carga; cinco fricciones de Ecommerce, seis de Consultoría y cuatro casos de Experiencia visibles. Capturas `commercial-pass-*.png` en esta carpeta muestran las cuatro páginas y los bloques principales desktop/mobile.
+- Hallazgo diferido: la prueba social podría ampliarse con otros logos o métricas sólo cuando exista material autorizado y verificable; no es requisito para esta preview.
+- Knowledge Delta: esta iteración ajusta lenguaje, prioridad visual y prueba de la arquitectura Ecommerce/Consultoría ya aprobada. No crea una tercera oferta ni cambia Radar, Formación, Talento o el principio de marca.
+- Estado de entrega: código y evidencia listos localmente; pendiente push, checks y revisión de la preview Netlify del PR #76. PR draft; sin merge ni producción.

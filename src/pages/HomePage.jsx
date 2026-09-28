@@ -5,13 +5,7 @@ import Layout from "../components/Layout";
 import { CALENDLY_LINK } from "../config/constants";
 import styles from "./HomePage.module.css";
 
-const clients = ["GlobalTrip", "OnlySellers", "Sommier Magno", "Casa Italia", "Edelvives", "Kenta"];
-const situations = [
-  ["Ecommerce", "Vendés en Mercado Libre, pero el canal propio no despega.", "Catálogo, precios, contenido y campañas tienen que trabajar juntos para no depender de una sola vidriera."],
-  ["Ecommerce", "Pagás por visitas y no tenés claro qué termina en ventas.", "Revisamos la tienda, el recorrido de compra, la inversión y los datos antes de pedirle más presupuesto a la pauta."],
-  ["Consultoría", "El equipo comercial recibe consultas, pero pierde el seguimiento.", "Ordenamos responsables, etapas y próximos pasos para que las oportunidades no dependan de la memoria de cada persona."],
-  ["Consultoría", "La empresa creció y ahora todo pasa por planillas y mensajes.", "Entramos a la operación para encontrar los cortes reales y definir qué conviene cambiar primero."],
-];
+const clients = ["OnlySellers", "Sommier Magno", "Casa Italia", "Dexa / Kahuna", "Kenta", "Edelvives", "Punky"];
 const proof = [
   { client: "Sommier Magno", category: "ECOMMERCE Y MARKETPLACE", problem: "Lanzar web y Mercado Libre con catálogo, contenido y economía de canal coordinados.", work: "Acompañamos una salida por etapas, desde el catálogo piloto y las publicaciones hasta la preparación de contenido y pauta.", result: "Un piloto ordenado por catálogo y validaciones comerciales antes de ampliar la pauta.", href: "/experiencia#sommier-magno" },
   { client: "OnlySellers", category: "EMAIL Y RELACIÓN CON CLIENTES", problem: "Sostener comunicación comercial sin improvisar cada envío.", work: "Organizamos segmentación, calendario y una biblioteca editorial para alimentar campañas de email.", result: "Un circuito de comunicación activo que permite revisar y ajustar cada campaña.", href: "/experiencia#onlysellers" },
@@ -38,30 +32,26 @@ export default function HomePage() {
     <section className={styles.hero} aria-labelledby="home-title"><div className={styles.shell}><div className={styles.heroGrid}>
       <div className={styles.heroCopy}>
         <span className={styles.heroEyebrow}>ECOMMERCE + CONSULTORÍA DE NEGOCIO</span>
-        <h1 id="home-title">Vendé mejor. <em>Hacé que tu empresa funcione mejor.</em></h1>
-        <p>Si tu tienda recibe visitas pero no vende lo suficiente, o si tu empresa creció y la operación se volvió difícil de manejar, podemos ayudarte. Entramos al negocio, encontramos lo que frena el avance y trabajamos con vos para cambiarlo.</p>
+        <h1 id="home-title">Vendé mejor. <em>Operá con menos fricción.</em></h1>
+        <p>Si tu ecommerce no rinde como debería o tu empresa creció más rápido que sus procesos, entramos al negocio para encontrar qué lo frena. Primero entendemos la venta y la operación; después usamos tecnología donde realmente sirve.</p>
         <div className={styles.heroActions}><Link className={styles.primary} to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link><Link className={styles.quietLink} to="/consultoria">Necesito ordenar mi empresa <ArrowRight size={18} /></Link></div>
-        <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>Negocio primero. Trabajo que se implementa.</strong><br />Experiencia en canales de venta, procesos y sistemas reales.</p></div>
+        <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>Primero el negocio. Después la tecnología.</strong><br />Experiencia en canales de venta, procesos y sistemas reales.</p></div>
       </div>
       <figure className={styles.heroVisual}><img src="/assets/nexops-conversation-editorial.webp" alt="Imagen editorial ilustrativa de profesionales conversando sobre un negocio" fetchPriority="high" /><figcaption><span>ENTENDER → ACTUAR</span><strong>El punto de partida es lo que hoy le pasa a tu empresa.</strong></figcaption><small>Imagen editorial ilustrativa</small></figure>
     </div></div></section>
 
     <section className={styles.doors} id="soluciones" aria-labelledby="doors-title"><div className={styles.shell}>
-      <span className={styles.eyebrow}>DOS FORMAS DE AYUDARTE</span><h2 id="doors-title">¿Qué necesitás resolver <em>hoy?</em></h2>
+      <span className={styles.eyebrow}>DOS FORMAS DE AYUDARTE</span><h2 id="doors-title">¿Dónde está hoy <em>el freno?</em></h2>
       <div className={styles.doorGrid}>
-        <article className={styles.doorEcommerce}><span className={styles.doorNumber}>01 / VENDÉS ONLINE</span><h3>Ecommerce</h3><p>Tenés tienda, vendés en Mercado Libre o querés abrir un canal propio. Unimos estrategia, catálogo, campañas, contenido y operación para que vender online sea un negocio más sano.</p><div className={styles.doorSituations}><span>Tráfico que no convierte</span><span>Dependencia del marketplace</span><span>Pauta sin claridad</span></div><Link to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link></article>
-        <article className={styles.doorConsulting}><span className={styles.doorNumber}>02 / NECESITÁS ORDENAR</span><h3>Consultoría</h3><p>Las ventas pierden seguimiento, los sistemas no se hablan o el equipo sostiene demasiadas tareas a mano. Entendemos el negocio y definimos con vos qué cambiar y en qué orden.</p><div className={styles.doorSituations}><span>Procesos desordenados</span><span>Datos dispersos</span><span>IA sin rumbo claro</span></div><Link to="/consultoria">Quiero entender por dónde empezar <ArrowUpRight size={18} /></Link></article>
+        <article className={styles.doorEcommerce}><span className={styles.doorNumber}>01 / ECOMMERCE</span><h3>Vendés online y querés crecer sin perder rentabilidad ni control.</h3><p>Trabajamos sobre la venta completa: producto, tienda, marketplaces, campañas y operación.</p><ul className={styles.doorSituations}><li>Dependés demasiado de Mercado Libre.</li><li>Tu tienda tiene tráfico, pero no convierte.</li><li>Invertís en pauta sin saber qué vende.</li><li>Stock, catálogo o precios llevan demasiado trabajo manual.</li></ul><Link to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link></article>
+        <article className={styles.doorConsulting}><span className={styles.doorNumber}>02 / CONSULTORÍA</span><h3>Tu empresa creció y la operación, ventas o sistemas no acompañaron.</h3><p>Entramos al negocio, ubicamos la fricción y definimos qué cambio vale la pena hacer primero.</p><ul className={styles.doorSituations}><li>Ventas pierde seguimiento.</li><li>Todo depende de personas clave.</li><li>Los sistemas no se hablan.</li><li>Tenés datos, pero no claridad para decidir.</li></ul><Link to="/consultoria">Quiero entender por dónde empezar <ArrowUpRight size={18} /></Link></article>
       </div>
     </div></section>
 
     <section className={styles.authority} id="nosotros" aria-labelledby="authority-title"><div className={styles.shell}>
-      <div className={styles.authorityTop}><div><span className={styles.eyebrow}>POR QUÉ NEXOPS</span><h2 id="authority-title">Venimos de resolver <em>problemas complejos.</em></h2></div><div><p>Traemos más de una década de experiencia en tecnología y proyectos complejos dentro de empresas grandes. Hoy aplicamos ese criterio a negocios que necesitan vender mejor y operar sin depender de parches.</p><p>Entendemos qué está pasando, trabajamos con quienes llevan el negocio y llevamos las decisiones a la operación.</p></div></div>
-      <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div>{clients.map((name) => <strong key={name}>{name}</strong>)}</div></div>
-    </div></section>
-
-    <section className={styles.problemSection} aria-labelledby="problems-title"><div className={styles.shell}>
-      <div className={styles.problemIntro}><span className={styles.eyebrow}>SITUACIONES QUE CONOCEMOS</span><h2 id="problems-title">Tal vez esto te está pasando <em>a vos.</em></h2></div>
-      <div className={styles.problemList}>{situations.map(([label, title, copy], index) => <article key={title}><span>0{index + 1} / {label}</span><div><h3>{title}</h3><p>{copy}</p></div></article>)}</div>
+      <div className={styles.authorityTop}><div><span className={styles.eyebrow}>POR QUÉ NEXOPS</span><h2 id="authority-title">Más de una década resolviendo tecnología <em>dentro de negocios reales.</em></h2></div><div><p>Traemos experiencia en proyectos complejos de empresas grandes. Hoy aplicamos ese criterio a la venta online y a operaciones que necesitan crecer sin depender de parches.</p><p>Del catálogo y Mercado Libre a un ERP comercial en producción: trabajamos con ecommerce, CRM, automatización, datos, sistemas e integraciones. La IA entra cuando resuelve una tarea concreta.</p></div></div>
+      <div className={styles.authorityExamples}><div><strong>Sommier Magno</strong><span>Catálogo, web y Mercado Libre en una salida piloto.</span></div><div><strong>Casa Italia</strong><span>ERP comercial a medida en producción.</span></div><div><strong>OnlySellers</strong><span>Operación de email con segmentación y calendario.</span></div></div>
+      <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div><img src="/globaltrip_logo.svg" alt="GlobalTrip" loading="lazy" />{clients.map((name) => <strong key={name}>{name}</strong>)}</div></div>
     </div></section>
 
     <section className={styles.proofSection} id="casos" aria-labelledby="cases-title"><div className={styles.shell}>
