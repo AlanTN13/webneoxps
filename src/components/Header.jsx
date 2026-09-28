@@ -26,10 +26,11 @@ export default function Header({ home = false }) {
 
           <nav className="site-header__nav" aria-label="Navegación principal">
             {home ? <>
-              <a href="#nosotros">Nosotros</a>
-              <a href="#soluciones">Qué hacemos</a>
-              <a href="#casos">Experiencia</a>
-              <a href="#como-funciona">Cómo trabajamos</a>
+              <Link to="/#nosotros">Nosotros</Link>
+              <Link to="/implementacion">Implementación</Link>
+              <Link to="/consultoria">Consultoría</Link>
+              <Link to="/experiencia">Experiencia</Link>
+              <Link to="/formacion">Formación</Link>
               <Link to="/noticias">Radar</Link>
             </> : <>
             <div className="site-header__solutions">
@@ -76,10 +77,11 @@ export default function Header({ home = false }) {
           </div>
           <nav className="mobile-menu__nav" aria-label="Navegación mobile">
             {home ? <>
-              <a href="#nosotros" onClick={() => setOpen(false)}>Nosotros<span>→</span></a>
-              <a href="#soluciones" onClick={() => setOpen(false)}>Qué hacemos<span>→</span></a>
-              <a href="#casos" onClick={() => setOpen(false)}>Experiencia<span>→</span></a>
-              <a href="#como-funciona" onClick={() => setOpen(false)}>Cómo trabajamos<span>→</span></a>
+              <Link to="/#nosotros" onClick={() => setOpen(false)}>Nosotros<span>→</span></Link>
+              <Link to="/implementacion" onClick={() => setOpen(false)}>Implementación<span>→</span></Link>
+              <Link to="/consultoria" onClick={() => setOpen(false)}>Consultoría<span>→</span></Link>
+              <Link to="/experiencia" onClick={() => setOpen(false)}>Experiencia<span>→</span></Link>
+              <Link to="/formacion" onClick={() => setOpen(false)}>Formación<span>→</span></Link>
               <Link to="/noticias" onClick={() => setOpen(false)}>Radar<span>→</span></Link>
             </> : <>
             <small>Soluciones</small>

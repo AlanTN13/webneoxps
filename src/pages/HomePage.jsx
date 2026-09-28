@@ -154,7 +154,7 @@ export default function HomePage() {
                 return <div className={styles.trustCard} key={source.id}><span>{source.sector}</span><strong>{source.title}</strong><small>{source.status}</small></div>;
               })}
             </div>
-            <a className={styles.inlineLink} href="#casos">Conocé estas implementaciones <ArrowRight size={18} /></a>
+            <Link className={styles.inlineLink} to="/experiencia">Conocé nuestra experiencia <ArrowRight size={18} /></Link>
           </div>
         </section>
 
@@ -183,8 +183,8 @@ export default function HomePage() {
           <div className={styles.shell}>
             <div className={styles.sectionHeading}><span className={styles.eyebrow}>Dos formas de acompañarte</span><h2>Pensamos con vos.<br /><em>Y hacemos que suceda.</em></h2></div>
             <div className={styles.workGrid}>
-              <article><span className={styles.workNumber}>01 / CONSULTORÍA</span><h3>Claridad para elegir el siguiente paso.</h3><p>Analizamos el negocio y su operación, identificamos oportunidades y definimos prioridades. Una buena decisión empieza por entender el problema y el impacto que vale la pena buscar.</p><div className={styles.workEvidence}><Check size={18} /> Diagnóstico, criterio y hoja de ruta</div></article>
-              <article><span className={styles.workNumber}>02 / IMPLEMENTACIÓN</span><h3>Capacidad para llevarlo a la práctica.</h3><p>Diseñamos, desarrollamos e integramos la solución con tu equipo. La puesta en marcha es parte del trabajo: acompañamos su adopción y seguimos mejorando lo que ya funciona.</p><div className={styles.workEvidence}><Check size={18} /> Ejecución, adopción y evolución</div></article>
+              <article><span className={styles.workNumber}>01 / CONSULTORÍA</span><h3>Claridad para elegir el siguiente paso.</h3><p>Analizamos el negocio y su operación, identificamos oportunidades y definimos prioridades. Una buena decisión empieza por entender el problema y el impacto que vale la pena buscar.</p><div className={styles.workEvidence}><Check size={18} /> Diagnóstico, criterio y hoja de ruta</div><Link className={styles.inlineLink} to="/consultoria">Conocer Consultoría <ArrowRight size={17} /></Link></article>
+              <article><span className={styles.workNumber}>02 / IMPLEMENTACIÓN</span><h3>Capacidad para llevarlo a la práctica.</h3><p>Diseñamos, desarrollamos e integramos la solución con tu equipo. La puesta en marcha es parte del trabajo: acompañamos su adopción y seguimos mejorando lo que ya funciona.</p><div className={styles.workEvidence}><Check size={18} /> Ejecución, adopción y evolución</div><Link className={styles.inlineLink} to="/implementacion">Conocer Implementación <ArrowRight size={17} /></Link></article>
             </div>
           </div>
         </section>
@@ -193,6 +193,7 @@ export default function HomePage() {
           <div className={styles.shell}>
             <div className={styles.sectionHeading}><span className={styles.eyebrow}>Implementaciones</span><h2>Trabajo concreto en <em>operaciones reales.</em></h2><p>Estos ejemplos están anonimizados y describen lo implementado y su estado. Cada empresa tiene su propio punto de partida.</p></div>
             <div className={styles.caseList}>{selectedCases.map((caseInfo, index) => <CaseStudy caseInfo={caseInfo} index={index} key={caseInfo.id} />)}</div>
+            <Link className={styles.inlineLink} to="/experiencia">Ver más proyectos y estados <ArrowRight size={18} /></Link>
           </div>
         </section>
 

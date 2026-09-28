@@ -244,7 +244,7 @@ a {
   color: var(--ink);
 }
 
-/* The Home uses a calmer, self-contained navigation while internal routes keep their existing header. */
+/* The institutional pages share a calmer editorial navigation. */
 .site-root--home .site-header {
   top: 12px;
   width: min(1260px, calc(100% - 32px));

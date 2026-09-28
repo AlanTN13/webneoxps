@@ -23,6 +23,10 @@ const ProcessAutomation = lazy(() => import("./pages/servicios/ProcessAutomation
 const FrontEndUX = lazy(() => import("./pages/servicios/FrontEndUX.jsx"));
 const RadarControlCenter = lazy(() => import("./pages/radar/RadarControlCenter.jsx"));
 const SolutionLanding = lazy(() => import("./pages/SolutionLanding.jsx"));
+const ImplementationPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ImplementationPage })));
+const ConsultingPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ConsultingPage })));
+const ExperiencePage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ExperiencePage })));
+const FormationPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.FormationPage })));
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -35,6 +39,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         {/* Landing principal */}
         <Route path="/" element={<App />} />
+
+        {/* Páginas institucionales */}
+        <Route path="/implementacion" element={<ImplementationPage />} />
+        <Route path="/consultoria" element={<ConsultingPage />} />
+        <Route path="/experiencia" element={<ExperiencePage />} />
+        <Route path="/formacion" element={<FormationPage />} />
 
         {/* Nueva arquitectura comercial */}
         <Route path="/soluciones/:slug" element={<SolutionLanding />} />
