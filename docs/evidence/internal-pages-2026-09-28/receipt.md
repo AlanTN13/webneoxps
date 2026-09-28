@@ -27,3 +27,25 @@
 ## Knowledge Delta
 
 El nuevo alcance y el estado de revisión quedaron registrados y verificados en [AlanOS `834b44e`](https://github.com/AlanTN13/Alanos/commit/834b44e05f984889f05e7ad3f5d6c01bde756dbf). No se marcó la propuesta como aceptada ni lista para producción.
+
+## Ajuste de navegación pública — 2026-09-28
+
+PATCH MODE / EXECUTION PREFLIGHT
+
+- Rol y superficie: Web NexOps, mismo PR #76 en draft; checkout limpio en `2c96a0e`.
+- Resultado y autorización: Alan pidió reemplazar el rótulo público «Radar» por uno más atractivo y dejar Formación desarrollada, pero apagada del frontend.
+- Contexto: AlanOS `Execution_Runtime_Contract.md` blob `c74478a`; `NexOps_Decisiones.md` en `834b44e`; código y preview del PR #76 en `2c96a0e`.
+- Tamaño/tipo/riesgo: S / T1 / R1. Corrección de navegación y disponibilidad pública reversible.
+- Baseline a preservar: Home y tres páginas comerciales visibles; la página de Formación conserva su código; `/noticias` y Radar interno conservan funcionamiento.
+- Delta y superficie permitida: rótulos públicos de la entrada editorial; enlaces de header/footer/Home, etiqueta visible de `/noticias`; desactivar la ruta y enlaces públicos de Formación.
+- Congelado: contenido/catálogo de Formación, artículos y motor editorial, automatizaciones, rutas internas `/radar/*`, producción, diseño general y páginas comerciales.
+- Aceptación/validación: ningún enlace público a Formación; `/formacion` no muestra la página y vuelve al inicio; nuevo rótulo conduce a `/noticias`; controles de sitio y smoke visual focalizado desktop/mobile; preview del PR.
+- Permisos/rollback: sólo branch/preview, sin merge. Revertir el commit si la revisión comercial pide otro naming.
+- STOP/BUDGET_RISK: si el cambio exige renombrar el producto Radar interno o tocar el motor editorial, detener la ampliación y conservar el límite.
+
+EXECUTION RECEIPT
+
+- Rótulo público elegido: «Ideas que impulsan». Lleva a la misma ruta `/noticias`; se ajustaron menú desktop/mobile, footer y sección de Home, más la etiqueta visual del índice de artículos. Radar conserva su nombre y funcionamiento internos.
+- Formación sigue implementada en `InstitutionalPages.jsx`, pero fue retirada de la navegación y la ruta `/formacion` redirige a `/`. No se borró su contenido.
+- `npm run lint`, `npm run site:test` (6 pruebas) y `npm run build`: PASS. Smoke en build local: menú y footer sin enlaces de Formación, `/formacion` vuelve a Home, el nuevo rótulo abre `/noticias` con contenido, sin errores de consola ni desborde a 390/1280 px. Captura: `navigation-mobile-menu.png`.
+- Preview remota del PR y Knowledge Delta en AlanOS: pendientes de verificar y registrar después del push. Sin merge ni producción.

@@ -30,8 +30,7 @@ export default function Header({ home = false }) {
               <Link to="/implementacion">Implementación</Link>
               <Link to="/consultoria">Consultoría</Link>
               <Link to="/experiencia">Experiencia</Link>
-              <Link to="/formacion">Formación</Link>
-              <Link to="/noticias">Radar</Link>
+              <Link to="/noticias">Ideas que impulsan</Link>
             </> : <>
             <div className="site-header__solutions">
               <button type="button">Soluciones <ChevronDown size={15} /></button>
@@ -51,7 +50,7 @@ export default function Header({ home = false }) {
               </div>
             </div>
             <Link to="/#casos">Casos</Link>
-            <Link to="/noticias">Novedades</Link>
+            <Link to="/noticias">Ideas que impulsan</Link>
             <Link to="/#contacto">Contacto</Link>
             </>}
           </nav>
@@ -81,8 +80,7 @@ export default function Header({ home = false }) {
               <Link to="/implementacion" onClick={() => setOpen(false)}>Implementación<span>→</span></Link>
               <Link to="/consultoria" onClick={() => setOpen(false)}>Consultoría<span>→</span></Link>
               <Link to="/experiencia" onClick={() => setOpen(false)}>Experiencia<span>→</span></Link>
-              <Link to="/formacion" onClick={() => setOpen(false)}>Formación<span>→</span></Link>
-              <Link to="/noticias" onClick={() => setOpen(false)}>Radar<span>→</span></Link>
+              <Link to="/noticias" onClick={() => setOpen(false)}>Ideas que impulsan<span>→</span></Link>
             </> : <>
             <small>Soluciones</small>
             {solutions.map((solution) => (
@@ -92,7 +90,7 @@ export default function Header({ home = false }) {
             ))}
             <div className="mobile-menu__secondary">
               <Link to="/#casos" onClick={() => setOpen(false)}>Casos</Link>
-              <Link to="/noticias" onClick={() => setOpen(false)}>Novedades</Link>
+              <Link to="/noticias" onClick={() => setOpen(false)}>Ideas que impulsan</Link>
               <Link to="/#contacto" onClick={() => setOpen(false)}>Contacto</Link>
             </div>
             </>}

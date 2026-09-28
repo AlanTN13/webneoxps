@@ -1,7 +1,7 @@
 // src/main.jsx
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
 import App from "./App.jsx";
 
@@ -26,7 +26,6 @@ const SolutionLanding = lazy(() => import("./pages/SolutionLanding.jsx"));
 const ImplementationPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ImplementationPage })));
 const ConsultingPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ConsultingPage })));
 const ExperiencePage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.ExperiencePage })));
-const FormationPage = lazy(() => import("./pages/InstitutionalPages.jsx").then((module) => ({ default: module.FormationPage })));
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -44,7 +43,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/implementacion" element={<ImplementationPage />} />
         <Route path="/consultoria" element={<ConsultingPage />} />
         <Route path="/experiencia" element={<ExperiencePage />} />
-        <Route path="/formacion" element={<FormationPage />} />
+        {/* Formación permanece desarrollada, pero fuera de la Web pública. */}
+        <Route path="/formacion" element={<Navigate to="/" replace />} />
 
         {/* Nueva arquitectura comercial */}
         <Route path="/soluciones/:slug" element={<SolutionLanding />} />

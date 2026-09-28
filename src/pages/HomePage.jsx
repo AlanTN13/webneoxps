@@ -206,8 +206,8 @@ export default function HomePage() {
 
         <section className={styles.knowledge} aria-labelledby="knowledge-title">
           <div className={`${styles.shell} ${styles.knowledgeGrid}`}>
-            <div><span className={styles.eyebrow}>Radar NexOps</span><h2 id="knowledge-title">Compartimos lo que aprendemos al mirar el negocio y la tecnología.</h2></div>
-            <div><p>Analizamos cambios, herramientas e ideas con una pregunta en mente: qué significa esto para una empresa que necesita decidir y actuar.</p><Link className={styles.inlineLink} to="/noticias">Explorar nuestras publicaciones <ArrowUpRight size={18} /></Link></div>
+            <div><span className={styles.eyebrow}>Ideas que impulsan</span><h2 id="knowledge-title">Compartimos lo que aprendemos al mirar el negocio y la tecnología.</h2></div>
+            <div><p>Analizamos cambios, herramientas e ideas con una pregunta en mente: qué significa esto para una empresa que necesita decidir y actuar.</p><Link className={styles.inlineLink} to="/noticias">Explorar ideas para tu negocio <ArrowUpRight size={18} /></Link></div>
           </div>
         </section>
 

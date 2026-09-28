@@ -10,7 +10,7 @@ export default function Footer({ home = false }) {
           <Link to="/"><img src="/nexops-mark.webp" alt="" width="128" height="128" /><span>NexOps</span></Link>
           <p>Tecnología, criterio y ejecución para empresas que quieren crecer y operar mejor.</p>
         </div>
-        <div><small>Explorar</small><Link to="/#nosotros">Nosotros</Link><Link to="/implementacion">Implementación</Link><Link to="/consultoria">Consultoría</Link><Link to="/experiencia">Experiencia</Link><Link to="/formacion">Formación en desarrollo</Link><Link to="/noticias">Radar</Link></div>
+        <div><small>Explorar</small><Link to="/#nosotros">Nosotros</Link><Link to="/implementacion">Implementación</Link><Link to="/consultoria">Consultoría</Link><Link to="/experiencia">Experiencia</Link><Link to="/noticias">Ideas que impulsan</Link></div>
         <div><small>Conversemos</small><a href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación</a><a href={getWhatsappLink(CONTACT_INFO.WHATSAPP_NUMBER, CONTACT_INFO.WHATSAPP_MESSAGE_DEFAULT)} target="_blank" rel="noreferrer">Escribir por WhatsApp</a><p>Buenos Aires · Argentina</p></div>
       </div>
       <div className="site-shell site-footer__bottom"><span>© {new Date().getFullYear()} NexOps</span><span>Negocio, procesos y tecnología en una misma conversación.</span></div>
@@ -31,7 +31,7 @@ export default function Footer({ home = false }) {
           <small>Explorar</small>
           <Link to="/#como-funciona">Cómo funciona</Link>
           <Link to="/#casos">Casos</Link>
-          <Link to="/noticias">Novedades</Link>
+          <Link to="/noticias">Ideas que impulsan</Link>
         </div>
         <div>
           <small>Contacto</small>

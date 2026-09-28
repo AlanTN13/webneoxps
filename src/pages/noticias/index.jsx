@@ -70,7 +70,7 @@ export default function Noticias() {
               <div>
                 <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-200">
                   <span className="h-px w-8 bg-indigo-300/80" aria-hidden="true" />
-                  NOVEDADES NEXOPS
+                  IDEAS QUE IMPULSAN
                 </p>
                 <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.06] tracking-[-0.035em] text-white sm:text-5xl lg:text-[3.45rem]">
                   Ideas prácticas para vender más, operar mejor y escalar con automatización e IA
