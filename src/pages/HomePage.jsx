@@ -138,9 +138,9 @@ export default function HomePage() {
               <h2>Una empresa que entiende <em>empresas.</em></h2>
             </div>
             <div className={styles.identityCopy}>
-              <p className={styles.lead}>Somos una empresa de tecnología y transformación operativa. Trabajamos junto a quienes lideran negocios que necesitan crecer sin perder claridad ni control.</p>
-              <p>Miramos la estrategia, las personas y los procesos antes de elegir herramientas. Después diseñamos e implementamos soluciones que se integran a la forma real de trabajar de cada organización.</p>
-              <div className={styles.peopleLine}><span className={styles.peopleMonogram}>N↗</span><div><span>AL FRENTE DE NEXOPS</span><strong>Alan Fernández y Joaquín</strong><p>Socios que conducen el trabajo con visión de negocio y capacidad de ejecución.</p></div></div>
+              <p className={styles.lead}>Venimos de trabajar en proyectos complejos dentro de grandes empresas. Creamos NexOps para acercar ese criterio a empresas y PyMEs que necesitan crecer sin perder claridad ni control.</p>
+              <p>Entramos al negocio, entendemos el problema y recién después elegimos la tecnología. Diseñamos e implementamos soluciones que se integran a la forma real de trabajar de cada organización.</p>
+              <div className={styles.peopleLine}><span className={styles.peopleMonogram}>N↗</span><div><span>CÓMO NOS VINCULAMOS</span><strong>Un equipo presente, de la decisión a la operación.</strong><p>Trabajamos con quienes lideran cada empresa y acompañamos la adopción hasta que la solución funciona en el día a día.</p></div></div>
             </div>
           </div>
         </section>
