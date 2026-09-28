@@ -244,6 +244,28 @@ a {
   color: var(--ink);
 }
 
+/* The Home uses a calmer, self-contained navigation while internal routes keep their existing header. */
+.site-root--home .site-header {
+  top: 12px;
+  width: min(1260px, calc(100% - 32px));
+  margin: 12px auto 0;
+  border: 1px solid rgba(67, 54, 90, .11);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 14px 38px rgba(35, 28, 54, .09);
+}
+.site-root--home .site-header__inner { width: calc(100% - 42px); height: 68px; }
+.site-root--home .site-header__nav { gap: clamp(15px, 2vw, 29px); font-size: 13px; }
+.site-root--home .site-header__cta { border-radius: 999px; padding-inline: 20px; }
+
+@media (max-width: 1000px) {
+  .site-root--home .site-header__nav { gap: 14px; }
+}
+@media (max-width: 760px) {
+  .site-root--home .site-header { top: 8px; width: calc(100% - 20px); margin-top: 8px; }
+  .site-root--home .site-header__inner { width: calc(100% - 30px); }
+}
+
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -1515,6 +1537,27 @@ a {
   border-top: 1px solid rgba(255,255,255,.11);
   color: rgba(255,255,255,.32);
   font-size: 10px;
+}
+
+.site-root--home .site-footer--home { padding: 0 0 24px; background: #fbfafc; color: #292431; }
+.site-root--home .site-footer--home__grid { display: grid; grid-template-columns: 1.7fr .8fr 1fr; gap: 80px; padding-block: 77px 92px; }
+.site-root--home .site-footer--home__grid > div:not(:first-child) { align-items: flex-start; }
+.site-root--home .site-footer--home__grid a { display: block; margin-top: 7px; text-decoration: none; }
+.site-root--home .site-footer--home__grid .site-footer__brand > a { display: inline-flex; margin-top: 0; }
+.site-root--home .site-footer--home__grid .site-footer__brand p { max-width: 340px; color: #655f6d; }
+.site-root--home .site-footer--home__grid > div:not(:first-child) a { color: #4d4659; font-size: 14px; }
+.site-root--home .site-footer--home__grid a:hover { color: #5d49b8; }
+.site-root--home .site-footer--home__grid small { color: #5d49b8; }
+.site-root--home .site-footer--home__grid > div:last-child p { margin-top: 20px; color: #777180; font-size: 13px; }
+.site-root--home .site-footer--home .site-footer__bottom { margin-top: 0; border-color: #dfdce7; color: #777180; }
+@media (max-width: 1000px) { .site-root--home .site-footer--home__grid { gap: 45px; } }
+@media (max-width: 760px) {
+  .site-root--home .site-footer--home__grid { grid-template-columns: 1fr 1fr; gap: 36px; padding-block: 65px; }
+  .site-root--home .site-footer--home__grid .site-footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 500px) {
+  .site-root--home .site-footer--home__grid { grid-template-columns: 1fr; gap: 30px; }
+  .site-root--home .site-footer--home__grid .site-footer__brand { grid-column: auto; }
 }
 
 /* Solution pages */

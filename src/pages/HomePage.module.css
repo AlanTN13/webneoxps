@@ -25,21 +25,32 @@
 .quietLink:hover, .inlineLink:hover { color: var(--violet); }
 
 /* Opening: one direct statement, then a quiet band of business outcomes. */
-.hero { padding: 27px 0 70px; background: #f8f7fb; }
-.heroTopline { display: flex; justify-content: space-between; gap: 20px; padding-bottom: 18px; border-bottom: 1px solid #ddd9e7; color: #777080; font-size: .72rem; font-weight: 700; letter-spacing: .1em; }
-.heroGrid { padding-top: 70px; }
-.hero h1 { max-width: 1050px; font-size: clamp(3.5rem, 6vw, 5.7rem); font-weight: 590; line-height: 1.04; letter-spacing: -.06em; }
+.hero { padding: 72px 0 0; background: radial-gradient(circle at 0% 95%, #eae4f6 0, transparent 38%), #faf9fc; }
+.heroGrid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(40px, 5vw, 82px); }
+.heroCopy { padding-bottom: 46px; }
+.heroEyebrow { display: inline-block; margin-bottom: 27px; color: var(--violet); font-size: .73rem; font-weight: 750; letter-spacing: .105em; }
+.hero h1 { max-width: 710px; font-size: clamp(3.45rem, 5.2vw, 5.15rem); font-weight: 590; line-height: 1.055; letter-spacing: -.06em; }
 .hero h1 em { color: var(--violet); font-style: normal; }
-.heroCopy > p { max-width: 750px; margin-top: 29px; color: #4c4857; font-size: 1.17rem; line-height: 1.7; }
-.heroActions { display: flex; flex-wrap: wrap; align-items: center; gap: 25px; margin-top: 29px; }
-.heroPanel { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 65px; border-top: 1px solid #d5d0e2; }
-.panelKicker { grid-column: 1 / -1; display: block; padding-top: 19px; color: #655980; font-size: .7rem; font-weight: 700; letter-spacing: .13em; }
-.heroPanel > div { display: block; min-height: 94px; padding: 19px 28px 10px; border-right: 1px solid #d5d0e2; }
+.heroCopy > p { max-width: 610px; margin-top: 25px; color: #4c4857; font-size: 1.1rem; line-height: 1.65; }
+.heroActions { display: flex; flex-wrap: wrap; align-items: center; gap: 23px; margin-top: 29px; }
+.heroProof { display: flex; align-items: center; gap: 14px; margin-top: 45px; padding-top: 23px; border-top: 1px solid #ddd9e7; }
+.proofMark { display: grid; flex: 0 0 45px; width: 45px; height: 45px; place-items: center; border-radius: 50%; background: #e1dbf1; color: #4b368f; font-weight: 850; letter-spacing: -.09em; }
+.proofMark span { font-size: .8rem; }
+.heroProof p { color: #696372; font-size: .8rem; line-height: 1.45; }
+.heroProof strong { color: #3f394e; font-size: .87rem; font-weight: 700; }
+.heroVisual { position: relative; height: min(640px, 49vw); min-height: 530px; margin: 0; border-radius: 110px 18px 18px 18px; background: #ded7e8; box-shadow: 0 25px 60px rgba(47, 35, 70, .13); }
+.heroVisual img { display: block; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; object-position: center; }
+.heroVisual figcaption { position: absolute; right: -20px; bottom: 55px; display: flex; flex-direction: column; gap: 10px; width: min(300px, 70%); padding: 23px 25px; border-radius: 16px; background: #fff; box-shadow: 0 18px 40px rgba(38, 29, 57, .16); }
+.heroVisual figcaption span { color: var(--violet); font-size: .7rem; font-weight: 800; letter-spacing: .09em; }
+.heroVisual figcaption strong { color: var(--ink); font-size: 1.1rem; line-height: 1.3; font-weight: 630; }
+.heroVisual small { position: absolute; left: 17px; bottom: 15px; padding: 4px 8px; border-radius: 3px; background: rgba(26, 20, 38, .67); color: #fff; font-size: .62rem; }
+.heroPanel { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 62px; padding-bottom: 28px; border-top: 1px solid #d5d0e2; }
+.panelKicker { grid-column: 1 / -1; display: block; padding-top: 18px; color: #655980; font-size: .7rem; font-weight: 700; letter-spacing: .13em; }
+.heroPanel > div { display: block; min-height: 82px; padding: 15px 28px 0; border-right: 1px solid #d5d0e2; }
 .heroPanel > div:first-of-type { padding-left: 0; }
 .heroPanel > div:nth-of-type(3) { border-right: 0; }
 .heroPanel > div > span { display: block; color: var(--violet); font-size: .76rem; font-weight: 700; }
 .heroPanel strong { display: block; max-width: 280px; margin-top: 7px; color: var(--ink); font-size: clamp(1.1rem, 1.7vw, 1.35rem); line-height: 1.35; letter-spacing: -.02em; font-weight: 520; }
-.panelSignature { display: none; }
 
 /* Company and early evidence. */
 .identity { padding: 118px 0 112px; background: #fff; }
@@ -48,16 +59,22 @@
 .identityCopy { padding-top: 42px; }
 .identityCopy > p { color: var(--muted); margin-bottom: 22px; }
 .identityCopy .lead { color: var(--ink); font-size: 1.3rem; font-weight: 500; line-height: 1.5; }
-.peopleLine { margin-top: 38px; padding: 24px 0 0 22px; border-top: 1px solid var(--line); border-left: 3px solid var(--violet); }
-.peopleLine > span { display: block; margin-bottom: 7px; color: var(--violet); font-size: .72rem; font-weight: 700; letter-spacing: .1em; }
+.peopleLine { display: flex; align-items: flex-start; gap: 18px; margin-top: 38px; padding: 24px 0 0; border-top: 1px solid var(--line); }
+.peopleLine .peopleMonogram { display: grid; flex: 0 0 55px; width: 55px; height: 55px; place-items: center; border-radius: 14px; background: #ece8f7; color: #4c398e; font-size: 1.12rem; font-weight: 800; letter-spacing: -.09em; }
+.peopleLine > div > span { display: block; margin-bottom: 7px; color: var(--violet); font-size: .72rem; font-weight: 700; letter-spacing: .1em; }
 .peopleLine strong { display: block; font-size: 1.1rem; font-weight: 650; }
 .peopleLine p { margin-top: 4px; color: var(--muted); font-size: .95rem; }
-.trust { padding: 65px 0 69px; background: #eae6f5; }
-.trustGrid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(60px, 8vw, 120px); }
+.trust { padding: 92px 0 95px; background: radial-gradient(circle at 100% 100%, #e6dff4, transparent 42%), #f4f1f8; }
+.trustIntro { display: grid; grid-template-columns: 1.12fr .88fr; align-items: end; gap: clamp(55px, 8vw, 120px); }
 .trust .eyebrow { margin-bottom: 15px; }
-.trust h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
-.trust p { max-width: 480px; color: #4b435a; font-size: 1.05rem; }
-.trust .inlineLink { margin-top: 16px; color: #443189; }
+.trust h2 { font-size: clamp(2rem, 3.5vw, 3.15rem); }
+.trustIntro p { max-width: 440px; padding-bottom: 5px; color: #4b435a; font-size: 1.05rem; }
+.trustCards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; margin-top: 40px; }
+.trustCard { display: flex; flex-direction: column; min-height: 190px; padding: 26px; border: 1px solid #e5e0eb; border-radius: 14px; background: #fff; box-shadow: 0 12px 30px rgba(48, 37, 72, .045); }
+.trustCard > span { color: var(--violet); font-size: .73rem; font-weight: 750; letter-spacing: .055em; text-transform: uppercase; }
+.trustCard strong { max-width: 290px; margin-top: 24px; font-size: 1.24rem; line-height: 1.26; letter-spacing: -.025em; font-weight: 620; }
+.trustCard small { margin-top: auto; padding-top: 18px; color: #5f566b; font-size: .76rem; }
+.trust .inlineLink { margin-top: 25px; color: #443189; }
 
 /* Offer: four recognizable problems, set as editorial rows. */
 .services { padding: 112px 0 124px; }
@@ -128,29 +145,35 @@
 .contact small { display: block; margin-top: 17px; color: #cbbfda; font-size: .82rem; }
 
 @media (max-width: 1000px) {
-  .hero h1 { font-size: clamp(3.2rem, 6vw, 4.8rem); }
+  .hero h1 { font-size: clamp(3rem, 5.5vw, 4.5rem); }
+  .heroVisual { min-height: 490px; }
   .caseNarrative { gap: 18px; }
-  .identityGrid, .trustGrid, .breadthGrid, .knowledgeGrid, .contactGrid { gap: 50px; }
+  .identityGrid, .trustIntro, .breadthGrid, .knowledgeGrid, .contactGrid { gap: 50px; }
 }
 @media (max-width: 760px) {
   .shell { width: calc(100% - 40px); }
   .home h2 { font-size: clamp(2rem, 8vw, 2.8rem); }
-  .hero { padding: 18px 0 48px; }
-  .heroTopline > span:last-child { display: none; }
-  .heroGrid { padding-top: 43px; }
+  .hero { padding: 53px 0 0; }
+  .heroGrid { grid-template-columns: 1fr; gap: 24px; }
+  .heroCopy { padding-bottom: 0; }
+  .heroEyebrow { margin-bottom: 20px; }
   .hero h1 { max-width: 580px; font-size: clamp(2.8rem, 10.3vw, 4.25rem); }
   .heroCopy > p { margin-top: 23px; font-size: 1.05rem; }
   .heroActions { gap: 15px; margin-top: 28px; }
-  .heroPanel { margin-top: 46px; }
+  .heroProof { margin-top: 31px; }
+  .heroVisual { width: min(100% - 12px, 610px); height: 440px; min-height: 0; margin-top: 14px; border-radius: 70px 14px 14px 14px; }
+  .heroVisual figcaption { right: -12px; bottom: 34px; width: min(270px, 62%); }
+  .heroPanel { margin-top: 47px; }
   .panelKicker { padding-top: 16px; }
   .heroPanel > div { padding: 14px 15px 0; }
   .heroPanel strong { font-size: 1rem; }
   .identity, .services, .work, .cases, .methodSection { padding: 72px 0; }
-  .identityGrid, .trustGrid, .breadthGrid, .knowledgeGrid, .contactGrid { grid-template-columns: 1fr; gap: 25px; }
+  .identityGrid, .trustIntro, .breadthGrid, .knowledgeGrid, .contactGrid { grid-template-columns: 1fr; gap: 25px; }
   .identityCopy { padding-top: 0; }
   .identityCopy .lead { font-size: 1.19rem; }
   .peopleLine { margin-top: 26px; }
-  .trust { padding: 59px 0; }
+  .trust { padding: 67px 0; }
+  .trustCards { grid-template-columns: 1fr 1fr; }
   .sectionHeading { margin-bottom: 36px; }
   .sectionHeading > p { margin-top: 17px; }
   .service { grid-template-columns: 1fr; gap: 19px; padding: 27px 0; }
@@ -172,6 +195,9 @@
   .contactGrid > div:last-child > p { font-size: 1.03rem; }
 }
 @media (max-width: 500px) {
+  .heroVisual { height: 370px; }
+  .heroVisual figcaption { bottom: 28px; padding: 17px; }
+  .heroVisual figcaption strong { font-size: .92rem; }
   .heroPanel { grid-template-columns: 1fr; }
   .heroPanel > div, .heroPanel > div:first-of-type { display: grid; grid-template-columns: 32px 1fr; align-items: baseline; gap: 12px; min-height: 0; padding: 15px 0; border-right: 0; border-bottom: 1px solid #d5d0e2; }
   .heroPanel strong { margin-top: 0; max-width: none; }
@@ -180,6 +206,9 @@
   .caseNarrative p { margin-top: 0; }
   .primary { width: 100%; }
   .heroActions { flex-direction: column; align-items: flex-start; }
+  .trustCards { grid-template-columns: 1fr; gap: 10px; }
+  .trustCard { min-height: 0; padding: 21px; }
+  .trustCard strong { margin-top: 15px; }
   .contact .primary { width: auto; max-width: calc(100% - 42px); }
   .method { grid-template-columns: 1fr; }
   .method li { display: grid; grid-template-columns: 50px 1fr; gap: 0 12px; padding-top: 18px; }

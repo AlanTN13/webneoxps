@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { CALENDLY_LINK } from "../config/constants";
 import { solutions } from "../data/solutions";
 
-export default function Header() {
+export default function Header({ home = false }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -25,6 +25,13 @@ export default function Header() {
           </Link>
 
           <nav className="site-header__nav" aria-label="Navegación principal">
+            {home ? <>
+              <a href="#nosotros">Nosotros</a>
+              <a href="#soluciones">Qué hacemos</a>
+              <a href="#casos">Experiencia</a>
+              <a href="#como-funciona">Cómo trabajamos</a>
+              <Link to="/noticias">Radar</Link>
+            </> : <>
             <div className="site-header__solutions">
               <button type="button">Soluciones <ChevronDown size={15} /></button>
               <div className="site-header__dropdown">
@@ -45,10 +52,11 @@ export default function Header() {
             <Link to="/#casos">Casos</Link>
             <Link to="/noticias">Novedades</Link>
             <Link to="/#contacto">Contacto</Link>
+            </>}
           </nav>
 
           <a className="site-header__cta" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
-            Hablar con NexOps
+            Conversemos
           </a>
 
           <button className="site-header__menu" type="button" onClick={() => setOpen(true)} aria-label="Abrir menú">
@@ -67,6 +75,13 @@ export default function Header() {
             <button type="button" onClick={() => setOpen(false)} aria-label="Cerrar menú"><X size={25} /></button>
           </div>
           <nav className="mobile-menu__nav" aria-label="Navegación mobile">
+            {home ? <>
+              <a href="#nosotros" onClick={() => setOpen(false)}>Nosotros<span>→</span></a>
+              <a href="#soluciones" onClick={() => setOpen(false)}>Qué hacemos<span>→</span></a>
+              <a href="#casos" onClick={() => setOpen(false)}>Experiencia<span>→</span></a>
+              <a href="#como-funciona" onClick={() => setOpen(false)}>Cómo trabajamos<span>→</span></a>
+              <Link to="/noticias" onClick={() => setOpen(false)}>Radar<span>→</span></Link>
+            </> : <>
             <small>Soluciones</small>
             {solutions.map((solution) => (
               <Link key={solution.slug} to={`/soluciones/${solution.slug}`} onClick={() => setOpen(false)}>
@@ -78,6 +93,7 @@ export default function Header() {
               <Link to="/noticias" onClick={() => setOpen(false)}>Novedades</Link>
               <Link to="/#contacto" onClick={() => setOpen(false)}>Contacto</Link>
             </div>
+            </>}
           </nav>
           <a className="button button--brand" href={CALENDLY_LINK} target="_blank" rel="noreferrer">
             Hablar con NexOps

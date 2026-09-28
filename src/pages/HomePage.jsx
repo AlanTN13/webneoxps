@@ -101,27 +101,32 @@ export default function HomePage() {
   }, []);
 
   return (
-    <Layout showFloatingWhatsApp={false}>
+    <Layout showFloatingWhatsApp={false} home>
       <div className={styles.home}>
         <section className={styles.hero} aria-labelledby="home-title">
           <div className={styles.shell}>
-            <div className={styles.heroTopline}><span>NEXOPS / CONSULTORÍA E IMPLEMENTACIÓN TECNOLÓGICA</span><span>NEGOCIO · PROCESOS · PERSONAS</span></div>
             <div className={styles.heroGrid}>
               <div className={styles.heroCopy}>
-                <h1 id="home-title">Ayudamos a empresas a <em>crecer y operar mejor.</em></h1>
-                <p>Entendemos tu negocio, ordenamos procesos e implementamos tecnología para mejorar ventas, eficiencia y decisiones. Te acompañamos desde el diagnóstico hasta el trabajo cotidiano.</p>
+                <span className={styles.heroEyebrow}>CONSULTORÍA + IMPLEMENTACIÓN TECNOLÓGICA</span>
+                <h1 id="home-title">Tu empresa puede <em>crecer y operar mejor.</em></h1>
+                <p>En NexOps entendemos tu negocio, ordenamos procesos e implementamos tecnología para mejorar ventas, eficiencia y decisiones. Te acompañamos desde la primera conversación hasta la operación real.</p>
                 <div className={styles.heroActions}>
                   <a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Conversemos sobre tu empresa <ArrowUpRight size={18} /></a>
                   <a className={styles.quietLink} href="#nosotros">Conocé NexOps <ArrowDown size={16} /></a>
                 </div>
+                <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>Negocio primero. Tecnología con propósito.</strong><br />Consultoría e implementación en un mismo equipo.</p></div>
               </div>
-              <div className={styles.heroPanel} aria-label="Resultados que buscamos junto a cada empresa">
-                <span className={styles.panelKicker}>CUANDO TODO TRABAJA MEJOR</span>
-                <div><span>01</span><strong>Más oportunidades bien atendidas.</strong></div>
-                <div><span>02</span><strong>Menos fricción en la operación.</strong></div>
-                <div><span>03</span><strong>Decisiones con información clara.</strong></div>
-                <span className={styles.panelSignature}>NEXOPS <span>↗</span></span>
-              </div>
+              <figure className={styles.heroVisual}>
+                <img src="/assets/nexops-conversation-editorial.webp" alt="Imagen editorial de profesionales conversando sobre un proceso de negocio" fetchPriority="high" />
+                <figcaption><span>01 / ENTENDER</span><strong>La mejor solución empieza por una conversación.</strong></figcaption>
+                <small>Imagen editorial ilustrativa</small>
+              </figure>
+            </div>
+            <div className={styles.heroPanel} aria-label="Objetivos que trabajamos con cada empresa">
+              <span className={styles.panelKicker}>LO QUE BUSCAMOS MEJORAR</span>
+              <div><span>01</span><strong>Más oportunidades bien atendidas.</strong></div>
+              <div><span>02</span><strong>Menos fricción en la operación.</strong></div>
+              <div><span>03</span><strong>Decisiones con información clara.</strong></div>
             </div>
           </div>
         </section>
@@ -135,15 +140,21 @@ export default function HomePage() {
             <div className={styles.identityCopy}>
               <p className={styles.lead}>Somos una empresa de tecnología y transformación operativa. Trabajamos junto a quienes lideran negocios que necesitan crecer sin perder claridad ni control.</p>
               <p>Miramos la estrategia, las personas y los procesos antes de elegir herramientas. Después diseñamos e implementamos soluciones que se integran a la forma real de trabajar de cada organización.</p>
-              <div className={styles.peopleLine}><span>AL FRENTE DE NEXOPS</span><strong>Alan Fernández y Joaquín</strong><p>Socios que conducen el trabajo con visión de negocio y capacidad de ejecución.</p></div>
+              <div className={styles.peopleLine}><span className={styles.peopleMonogram}>N↗</span><div><span>AL FRENTE DE NEXOPS</span><strong>Alan Fernández y Joaquín</strong><p>Socios que conducen el trabajo con visión de negocio y capacidad de ejecución.</p></div></div>
             </div>
           </div>
         </section>
 
         <section className={styles.trust} aria-labelledby="trust-title">
-          <div className={`${styles.shell} ${styles.trustGrid}`}>
-            <div><span className={styles.eyebrow}>Experiencia real</span><h2 id="trust-title">Desafíos distintos.<br />El mismo foco: que funcione.</h2></div>
-            <div><p>Trabajamos en proyectos para operaciones de comercio exterior, industria B2B, distribución y educación. Desde ordenar una venta hasta conectar información y trabajo de toda una empresa.</p><a className={styles.inlineLink} href="#casos">Ver implementaciones <ArrowRight size={18} /></a></div>
+          <div className={styles.shell}>
+            <div className={styles.trustIntro}><div><span className={styles.eyebrow}>Experiencia real</span><h2 id="trust-title">No nos quedamos en la idea.<br /><em>Lo llevamos a la operación.</em></h2></div><p>Ya trabajamos en desafíos de comercio exterior, industria B2B y distribución. La experiencia cambia de sector; el compromiso de entender y ejecutar se mantiene.</p></div>
+            <div className={styles.trustCards}>
+              {selectedCases.map((caseInfo) => {
+                const source = realCases.find(({ id }) => id === caseInfo.id);
+                return <div className={styles.trustCard} key={source.id}><span>{source.sector}</span><strong>{source.title}</strong><small>{source.status}</small></div>;
+              })}
+            </div>
+            <a className={styles.inlineLink} href="#casos">Conocé estas implementaciones <ArrowRight size={18} /></a>
           </div>
         </section>
 
