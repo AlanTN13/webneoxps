@@ -21,7 +21,8 @@
 - Verificación local: `npm run lint`, `npm run build`, `npm run site:test` y `npm test` OK (73 pruebas en total). Navegador: cuatro rutas cargan con título y contenido, sin errores de consola ni imágenes rotas; anchos 390, 423, 820 y 1440 px sin desborde horizontal. Menú móvil y navegación Home → Consultoría verificados.
 - Capturas: `implementation-desktop.png`, `implementacion-mobile.png`, `consultoria-desktop.png`, `consultoria-mobile.png`, `experiencia-desktop.png`, `experiencia-mobile.png`, `formacion-desktop.png`, `formacion-mobile.png`.
 - Alcance de archivos: Home, navegación/footer, rutas, páginas institucionales, imágenes y este receipt. Sin cambios a archivos de Radar, motor editorial ni automatizaciones.
-- Preview remota del PR #76: pendiente de verificar tras push. El PR permanece en borrador y no hay merge ni cambio de producción.
+- Preview remota del PR #76: rutas `/implementacion`, `/consultoria`, `/experiencia` y `/formacion` abiertas directamente y verificadas con H1 y contenido final. Las dos imágenes cargan; la página de Experiencia muestra diez casos; sin errores de consola. Check Netlify `SUCCESS` en el commit `945603f`. Capturas `preview-implementacion.png`, `preview-consultoria.png`, `preview-experiencia.png` y `preview-formacion.png`.
+- El PR permanece en borrador y no hay merge ni cambio de producción. Gate pendiente: revisión visual/comercial de Alan.
 
 ## Knowledge Delta
 
