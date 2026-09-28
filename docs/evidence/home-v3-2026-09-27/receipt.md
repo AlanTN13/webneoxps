@@ -30,4 +30,4 @@ Pendiente de implementación y revisión visual.
 - Menú mobile: abre, enlaza a `#casos`, cierra y restaura el scroll.
 - Capturas: `desktop-hero.png`, `desktop-empresa.png`, `mobile-hero.png`, `mobile-imagen.png`, `mobile-casos.png`, `mobile-footer.png`.
 
-Preview remota del PR #76: pendiente de actualización y verificación.
+Preview remota del PR #76: verificada tras el push del commit `94d7cf1`. El hero nuevo, la imagen y las tarjetas de experiencia están presentes; la imagen cargó y no hubo errores de consola. Captura: `preview-desktop.png`. El PR sigue draft y no se hizo merge.
