@@ -26,4 +26,4 @@
 
 ## Knowledge Delta
 
-Pendiente: registrar en AlanOS el estado material del PR, sin convertir la propuesta en decisión aprobada.
+El nuevo alcance y el estado de revisión quedaron registrados y verificados en [AlanOS `834b44e`](https://github.com/AlanTN13/Alanos/commit/834b44e05f984889f05e7ad3f5d6c01bde756dbf). No se marcó la propuesta como aceptada ni lista para producción.
