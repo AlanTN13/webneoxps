@@ -223,3 +223,10 @@
 - Baseline: PR draft #76 en `e6fef63`; Alan aprobó la dirección visual de escritorio, pidió compactar el bloque «Ecosistema digital» y dar prioridad al diseño móvil de toda la Home.
 - Alcance: sólo Home. Se reducen alto, aire y escala de las tarjetas de plataformas en escritorio. En móvil se ajustan hero, tarjetas comerciales, grilla de empresas, pasos de trabajo, plataformas, bloque editorial y cierre. La tarjeta «+30 empresas más» queda debajo de DEXA también en la grilla móvil. No cambian textos, oferta, páginas internas, Radar, editorial, automatizaciones ni producción.
 - Validación focalizada: inspección visual local en 320, 390, 768 y escritorio; menú móvil abre y presenta sus enlaces; sin desborde horizontal en 320, 390 ni 768 px. Lint, build y `git diff --check` PASS. Preview del PR #76 es el gate final; sin merge.
+
+## TÍTULOS DE SERVICIOS Y CONTACTO — PATCH MODE / RECEIPT (2026-09-29)
+
+- Baseline: PR draft #76 en `48786b8`; las secciones de servicios y contacto repetían «¿Dónde está hoy el freno?». Alan pidió revisar ambos títulos a partir de capturas móviles.
+- Delta: servicios dice «Más ventas. Mejor operación.» y el cierre «Contanos qué querés mejorar.». En móvil, las dos frases del primer título se separan en líneas para conservar una lectura clara. Se mantienen las tarjetas, el texto de apoyo, los CTA y sus destinos.
+- Superficie permitida: Home y este receipt. Páginas internas, Radar, editorial, automatizaciones y producción congelados. Rollback: revertir el commit del parche.
+- Validación focalizada: lint, build, `git diff --check` y revisión visual local a 390 px de ambos títulos PASS. Preview del PR #76 como gate; sin merge.

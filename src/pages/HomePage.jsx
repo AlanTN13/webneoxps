@@ -76,7 +76,7 @@ export default function HomePage() {
     </div></div></section>
 
     <section className={styles.doors} id="soluciones" aria-labelledby="doors-title"><div className={styles.shell}>
-      <span className={styles.eyebrow}>DOS FORMAS DE AYUDARTE</span><h2 id="doors-title">¿Dónde está hoy <em>el freno?</em></h2>
+      <span className={styles.eyebrow}>DOS FORMAS DE AYUDARTE</span><h2 id="doors-title">Más ventas. <em>Mejor operación.</em></h2>
       <div className={styles.doorGrid}>
         <article className={styles.doorEcommerce}><span className={styles.doorNumber}>01 / ECOMMERCE</span><h3>Vendés online y querés crecer sin perder rentabilidad ni control.</h3><p>Ordenamos tu venta online —producto, tienda, marketplaces y campañas— para que crecer no te cueste margen.</p><ul className={styles.doorSituations}><li>Dependés demasiado de Mercado Libre.</li><li>Tu tienda tiene tráfico, pero no convierte.</li><li>Invertís en pauta sin saber qué vende.</li><li>Stock, catálogo o precios llevan demasiado trabajo manual.</li></ul><Link to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link></article>
         <article className={styles.doorConsulting}><span className={styles.doorNumber}>02 / CONSULTORÍA</span><h3>Tu ecommerce creció, pero la operación no acompañó.</h3><p>Entramos al negocio, ubicamos la fricción y definimos qué cambio vale la pena hacer primero.</p><ul className={styles.doorSituations}><li>Los pedidos pierden seguimiento entre canales.</li><li>Todo depende de una sola persona operando a mano.</li><li>Tu tienda, tu CRM y tus marketplaces no se comunican entre sí.</li><li>Tenés datos de venta, pero no sabés qué producto o canal es rentable.</li></ul><Link to="/consultoria">Quiero entender por dónde empezar <ArrowUpRight size={18} /></Link></article>
@@ -112,6 +112,6 @@ export default function HomePage() {
         <div className={styles.knowledgeStamp} aria-hidden="true"><span>IDEAS</span><strong>↗</strong><span>EN ACCIÓN</span></div>
       </div>
     </div></section>
-    <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>CÓMO PODEMOS AYUDAR A TU NEGOCIO</span><h2>¿Dónde está hoy el <em>freno?</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
+    <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>CÓMO PODEMOS AYUDAR A TU NEGOCIO</span><h2>Contanos qué <em>querés mejorar.</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
   </div></Layout>;
 }

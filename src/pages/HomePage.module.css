@@ -351,6 +351,7 @@
   .heroVisual figcaption { right: -3px; bottom: 20px; width: min(218px, 63%); padding: 14px 16px; }
   .doors { padding-block: 60px 68px; }
   .doors h2 { margin-bottom: 24px; }
+  .doors h2 em { display: block; }
   .doorGrid { gap: 12px; }
   .doorGrid article { padding: 26px 24px 25px; }
   .doorGrid h3 { margin-top: 17px; font-size: clamp(1.7rem, 7.3vw, 2rem); }
