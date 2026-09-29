@@ -89,3 +89,11 @@
 - Delta: se retiraron de `HomePage.jsx` la sección `#casos` y sus datos locales; se eliminaron sólo sus estilos ya sin uso. El texto original quedó preservado en `home-cases-removed.md` para una decisión futura. La página `/experiencia` y sus cuatro historias permanecen intactas; no se eligió una nueva ubicación.
 - Fuera de alcance: otros bloques de Home, páginas internas, Radar, automatizaciones y producción. Rollback: revertir este commit.
 - Validación local: `git diff --check`, `npm run lint` y `npm run build` PASS. En navegador a 1280 y 390 px, Home pasa directamente de autoridad a método, no contiene «Trabajo real» ni `#casos` y no desborda; `/experiencia` conserva sus cuatro historias. PR draft; sin merge ni producción.
+
+## BLOQUE EDITORIAL DE HOME — PATCH MODE / PREFLIGHT Y RECEIPT
+
+- Rol/superficie: ajuste visual focalizado de Home en el PR draft #76. Alan pidió una sección profesional inspirada en la composición de la referencia de Milbrands. Baseline web `a8c0fb4` y AlanOS `d463b59` verificados el 2026-09-28; contrato de ejecución consultado en `Alan/01_Architecture/Execution_Runtime_Contract.md`.
+- Budget/tipo/riesgo: S/T1/R1. Delta permitido: bloque «Ideas que impulsan» en `HomePage.jsx` y su CSS. Resto de Home, páginas internas, Radar, Formación, automatizaciones y producción congelados. Rollback por revert del commit.
+- Aceptación: sección con jerarquía editorial propia de NexOps, composición texto/imagen, CTA funcional a `/noticias`, responsive y sin prometer eventos o cursos no definidos. No se implementa una captura de emails sin lista conectada.
+- Se reemplazó la franja breve de texto por una sección de mayor presencia visual: título, descripción, CTA, imagen editorial ilustrativa ya existente y sello gráfico de marca. La referencia inspira la composición, sin reutilizar su texto, foto, colores ni formulario.
+- Validación local: `git diff --check`, `npm run lint` y `npm run build` PASS. Inspección visual local en móvil: texto, CTA, imagen y sello se muestran sin desborde. Pendiente de revisión en preview del PR; sin merge ni producción.

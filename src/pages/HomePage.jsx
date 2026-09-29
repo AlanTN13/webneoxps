@@ -53,7 +53,19 @@ export default function HomePage() {
       <div className={styles.methodRow}><div><span>01</span><strong>Entender</strong><p>Qué se pierde, dónde se traba y quién vive el problema.</p></div><div><span>02</span><strong>Priorizar</strong><p>Qué cambio tiene sentido ahora y qué puede esperar.</p></div><div><span>03</span><strong>Hacer</strong><p>Implementar con el equipo, no dejar un documento en un cajón.</p></div><div><span>04</span><strong>Mejorar</strong><p>Mirar el uso y los resultados para ajustar el trabajo.</p></div></div>
     </div></section>
 
-    <section className={styles.knowledge} aria-labelledby="knowledge-title"><div className={`${styles.shell} ${styles.knowledgeGrid}`}><div><span className={styles.eyebrow}>IDEAS QUE IMPULSAN</span><h2 id="knowledge-title">Ideas útiles para vender y operar mejor.</h2></div><div><p>Lo que aprendemos sobre comercio digital, procesos, datos e IA, explicado desde decisiones que una empresa tiene que tomar.</p><Link className={styles.inlineLink} to="/noticias">Explorar ideas <ArrowUpRight size={18} /></Link></div></div></section>
+    <section className={styles.knowledge} aria-labelledby="knowledge-title"><div className={`${styles.shell} ${styles.knowledgeGrid}`}>
+      <div className={styles.knowledgeCopy}>
+        <span className={styles.eyebrow}>IDEAS QUE IMPULSAN</span>
+        <h2 id="knowledge-title">Ideas para crecer <em>con mejores decisiones.</em></h2>
+        <p>Compartimos aprendizajes sobre ecommerce, procesos, datos y tecnología para quienes tienen que hacer avanzar un negocio todos los días.</p>
+        <Link className={styles.knowledgeAction} to="/noticias">Explorar las ideas <ArrowUpRight size={19} /></Link>
+        <span className={styles.knowledgeNote}>Lecturas prácticas · Mirada de negocio · Sin fórmulas mágicas</span>
+      </div>
+      <div className={styles.knowledgeVisual}>
+        <img src="/assets/nexops-implementation-editorial.webp" alt="Imagen editorial ilustrativa de un equipo analizando información de negocio" loading="lazy" />
+        <div className={styles.knowledgeStamp} aria-hidden="true"><span>IDEAS</span><strong>↗</strong><span>EN ACCIÓN</span></div>
+      </div>
+    </div></section>
     <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>HABLEMOS DE TU EMPRESA</span><h2>Contanos qué te está <em>frenando.</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
   </div></Layout>;
 }
