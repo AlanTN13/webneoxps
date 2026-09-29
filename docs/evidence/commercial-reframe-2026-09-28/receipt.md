@@ -144,3 +144,10 @@
 - Atribución: Personal y Newsan figuran bajo «Experiencia previa del equipo», separados de los clientes directos de NexOps. No se atribuyen resultados, proyectos o servicios nuevos.
 - Validación: `npm run lint` y `npm run build` PASS; inspección visual local de la Home en escritorio: logos completos y filas diferenciadas sin desborde en el bloque oscuro. PR draft y preview siguen como gate comercial, sin merge ni producción.
 - Rollback: revertir el commit de este parche.
+
+## WHATSAPP FLOTANTE EN HOME — PATCH MODE / PREFLIGHT Y RECEIPT
+
+- Baseline: PR draft #76 en `2bb2654`; Home desactivaba explícitamente el componente `FloatingWhatsApp` que `Layout` muestra por defecto. Alan pidió restaurarlo.
+- Delta: eliminar sólo esa desactivación en Home. Se conserva el componente existente, su número y mensaje configurados, el resto del diseño y las páginas internas.
+- Preservado: Radar, motor editorial, automatizaciones y producción. Reversión: revertir este commit.
+- Validación focalizada: inspección local y remota de Home en escritorio/móvil; enlace de WhatsApp, posición flotante y ausencia de desborde. Lint y build del PR; preview como gate de revisión, sin merge.

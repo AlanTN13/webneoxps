@@ -47,7 +47,7 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  return <Layout showFloatingWhatsApp={false} home><div className={styles.home}>
+  return <Layout home><div className={styles.home}>
     <section className={styles.hero} aria-labelledby="home-title"><div className={styles.shell}><div className={styles.heroGrid}>
       <div className={styles.heroCopy}>
         <span className={styles.heroEyebrow}>ECOMMERCE + CONSULTORÍA DE NEGOCIO</span>
