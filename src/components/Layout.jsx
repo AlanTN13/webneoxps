@@ -4,13 +4,13 @@ import Footer from "./Footer";
 import FloatingWhatsApp from "./FloatingWhatsApp";
 import { CONTACT_INFO } from "../config/constants";
 
-export default function Layout({ children }) {
+export default function Layout({ children, showFloatingWhatsApp = true, home = false }) {
   return (
-    <div className="site-root">
-      <Header />
+    <div className={home ? "site-root site-root--home" : "site-root"}>
+      <Header home={home} />
       <main>{children}</main>
-      <Footer />
-      <FloatingWhatsApp phone={CONTACT_INFO.WHATSAPP_NUMBER} />
+      <Footer home={home} />
+      {showFloatingWhatsApp && <FloatingWhatsApp phone={CONTACT_INFO.WHATSAPP_NUMBER} />}
     </div>
   );
 }

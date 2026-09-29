@@ -70,7 +70,7 @@ export default function Noticias() {
               <div>
                 <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-200">
                   <span className="h-px w-8 bg-indigo-300/80" aria-hidden="true" />
-                  NOVEDADES NEXOPS
+                  IDEAS QUE IMPULSAN
                 </p>
                 <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.06] tracking-[-0.035em] text-white sm:text-5xl lg:text-[3.45rem]">
                   Ideas prácticas para vender más, operar mejor y escalar con automatización e IA
@@ -178,7 +178,7 @@ export default function Noticias() {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Seguí explorando</p>
                 <h2 id="insights-heading" className="mt-1 text-xl font-semibold text-slate-950 sm:text-2xl">
-                  {activePurpose === "all" ? "Todas las novedades" : PURPOSE_OPTIONS[activePurpose].label}
+                  {activePurpose === "all" ? "Todas las ideas" : PURPOSE_OPTIONS[activePurpose].label}
                 </h2>
               </div>
               <span className="shrink-0 text-sm text-slate-500">{visiblePosts.length} {visiblePosts.length === 1 ? "artículo" : "artículos"}</span>
