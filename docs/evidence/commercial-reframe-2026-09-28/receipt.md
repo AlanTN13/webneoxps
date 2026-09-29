@@ -178,3 +178,9 @@
 - Precisión: Alan aclaró que las nuevas marcas se muestran como parte del ecosistema digital, sin afirmar experiencia directa, partnership ni certificación. Por eso el bloque se titula «Plataformas que impulsan negocios» y el rótulo es «Ecosistema digital».
 - Delta visual: fondo `#2e273f` igual a «Por qué NexOps», tarjetas lila translúcido y segunda fila centrada. Se conservan las páginas internas, Radar, editorial, automatizaciones y producción.
 - Validación focalizada: lint, build, `git diff --check` y revisión visual local de escritorio; nueve tarjetas legibles, sin duplicado de Tiendanube ni desborde. Preview del PR como gate, sin merge; rollback por reversión del commit.
+
+## ORDEN Y RÓTULO DE EMPRESAS — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `1885a48`; Alan pidió «Algunas empresas con las que trabajamos» y que Personal y Newsan sean las primeras marcas de la grilla.
+- Delta: sólo cambia el texto del rótulo y el orden de dos logos. Se conserva la aclaración sobre experiencia del equipo y el resto de Home. Radar, páginas internas y producción congelados.
+- Validación focalizada: lint, build, `git diff --check` y revisión de la preview. Reversión por commit; sin merge.
