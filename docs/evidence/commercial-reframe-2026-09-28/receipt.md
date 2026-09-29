@@ -190,3 +190,10 @@
 - Baseline: PR draft #76 en `71c7712`; Alan definió «Tecnología para vender mejor» como eslogan de NexOps.
 - Delta: se reemplaza únicamente la descripción bajo la marca en el pie de página por el eslogan aprobado. Sin cambios de oferta, metadatos, Radar, editorial ni producción.
 - Validación focalizada: lint, build, `git diff --check` y preview del PR; sin merge.
+
+## LOGOS DEL ECOSISTEMA DIGITAL — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `bd282d4`; sólo Meta tenía una imagen de marca en la franja. Las otras ocho tarjetas mostraban texto estilizado.
+- Delta: las nueve tarjetas usan archivos gráficos locales con el logo/wordmark de cada plataforma. Se conserva la composición lila y el tratamiento monocromo; no se declara partnership ni experiencia directa nueva.
+- Fuentes de assets: logo existente de Meta; wordmark de Tiendanube extraído de su sitio; Kommo y e.tres de sus sitios oficiales; Mercado Libre, n8n, VTEX, Shopify y TikTok de Wikimedia Commons. Los SVG se revisaron para descartar scripts y recursos remotos.
+- Validación focalizada: vista local de escritorio y móvil, lint, build, `git diff --check` y preview del PR; sin merge.

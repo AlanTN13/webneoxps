@@ -18,14 +18,14 @@ const clientLogos = [
 ];
 const platforms = [
   { name: "Meta", logo: "/meta.svg" },
-  { name: "Mercado Libre", className: "mercado" },
-  { name: "Tiendanube", className: "tiendanube" },
-  { name: "Kommo", className: "kommo" },
-  { name: "n8n", className: "n8n" },
-  { name: "VTEX", className: "vtex" },
-  { name: "E3", className: "e3" },
-  { name: "Shopify", className: "shopify" },
-  { name: "TikTok", className: "tiktok" },
+  { name: "Mercado Libre", logo: "/assets/platform-logos/mercado-libre.svg" },
+  { name: "Tiendanube", logo: "/assets/platform-logos/tiendanube.svg" },
+  { name: "Kommo", logo: "/assets/platform-logos/kommo.png" },
+  { name: "n8n", logo: "/assets/platform-logos/n8n.svg" },
+  { name: "VTEX", logo: "/assets/platform-logos/vtex.svg" },
+  { name: "E3", logo: "/assets/platform-logos/e3.png" },
+  { name: "Shopify", logo: "/assets/platform-logos/shopify.svg" },
+  { name: "TikTok", logo: "/assets/platform-logos/tiktok.svg" },
 ];
 export default function HomePage() {
   const methodRef = useRef(null);
@@ -89,7 +89,7 @@ export default function HomePage() {
     <section className={styles.platforms} aria-labelledby="platforms-title"><div className={styles.shell}>
       <span className={styles.platformsEyebrow}>ECOSISTEMA DIGITAL</span>
       <h2 id="platforms-title">Plataformas que <em>impulsan negocios.</em></h2>
-      <div className={styles.platformGrid}>{platforms.map(({ name, logo, className }) => <div className={styles.platformCard} key={name}>{logo ? <img src={logo} alt={name} loading="lazy" /> : <span className={styles[className]}>{name}</span>}</div>)}</div>
+      <div className={styles.platformGrid}>{platforms.map(({ name, logo }) => <div className={styles.platformCard} key={name}><img src={logo} alt={name} loading="lazy" /></div>)}</div>
     </div></section>
 
     <section className={styles.knowledge} aria-labelledby="knowledge-title"><div className={`${styles.shell} ${styles.knowledgeGrid}`}>
