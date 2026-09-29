@@ -203,3 +203,10 @@
 - Baseline: PR draft #76 en `7f453f2`; Alan pidió incorporar Juleriaque a la franja de empresas y añadir «+30 empresas más» debajo de Edelvives.
 - Delta: se agrega el logo de Juleriaque, obtenido de su tienda oficial en Mercado Libre y adaptado visualmente al fondo lila mediante CSS. El dato «+30 empresas más», provisto por Alan, aparece como segunda línea de la tarjeta Edelvives. Se mantiene la aclaración de clientes de NexOps y experiencia del equipo.
 - Validación focalizada: revisión local de escritorio y móvil, lint, build, `git diff --check` y preview del PR. Sin cambios a Radar, editorial, automatizaciones, páginas internas ni producción.
+
+## GOOGLE ADS, ANALYTICS Y BI — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `84c69b5`; Alan pidió sumar Google Ads, Google Analytics, Tableau y Power BI al bloque «Ecosistema digital» de la Home.
+- Delta: cuatro tarjetas adicionales con logos locales, en el mismo tratamiento claro sobre lila. Los símbolos compactos de Ads, Analytics y Power BI llevan su nombre visible; Tableau usa su wordmark. No se afirma partnership, certificación ni experiencia directa con estas plataformas.
+- Assets: Google Ads, Google Analytics y Power BI de Wikimedia Commons; Tableau del archivo de Wikipedia. Se revisaron los SVG para descartar scripts y recursos remotos.
+- Alcance: sólo la Home y estos assets; sin cambios en Radar, editorial, automatizaciones, páginas internas o producción. Validación: lint, build, `git diff --check` y revisión visual local de escritorio; preview del PR como gate.

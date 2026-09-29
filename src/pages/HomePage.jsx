@@ -19,6 +19,8 @@ const clientLogos = [
 ];
 const platforms = [
   { name: "Meta", logo: "/meta.svg" },
+  { name: "Google Ads", logo: "/assets/platform-logos/googleads.svg", icon: true },
+  { name: "Google Analytics", logo: "/assets/platform-logos/googleanalytics.svg", icon: true },
   { name: "Mercado Libre", logo: "/assets/platform-logos/mercado-libre.svg" },
   { name: "Tiendanube", logo: "/assets/platform-logos/tiendanube.svg" },
   { name: "Kommo", logo: "/assets/platform-logos/kommo.png" },
@@ -27,6 +29,8 @@ const platforms = [
   { name: "E3", logo: "/assets/platform-logos/e3.png" },
   { name: "Shopify", logo: "/assets/platform-logos/shopify.svg" },
   { name: "TikTok", logo: "/assets/platform-logos/tiktok.svg" },
+  { name: "Tableau", logo: "/assets/platform-logos/tableau.svg" },
+  { name: "Power BI", logo: "/assets/platform-logos/powerbi.svg", icon: true },
 ];
 export default function HomePage() {
   const methodRef = useRef(null);
@@ -90,7 +94,7 @@ export default function HomePage() {
     <section className={styles.platforms} aria-labelledby="platforms-title"><div className={styles.shell}>
       <span className={styles.platformsEyebrow}>ECOSISTEMA DIGITAL</span>
       <h2 id="platforms-title">Plataformas que <em>impulsan negocios.</em></h2>
-      <div className={styles.platformGrid}>{platforms.map(({ name, logo }) => <div className={styles.platformCard} key={name}><img src={logo} alt={name} loading="lazy" /></div>)}</div>
+      <div className={styles.platformGrid}>{platforms.map(({ name, logo, icon }) => <div className={`${styles.platformCard} ${icon ? styles.platformIconCard : ""}`} key={name}><img src={logo} alt={icon ? "" : name} loading="lazy" />{icon && <span>{name}</span>}</div>)}</div>
     </div></section>
 
     <section className={styles.knowledge} aria-labelledby="knowledge-title"><div className={`${styles.shell} ${styles.knowledgeGrid}`}>

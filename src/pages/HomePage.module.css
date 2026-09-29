@@ -269,6 +269,9 @@
 .platformCard { display: grid; flex: 0 1 calc((100% - 56px) / 5); min-width: 0; min-height: 126px; place-items: center; padding: 20px; border: 1px solid #ffffff26; background: #ffffff0b; box-shadow: 0 16px 34px #0000001f; transition: transform .24s ease, border-color .24s ease, background .24s ease; }
 .platformCard:hover { transform: translateY(-5px); border-color: #bbaaf5; background: #ffffff18; }
 .platformCard img { display: block; width: min(160px, 100%); height: 58px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); }
+.platformIconCard { display: flex; justify-content: center; gap: 10px; }
+.platformIconCard img { width: 36px; height: 43px; }
+.platformIconCard span { color: #fff; font-size: clamp(.88rem, 1.35vw, 1.15rem); font-weight: 690; line-height: 1.1; }
 .methodSection { padding: 86px 0 94px; }
 .methodIntro { max-width: 800px; }
 .methodIntro p { max-width: 650px; margin-top: 14px; color: var(--muted); }
