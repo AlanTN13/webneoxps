@@ -60,3 +60,11 @@
 - Delta autorizado: reemplazar sólo título, subtítulo, línea de respaldo y CTA del hero de Home por el texto entregado por Alan. CTA «Contanos tu caso» enlazado a la sección de contacto existente; las dos puertas y sus CTAs permanecen debajo.
 - Validación focalizada: `git diff --check`, `npm run lint` y `npm run build` PASS. Revisión local desktop/mobile: H1, subtítulo, respaldo y CTA visibles, sin desborde horizontal; el CTA llega a `#contacto`. Capturas: `home-header-copy-desktop.jpg` y `home-header-copy-mobile.jpg`.
 - Rollback: revertir el commit de este parche. Gate: PR draft y preview para revisión de Alan; no merge ni producción.
+
+## AJUSTE DE LAS DOS PUERTAS DE HOME — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `cbedc06`; AlanOS `27c179a` verificado contra `origin/main` el 2026-09-28. Se conserva diseño, estructura, rutas y CTA de las dos tarjetas.
+- Delta autorizado: usar el texto de la segunda imagen enviada por Alan en Ecommerce y Consultoría. Ecommerce conserva título, síntomas y CTA; cambia el párrafo para vincular crecimiento con margen. Consultoría se enfoca en ecommerce que creció sin operación acorde y reemplaza los cuatro síntomas por pedidos, dependencia manual, sistemas desconectados y rentabilidad por producto/canal.
+- Fuera de alcance: hero de Home, páginas internas, Radar, Formación y producción. Reversión: revertir este commit.
+- Validación: `git diff --check`, `npm run lint` y `npm run build` PASS. Revisión responsive a 1280 y 390 px: ambas tarjetas contienen el texto y los CTAs sin desborde horizontal ni interno. Captura desktop: `home-doors-copy-desktop.jpg`.
+- Gate: preview del PR draft para revisión comercial de Alan; sin merge ni producción.
