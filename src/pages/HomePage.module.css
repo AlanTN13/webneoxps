@@ -249,11 +249,13 @@
 .authorityTop { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(35px, 7vw, 105px); }
 .authorityTop > div:last-child { padding-top: 24px; }
 .authorityTop p { max-width: 520px; margin-bottom: 15px; color: #e0dbe8; font-size: 1.03rem; }
-.clientLine { display: grid; grid-template-columns: 220px 1fr; gap: 25px; align-items: start; margin-top: 42px; padding-top: 22px; border-top: 1px solid #665a77; }
+.clientLine { display: grid; grid-template-columns: 220px 1fr; gap: 25px; align-items: center; margin-top: 30px; padding-top: 22px; border-top: 1px solid #665a77; }
 .clientLine > span { color: #c8bafa; font-size: .72rem; font-weight: 720; letter-spacing: .1em; }
-.clientLine > div { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 29px; }
-.clientLine img { display: block; width: 78px; height: 58px; object-fit: contain; filter: brightness(0) invert(1); }
-.clientLine strong { color: #fff; font-size: 1.12rem; font-weight: 610; letter-spacing: -.025em; }
+.logoWall { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.logoItem { display: grid; width: 132px; height: 72px; place-items: center; overflow: hidden; padding: 12px; border: 1px solid #ffffff24; border-radius: 13px; background: #ffffff0b; }
+.logoItem img { display: block; width: 108px; height: 48px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); }
+.logoOriginal img { max-width: 105px; max-height: 56px; border-radius: 4px; filter: none; }
+.logoItem strong { color: #fff; font-size: 1.22rem; font-weight: 700; letter-spacing: -.045em; }
 .methodSection { padding: 86px 0 94px; }
 .methodIntro { max-width: 800px; }
 .methodIntro p { max-width: 650px; margin-top: 14px; color: var(--muted); }

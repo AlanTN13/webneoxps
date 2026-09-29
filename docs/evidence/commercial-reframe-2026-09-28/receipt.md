@@ -136,3 +136,11 @@
 
 - Baseline `110cc9e` del PR draft #76 y AlanOS `f53700c`; contrato de ejecución consultado. Alan señaló las tres fichas de Sommier Magno, Casa Italia y OnlySellers y pidió quitarlas de Home. S/T1/R0. Se elimina sólo ese bloque y sus estilos; permanece la franja «Empresas con las que trabajamos» y la página Experiencia. Radar, automatizaciones y producción fuera de alcance. Reversible por commit.
 - Aceptación: el bloque de autoridad pasa de los párrafos a la franja de empresas sin hueco ni fichas; lint, build y preview desktop/mobile.
+
+## LOGOS EN HOME — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `6482273`; se conserva el bloque «Por qué NexOps», navegación, páginas internas, Radar y producción.
+- Delta autorizado: reemplazar nombres tipográficos de la franja de Home por los logos entregados de Kenta, Garnet, OnlySellers, Erway/Sommier Magno y DEXA; conservar GlobalTrip y Punky. Incorporar logos oficiales de Edelvives y Personal; reutilizar el SVG de Newsan ya presente. Erway representa a Sommier Magno, no un cliente adicional. Garnet fue confirmado como cliente por Alan.
+- Atribución: Personal y Newsan figuran bajo «Experiencia previa del equipo», separados de los clientes directos de NexOps. No se atribuyen resultados, proyectos o servicios nuevos.
+- Validación: `npm run lint` y `npm run build` PASS; inspección visual local de la Home en escritorio: logos completos y filas diferenciadas sin desborde en el bloque oscuro. PR draft y preview siguen como gate comercial, sin merge ni producción.
+- Rollback: revertir el commit de este parche.
