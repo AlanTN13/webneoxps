@@ -66,6 +66,6 @@ export default function HomePage() {
         <div className={styles.knowledgeStamp} aria-hidden="true"><span>IDEAS</span><strong>↗</strong><span>EN ACCIÓN</span></div>
       </div>
     </div></section>
-    <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>HABLEMOS DE TU EMPRESA</span><h2>Contanos qué te está <em>frenando.</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
+    <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>CÓMO PODEMOS AYUDAR A TU NEGOCIO</span><h2>¿Dónde está hoy el <em>freno?</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
   </div></Layout>;
 }

@@ -115,3 +115,8 @@
 
 - Baseline `10a2376` del PR draft #76 y AlanOS `a524e9f`; contrato de ejecución consultado. Alan pidió cambiar sólo «redes» por «redes sociales» en el subtítulo del hero de Home. S/T1/R0; el resto de Home, páginas internas, Radar, automatizaciones y producción quedan congelados. Reversible por commit.
 - Aceptación: frase exacta en preview, sin cambio de composición ni desborde; validar diff, lint y build.
+
+## COPY DEL CIERRE DE HOME — PATCH MODE / RECEIPT
+
+- Baseline `95bea4b` del PR draft #76 y AlanOS `fc3b06c`; contrato de ejecución consultado. Alan pidió reemplazar sólo el rótulo y título del bloque de contacto por «Cómo podemos ayudar a tu negocio» y «¿Dónde está hoy el freno?». S/T1/R0; se conserva párrafo, CTA, estructura y demás páginas. Radar, automatizaciones y producción fuera de alcance; reversible por commit.
+- Aceptación: textos pedidos visibles en preview, sin desborde y con CTA intacto; diff, lint y build focalizados.
