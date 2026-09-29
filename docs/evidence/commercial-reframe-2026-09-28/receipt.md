@@ -82,3 +82,10 @@
 - Los ejemplos y nombres de clientes, la composición, los enlaces y el resto de la Home quedaron intactos.
 - `git diff --check`, `npm run lint` y `npm run build` PASS. Inspección en navegador a 1280 y 390 px: texto correcto y sin desborde horizontal. Captura: `home-authority-copy-desktop.jpg`.
 - Estado: listo para preview del PR draft #76 y revisión de Alan; sin merge ni producción.
+
+## RETIRO DE «TRABAJO REAL» EN HOME — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `a4b89c5`; AlanOS `257bd6a` verificado contra `origin/main` el 2026-09-28. Alan pidió retirar de Home el bloque de tres casos y guardar el contenido mientras se decide dónde ubicarlo.
+- Delta: se retiraron de `HomePage.jsx` la sección `#casos` y sus datos locales; se eliminaron sólo sus estilos ya sin uso. El texto original quedó preservado en `home-cases-removed.md` para una decisión futura. La página `/experiencia` y sus cuatro historias permanecen intactas; no se eligió una nueva ubicación.
+- Fuera de alcance: otros bloques de Home, páginas internas, Radar, automatizaciones y producción. Rollback: revertir este commit.
+- Validación local: `git diff --check`, `npm run lint` y `npm run build` PASS. En navegador a 1280 y 390 px, Home pasa directamente de autoridad a método, no contiene «Trabajo real» ni `#casos` y no desborda; `/experiencia` conserva sus cuatro historias. PR draft; sin merge ni producción.

@@ -6,12 +6,6 @@ import { CALENDLY_LINK } from "../config/constants";
 import styles from "./HomePage.module.css";
 
 const clients = ["OnlySellers", "Sommier Magno", "Casa Italia", "Dexa / Kahuna", "Kenta", "Edelvives", "Punky"];
-const proof = [
-  { client: "Sommier Magno", category: "ECOMMERCE Y MARKETPLACE", problem: "Lanzar web y Mercado Libre con catálogo, contenido y economía de canal coordinados.", work: "Acompañamos una salida por etapas, desde el catálogo piloto y las publicaciones hasta la preparación de contenido y pauta.", result: "Un piloto ordenado por catálogo y validaciones comerciales antes de ampliar la pauta.", href: "/experiencia#sommier-magno" },
-  { client: "OnlySellers", category: "EMAIL Y RELACIÓN CON CLIENTES", problem: "Sostener comunicación comercial sin improvisar cada envío.", work: "Organizamos segmentación, calendario y una biblioteca editorial para alimentar campañas de email.", result: "Un circuito de comunicación activo que permite revisar y ajustar cada campaña.", href: "/experiencia#onlysellers" },
-  { client: "Casa Italia", category: "OPERACIÓN Y SISTEMAS", problem: "Reunir pedidos, compras, productos y precios en un mismo trabajo comercial.", work: "Desarrollamos un ERP a medida y lo incorporamos a la operación por circuitos.", result: "Un sistema comercial en producción, con evolución guiada por el uso real.", href: "/experiencia#casa-italia" },
-];
-
 export default function HomePage() {
   useEffect(() => {
     document.title = "NexOps — Ecommerce y consultoría para crecer y operar mejor";
@@ -52,12 +46,6 @@ export default function HomePage() {
       <div className={styles.authorityTop}><div><span className={styles.eyebrow}>POR QUÉ NEXOPS</span><h2 id="authority-title">Más de 10 años escalando negocios <em>con estrategia y tecnología.</em></h2></div><div><p>Con un equipo multidisciplinario, con amplia experiencia en distintos rubros y presencia en toda Latinoamérica, nos convertimos en tu aliado estratégico para crecer tu negocio digital.</p><p>Los procesos, la tecnología y los datos son nuestros pilares. Toda estrategia de crecimiento necesita estar fundamentada en eso — ya sea en anuncios, sitio web, mailing, tienda online o marketplaces.</p></div></div>
       <div className={styles.authorityExamples}><div><strong>Sommier Magno</strong><span>Catálogo, web y Mercado Libre en una salida piloto.</span></div><div><strong>Casa Italia</strong><span>ERP comercial a medida en producción.</span></div><div><strong>OnlySellers</strong><span>Operación de email con segmentación y calendario.</span></div></div>
       <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div><img src="/globaltrip_logo.svg" alt="GlobalTrip" loading="lazy" />{clients.map((name) => <strong key={name}>{name}</strong>)}</div></div>
-    </div></section>
-
-    <section className={styles.proofSection} id="casos" aria-labelledby="cases-title"><div className={styles.shell}>
-      <div className={styles.proofIntro}><div><span className={styles.eyebrow}>TRABAJO REAL</span><h2 id="cases-title">Clientes con nombre. <em>Problemas con contexto.</em></h2></div><p>En cada proyecto entramos por una situación concreta. Acá podés ver qué hicimos y qué quedó funcionando o en marcha.</p></div>
-      <div className={styles.proofGrid}>{proof.map((item) => <article key={item.client}><span>{item.category}</span><h3>{item.client}</h3><p><strong>El problema:</strong> {item.problem}</p><p><strong>Qué hicimos:</strong> {item.work}</p><p><strong>Qué cambió:</strong> {item.result}</p><Link to={item.href}>Ver el caso <ArrowRight size={17} /></Link></article>)}</div>
-      <Link className={styles.inlineLink} to="/experiencia">Conocer nuestra experiencia <ArrowRight size={18} /></Link>
     </div></section>
 
     <section className={styles.methodSection} id="como-funciona" aria-labelledby="method-title"><div className={styles.shell}>
