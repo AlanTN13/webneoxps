@@ -53,3 +53,10 @@
 - Hallazgo diferido: la prueba social podría ampliarse con otros logos o métricas sólo cuando exista material autorizado y verificable; no es requisito para esta preview.
 - Knowledge Delta: esta iteración ajusta lenguaje, prioridad visual y prueba de la arquitectura Ecommerce/Consultoría ya aprobada. No crea una tercera oferta ni cambia Radar, Formación, Talento o el principio de marca.
 - Estado de entrega: cambio comercial y capturas publicados en [`e0fa46c`](https://github.com/AlanTN13/webneoxps/commit/e0fa46c8c1482d5cb7fd9aa7ef930642ab6ca2d9) del [PR draft #76](https://github.com/AlanTN13/webneoxps/pull/76). `validate`, Vercel y deploy-preview de Netlify terminaron en PASS. La [preview remota](https://deploy-preview-76--webnexops.netlify.app/) mostró las cuatro rutas con H1 correctos y sin desborde horizontal; el SVG de GlobalTrip cargó, no aparecieron enlaces a Formación y la consola no mostró errores. Pendiente de revisión y aceptación comercial de Alan; sin merge ni producción.
+
+## AJUSTE DEL TEXTO PRINCIPAL DE HOME — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `fc95e9b`; AlanOS `8c5f3fd` y contrato de ejecución verificados contra `origin/main` el 2026-09-28. El resto de la Home, páginas internas, Radar, Formación y producción quedan congelados.
+- Delta autorizado: reemplazar sólo título, subtítulo, línea de respaldo y CTA del hero de Home por el texto entregado por Alan. CTA «Contanos tu caso» enlazado a la sección de contacto existente; las dos puertas y sus CTAs permanecen debajo.
+- Validación focalizada: `git diff --check`, `npm run lint` y `npm run build` PASS. Revisión local desktop/mobile: H1, subtítulo, respaldo y CTA visibles, sin desborde horizontal; el CTA llega a `#contacto`. Capturas: `home-header-copy-desktop.jpg` y `home-header-copy-mobile.jpg`.
+- Rollback: revertir el commit de este parche. Gate: PR draft y preview para revisión de Alan; no merge ni producción.

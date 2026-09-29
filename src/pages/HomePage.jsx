@@ -32,10 +32,10 @@ export default function HomePage() {
     <section className={styles.hero} aria-labelledby="home-title"><div className={styles.shell}><div className={styles.heroGrid}>
       <div className={styles.heroCopy}>
         <span className={styles.heroEyebrow}>ECOMMERCE + CONSULTORÍA DE NEGOCIO</span>
-        <h1 id="home-title">Vendé mejor. <em>Operá con menos fricción.</em></h1>
-        <p>Si tu ecommerce no rinde como debería o tu empresa creció más rápido que sus procesos, entramos al negocio para encontrar qué lo frena. Primero entendemos la venta y la operación; después usamos tecnología donde realmente sirve.</p>
-        <div className={styles.heroActions}><Link className={styles.primary} to="/ecommerce">Quiero potenciar mi ecommerce <ArrowUpRight size={18} /></Link><Link className={styles.quietLink} to="/consultoria">Necesito ordenar mi empresa <ArrowRight size={18} /></Link></div>
-        <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>Primero el negocio. Después la tecnología.</strong><br />Experiencia en canales de venta, procesos y sistemas reales.</p></div>
+        <h1 id="home-title">Hacemos que tu negocio online <em>genere más ingresos.</em></h1>
+        <p>Escalamos tu ecommerce, Mercado Libre y redes, con equipo, procesos y tecnología. Porque generar ingresos no alcanza si no se traducen en ganancia real.</p>
+        <div className={styles.heroActions}><a className={styles.primary} href="#contacto">Contanos tu caso <ArrowRight size={18} /></a></div>
+        <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>+10 años ayudando negocios a crecer sus canales digitales de manera sostenida.</strong></p></div>
       </div>
       <figure className={styles.heroVisual}><img src="/assets/nexops-conversation-editorial.webp" alt="Imagen editorial ilustrativa de profesionales conversando sobre un negocio" fetchPriority="high" /><figcaption><span>ENTENDER → ACTUAR</span><strong>El punto de partida es lo que hoy le pasa a tu empresa.</strong></figcaption><small>Imagen editorial ilustrativa</small></figure>
     </div></div></section>
