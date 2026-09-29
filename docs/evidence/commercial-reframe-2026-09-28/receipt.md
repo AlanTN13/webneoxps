@@ -151,3 +151,10 @@
 - Delta: eliminar sólo esa desactivación en Home. Se conserva el componente existente, su número y mensaje configurados, el resto del diseño y las páginas internas.
 - Preservado: Radar, motor editorial, automatizaciones y producción. Reversión: revertir este commit.
 - Validación focalizada: inspección local y remota de Home en escritorio/móvil; enlace de WhatsApp, posición flotante y ausencia de desborde. Lint y build del PR; preview como gate de revisión, sin merge.
+
+## FRANJA DE TECNOLOGÍAS EN HOME — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `38fac50`; Alan pidió un bloque visual como la referencia de tarjetas de plataformas.
+- Delta: nueva franja oscura entre «Cómo trabajamos» e «Ideas que impulsan», con Meta, Mercado Libre, Tiendanube, Kommo y n8n. El título describe tecnologías de trabajo; no atribuye partnerships ni certificaciones. Las cinco plataformas tienen uso respaldado por los frentes de NexOps en AlanOS.
+- Superficies congeladas: páginas internas, Radar, motor editorial, automatizaciones y producción. Rollback: revertir el commit de este parche.
+- Validación focalizada: lint y build PASS; inspección visual local de escritorio: tarjetas y títulos legibles, sin desborde. Preview del PR draft como gate comercial, sin merge.

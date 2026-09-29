@@ -18,6 +18,13 @@ const teamExperienceLogos = [
   { name: "Personal", src: "/assets/company-logos/personal.svg" },
   { name: "Newsan", src: "/newsan_logo.svg" },
 ];
+const platforms = [
+  { name: "Meta", logo: "/meta.svg" },
+  { name: "Mercado Libre", className: "mercado" },
+  { name: "Tiendanube", className: "tiendanube" },
+  { name: "Kommo", className: "kommo" },
+  { name: "n8n", className: "n8n" },
+];
 export default function HomePage() {
   const methodRef = useRef(null);
   useEffect(() => {
@@ -76,6 +83,12 @@ export default function HomePage() {
     <section ref={methodRef} className={styles.methodSection} id="como-funciona" aria-labelledby="method-title"><div className={styles.shell}>
       <div className={styles.methodIntro}><span className={styles.eyebrow}>CÓMO TRABAJAMOS</span><h2 id="method-title">Primero el problema. <em>Después la solución.</em></h2><p>Revisamos el negocio con vos, elegimos una prioridad, la ponemos a trabajar y ajustamos con lo que muestra la operación.</p></div>
       <div className={styles.methodRow}><div><span>01</span><strong>Entender</strong><p>Qué se pierde, dónde se traba y quién vive el problema.</p></div><div><span>02</span><strong>Priorizar</strong><p>Qué cambio tiene sentido ahora y qué puede esperar.</p></div><div><span>03</span><strong>Hacer</strong><p>Implementar con el equipo, no dejar un documento en un cajón.</p></div><div><span>04</span><strong>Mejorar</strong><p>Mirar el uso y los resultados para ajustar el trabajo.</p></div></div>
+    </div></section>
+
+    <section className={styles.platforms} aria-labelledby="platforms-title"><div className={styles.shell}>
+      <span className={styles.platformsEyebrow}>ECOSISTEMA DE TRABAJO</span>
+      <h2 id="platforms-title">Tecnologías con las que <em>hacemos avanzar negocios.</em></h2>
+      <div className={styles.platformGrid}>{platforms.map(({ name, logo, className }) => <div className={styles.platformCard} key={name}>{logo ? <img src={logo} alt={name} loading="lazy" /> : <span className={styles[className]}>{name}</span>}</div>)}</div>
     </div></section>
 
     <section className={styles.knowledge} aria-labelledby="knowledge-title"><div className={`${styles.shell} ${styles.knowledgeGrid}`}>
