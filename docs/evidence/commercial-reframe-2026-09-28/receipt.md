@@ -184,3 +184,9 @@
 - Baseline: PR draft #76 en `1885a48`; Alan pidió «Algunas empresas con las que trabajamos» y que Personal y Newsan sean las primeras marcas de la grilla.
 - Delta: sólo cambia el texto del rótulo y el orden de dos logos. Se conserva la aclaración sobre experiencia del equipo y el resto de Home. Radar, páginas internas y producción congelados.
 - Validación focalizada: lint, build, `git diff --check` y revisión de la preview. Reversión por commit; sin merge.
+
+## ESLOGAN DEL PIE — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `71c7712`; Alan definió «Tecnología para vender mejor» como eslogan de NexOps.
+- Delta: se reemplaza únicamente la descripción bajo la marca en el pie de página por el eslogan aprobado. Sin cambios de oferta, metadatos, Radar, editorial ni producción.
+- Validación focalizada: lint, build, `git diff --check` y preview del PR; sin merge.

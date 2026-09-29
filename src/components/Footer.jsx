@@ -11,7 +11,7 @@ const explore = [
 ];
 
 function Brand() {
-  return <div className="site-footer__brand"><Link to="/"><img src="/nexops-mark.webp" alt="" width="128" height="128" /><span>NexOps</span></Link><p>Ecommerce y consultoría para empresas que quieren vender mejor y operar con menos fricción.</p></div>;
+  return <div className="site-footer__brand"><Link to="/"><img src="/nexops-mark.webp" alt="" width="128" height="128" /><span>NexOps</span></Link><p>Tecnología para vender mejor</p></div>;
 }
 
 function Contact() {
