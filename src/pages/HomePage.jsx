@@ -13,11 +13,11 @@ const clientLogos = [
   { name: "Erway (Sommier Magno)", src: "/assets/company-logos/erway.png", originalColor: true },
   { name: "DEXA", src: "/assets/company-logos/dexa.png", originalColor: true },
   { name: "Kenta", src: "/assets/company-logos/kenta.webp" },
-  { name: "+30 empresas más", more: true },
   { name: "Edelvives", src: "/assets/company-logos/edelvives.svg" },
   { name: "Juleriaque", src: "/assets/company-logos/juleriaque.webp", darkOnLight: true },
   { name: "Garnet Academy", src: "/assets/company-logos/garnet.png" },
   { name: "Punky" },
+  { name: "+30 empresas más", more: true },
 ];
 const platforms = [
   { name: "Meta", logo: "/meta.svg" },

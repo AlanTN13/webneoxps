@@ -257,7 +257,6 @@
 .logoOriginal { padding: 7px; }
 .logoOriginal img { width: 112px; height: 56px; border-radius: 4px; filter: grayscale(1) brightness(1.2); }
 .logoItem strong { color: #fff; font-size: 1.22rem; font-weight: 700; letter-spacing: -.045em; }
-.logoMore { order: 1; }
 .logoMore strong { color: #c8bafa; font-size: .85rem; font-weight: 750; letter-spacing: 0; text-align: center; line-height: 1.2; }
 .platforms { position: relative; overflow: hidden; padding: 58px 0 64px; background: #2e273f; color: #fff; }
 .platforms .shell { position: relative; }
@@ -362,7 +361,6 @@
   .clientLine { margin-top: 27px; padding-top: 24px; gap: 20px; }
   .clientLabel small { max-width: none; }
   .logoWall { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .logoMore { order: 0; }
   .logoItem { width: 100%; height: 76px; }
   .logoItem img { max-width: 82%; }
   .methodSection { padding-block: 64px 70px; }

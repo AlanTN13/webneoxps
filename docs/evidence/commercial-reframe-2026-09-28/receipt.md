@@ -230,3 +230,10 @@
 - Delta: servicios dice «Más ventas. Mejor operación.» y el cierre «Contanos qué querés mejorar.». En móvil, las dos frases del primer título se separan en líneas para conservar una lectura clara. Se mantienen las tarjetas, el texto de apoyo, los CTA y sus destinos.
 - Superficie permitida: Home y este receipt. Páginas internas, Radar, editorial, automatizaciones y producción congelados. Rollback: revertir el commit del parche.
 - Validación focalizada: lint, build, `git diff --check` y revisión visual local a 390 px de ambos títulos PASS. Preview del PR #76 como gate; sin merge.
+
+## ORDEN FINAL DE «+30 EMPRESAS MÁS» EN MÓVIL — PATCH MODE / RECEIPT (2026-09-29)
+
+- Baseline: PR draft #76 en `705c8e6`; en móvil la tarjeta «+30 empresas más» aparecía entre Kenta y Edelvives, antes de cuatro marcas, como mostró Alan en su captura.
+- Corrección: la tarjeta pasa al final de la lista de empresas, después de Punky, tanto en el orden visual como en el del contenido. Se retiran reglas de orden que ya no hacen falta. En escritorio sigue cerrando la franja.
+- Alcance: sólo Home y este receipt. Se preservan logos, textos, grillas y otras secciones. Reversión por commit; sin merge ni producción.
+- Validación focalizada: lint, build y `git diff --check` PASS; preview móvil del PR #76 pendiente como gate visual.
