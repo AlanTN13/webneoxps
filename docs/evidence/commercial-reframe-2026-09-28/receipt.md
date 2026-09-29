@@ -217,3 +217,9 @@
 - Corrección explícita de Alan: mostrar «+30 empresas más» en una tarjeta propia debajo de DEXA, manteniendo Edelvives sólo como logo.
 - Delta: el texto pasa a la última tarjeta de la segunda fila de empresas; conserva el fondo lila, borde y dimensiones del conjunto. No cambia la lista ni se atribuye experiencia directa adicional.
 - Validación: lint, build, `git diff --check` y revisión visual local de escritorio PASS. Alcance limitado a Home; sin merge ni producción.
+
+## RESPONSIVE DE HOME — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `e6fef63`; Alan aprobó la dirección visual de escritorio, pidió compactar el bloque «Ecosistema digital» y dar prioridad al diseño móvil de toda la Home.
+- Alcance: sólo Home. Se reducen alto, aire y escala de las tarjetas de plataformas en escritorio. En móvil se ajustan hero, tarjetas comerciales, grilla de empresas, pasos de trabajo, plataformas, bloque editorial y cierre. La tarjeta «+30 empresas más» queda debajo de DEXA también en la grilla móvil. No cambian textos, oferta, páginas internas, Radar, editorial, automatizaciones ni producción.
+- Validación focalizada: inspección visual local en 320, 390, 768 y escritorio; menú móvil abre y presenta sus enlaces; sin desborde horizontal en 320, 390 ni 768 px. Lint, build y `git diff --check` PASS. Preview del PR #76 es el gate final; sin merge.
