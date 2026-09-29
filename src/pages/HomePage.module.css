@@ -256,21 +256,24 @@
 .logoOriginal { padding: 7px; }
 .logoOriginal img { width: 112px; height: 56px; border-radius: 4px; filter: grayscale(1) brightness(1.2); }
 .logoItem strong { color: #fff; font-size: 1.22rem; font-weight: 700; letter-spacing: -.045em; }
-.platforms { position: relative; overflow: hidden; padding: 78px 0 86px; background: #15141b; color: #fff; }
-.platforms::before { position: absolute; inset: 0; background-image: radial-gradient(#ffffff50 .65px, transparent .65px); background-size: 37px 37px; opacity: .22; content: ""; pointer-events: none; }
+.platforms { position: relative; overflow: hidden; padding: 78px 0 86px; background: #2e273f; color: #fff; }
 .platforms .shell { position: relative; }
 .platformsEyebrow { color: #b9a8e7; font-size: .74rem; font-weight: 760; letter-spacing: .16em; }
 .platforms h2 { max-width: 750px; margin: 17px 0 34px; font-size: clamp(2rem, 3.5vw, 3.25rem); line-height: 1.12; letter-spacing: -.045em; }
 .platforms h2 em { color: #c5b7f5; font-style: normal; }
-.platformGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
-.platformCard { display: grid; min-height: 126px; place-items: center; padding: 20px; border: 1px solid #ffffff26; background: #25242b; box-shadow: 0 16px 34px #0000001f; transition: transform .24s ease, border-color .24s ease, background .24s ease; }
-.platformCard:hover { transform: translateY(-5px); border-color: #bbaaf5; background: #302d39; }
+.platformGrid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.platformCard { display: grid; flex: 0 1 calc((100% - 56px) / 5); min-width: 0; min-height: 126px; place-items: center; padding: 20px; border: 1px solid #ffffff26; background: #ffffff0b; box-shadow: 0 16px 34px #0000001f; transition: transform .24s ease, border-color .24s ease, background .24s ease; }
+.platformCard:hover { transform: translateY(-5px); border-color: #bbaaf5; background: #ffffff18; }
 .platformCard img { display: block; width: min(150px, 100%); max-height: 60px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); }
 .platformCard span { text-align: center; color: #fff; font-size: clamp(1.25rem, 2vw, 1.9rem); font-weight: 760; letter-spacing: -.05em; line-height: 1; }
 .platformCard .mercado { font-style: italic; }
 .platformCard .tiendanube { font-size: clamp(1.1rem, 1.6vw, 1.5rem); letter-spacing: -.04em; }
 .platformCard .kommo { font-weight: 850; letter-spacing: -.075em; }
 .platformCard .n8n { font-size: 2.2rem; font-weight: 800; letter-spacing: -.02em; }
+.platformCard .vtex { font-size: 2rem; font-style: italic; font-weight: 850; letter-spacing: -.08em; }
+.platformCard .e3 { font-size: 2.45rem; font-weight: 850; letter-spacing: -.08em; }
+.platformCard .shopify { font-size: 1.75rem; font-style: italic; font-weight: 760; }
+.platformCard .tiktok { font-size: 1.85rem; font-weight: 820; letter-spacing: -.065em; }
 .methodSection { padding: 86px 0 94px; }
 .methodIntro { max-width: 800px; }
 .methodIntro p { max-width: 650px; margin-top: 14px; color: var(--muted); }
@@ -319,15 +322,15 @@
   .authority { padding-block: 65px; }
   .authorityTop > div:last-child { padding-top: 0; }
   .clientLine { grid-template-columns: 1fr; gap: 14px; }
-  .platformGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .platformCard { flex-basis: calc((100% - 28px) / 3); }
   .methodRow { grid-template-columns: repeat(2, 1fr); }
   .knowledgeGrid { grid-template-columns: 1fr; gap: 44px; }
   .knowledgeVisual { max-width: 640px; aspect-ratio: 1.48; }
 }
 @media (max-width: 520px) {
   .platforms { padding-block: 64px; }
-  .platformGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .platformCard { min-height: 104px; padding: 14px; }
+  .platformGrid { gap: 10px; }
+  .platformCard { flex-basis: calc((100% - 10px) / 2); min-height: 104px; padding: 14px; }
 }
 @media (max-width: 520px) {
   .hero h1 { font-size: clamp(2.8rem, 10.3vw, 3.7rem); }

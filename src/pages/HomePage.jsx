@@ -22,6 +22,10 @@ const platforms = [
   { name: "Tiendanube", className: "tiendanube" },
   { name: "Kommo", className: "kommo" },
   { name: "n8n", className: "n8n" },
+  { name: "VTEX", className: "vtex" },
+  { name: "E3", className: "e3" },
+  { name: "Shopify", className: "shopify" },
+  { name: "TikTok", className: "tiktok" },
 ];
 export default function HomePage() {
   const methodRef = useRef(null);
@@ -83,8 +87,8 @@ export default function HomePage() {
     </div></section>
 
     <section className={styles.platforms} aria-labelledby="platforms-title"><div className={styles.shell}>
-      <span className={styles.platformsEyebrow}>ECOSISTEMA DE TRABAJO</span>
-      <h2 id="platforms-title">Tecnologías con las que <em>hacemos avanzar negocios.</em></h2>
+      <span className={styles.platformsEyebrow}>ECOSISTEMA DIGITAL</span>
+      <h2 id="platforms-title">Plataformas que <em>impulsan negocios.</em></h2>
       <div className={styles.platformGrid}>{platforms.map(({ name, logo, className }) => <div className={styles.platformCard} key={name}>{logo ? <img src={logo} alt={name} loading="lazy" /> : <span className={styles[className]}>{name}</span>}</div>)}</div>
     </div></section>
 

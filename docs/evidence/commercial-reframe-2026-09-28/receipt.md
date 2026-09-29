@@ -171,3 +171,10 @@
 - Delta: Personal y Newsan se integran a la grilla principal; una nota breve bajo el rótulo conserva la distinción real entre clientes de NexOps y experiencia del equipo. Erway y DEXA conservan sus archivos originales y se desaturan visualmente para integrarse a la tonalidad clara, sin redibujar sus logos.
 - Superficies congeladas: páginas internas, Radar, editorial, automatizaciones y producción. Reversión: revertir el commit de este parche.
 - Validación focalizada: lint, build, revisión local del bloque oscuro y `git diff --check`; preview del PR como gate, sin merge.
+
+## ECOSISTEMA DIGITAL — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `2c8b3f1`; Alan pidió sumar VTEX, E3, Shopify, Tiendanube y TikTok al bloque de plataformas y cambiar el fondo negro al lila del resto de la Home. Tiendanube ya figuraba y se mantiene una sola vez.
+- Precisión: Alan aclaró que las nuevas marcas se muestran como parte del ecosistema digital, sin afirmar experiencia directa, partnership ni certificación. Por eso el bloque se titula «Plataformas que impulsan negocios» y el rótulo es «Ecosistema digital».
+- Delta visual: fondo `#2e273f` igual a «Por qué NexOps», tarjetas lila translúcido y segunda fila centrada. Se conservan las páginas internas, Radar, editorial, automatizaciones y producción.
+- Validación focalizada: lint, build, `git diff --check` y revisión visual local de escritorio; nueve tarjetas legibles, sin duplicado de Tiendanube ni desborde. Preview del PR como gate, sin merge; rollback por reversión del commit.
