@@ -248,11 +248,13 @@
 .authorityTop > div:last-child { padding-top: 24px; }
 .authorityTop p { max-width: 520px; margin-bottom: 15px; color: #e0dbe8; font-size: 1.03rem; }
 .clientLine { display: grid; grid-template-columns: 220px 1fr; gap: 25px; align-items: center; margin-top: 30px; padding-top: 22px; border-top: 1px solid #665a77; }
-.clientLine > span { color: #c8bafa; font-size: .72rem; font-weight: 720; letter-spacing: .1em; }
+.clientLabel span { color: #c8bafa; font-size: .72rem; font-weight: 720; letter-spacing: .1em; }
+.clientLabel small { display: block; max-width: 200px; margin-top: 8px; color: #c7bfd0; font-size: .73rem; line-height: 1.4; }
 .logoWall { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .logoItem { display: grid; width: 132px; height: 72px; place-items: center; overflow: hidden; padding: 12px; border: 1px solid #ffffff24; border-radius: 13px; background: #ffffff0b; }
 .logoItem img { display: block; width: 108px; height: 48px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); }
-.logoOriginal img { max-width: 105px; max-height: 56px; border-radius: 4px; filter: none; }
+.logoOriginal { padding: 7px; }
+.logoOriginal img { width: 112px; height: 56px; border-radius: 4px; filter: grayscale(1) brightness(1.2); }
 .logoItem strong { color: #fff; font-size: 1.22rem; font-weight: 700; letter-spacing: -.045em; }
 .platforms { position: relative; overflow: hidden; padding: 78px 0 86px; background: #15141b; color: #fff; }
 .platforms::before { position: absolute; inset: 0; background-image: radial-gradient(#ffffff50 .65px, transparent .65px); background-size: 37px 37px; opacity: .22; content: ""; pointer-events: none; }

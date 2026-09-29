@@ -164,3 +164,10 @@
 - Baseline: PR draft #76 en `2b5ce82`; Alan señaló que la insignia «N ↗» junto a los +10 años no funciona visualmente.
 - Delta: retirar únicamente la insignia y su CSS; conservar íntegra la frase de respaldo y el separador del hero. Páginas internas, Radar, automatizaciones y producción congelados.
 - Validación focalizada: lint, build, `git diff --check` y revisión visual de Home. Rollback: revertir este commit; preview del PR como gate, sin merge.
+
+## FRANJA ÚNICA DE EMPRESAS — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `0fd63fb`; Alan pidió una sola franja «Empresas con las que trabajamos» y la eliminación del rótulo «Experiencia previa del equipo».
+- Delta: Personal y Newsan se integran a la grilla principal; una nota breve bajo el rótulo conserva la distinción real entre clientes de NexOps y experiencia del equipo. Erway y DEXA conservan sus archivos originales y se desaturan visualmente para integrarse a la tonalidad clara, sin redibujar sus logos.
+- Superficies congeladas: páginas internas, Radar, editorial, automatizaciones y producción. Reversión: revertir el commit de este parche.
+- Validación focalizada: lint, build, revisión local del bloque oscuro y `git diff --check`; preview del PR como gate, sin merge.

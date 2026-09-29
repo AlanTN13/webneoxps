@@ -13,8 +13,6 @@ const clientLogos = [
   { name: "Kenta", src: "/assets/company-logos/kenta.webp" },
   { name: "Edelvives", src: "/assets/company-logos/edelvives.svg" },
   { name: "Garnet Academy", src: "/assets/company-logos/garnet.png" },
-];
-const teamExperienceLogos = [
   { name: "Personal", src: "/assets/company-logos/personal.svg" },
   { name: "Newsan", src: "/newsan_logo.svg" },
 ];
@@ -76,8 +74,7 @@ export default function HomePage() {
 
     <section className={styles.authority} id="nosotros" aria-labelledby="authority-title"><div className={styles.shell}>
       <div className={styles.authorityTop}><div><span className={styles.eyebrow}>POR QUÉ NEXOPS</span><h2 id="authority-title">Más de 10 años escalando negocios <em>con estrategia y tecnología.</em></h2></div><div><p>Con un equipo multidisciplinario, con amplia experiencia en distintos rubros y presencia en toda Latinoamérica, nos convertimos en tu aliado estratégico para crecer tu negocio digital.</p><p>Los procesos, la tecnología y los datos son nuestros pilares. Toda estrategia de crecimiento necesita estar fundamentada en eso — ya sea en anuncios, sitio web, mailing, tienda online o marketplaces.</p></div></div>
-      <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div className={styles.logoWall}>{clientLogos.map(({ name, src, originalColor }) => <div className={`${styles.logoItem} ${originalColor ? styles.logoOriginal : ""}`} key={name}><img src={src} alt={name} loading="lazy" /></div>)}<div className={styles.logoItem}><strong>Punky</strong></div></div></div>
-      <div className={styles.clientLine}><span>EXPERIENCIA PREVIA DEL EQUIPO</span><div className={styles.logoWall}>{teamExperienceLogos.map(({ name, src }) => <div className={styles.logoItem} key={name}><img src={src} alt={name} loading="lazy" /></div>)}</div></div>
+      <div className={styles.clientLine}><div className={styles.clientLabel}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><small>Clientes de NexOps y experiencia de nuestro equipo.</small></div><div className={styles.logoWall}>{clientLogos.map(({ name, src, originalColor }) => <div className={`${styles.logoItem} ${originalColor ? styles.logoOriginal : ""}`} key={name}><img src={src} alt={name} loading="lazy" /></div>)}<div className={styles.logoItem}><strong>Punky</strong></div></div></div>
     </div></section>
 
     <section ref={methodRef} className={styles.methodSection} id="como-funciona" aria-labelledby="method-title"><div className={styles.shell}>
