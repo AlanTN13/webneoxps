@@ -253,9 +253,13 @@
 .logoWall { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .logoItem { display: grid; width: 132px; height: 72px; place-items: center; overflow: hidden; padding: 12px; border: 1px solid #ffffff24; border-radius: 13px; background: #ffffff0b; }
 .logoItem img { display: block; width: 108px; height: 48px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); }
+.logoDarkOnLight img { object-fit: cover; filter: invert(1); mix-blend-mode: screen; }
 .logoOriginal { padding: 7px; }
 .logoOriginal img { width: 112px; height: 56px; border-radius: 4px; filter: grayscale(1) brightness(1.2); }
 .logoItem strong { color: #fff; font-size: 1.22rem; font-weight: 700; letter-spacing: -.045em; }
+.logoWithMore { align-content: center; gap: 4px; }
+.logoWithMore img { height: 25px; }
+.logoWithMore span { color: #c8bafa; font-size: .61rem; font-weight: 750; white-space: nowrap; }
 .platforms { position: relative; overflow: hidden; padding: 78px 0 86px; background: #2e273f; color: #fff; }
 .platforms .shell { position: relative; }
 .platformsEyebrow { color: #b9a8e7; font-size: .74rem; font-weight: 760; letter-spacing: .16em; }

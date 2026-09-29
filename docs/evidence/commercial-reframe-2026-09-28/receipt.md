@@ -197,3 +197,9 @@
 - Delta: las nueve tarjetas usan archivos gráficos locales con el logo/wordmark de cada plataforma. Se conserva la composición lila y el tratamiento monocromo; no se declara partnership ni experiencia directa nueva.
 - Fuentes de assets: logo existente de Meta; wordmark de Tiendanube extraído de su sitio; Kommo y e.tres de sus sitios oficiales; Mercado Libre, n8n, VTEX, Shopify y TikTok de Wikimedia Commons. Los SVG se revisaron para descartar scripts y recursos remotos.
 - Validación focalizada: vista local de escritorio y móvil, lint, build, `git diff --check` y preview del PR; sin merge.
+
+## JULERIAQUE Y ALCANCE DE EMPRESAS — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `7f453f2`; Alan pidió incorporar Juleriaque a la franja de empresas y añadir «+30 empresas más» debajo de Edelvives.
+- Delta: se agrega el logo de Juleriaque, obtenido de su tienda oficial en Mercado Libre y adaptado visualmente al fondo lila mediante CSS. El dato «+30 empresas más», provisto por Alan, aparece como segunda línea de la tarjeta Edelvives. Se mantiene la aclaración de clientes de NexOps y experiencia del equipo.
+- Validación focalizada: revisión local de escritorio y móvil, lint, build, `git diff --check` y preview del PR. Sin cambios a Radar, editorial, automatizaciones, páginas internas ni producción.
