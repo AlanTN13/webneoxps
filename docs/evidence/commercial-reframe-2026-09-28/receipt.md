@@ -68,3 +68,17 @@
 - Fuera de alcance: hero de Home, páginas internas, Radar, Formación y producción. Reversión: revertir este commit.
 - Validación: `git diff --check`, `npm run lint` y `npm run build` PASS. Revisión responsive a 1280 y 390 px: ambas tarjetas contienen el texto y los CTAs sin desborde horizontal ni interno. Captura desktop: `home-doors-copy-desktop.jpg`.
 - Gate: preview del PR draft para revisión comercial de Alan; sin merge ni producción.
+
+## COPY «POR QUÉ NEXOPS» — PATCH MODE / PREFLIGHT
+
+- Rol/superficie: actualización puntual del bloque de autoridad de Home en el PR draft #76. Alan autorizó sustituir título y dos párrafos con el texto que entregó.
+- Contexto: web `e48d4e0` limpia; AlanOS `41e29ca` y contrato de ejecución verificados contra `origin/main` el 2026-09-28.
+- Tamaño/tipo/riesgo: S/T1/R1. Sólo `src/pages/HomePage.jsx` y evidencia del cambio; diseño, clientes, rutas, otras páginas, Radar, automatizaciones y producción congelados.
+- Aceptación: texto exacto, lectura correcta en escritorio/móvil, sin desbordes; lint/build y preview de Netlify. Rollback por revert del commit; STOP antes de merge o producción.
+
+## COPY «POR QUÉ NEXOPS» — EXECUTION RECEIPT
+
+- Se sustituyeron sólo el H2 y los dos párrafos de `#nosotros` por el copy entregado por Alan: más de 10 años escalando negocios, equipo multidisciplinario con presencia latinoamericana y pilares de procesos, tecnología y datos aplicados a canales digitales. Se corrigió únicamente la tilde de «Más».
+- Los ejemplos y nombres de clientes, la composición, los enlaces y el resto de la Home quedaron intactos.
+- `git diff --check`, `npm run lint` y `npm run build` PASS. Inspección en navegador a 1280 y 390 px: texto correcto y sin desborde horizontal. Captura: `home-authority-copy-desktop.jpg`.
+- Estado: listo para preview del PR draft #76 y revisión de Alan; sin merge ni producción.
