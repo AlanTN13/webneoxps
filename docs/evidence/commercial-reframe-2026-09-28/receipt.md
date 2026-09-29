@@ -158,3 +158,9 @@
 - Delta: nueva franja oscura entre «Cómo trabajamos» e «Ideas que impulsan», con Meta, Mercado Libre, Tiendanube, Kommo y n8n. El título describe tecnologías de trabajo; no atribuye partnerships ni certificaciones. Las cinco plataformas tienen uso respaldado por los frentes de NexOps en AlanOS.
 - Superficies congeladas: páginas internas, Radar, motor editorial, automatizaciones y producción. Rollback: revertir el commit de este parche.
 - Validación focalizada: lint y build PASS; inspección visual local de escritorio: tarjetas y títulos legibles, sin desborde. Preview del PR draft como gate comercial, sin merge.
+
+## LIMPIEZA DE RESPALDO EN HERO — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `2b5ce82`; Alan señaló que la insignia «N ↗» junto a los +10 años no funciona visualmente.
+- Delta: retirar únicamente la insignia y su CSS; conservar íntegra la frase de respaldo y el separador del hero. Páginas internas, Radar, automatizaciones y producción congelados.
+- Validación focalizada: lint, build, `git diff --check` y revisión visual de Home. Rollback: revertir este commit; preview del PR como gate, sin merge.

@@ -61,7 +61,7 @@ export default function HomePage() {
         <h1 id="home-title">Hacemos que tu negocio online <em>genere más ingresos.</em></h1>
         <p>Escalamos tu ecommerce, Mercado Libre y redes sociales, con equipo, procesos y tecnología. Porque generar ingresos no alcanza si no se traducen en ganancia real.</p>
         <div className={styles.heroActions}><a className={styles.primary} href="#contacto">Contanos tu caso <ArrowRight size={18} /></a></div>
-        <div className={styles.heroProof}><span className={styles.proofMark}>N<span>↗</span></span><p><strong>+10 años ayudando negocios a crecer sus canales digitales de manera sostenida.</strong></p></div>
+        <div className={styles.heroProof}><p><strong>+10 años ayudando negocios a crecer sus canales digitales de manera sostenida.</strong></p></div>
       </div>
       <figure className={styles.heroVisual}><img src="/assets/nexops-conversation-editorial.webp" alt="Imagen editorial ilustrativa de profesionales conversando sobre un negocio" fetchPriority="high" /><figcaption><span>ENTENDER → ACTUAR</span><strong>El punto de partida es lo que hoy le pasa a tu empresa.</strong></figcaption></figure>
     </div></div></section>

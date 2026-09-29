@@ -33,9 +33,7 @@
 .hero h1 em { color: var(--violet); font-style: normal; }
 .heroCopy > p { max-width: 610px; margin-top: 25px; color: #4c4857; font-size: 1.1rem; line-height: 1.65; }
 .heroActions { display: flex; flex-wrap: wrap; align-items: center; gap: 23px; margin-top: 29px; }
-.heroProof { display: flex; align-items: center; gap: 14px; margin-top: 45px; padding-top: 23px; border-top: 1px solid #ddd9e7; }
-.proofMark { display: grid; flex: 0 0 45px; width: 45px; height: 45px; place-items: center; border-radius: 50%; background: #e1dbf1; color: #4b368f; font-weight: 850; letter-spacing: -.09em; }
-.proofMark span { font-size: .8rem; }
+.heroProof { margin-top: 45px; padding-top: 23px; border-top: 1px solid #ddd9e7; }
 .heroProof p { color: #696372; font-size: .8rem; line-height: 1.45; }
 .heroProof strong { color: #3f394e; font-size: .87rem; font-weight: 700; }
 .heroVisual { position: relative; height: min(640px, 49vw); min-height: 530px; margin: 0; border-radius: 110px 18px 18px 18px; background: #ded7e8; box-shadow: 0 25px 60px rgba(47, 35, 70, .13); }
