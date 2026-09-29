@@ -237,3 +237,10 @@
 - Corrección: la tarjeta pasa al final de la lista de empresas, después de Punky, tanto en el orden visual como en el del contenido. Se retiran reglas de orden que ya no hacen falta. En escritorio sigue cerrando la franja.
 - Alcance: sólo Home y este receipt. Se preservan logos, textos, grillas y otras secciones. Reversión por commit; sin merge ni producción.
 - Validación focalizada: lint, build y `git diff --check` PASS; preview móvil del PR #76 pendiente como gate visual.
+
+## MENÚ MÓVIL — PATCH MODE / RECEIPT (2026-09-29)
+
+- Baseline: PR draft #76 en `3dbff16`; el menú abierto usaba un fondo beige, una lista sin jerarquía y dejaba un espacio vacío excesivo antes del CTA. Alan pidió ajustar específicamente esa experiencia móvil.
+- Delta: menú de pantalla completa con el lila oscuro de NexOps, marca y cierre claros, eslogan existente, enlaces numerados con separación consistente y CTA lila claro. El botón hamburguesa recibe un fondo y borde propios. Se conserva el orden y destino de todos los enlaces; se añade cierre con Escape, foco inicial en cerrar y estado expandido accesible.
+- Superficie permitida: componente Header compartido, estilos de su menú y este receipt. Contenido de Home y páginas internas, Radar, editorial, automatizaciones y producción congelados. Reversión por commit; sin merge.
+- Validación focalizada: revisión local a 390 × 844 y 320 × 667, navegación a Ecommerce, apertura/cierre y Escape PASS. Lint, pruebas de sitio, build y `git diff --check` antes de subir; preview del PR #76 como gate visual.
