@@ -263,10 +263,21 @@
 .methodIntro { max-width: 800px; }
 .methodIntro p { max-width: 650px; margin-top: 14px; color: var(--muted); }
 .methodRow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 34px; }
-.methodRow > div { border-top: 2px solid #b6a5dd; padding-top: 14px; }
-.methodRow span { display: block; color: var(--violet); font-size: .76rem; font-weight: 750; }
+.methodRow > div { position: relative; border-top: 2px solid #d3c8ec; padding-top: 14px; transition: transform .25s ease; }
+.methodRow > div::before { position: absolute; top: -2px; left: 0; width: 100%; height: 2px; background: var(--violet); content: ""; transform: scaleX(0); transform-origin: left; }
+.methodRow > div:hover { transform: translateY(-5px); }
+.methodRow > div:hover::before { transform: scaleX(1); transition: transform .45s ease; }
+.methodRow span { display: grid; width: 35px; height: 35px; place-items: center; border-radius: 50%; background: #eee9f9; color: var(--violet); font-size: .76rem; font-weight: 750; transition: background .25s ease, color .25s ease; }
+.methodRow > div:hover span { background: var(--violet); color: #fff; }
 .methodRow strong { display: block; margin-top: 20px; font-size: 1.25rem; font-weight: 650; }
 .methodRow p { margin-top: 6px; color: var(--muted); font-size: .91rem; }
+.methodVisible .methodRow > div { animation: methodEnter .65s cubic-bezier(.2,.7,.2,1) backwards; }
+.methodVisible .methodRow > div::before { animation: methodLine .7s ease forwards; }
+.methodVisible .methodRow > div:nth-child(2), .methodVisible .methodRow > div:nth-child(2)::before { animation-delay: .14s; }
+.methodVisible .methodRow > div:nth-child(3), .methodVisible .methodRow > div:nth-child(3)::before { animation-delay: .28s; }
+.methodVisible .methodRow > div:nth-child(4), .methodVisible .methodRow > div:nth-child(4)::before { animation-delay: .42s; }
+@keyframes methodEnter { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes methodLine { to { transform: scaleX(1); } }
 .knowledge { padding-block: 64px; }
 .knowledge { overflow: hidden; padding-block: clamp(88px, 9vw, 140px); background: #fbfafd; }
 .knowledgeGrid { grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); gap: clamp(42px, 6vw, 90px); }
@@ -319,4 +330,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .knowledgeStamp::after { animation: none; }
+  .methodVisible .methodRow > div, .methodVisible .methodRow > div::before { animation: none; }
+  .methodRow > div:hover { transform: none; }
 }

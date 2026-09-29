@@ -120,3 +120,9 @@
 
 - Baseline `95bea4b` del PR draft #76 y AlanOS `fc3b06c`; contrato de ejecución consultado. Alan pidió reemplazar sólo el rótulo y título del bloque de contacto por «Cómo podemos ayudar a tu negocio» y «¿Dónde está hoy el freno?». S/T1/R0; se conserva párrafo, CTA, estructura y demás páginas. Radar, automatizaciones y producción fuera de alcance; reversible por commit.
 - Aceptación: textos pedidos visibles en preview, sin desborde y con CTA intacto; diff, lint y build focalizados.
+
+## EFECTO EN «CÓMO TRABAJAMOS» — PATCH MODE / RECEIPT
+
+- Baseline `137e828` del PR draft #76 y AlanOS `6415814`; contrato de ejecución consultado. Alan pidió un efecto visual llamativo en las cuatro etapas de «Cómo trabajamos». S/T1/R1. Sólo `HomePage.jsx`, su módulo CSS y esta evidencia; congelados los textos, otras secciones, páginas internas, Radar, automatizaciones y producción. Reversible por commit.
+- Un observador activa una sola entrada escalonada al llegar la sección a la pantalla: aparecen las etapas y se completan las líneas superiores. Los números ganan un fondo suave; al pasar el cursor la etapa se eleva levemente. Con movimiento reducido, el contenido se presenta sin animación.
+- Aceptación y verificación local: cuatro etapas legibles al finalizar el efecto, sin saltos de layout; `git diff --check`, lint y build PASS. Inspección visual en escritorio durante y después de la secuencia. Pendiente de preview remota y revisión de Alan; sin merge ni producción.

@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { CALENDLY_LINK } from "../config/constants";
@@ -7,6 +7,7 @@ import styles from "./HomePage.module.css";
 
 const clients = ["OnlySellers", "Sommier Magno", "Casa Italia", "Dexa / Kahuna", "Kenta", "Edelvives", "Punky"];
 export default function HomePage() {
+  const methodRef = useRef(null);
   useEffect(() => {
     document.title = "NexOps — Ecommerce y consultoría para crecer y operar mejor";
     const existing = document.querySelector('meta[name="description"]');
@@ -20,6 +21,18 @@ export default function HomePage() {
       else if (previous === null) meta.removeAttribute("content");
       else meta.setAttribute("content", previous);
     };
+  }, []);
+
+  useEffect(() => {
+    const section = methodRef.current;
+    if (!section || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      section.classList.add(styles.methodVisible);
+      observer.disconnect();
+    }, { threshold: 0.25 });
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   return <Layout showFloatingWhatsApp={false} home><div className={styles.home}>
@@ -48,7 +61,7 @@ export default function HomePage() {
       <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div><img src="/globaltrip_logo.svg" alt="GlobalTrip" loading="lazy" />{clients.map((name) => <strong key={name}>{name}</strong>)}</div></div>
     </div></section>
 
-    <section className={styles.methodSection} id="como-funciona" aria-labelledby="method-title"><div className={styles.shell}>
+    <section ref={methodRef} className={styles.methodSection} id="como-funciona" aria-labelledby="method-title"><div className={styles.shell}>
       <div className={styles.methodIntro}><span className={styles.eyebrow}>CÓMO TRABAJAMOS</span><h2 id="method-title">Primero el problema. <em>Después la solución.</em></h2><p>Revisamos el negocio con vos, elegimos una prioridad, la ponemos a trabajar y ajustamos con lo que muestra la operación.</p></div>
       <div className={styles.methodRow}><div><span>01</span><strong>Entender</strong><p>Qué se pierde, dónde se traba y quién vive el problema.</p></div><div><span>02</span><strong>Priorizar</strong><p>Qué cambio tiene sentido ahora y qué puede esperar.</p></div><div><span>03</span><strong>Hacer</strong><p>Implementar con el equipo, no dejar un documento en un cajón.</p></div><div><span>04</span><strong>Mejorar</strong><p>Mirar el uso y los resultados para ajustar el trabajo.</p></div></div>
     </div></section>
