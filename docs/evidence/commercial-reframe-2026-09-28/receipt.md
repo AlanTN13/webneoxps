@@ -126,3 +126,8 @@
 - Baseline `137e828` del PR draft #76 y AlanOS `6415814`; contrato de ejecución consultado. Alan pidió un efecto visual llamativo en las cuatro etapas de «Cómo trabajamos». S/T1/R1. Sólo `HomePage.jsx`, su módulo CSS y esta evidencia; congelados los textos, otras secciones, páginas internas, Radar, automatizaciones y producción. Reversible por commit.
 - Un observador activa una sola entrada escalonada al llegar la sección a la pantalla: aparecen las etapas y se completan las líneas superiores. Los números ganan un fondo suave; al pasar el cursor la etapa se eleva levemente. Con movimiento reducido, el contenido se presenta sin animación.
 - Aceptación y verificación local: cuatro etapas legibles al finalizar el efecto, sin saltos de layout; `git diff --check`, lint y build PASS. Inspección visual en escritorio durante y después de la secuencia. Pendiente de preview remota y revisión de Alan; sin merge ni producción.
+
+## RETIRO DE ETIQUETA EN FOTO DEL HERO — PATCH MODE / RECEIPT
+
+- Baseline `3bb8484` del PR draft #76 y AlanOS `276d11c`; contrato de ejecución consultado. Alan pidió quitar la pastilla visible «Imagen editorial ilustrativa» de la foto principal. S/T1/R0; sólo se retiran ese elemento y su regla CSS. Resto del hero, otras secciones, Radar y producción congelados. Reversible por commit.
+- La imagen conserva su texto alternativo descriptivo para accesibilidad. Aceptación: foto sin pastilla, composición y contenido restantes iguales; diff, lint, build y preview.
