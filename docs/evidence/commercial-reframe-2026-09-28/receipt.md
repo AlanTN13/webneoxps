@@ -104,3 +104,9 @@
 - S/T1/R1. Superficie permitida: markup y estilos del sello dentro de Home. Congelados: resto de Home, páginas internas, Radar, Formación, automatizaciones y producción. Reversión por revert del commit.
 - Aceptación: movimiento sutil y continuo, flecha legible, sin desborde y sin animación cuando el usuario prefiere reducir movimiento.
 - El texto del sello gira en 16 segundos alrededor de la flecha fija. `prefers-reduced-motion: reduce` lo deja estático. `git diff --check`, lint y build PASS; comprobación visual local en escritorio con el sello dentro de la sección.
+
+## CORRECCIÓN DEL MOVIMIENTO DEL SELLO — PATCH MODE / RECEIPT
+
+- Alan rechazó el giro de las letras al ver la preview: reduce la legibilidad y no da el acabado buscado. Baseline `a8ace65`; se corrige exclusivamente el sello de Home. El resto del PR, Radar, Formación, automatizaciones y producción quedan fuera de alcance.
+- Se restauró la orientación fija de «IDEAS / EN ACCIÓN» y la flecha. El movimiento pasa a un aro fino exterior que rota lentamente; `prefers-reduced-motion: reduce` detiene el aro. S/T1/R1, reversible por commit.
+- Aceptación: texto siempre legible, giro perceptible pero discreto, sin cambios de posición ni desborde del bloque editorial. Validar lint, build y preview desktop/mobile antes de cerrar.

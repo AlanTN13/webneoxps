@@ -63,7 +63,7 @@ export default function HomePage() {
       </div>
       <div className={styles.knowledgeVisual}>
         <img src="/assets/nexops-implementation-editorial.webp" alt="Imagen editorial ilustrativa de un equipo analizando información de negocio" loading="lazy" />
-        <div className={styles.knowledgeStamp} aria-hidden="true"><span className={styles.knowledgeStampOrbit}><span>IDEAS</span><span>EN ACCIÓN</span></span><strong>↗</strong></div>
+        <div className={styles.knowledgeStamp} aria-hidden="true"><span>IDEAS</span><strong>↗</strong><span>EN ACCIÓN</span></div>
       </div>
     </div></section>
     <section className={styles.contact} id="contacto"><div className={`${styles.shell} ${styles.contactGrid}`}><div><span className={styles.eyebrow}>HABLEMOS DE TU EMPRESA</span><h2>Contanos qué te está <em>frenando.</em></h2></div><div><p>Puede ser una tienda que no convierte, ventas que pierden seguimiento o una operación que ya no escala. Empecemos por el problema; después definimos si Ecommerce o Consultoría es el mejor camino.</p><a className={styles.primary} href={CALENDLY_LINK} target="_blank" rel="noreferrer">Agendar una conversación <ArrowUpRight size={18} /></a></div></div></section>
