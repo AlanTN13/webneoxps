@@ -97,3 +97,10 @@
 - Aceptación: sección con jerarquía editorial propia de NexOps, composición texto/imagen, CTA funcional a `/noticias`, responsive y sin prometer eventos o cursos no definidos. No se implementa una captura de emails sin lista conectada.
 - Se reemplazó la franja breve de texto por una sección de mayor presencia visual: título, descripción, CTA, imagen editorial ilustrativa ya existente y sello gráfico de marca. La referencia inspira la composición, sin reutilizar su texto, foto, colores ni formulario.
 - Validación: `git diff --check`, `npm run lint` y `npm run build` PASS. Inspección visual local en móvil: texto, CTA, imagen y sello se muestran sin desborde. El código llegó al PR draft #76 en `5a920f8`; checks `validate`, Vercel y Netlify PASS. Se abrió la preview remota y se comprobó que el bloque editorial nuevo aparece con imagen y CTA a `/noticias`. Pendiente de revisión comercial de Alan; sin merge ni producción.
+
+## MOVIMIENTO DEL SELLO EDITORIAL — PATCH MODE / PREFLIGHT Y RECEIPT
+
+- Rol y resultado: ajuste visual del sello «Ideas en acción» en la Home del PR draft #76, pedido por Alan sobre una captura de la preview. Baseline `ae26963`; AlanOS `4d816a5` y contrato de ejecución consultados.
+- S/T1/R1. Superficie permitida: markup y estilos del sello dentro de Home. Congelados: resto de Home, páginas internas, Radar, Formación, automatizaciones y producción. Reversión por revert del commit.
+- Aceptación: movimiento sutil y continuo, flecha legible, sin desborde y sin animación cuando el usuario prefiere reducir movimiento.
+- El texto del sello gira en 16 segundos alrededor de la flecha fija. `prefers-reduced-motion: reduce` lo deja estático. `git diff --check`, lint y build PASS; comprobación visual local en escritorio con el sello dentro de la sección.
