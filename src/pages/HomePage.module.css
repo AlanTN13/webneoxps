@@ -257,9 +257,7 @@
 .logoOriginal { padding: 7px; }
 .logoOriginal img { width: 112px; height: 56px; border-radius: 4px; filter: grayscale(1) brightness(1.2); }
 .logoItem strong { color: #fff; font-size: 1.22rem; font-weight: 700; letter-spacing: -.045em; }
-.logoWithMore { align-content: center; gap: 4px; }
-.logoWithMore img { height: 25px; }
-.logoWithMore span { color: #c8bafa; font-size: .61rem; font-weight: 750; white-space: nowrap; }
+.logoMore strong { color: #c8bafa; font-size: .85rem; font-weight: 750; letter-spacing: 0; text-align: center; line-height: 1.2; }
 .platforms { position: relative; overflow: hidden; padding: 78px 0 86px; background: #2e273f; color: #fff; }
 .platforms .shell { position: relative; }
 .platformsEyebrow { color: #b9a8e7; font-size: .74rem; font-weight: 760; letter-spacing: .16em; }

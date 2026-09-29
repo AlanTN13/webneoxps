@@ -210,3 +210,10 @@
 - Delta: cuatro tarjetas adicionales con logos locales, en el mismo tratamiento claro sobre lila. Los símbolos compactos de Ads, Analytics y Power BI llevan su nombre visible; Tableau usa su wordmark. No se afirma partnership, certificación ni experiencia directa con estas plataformas.
 - Assets: Google Ads, Google Analytics y Power BI de Wikimedia Commons; Tableau del archivo de Wikipedia. Se revisaron los SVG para descartar scripts y recursos remotos.
 - Alcance: sólo la Home y estos assets; sin cambios en Radar, editorial, automatizaciones, páginas internas o producción. Validación: lint, build, `git diff --check` y revisión visual local de escritorio; preview del PR como gate.
+
+## UBICACIÓN DE «+30 EMPRESAS MÁS» — PATCH MODE / RECEIPT
+
+- Baseline: PR draft #76 en `67cc0e6`; el texto estaba dentro de la tarjeta Edelvives.
+- Corrección explícita de Alan: mostrar «+30 empresas más» en una tarjeta propia debajo de DEXA, manteniendo Edelvives sólo como logo.
+- Delta: el texto pasa a la última tarjeta de la segunda fila de empresas; conserva el fondo lila, borde y dimensiones del conjunto. No cambia la lista ni se atribuye experiencia directa adicional.
+- Validación: lint, build, `git diff --check` y revisión visual local de escritorio PASS. Alcance limitado a Home; sin merge ni producción.
