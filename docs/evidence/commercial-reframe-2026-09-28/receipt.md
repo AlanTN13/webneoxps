@@ -131,3 +131,8 @@
 
 - Baseline `3bb8484` del PR draft #76 y AlanOS `276d11c`; contrato de ejecución consultado. Alan pidió quitar la pastilla visible «Imagen editorial ilustrativa» de la foto principal. S/T1/R0; sólo se retiran ese elemento y su regla CSS. Resto del hero, otras secciones, Radar y producción congelados. Reversible por commit.
 - La imagen conserva su texto alternativo descriptivo para accesibilidad. Aceptación: foto sin pastilla, composición y contenido restantes iguales; diff, lint, build y preview.
+
+## RETIRO DE TRES FICHAS EN «POR QUÉ NEXOPS» — PATCH MODE / RECEIPT
+
+- Baseline `110cc9e` del PR draft #76 y AlanOS `f53700c`; contrato de ejecución consultado. Alan señaló las tres fichas de Sommier Magno, Casa Italia y OnlySellers y pidió quitarlas de Home. S/T1/R0. Se elimina sólo ese bloque y sus estilos; permanece la franja «Empresas con las que trabajamos» y la página Experiencia. Radar, automatizaciones y producción fuera de alcance. Reversible por commit.
+- Aceptación: el bloque de autoridad pasa de los párrafos a la franja de empresas sin hueco ni fichas; lint, build y preview desktop/mobile.

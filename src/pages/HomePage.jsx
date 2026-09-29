@@ -57,7 +57,6 @@ export default function HomePage() {
 
     <section className={styles.authority} id="nosotros" aria-labelledby="authority-title"><div className={styles.shell}>
       <div className={styles.authorityTop}><div><span className={styles.eyebrow}>POR QUÉ NEXOPS</span><h2 id="authority-title">Más de 10 años escalando negocios <em>con estrategia y tecnología.</em></h2></div><div><p>Con un equipo multidisciplinario, con amplia experiencia en distintos rubros y presencia en toda Latinoamérica, nos convertimos en tu aliado estratégico para crecer tu negocio digital.</p><p>Los procesos, la tecnología y los datos son nuestros pilares. Toda estrategia de crecimiento necesita estar fundamentada en eso — ya sea en anuncios, sitio web, mailing, tienda online o marketplaces.</p></div></div>
-      <div className={styles.authorityExamples}><div><strong>Sommier Magno</strong><span>Catálogo, web y Mercado Libre en una salida piloto.</span></div><div><strong>Casa Italia</strong><span>ERP comercial a medida en producción.</span></div><div><strong>OnlySellers</strong><span>Operación de email con segmentación y calendario.</span></div></div>
       <div className={styles.clientLine}><span>EMPRESAS CON LAS QUE TRABAJAMOS</span><div><img src="/globaltrip_logo.svg" alt="GlobalTrip" loading="lazy" />{clients.map((name) => <strong key={name}>{name}</strong>)}</div></div>
     </div></section>
 
