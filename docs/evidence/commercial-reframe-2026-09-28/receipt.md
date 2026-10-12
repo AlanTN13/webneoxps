@@ -274,3 +274,18 @@
 - Las seis situaciones originales se mantienen y pasan a una lista numerada con la respuesta de NexOps. Se elimina el bloque repetitivo «Del síntoma a una decisión»; el bloque oscuro ahora concentra método y entregables con el título «Del problema a un plan que tu equipo puede poner en marcha». El cierre usa el mismo CTA del hero.
 - Validación local: lint, seis pruebas de sitio, build y `git diff --check` PASS. Revisión visual de escritorio y móviles de 390/320 px PASS, sin desborde horizontal; el enlace «¿Es para mí?» llega a `#situaciones`.
 - Gate final: actualizar y comprobar la preview del PR #76. Sin merge ni cambios en producción; rollback por reversión del commit.
+
+## AJUSTE COMERCIAL DE EXPERIENCIA — PREFLIGHT / PATCH MODE (2026-10-12)
+
+- Rol y superficie: página pública `/experiencia` del PR draft #76. Fuente canónica AlanOS `origin/main` en `be79677`, contrato de ejecución versión 2026-09-20 y decisiones sobre clientes reales, alcance y prueba social. Baseline web `fd31e06`, limpio y coincidente con el PR.
+- Resultado autorizado: aplicar a Experiencia la lógica comercial clara de Ecommerce y Consultoría sin convertir los casos en promesas ni inventar resultados. Evitar la repetición de nombres en hero, tarjeta y franja; destacar un trabajo real visualmente y facilitar lectura de problema, trabajo y resultado de los cuatro casos.
+- Budget/riesgo: M / T1 / R1. Superficie permitida: `/experiencia`, estilos de sus componentes y este receipt. Congeladas: Home, Ecommerce, Consultoría, rutas, Radar/editorial, automatizaciones y producción.
+- Aceptación: nombres, alcance y estados de los cuatro casos preservados; información de otros frentes conservada; CTA y ancla funcionales; desktop y móvil legibles sin desborde. Validación: lint, pruebas de sitio, build, `git diff --check`, smoke visual local y preview del PR.
+- Permisos/recuperación: publicar sólo en rama del PR draft, sin merge ni producción; rollback por reversión del commit. STOP ante necesidad de cambiar otra superficie o de atribuir un resultado no documentado.
+
+## AJUSTE COMERCIAL DE EXPERIENCIA — RECEIPT (2026-10-12)
+
+- Delta: hero centrado en problemas y trabajo realizado, CTA «Quiero conversar sobre mi negocio» y enlace a las historias. La tarjeta que repetía tres clientes fue reemplazada por un visual del caso Casa Italia: ERP comercial a medida en producción, con el alcance ya documentado. Se retiró la franja de nombres duplicados entre hero e historias.
+- Los cuatro relatos y sus hechos no cambiaron. Cada caso ahora muestra estado junto al cliente, problema y trabajo en dos columnas, y «qué quedó» en una franja visual destacada. Los tres «Otros frentes» se conservan.
+- Validación local: lint, seis pruebas de sitio, build y `git diff --check` PASS. Revisión visual en escritorio y móviles de 390/320 px PASS, sin desborde horizontal; «Ver los casos» llega a `#historias` y aparecen los cuatro relatos.
+- Gate final: actualizar y comprobar la preview del PR #76. Sin merge ni producción; rollback por reversión del commit.
