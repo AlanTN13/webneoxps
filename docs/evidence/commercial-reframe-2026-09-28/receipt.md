@@ -259,3 +259,18 @@
 - Las cinco señales se mantienen bajo el título «Señales de que tu negocio necesita un plan estratégico de trabajo.». «Cómo entramos» incorpora el nuevo título sobre tienda, anuncios, marketplaces y operación y el párrafo aprobado. Se retiró de `/ecommerce` el bloque «Experiencia aplicada»; no se tocaron los casos de la página Experiencia.
 - Verificación local: lint, seis pruebas del sitio, build y `git diff --check` PASS. Revisión visual en escritorio y móviles de 390 y 320 px PASS, sin desborde horizontal a 320 px. El enlace «¿Es para mí?» lleva a `#senales`.
 - Gate final: actualizar y comprobar la preview del PR #76. Sin merge ni cambios en producción; rollback por reversión del commit.
+
+## AJUSTE COMERCIAL DE CONSULTORÍA — PREFLIGHT / PATCH MODE (2026-10-12)
+
+- Rol y superficie: página pública `/consultoria` del PR draft #76; fuente canónica AlanOS `origin/main` en `6d28ad4`, contrato de ejecución versión 2026-09-20 y decisiones de dos puertas comerciales. Baseline web `8aa5f77`, limpio y coincidente con el PR.
+- Resultado autorizado: aplicar a Consultoría la lógica comercial y visual recién aprobada para Ecommerce, manteniendo la diferencia de oferta: promesa directa, CTA claro, visual explicativa, síntomas concretos y un método sin repetición de secciones.
+- Budget/riesgo: M / T1 / R1. Superficie permitida: contenido de `/consultoria`, estilos asociados y este receipt. Congeladas: Home, Ecommerce, Experiencia, rutas, Radar/editorial, automatizaciones y producción.
+- Aceptación: Consultoría explica diagnóstico, priorización y acompañamiento; seis situaciones siguen visibles; no se promete un resultado no verificado; desktop y móvil legibles sin desborde; CTA y ancla funcionales. Validación: lint, pruebas de sitio, build, `git diff --check`, smoke visual local y preview del PR.
+- Permisos/recuperación: publicar sólo en rama del PR draft, sin merge ni producción; rollback por reversión del commit. STOP si hace falta cambiar otra superficie o si aparece un problema ajeno a `/consultoria`.
+
+## AJUSTE COMERCIAL DE CONSULTORÍA — RECEIPT (2026-10-12)
+
+- Delta: hero con promesa de ordenar la operación para crecer con más control, texto anclado en consultas, dependencia de personas y datos distintos, CTA «Quiero ordenar mi operación» y enlace «¿Es para mí?» a `#situaciones`. La foto editorial se sustituyó por un diagrama de ventas, procesos y datos que desemboca en diagnóstico y primer cambio priorizado.
+- Las seis situaciones originales se mantienen y pasan a una lista numerada con la respuesta de NexOps. Se elimina el bloque repetitivo «Del síntoma a una decisión»; el bloque oscuro ahora concentra método y entregables con el título «Del problema a un plan que tu equipo puede poner en marcha». El cierre usa el mismo CTA del hero.
+- Validación local: lint, seis pruebas de sitio, build y `git diff --check` PASS. Revisión visual de escritorio y móviles de 390/320 px PASS, sin desborde horizontal; el enlace «¿Es para mí?» llega a `#situaciones`.
+- Gate final: actualizar y comprobar la preview del PR #76. Sin merge ni cambios en producción; rollback por reversión del commit.

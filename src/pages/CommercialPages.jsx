@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesCombined, Megaphone, PackageCheck, ShoppingBag, Store } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesCombined, Database, Megaphone, MessageSquare, PackageCheck, ShoppingBag, Store, Workflow } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -84,28 +84,29 @@ const consultingSignals = [
   ["Cada pedido exige copiar datos, perseguir mensajes y corregir planillas.", "Trabajo manual", "Identificamos tareas repetidas y decidimos qué simplificar, integrar o automatizar."],
 ];
 
-const consultingScenarios = [
-  { label: "COMERCIAL", title: "Las oportunidades se enfrían entre una consulta y otra.", copy: "Revisamos cómo entran los contactos, quién responde, qué queda registrado y qué seguimiento falta. De ahí puede salir un proceso comercial y un CRM que el equipo sí pueda usar." },
-  { label: "OPERACIÓN", title: "Cada venta suma trabajo manual y más excepciones.", copy: "Mapeamos pasos, responsables y sistemas. Elegimos qué simplificar, qué automatizar y qué necesita seguir bajo criterio de una persona." },
-  { label: "DIRECCIÓN", title: "Tenés datos y herramientas, pero cuesta decidir dónde invertir.", copy: "Ordenamos indicadores, prioridades y alternativas. La IA entra cuando resuelve una tarea concreta con contexto, permisos y revisión." },
-];
+function ConsultingDiagram() {
+  return <figure className={styles.consultingDiagram} role="img" aria-label="Diagrama de Consultoría: ventas, procesos y datos se revisan para definir una prioridad, responsables y cómo medir el cambio">
+    <div className={styles.consultingDiagramInputs} aria-hidden="true"><span><MessageSquare size={18} /> Ventas</span><span><Workflow size={18} /> Procesos</span><span><Database size={18} /> Datos</span></div>
+    <div className={styles.consultingDiagramConnector} aria-hidden="true"><i /><ArrowDown size={20} /></div>
+    <div className={styles.consultingDiagramBoard} aria-hidden="true"><div className={styles.consultingDiagramBoardTop}><span>DIAGNÓSTICO DEL NEGOCIO</span><span>01 — 03</span></div><div className={styles.consultingDiagramBoardBody}><div><b>01</b><strong>Entender el circuito real</strong><small>Qué se pierde y dónde se traba</small></div><div><b>02</b><strong>Elegir una prioridad</strong><small>Impacto, esfuerzo y dependencias</small></div><div><b>03</b><strong>Definir cómo avanzar</strong><small>Responsables y próximos pasos</small></div></div></div>
+    <div className={styles.consultingDiagramResult} aria-hidden="true"><span>UN PLAN DE TRABAJO CONCRETO</span><strong>Qué cambiar primero <ArrowUpRight size={23} /></strong></div>
+  </figure>;
+}
 
 export function ConsultingPage() {
   usePageMetadata("Consultoría de negocio, procesos y tecnología", "Consultoría NexOps para empresas con ventas desordenadas, tareas manuales, sistemas desconectados o datos difíciles de usar. Diagnóstico y prioridades antes de elegir tecnología.");
   return <Layout home showFloatingWhatsApp={false}><div className={styles.page}>
     <section className={`${styles.hero} ${styles.consultingHero}`}><div className={styles.shell}><div className={styles.heroGrid}>
-      <div><span className={styles.eyebrow}>CONSULTORÍA / NEGOCIO PRIMERO</span><h1>Tu empresa creció. <em>¿La operación pudo seguirle el ritmo?</em></h1><p>Cuando ventas pierde seguimiento, los procesos dependen de personas clave y los sistemas no se hablan, comprar otra herramienta no alcanza. Entramos al negocio para entender qué se rompió y definir qué conviene cambiar primero.</p><div className={styles.heroActions}><Action>Quiero entender por dónde empezar</Action><a href="#situaciones" className={styles.textLink}>Ver situaciones frecuentes <ArrowRight size={17} /></a></div></div>
-      <figure className={styles.heroPhoto}><img src="/assets/nexops-consulting-editorial.webp" alt="Imagen editorial ilustrativa de una conversación de planificación empresarial" /><figcaption>Primero entendemos el negocio y a quienes lo operan.</figcaption><small>Imagen editorial ilustrativa</small></figure>
+      <div><h1>Ordená tu operación para <em>crecer con más control.</em></h1><p>Si las consultas se pierden, el trabajo depende de personas clave o los sistemas muestran datos distintos, no necesitás empezar por otra herramienta. Revisamos cómo funciona hoy el negocio, encontramos el cuello de botella y priorizamos el cambio que conviene hacer primero.</p><div className={styles.heroActions}><Action>Quiero ordenar mi operación</Action><a href="#situaciones" className={styles.textLink}>¿Es para mí? <ArrowRight size={17} /></a></div></div>
+      <ConsultingDiagram />
     </div></div></section>
 
-    <section className={styles.signalSection} id="situaciones"><div className={styles.shell}><div className={styles.sectionIntro}><span className={styles.eyebrow}>CUÁNDO ENTRA CONSULTORÍA</span><h2>¿Alguna de estas fallas ya te está <em>costando ventas o tiempo?</em></h2></div><div className={styles.consultingSignals}>{consultingSignals.map(([situation, area, response]) => <article key={area}><h3>“{situation}”</h3><span>{area}</span><p>{response}</p></article>)}</div></div></section>
+    <section className={styles.signalSection} id="situaciones"><div className={styles.shell}><div className={styles.sectionIntro}><h2>Señales de que tu empresa necesita <em>ordenar cómo trabaja.</em></h2></div><div className={styles.signalList}>{consultingSignals.map(([situation, area, response], index) => <article key={area}><span>0{index + 1}</span><div><h3>{situation}</h3><p><strong>Qué revisamos:</strong> {response}</p></div></article>)}</div></div></section>
 
-    <section className={styles.consultingScenarios}><div className={styles.shell}><span className={styles.eyebrow}>DEL SÍNTOMA A UNA DECISIÓN</span><h2>Comprar otra herramienta no arregla <em>un seguimiento roto.</em></h2><div className={styles.scenarioGrid}>{consultingScenarios.map((scenario) => <article key={scenario.label}><span>{scenario.label}</span><h3>{scenario.title}</h3><p>{scenario.copy}</p></article>)}</div></div></section>
-
-    <section className={styles.consultingOutput}><div className={styles.shell}><div><span className={styles.eyebrow}>QUÉ SALE DEL TRABAJO</span><h2>Una prioridad que el equipo <em>puede ejecutar.</em></h2><p>Según el alcance, puede ser un diagnóstico, un proceso comercial definido, un mapa de fricciones, indicadores para dirigir o una hoja de ruta. Cada recomendación explica qué problema resuelve, quién participa y cómo sabremos si mejoró.</p></div><ol><li><span>01</span><strong>Entender</strong><p>Escuchamos a dirección y al equipo; revisamos el recorrido real del trabajo.</p></li><li><span>02</span><strong>Elegir</strong><p>Separamos urgencias de causas y contrastamos impacto, esfuerzo y dependencias.</p></li><li><span>03</span><strong>Avanzar</strong><p>Definimos un primer cambio que se pueda implementar y revisar.</p></li></ol></div></section>
+    <section className={styles.consultingOutput}><div className={styles.shell}><div><span className={styles.eyebrow}>CÓMO TRABAJAMOS</span><h2>Del problema a un plan que tu equipo <em>puede poner en marcha.</em></h2><p>Trabajamos con dirección y el equipo para reconstruir el circuito real, elegir el cuello de botella y definir un primer cambio. Según el alcance, queda un diagnóstico, un proceso comercial, un mapa de fricciones, indicadores o una hoja de ruta. Cada recomendación indica responsables y cómo medir si funcionó.</p></div><ol><li><span>01</span><strong>Entender</strong><p>Escuchamos a dirección y al equipo; revisamos el recorrido real del trabajo.</p></li><li><span>02</span><strong>Priorizar</strong><p>Separamos urgencias de causas y contrastamos impacto, esfuerzo y dependencias.</p></li><li><span>03</span><strong>Avanzar</strong><p>Definimos un primer cambio que se pueda implementar y revisar.</p></li></ol></div></section>
 
     <section className={styles.crossSection}><div className={styles.shell}><strong>¿Tu principal desafío es vender online?</strong><p>Si la pregunta está en tienda, Mercado Libre, campañas, catálogo o recompra, mirá nuestra puerta de Ecommerce.</p><Link to="/ecommerce">Conocer Ecommerce <ArrowRight size={17} /></Link></div></section>
-    <Closing eyebrow="HABLEMOS DE TU OPERACIÓN" title={<>Contanos dónde se está <em>trabando tu empresa.</em></>} copy="No necesitás un brief técnico. Decinos qué se pierde, qué cuesta sostener o qué decisión está pendiente; empezamos por ahí." action="Quiero entender por dónde empezar" />
+    <Closing eyebrow="HABLEMOS DE TU OPERACIÓN" title={<>Contanos qué está <em>trabando tu operación.</em></>} copy="No necesitás un brief técnico. Decinos qué se pierde, qué cuesta sostener o qué decisión está pendiente; empezamos por ahí." action="Quiero ordenar mi operación" />
   </div></Layout>;
 }
 

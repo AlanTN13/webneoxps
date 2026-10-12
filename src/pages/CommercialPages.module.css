@@ -47,10 +47,26 @@
 .diagramProductList span::after { position:absolute; top:14px; left:47px; width:calc(100% - 58px); height:5px; border-radius:3px; background:#b8a8d0; box-shadow:0 12px 0 #d2c8e0; content:""; }
 .diagramOutcomes { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
 .diagramOutcomes span { display:flex; min-height:46px; align-items:center; justify-content:center; gap:6px; padding:7px; border:1px solid #d9cdea; border-radius:9px; background:#fff; color:#3f3266; font-size:.73rem; font-weight:750; }
-.heroPhoto { position:relative; height:500px; border-radius:15px 95px 15px 15px; background:#ded5e8; }
-.heroPhoto img { display:block; width:100%; height:100%; object-fit:cover; border-radius:inherit; }
-.heroPhoto figcaption { position:absolute; right:-12px; bottom:42px; max-width:270px; padding:18px 22px; border-radius:12px; background:white; box-shadow:0 15px 38px #29203933; font-weight:660; }
-.heroPhoto small { position:absolute; left:15px; bottom:11px; padding:4px 7px; border-radius:3px; background:#292039bb; color:white; font-size:.62rem; }
+.consultingDiagram { position:relative; display:flex; min-height:500px; flex-direction:column; justify-content:center; gap:0; overflow:hidden; padding:29px; border:1px solid #ded4ee; border-radius:17px 85px 17px 17px; background:linear-gradient(155deg,#e9e1f6,#f5f1fa 58%,#ded3ef); box-shadow:0 22px 55px rgba(46,34,78,.13); }
+.consultingDiagram::before { position:absolute; right:-92px; bottom:-100px; width:290px; height:290px; border:1px solid #fff8; border-radius:50%; box-shadow:0 0 0 55px #fff3,0 0 0 110px #fff2; content:""; }
+.consultingDiagramInputs, .consultingDiagramConnector, .consultingDiagramBoard, .consultingDiagramResult { position:relative; z-index:1; }
+.consultingDiagramInputs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.consultingDiagramInputs span { display:flex; min-height:61px; align-items:center; justify-content:center; gap:7px; padding:8px; border:1px solid #e7dff0; border-radius:11px; background:#fff; color:#493888; font-size:.76rem; font-weight:730; box-shadow:0 5px 14px #3024440d; }
+.consultingDiagramInputs svg { flex:0 0 auto; }
+.consultingDiagramConnector { display:flex; height:42px; flex-direction:column; align-items:center; justify-content:center; color:#6b52af; }
+.consultingDiagramConnector i { height:14px; border-left:1px solid #9d87cb; }
+.consultingDiagramBoard { overflow:hidden; border:1px solid #d8cee8; border-radius:14px; background:#fff; box-shadow:0 18px 30px #30244421; }
+.consultingDiagramBoardTop { display:flex; justify-content:space-between; gap:12px; padding:11px 17px; background:#302940; color:#e7ddff; font-size:.65rem; font-weight:780; letter-spacing:.08em; }
+.consultingDiagramBoardBody { display:grid; gap:0; padding:3px 17px; }
+.consultingDiagramBoardBody > div { display:grid; grid-template-columns:30px 1fr; column-gap:10px; padding:11px 0; border-bottom:1px solid #e9e4ef; }
+.consultingDiagramBoardBody > div:last-child { border-bottom:0; }
+.consultingDiagramBoardBody b { grid-row:span 2; color:#6a51b5; font-size:.69rem; font-weight:780; }
+.consultingDiagramBoardBody strong { color:#302940; font-size:.89rem; line-height:1.25; }
+.consultingDiagramBoardBody small { margin-top:3px; color:#716a79; font-size:.72rem; line-height:1.35; }
+.consultingDiagramResult { margin-top:13px; padding:15px 18px; border-radius:11px; background:#5d49b8; color:#fff; box-shadow:0 13px 24px #4b36942b; }
+.consultingDiagramResult > span { display:block; margin-bottom:3px; color:#e2d9fc; font-size:.62rem; font-weight:780; letter-spacing:.09em; }
+.consultingDiagramResult strong { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:1.2rem; font-weight:650; letter-spacing:-.03em; }
+.consultingDiagramResult svg { flex:0 0 auto; }
 .signalSection { padding:79px 0 86px; }
 .sectionIntro { max-width:850px; margin-bottom:27px; }
 .sectionIntro .eyebrow { margin-bottom:16px; }
@@ -83,18 +99,6 @@
 .closing p { max-width:500px; margin-bottom:23px; color:#ddd6e9; font-size:1.02rem; }
 .closing .action { background:#e9e1fc; color:#372752; }
 .closing .action:hover { background:#fff; }
-.consultingSignals { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
-.consultingSignals article { display:flex; flex-direction:column; min-height:193px; padding:23px 25px; border:1px solid #e3deeb; border-radius:10px; background:#fbfafc; }
-.consultingSignals h3 { max-width:490px; font-size:1.18rem; }
-.consultingSignals span { margin-top:18px; color:var(--violet); font-size:.73rem; font-weight:760; text-transform:uppercase; letter-spacing:.06em; }
-.consultingSignals p { margin-top:5px; color:var(--muted); font-size:.89rem; }
-.consultingScenarios { padding:80px 0 87px; background:#f3f0f8; }
-.consultingScenarios .eyebrow { margin-bottom:15px; }
-.scenarioGrid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:30px; }
-.scenarioGrid article { padding:28px; border-radius:12px; background:#fff; }
-.scenarioGrid span { color:var(--violet); font-size:.71rem; font-weight:760; letter-spacing:.08em; }
-.scenarioGrid h3 { margin-top:22px; }
-.scenarioGrid p { margin-top:13px; color:var(--muted); font-size:.94rem; }
 .consultingOutput { padding:80px 0; background:#2d273e; color:white; }
 .consultingOutput > div { display:grid; grid-template-columns:1fr .9fr; gap:clamp(40px,8vw,105px); }
 .consultingOutput .eyebrow { margin-bottom:17px; color:#c7b7fa; }
@@ -147,8 +151,7 @@
   .experiencePreview { display:grid; grid-template-columns:repeat(3,1fr); gap:8px 18px; }
   .experiencePreview > span { grid-column:1 / -1; }
   .ecommerceDiagram { min-height:420px; }
-  .heroPhoto { height:440px; max-width:650px; }
-  .scenarioGrid { grid-template-columns:1fr; }
+  .consultingDiagram { min-height:460px; max-width:650px; }
   .storyList article { grid-template-columns:1fr; gap:18px; }
   .experienceMore > div > div { grid-template-columns:1fr; }
 }
@@ -158,11 +161,10 @@
   .page h2 { font-size:clamp(2rem,8vw,2.8rem); }
   .hero { padding:50px 0 58px; }
   .ecommerceDiagram { min-height:390px; padding:22px; border-top-left-radius:65px; }
-  .heroPhoto { height:360px; }
-  .signalSection, .featureSection, .consultingScenarios, .consultingOutput, .stories { padding-block:65px; }
-  .moveGrid, .consultingSignals, .consultingOutput > div, .closing > div { grid-template-columns:1fr; }
+  .consultingDiagram { min-height:0; padding:22px; border-top-right-radius:65px; }
+  .signalSection, .featureSection, .consultingOutput, .stories { padding-block:65px; }
+  .moveGrid, .consultingOutput > div, .closing > div { grid-template-columns:1fr; }
   .moveGrid article { min-height:0; }
-  .consultingSignals article { min-height:125px; }
   .storyNarrative { grid-template-columns:1fr; gap:16px; }
   .experiencePreview { grid-template-columns:1fr; }
   .storyNarrative small { grid-column:auto; }
@@ -178,7 +180,13 @@
   .diagramSources svg { width:16px; height:16px; }
   .diagramOutcomes span { gap:4px; font-size:.65rem; }
   .diagramOutcomes svg { width:14px; height:14px; }
-  .heroPhoto figcaption { max-width:70%; right:-8px; bottom:32px; font-size:.86rem; }
+  .consultingDiagram { padding:17px; }
+  .consultingDiagramInputs span { flex-direction:column; gap:3px; min-height:60px; padding:6px 3px; font-size:.68rem; }
+  .consultingDiagramInputs svg { width:16px; height:16px; }
+  .consultingDiagramBoardTop { padding-inline:12px; font-size:.57rem; }
+  .consultingDiagramBoardBody { padding-inline:12px; }
+  .consultingDiagramBoardBody strong { font-size:.82rem; }
+  .consultingDiagramBoardBody small { font-size:.67rem; }
   .consultingOutput li { grid-template-columns:25px 1fr; }
   .consultingOutput li p { grid-column:2; }
 }
