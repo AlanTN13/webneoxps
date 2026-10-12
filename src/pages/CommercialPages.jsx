@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesCombined, Megaphone, PackageCheck, ShoppingBag, Store } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -45,22 +45,33 @@ const ecommerceMoves = [
   { number: "04 / OPERACIÓN CONECTADA", title: "Vender más exige que la operación pueda responder.", copy: "Unimos datos de campañas, tienda y canales para leer rentabilidad. Automatizamos o integramos tareas cuando catálogo, stock, pedidos o seguimiento dependen de trabajo manual.", tags: ["Automatización", "Integraciones", "Medición"] },
 ];
 
+function EcommerceDiagram() {
+  return <figure className={styles.ecommerceDiagram} role="img" aria-label="Diagrama de campañas y marketplaces conectados con una tienda online, pedidos, stock y margen">
+    <div className={styles.diagramSources} aria-hidden="true"><span><Megaphone size={18} /> Campañas</span><span><Store size={18} /> Marketplaces</span></div>
+    <ArrowDown className={styles.diagramArrow} size={21} aria-hidden="true" />
+    <div className={styles.diagramStore} aria-hidden="true">
+      <div className={styles.diagramStoreHeader}><div><i /><i /><i /></div><strong>Tu tienda online</strong><ShoppingBag size={20} /></div>
+      <div className={styles.diagramStoreBody}><div className={styles.diagramFeaturedProduct}><span /><strong>Producto destacado</strong><small>Ver producto ↗</small></div><div className={styles.diagramProductList}><span /><span /><span /></div></div>
+    </div>
+    <ArrowDown className={styles.diagramArrow} size={21} aria-hidden="true" />
+    <div className={styles.diagramOutcomes} aria-hidden="true"><span><ShoppingBag size={17} /> Pedidos</span><span><PackageCheck size={17} /> Stock</span><span><ChartNoAxesCombined size={17} /> Margen</span></div>
+  </figure>;
+}
+
 export function EcommercePage() {
   usePageMetadata("Ecommerce que vende y opera mejor", "NexOps ayuda a negocios que venden online a ordenar tienda, Mercado Libre, campañas, contenido, email, datos y operación con foco en conversión y rentabilidad.");
   return <Layout home showFloatingWhatsApp={false}><div className={styles.page}>
     <section className={`${styles.hero} ${styles.ecommerceHero}`}><div className={styles.shell}><div className={styles.heroGrid}>
-      <div><span className={styles.eyebrow}>ECOMMERCE / CRECIMIENTO CON CRITERIO</span><h1>Vendés online. <em>¿Está creciendo el negocio o sólo el trabajo?</em></h1><p>Una tienda con visitas, publicaciones en Mercado Libre y campañas activas no garantizan ventas rentables. Miramos el negocio completo: qué vendés, dónde se pierde la compra y qué necesita la operación para sostenerla.</p><div className={styles.heroActions}><Action>Quiero potenciar mi ecommerce</Action><a href="#senales" className={styles.textLink}>¿Te pasa esto? <ArrowRight size={17} /></a></div></div>
-      <div className={styles.heroAside}><span>VENTA ONLINE REAL</span><strong>Canales + demanda + operación</strong><p>Una misma estrategia para que tienda, marketplace, campañas, contenido, datos y stock no empujen en direcciones distintas.</p><div><span>01 / ATRAER</span><span>02 / CONVERTIR</span><span>03 / REPETIR</span></div></div>
+      <div><h1>Vende más y de manera <em>rentable con NexOps.</em></h1><p>Una tienda con visitas, publicaciones en Mercado Libre y campañas activas no garantizan ventas rentables. Miramos el negocio completo: qué vendés, dónde se pierde la compra y qué necesita la operación para sostenerla.</p><div className={styles.heroActions}><Action>Quiero potenciar mi negocio</Action><a href="#senales" className={styles.textLink}>¿Es para mí? <ArrowRight size={17} /></a></div></div>
+      <EcommerceDiagram />
     </div></div></section>
 
-    <section className={styles.signalSection} id="senales"><div className={styles.shell}><div className={styles.sectionIntro}><span className={styles.eyebrow}>LO QUE SUELE FRENAR LA VENTA</span><h2>La venta se pierde entre canales, campañas <em>y operación.</em></h2></div><div className={styles.signalList}>{ecommerceSignals.map(([number, title, copy]) => <article key={number}><span>{number}</span><div><h3>{title}</h3><p><strong>Qué hacemos:</strong> {copy}</p></div></article>)}</div></div></section>
+    <section className={styles.signalSection} id="senales"><div className={styles.shell}><div className={styles.sectionIntro}><h2>Señales de que tu negocio necesita un <em>plan estratégico de trabajo.</em></h2></div><div className={styles.signalList}>{ecommerceSignals.map(([number, title, copy]) => <article key={number}><span>{number}</span><div><h3>{title}</h3><p><strong>Qué hacemos:</strong> {copy}</p></div></article>)}</div></div></section>
 
-    <section className={styles.featureSection}><div className={styles.shell}><div className={styles.featureHeading}><span className={styles.eyebrow}>CÓMO ENTRAMOS</span><h2>Tienda, pauta y stock no pueden <em>trabajar cada uno por su lado.</em></h2><p>Elegimos el cuello de botella real y conectamos sólo el trabajo que el negocio necesita: producto, canales, demanda, datos y operación.</p></div><div className={styles.moveGrid}>{ecommerceMoves.map((move) => <article key={move.number}><span>{move.number}</span><h3>{move.title}</h3><p>{move.copy}</p><div>{move.tags.map((tag) => <small key={tag}>{tag}</small>)}</div></article>)}</div></div></section>
-
-    <section className={styles.exampleSection}><div className={styles.shell}><div className={styles.exampleLead}><span className={styles.eyebrow}>EXPERIENCIA APLICADA</span><h2>Mercado Libre con Sommier Magno. <em>Email con OnlySellers.</em></h2></div><div className={styles.exampleCards}><article><span>SOMMIER MAGNO</span><h3>Mercado Libre y canal propio, paso a paso.</h3><p>El lanzamiento exigía coordinar catálogo, publicaciones, contenido, web y economía del canal. Se trabajó una salida piloto antes de escalar pauta.</p></article><article><span>ONLYSELLERS</span><h3>Contenido y email que no nacen de cero cada semana.</h3><p>La operación de email combina segmentación, calendario y una biblioteca editorial para sostener campañas y aprender de la respuesta de la base.</p></article></div><Link className={styles.textLink} to="/experiencia">Conocer los trabajos reales <ArrowRight size={18} /></Link></div></section>
+    <section className={styles.featureSection}><div className={styles.shell}><div className={styles.featureHeading}><span className={styles.eyebrow}>CÓMO ENTRAMOS</span><h2>Tienda, anuncios, marketplaces y operación <em>no pueden trabajar cada uno por su lado.</em></h2><p>Elegimos el cuello de botella real y conectamos solo el trabajo que el negocio necesita: producto, canales, demanda y operación.</p></div><div className={styles.moveGrid}>{ecommerceMoves.map((move) => <article key={move.number}><span>{move.number}</span><h3>{move.title}</h3><p>{move.copy}</p><div>{move.tags.map((tag) => <small key={tag}>{tag}</small>)}</div></article>)}</div></div></section>
 
     <section className={styles.crossSection}><div className={styles.shell}><strong>¿El problema va más allá de vender online?</strong><p>Si lo que se desordenó son los procesos, el equipo comercial o los sistemas de toda la empresa, empecemos por Consultoría.</p><Link to="/consultoria">Conocer Consultoría <ArrowRight size={17} /></Link></div></section>
-    <Closing eyebrow="HABLEMOS DE TU VENTA ONLINE" title={<>¿Qué parte de tu ecommerce <em>no está rindiendo?</em></>} copy="Contanos si el cuello está en Mercado Libre, tu tienda, las campañas, el stock o la recompra. En la primera conversación ubicamos el problema y el mejor punto de partida." action="Quiero potenciar mi ecommerce" />
+    <Closing eyebrow="HABLEMOS DE TU VENTA ONLINE" title={<>¿Qué parte de tu ecommerce <em>no está rindiendo?</em></>} copy="Contanos si el cuello está en Mercado Libre, tu tienda, las campañas, el stock o la recompra. En la primera conversación ubicamos el problema y el mejor punto de partida." action="Quiero potenciar mi negocio" />
   </div></Layout>;
 }
 

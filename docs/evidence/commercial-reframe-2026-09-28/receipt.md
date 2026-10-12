@@ -244,3 +244,18 @@
 - Delta: menú de pantalla completa con el lila oscuro de NexOps, marca y cierre claros, eslogan existente, enlaces numerados con separación consistente y CTA lila claro. El botón hamburguesa recibe un fondo y borde propios. Se conserva el orden y destino de todos los enlaces; se añade cierre con Escape, foco inicial en cerrar y estado expandido accesible.
 - Superficie permitida: componente Header compartido, estilos de su menú y este receipt. Contenido de Home y páginas internas, Radar, editorial, automatizaciones y producción congelados. Reversión por commit; sin merge.
 - Validación focalizada: revisión local a 390 × 844 y 320 × 667, navegación a Ecommerce, apertura/cierre y Escape PASS. Lint, pruebas de sitio, build y `git diff --check` antes de subir; preview del PR #76 como gate visual.
+
+## AJUSTE COMERCIAL DE ECOMMERCE — PREFLIGHT / PATCH MODE (2026-10-12)
+
+- Rol y superficie: edición del PR draft #76, sólo página pública `/ecommerce` y sus estilos; fuente canónica AlanOS consultada en `56363f6`, contrato de ejecución versión 2026-09-20. Rama web `cc81bd5`, limpia y coincidente con el HEAD remoto del PR.
+- Resultado autorizado: aplicar los cambios marcados por Alan en cuatro capturas: nuevo título y CTA del hero, reemplazo de su tarjeta por un diagrama de tienda online, nuevo título de señales, nuevo título y párrafo de «Cómo entramos», y retiro completo de «Experiencia aplicada» en esta página.
+- Tamaño y riesgo: M / T1 / R1, cambio reversible de contenido y presentación en preview. Dentro: `/ecommerce`, CSS de esa página y este receipt. Fuera: Home, Consultoría, Experiencia, rutas, Radar, editorial, automatizaciones y producción.
+- Aceptación: texto y bloques visibles según las capturas, diagrama legible en escritorio y móvil, enlaces funcionales, sin desborde; lint, pruebas de sitio, build y `git diff --check`, más un smoke visual local y revisión de la preview del PR.
+- Permisos y recuperación: publicar sólo en la rama del PR draft; no merge ni producción. Rollback por reversión del commit. STOP si un cambio exige modificar otra superficie o si el smoke muestra un problema que no pertenece a `/ecommerce`.
+
+## AJUSTE COMERCIAL DE ECOMMERCE — RECEIPT (2026-10-12)
+
+- Delta: el hero presenta «Vende más y de manera rentable con NexOps.» y los CTA «Quiero potenciar mi negocio» y «¿Es para mí?». La tarjeta anterior se reemplazó por un diagrama propio de campañas y marketplaces conectados con tienda online, pedidos, stock y margen. Se conserva el párrafo de apoyo.
+- Las cinco señales se mantienen bajo el título «Señales de que tu negocio necesita un plan estratégico de trabajo.». «Cómo entramos» incorpora el nuevo título sobre tienda, anuncios, marketplaces y operación y el párrafo aprobado. Se retiró de `/ecommerce` el bloque «Experiencia aplicada»; no se tocaron los casos de la página Experiencia.
+- Verificación local: lint, seis pruebas del sitio, build y `git diff --check` PASS. Revisión visual en escritorio y móviles de 390 y 320 px PASS, sin desborde horizontal a 320 px. El enlace «¿Es para mí?» lleva a `#senales`.
+- Gate final: actualizar y comprobar la preview del PR #76. Sin merge ni cambios en producción; rollback por reversión del commit.

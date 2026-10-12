@@ -22,11 +22,31 @@
 .hero .eyebrow { margin-bottom:24px; }
 .hero p { max-width:640px; margin-top:24px; color:#504959; font-size:1.08rem; }
 .heroActions { display:flex; align-items:center; flex-wrap:wrap; gap:15px 22px; margin-top:29px; }
-.heroAside { display:flex; flex-direction:column; justify-content:flex-end; min-height:475px; padding:40px; border-radius:95px 14px 14px 14px; background:linear-gradient(145deg,#40345f,#2d253e 68%); color:white; box-shadow:0 22px 55px rgba(46,34,78,.16); }
-.heroAside > span { color:#c7b8fa; font-size:.75rem; font-weight:760; letter-spacing:.11em; }
-.heroAside > strong { display:block; max-width:430px; margin-top:15px; font-size:clamp(2.1rem,3.5vw,3.6rem); font-weight:560; line-height:1.1; letter-spacing:-.055em; }
-.heroAside p { max-width:410px; margin-top:19px; color:#e0d9eb; font-size:1rem; }
-.heroAside > div { display:flex; gap:20px; flex-wrap:wrap; margin-top:38px; padding-top:18px; border-top:1px solid #796c92; color:#d8cafa; font-size:.69rem; font-weight:740; letter-spacing:.06em; }
+.ecommerceDiagram { position:relative; display:flex; min-height:475px; flex-direction:column; justify-content:center; gap:10px; overflow:hidden; padding:28px; border:1px solid #dacfec; border-radius:78px 16px 16px 16px; background:linear-gradient(150deg,#f0eafd,#e2d8f3); box-shadow:0 22px 55px rgba(46,34,78,.13); }
+.ecommerceDiagram::before { position:absolute; top:-95px; right:-90px; width:260px; height:260px; border-radius:50%; background:#cbb8ef88; content:""; }
+.diagramSources, .diagramStore, .diagramOutcomes { position:relative; z-index:1; }
+.diagramSources { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+.diagramSources span { display:flex; min-height:47px; align-items:center; justify-content:center; gap:8px; padding:8px 10px; border:1px solid #e4ddef; border-radius:10px; background:#fff; color:#493888; font-size:.8rem; font-weight:730; box-shadow:0 5px 14px #3024440d; }
+.diagramSources svg, .diagramOutcomes svg { flex:0 0 auto; }
+.diagramArrow { z-index:1; align-self:center; flex:0 0 auto; color:#6b52af; }
+.diagramStore { overflow:hidden; border:1px solid #d8cee8; border-radius:14px; background:#fff; box-shadow:0 18px 30px #30244421; }
+.diagramStoreHeader { display:flex; min-height:44px; align-items:center; justify-content:space-between; gap:10px; padding:8px 14px; background:#302940; color:#fff; }
+.diagramStoreHeader > div { display:flex; gap:4px; }
+.diagramStoreHeader i { width:5px; height:5px; border-radius:50%; background:#b9a9d6; }
+.diagramStoreHeader strong { font-size:.85rem; font-weight:700; }
+.diagramStoreHeader svg { color:#d3c5ee; }
+.diagramStoreBody { display:grid; grid-template-columns:1.3fr .7fr; gap:10px; padding:12px; }
+.diagramFeaturedProduct { position:relative; display:flex; height:158px; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:12px; border-radius:8px; background:linear-gradient(145deg,#f0e9f8,#dfd2ef); }
+.diagramFeaturedProduct > span { position:absolute; top:17px; left:calc(50% - 28px); width:56px; height:70px; transform:rotate(-9deg); border-radius:11px 11px 6px 6px; background:linear-gradient(135deg,#886bd4,#503994); box-shadow:12px 10px 0 #b89de2; }
+.diagramFeaturedProduct > span::before { position:absolute; top:8px; left:17px; width:21px; height:11px; border:3px solid #d9c9f6; border-bottom:0; border-radius:12px 12px 0 0; content:""; }
+.diagramFeaturedProduct strong { position:relative; color:#302940; font-size:.82rem; font-weight:760; }
+.diagramFeaturedProduct small { position:relative; color:#59478d; font-size:.68rem; font-weight:690; }
+.diagramProductList { display:grid; grid-template-rows:repeat(3,1fr); gap:7px; }
+.diagramProductList span { position:relative; border-radius:7px; background:#f3eff8; }
+.diagramProductList span::before { position:absolute; top:7px; left:8px; width:31px; height:calc(100% - 14px); border-radius:5px; background:#d6c6ed; content:""; }
+.diagramProductList span::after { position:absolute; top:14px; left:47px; width:calc(100% - 58px); height:5px; border-radius:3px; background:#b8a8d0; box-shadow:0 12px 0 #d2c8e0; content:""; }
+.diagramOutcomes { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.diagramOutcomes span { display:flex; min-height:46px; align-items:center; justify-content:center; gap:6px; padding:7px; border:1px solid #d9cdea; border-radius:9px; background:#fff; color:#3f3266; font-size:.73rem; font-weight:750; }
 .heroPhoto { position:relative; height:500px; border-radius:15px 95px 15px 15px; background:#ded5e8; }
 .heroPhoto img { display:block; width:100%; height:100%; object-fit:cover; border-radius:inherit; }
 .heroPhoto figcaption { position:absolute; right:-12px; bottom:42px; max-width:270px; padding:18px 22px; border-radius:12px; background:white; box-shadow:0 15px 38px #29203933; font-weight:660; }
@@ -51,14 +71,6 @@
 .moveGrid p { max-width:490px; margin-top:10px; color:var(--muted); font-size:.95rem; }
 .moveGrid article > div { display:flex; flex-wrap:wrap; gap:7px; margin-top:auto; padding-top:21px; }
 .moveGrid small { padding:5px 9px; border-radius:30px; background:#f0ecf8; color:#53467a; font-size:.74rem; }
-.exampleSection { padding:82px 0 90px; }
-.exampleLead { max-width:770px; }
-.exampleLead .eyebrow { margin-bottom:14px; }
-.exampleCards { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin:29px 0 20px; }
-.exampleCards article { padding:29px; border-top:3px solid #b09de0; background:#f9f8fb; }
-.exampleCards span { color:var(--violet); font-size:.74rem; font-weight:760; letter-spacing:.08em; }
-.exampleCards h3 { max-width:420px; margin-top:19px; font-size:1.5rem; }
-.exampleCards p { max-width:510px; margin-top:11px; color:var(--muted); }
 .crossSection { padding:28px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .crossSection > div { display:flex; flex-wrap:wrap; align-items:center; gap:13px 28px; }
 .crossSection strong { max-width:280px; font-size:1.12rem; }
@@ -134,7 +146,7 @@
   .experienceHeroGrid { grid-template-columns:1fr; }
   .experiencePreview { display:grid; grid-template-columns:repeat(3,1fr); gap:8px 18px; }
   .experiencePreview > span { grid-column:1 / -1; }
-  .heroAside { min-height:320px; }
+  .ecommerceDiagram { min-height:420px; }
   .heroPhoto { height:440px; max-width:650px; }
   .scenarioGrid { grid-template-columns:1fr; }
   .storyList article { grid-template-columns:1fr; gap:18px; }
@@ -145,10 +157,10 @@
   .page h1 { font-size:clamp(2.75rem,10.5vw,4rem); }
   .page h2 { font-size:clamp(2rem,8vw,2.8rem); }
   .hero { padding:50px 0 58px; }
-  .heroAside { min-height:280px; padding:28px; border-top-left-radius:65px; }
+  .ecommerceDiagram { min-height:390px; padding:22px; border-top-left-radius:65px; }
   .heroPhoto { height:360px; }
-  .signalSection, .featureSection, .exampleSection, .consultingScenarios, .consultingOutput, .stories { padding-block:65px; }
-  .moveGrid, .exampleCards, .consultingSignals, .consultingOutput > div, .closing > div { grid-template-columns:1fr; }
+  .signalSection, .featureSection, .consultingScenarios, .consultingOutput, .stories { padding-block:65px; }
+  .moveGrid, .consultingSignals, .consultingOutput > div, .closing > div { grid-template-columns:1fr; }
   .moveGrid article { min-height:0; }
   .consultingSignals article { min-height:125px; }
   .storyNarrative { grid-template-columns:1fr; gap:16px; }
@@ -161,7 +173,11 @@
   .heroActions { align-items:flex-start; flex-direction:column; }
   .action { max-width:100%; }
   .signalList article { grid-template-columns:35px 1fr; gap:10px; }
-  .heroAside > strong { font-size:2.35rem; }
+  .ecommerceDiagram { padding:18px; }
+  .diagramSources span { gap:5px; font-size:.7rem; }
+  .diagramSources svg { width:16px; height:16px; }
+  .diagramOutcomes span { gap:4px; font-size:.65rem; }
+  .diagramOutcomes svg { width:14px; height:14px; }
   .heroPhoto figcaption { max-width:70%; right:-8px; bottom:32px; font-size:.86rem; }
   .consultingOutput li { grid-template-columns:25px 1fr; }
   .consultingOutput li p { grid-column:2; }
