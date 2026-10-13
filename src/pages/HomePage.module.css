@@ -31,6 +31,20 @@
 .heroEyebrow { display: inline-block; margin-bottom: 27px; color: var(--violet); font-size: .73rem; font-weight: 750; letter-spacing: .105em; }
 .hero h1 { max-width: 710px; font-size: clamp(3.45rem, 5.2vw, 5.15rem); font-weight: 590; line-height: 1.055; letter-spacing: -.06em; }
 .hero h1 em { color: var(--violet); font-style: normal; }
+.heroTitle { position: relative; }
+.heroTitlePrepared .heroTitleBase { opacity: 0; }
+.heroTitleOverlay { position: absolute; inset: 0; pointer-events: none; }
+.heroTitleLetter { position: absolute; display: inline-block; white-space: pre; opacity: 0; filter: blur(10px); transform: translateY(10px); }
+.heroTitleAccent { color: var(--violet); }
+.heroTitleStarted .heroTitleLetter { animation: heroLetterReveal 620ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes heroLetterReveal {
+  from { opacity: 0; filter: blur(10px); transform: translateY(10px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroTitlePrepared .heroTitleBase { opacity: 1; }
+  .heroTitleOverlay { display: none; }
+}
 .heroCopy > p { max-width: 610px; margin-top: 25px; color: #4c4857; font-size: 1.1rem; line-height: 1.65; }
 .heroActions { display: flex; flex-wrap: wrap; align-items: center; gap: 23px; margin-top: 29px; }
 .heroProof { margin-top: 45px; padding-top: 23px; border-top: 1px solid #ddd9e7; }

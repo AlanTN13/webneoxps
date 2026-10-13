@@ -289,3 +289,18 @@
 - Los cuatro relatos y sus hechos no cambiaron. Cada caso ahora muestra estado junto al cliente, problema y trabajo en dos columnas, y «qué quedó» en una franja visual destacada. Los tres «Otros frentes» se conservan.
 - Validación local: lint, seis pruebas de sitio, build y `git diff --check` PASS. Revisión visual en escritorio y móviles de 390/320 px PASS, sin desborde horizontal; «Ver los casos» llega a `#historias` y aparecen los cuatro relatos.
 - Gate final: actualizar y comprobar la preview del PR #76. Sin merge ni producción; rollback por reversión del commit.
+
+## ENTRADA DEL TÍTULO DE HOME — PREFLIGHT / PATCH MODE (2026-10-12)
+
+- Rol y superficie: edición visual del PR draft #76, sólo el H1 principal de Home y sus estilos. Fuente canónica AlanOS `origin/main` en `44828e5`, contrato de ejecución versión 2026-09-20, decisión vigente de copy de Home. Rama web `ff3fb1c`, limpia y coincidente con remoto. Referencia visual: título «Consultoría» de [Milbrands](https://www.milbrands.com.ar/consultoria-ecommerce), consultado el 2026-10-12; se toma sólo el patrón de entrada, no contenido ni diseño.
+- Resultado autorizado: revelar las letras del H1 una vez al entrar en pantalla, de izquierda a derecha, desde opacidad 0, desenfoque de 10 px y desplazamiento vertical de 10 px, con duración y desfase cercanos a los intervalos indicados por Alan.
+- Budget/riesgo: S / T1 / R1, reversible. Dentro: H1 de Home, CSS específico y este receipt. Fuera: tipografía, colores, texto, otros elementos de Home, páginas internas, Radar/editorial, automatizaciones y producción.
+- Aceptación: el texto semántico y sus saltos de línea permanecen intactos, sin mover contenido; una sola ejecución al entrar en pantalla; escritorio y móvil legibles, sin desborde; con movimiento reducido se ve el título completo directamente. Validación: lint, pruebas del sitio, build, `git diff --check`, inspección visual y funcional local, y preview del PR.
+- Permisos/recuperación: publicar sólo en rama del PR draft, sin merge ni producción. Rollback por reversión del commit. STOP si para lograr el efecto es necesario cambiar la maqueta o el copy.
+
+## ENTRADA DEL TÍTULO DE HOME — RECEIPT (2026-10-12)
+
+- Delta: el H1 original de Home permanece en el flujo y en el árbol accesible. Una capa visual, oculta a lectores de pantalla, revela 43 caracteres visibles con `opacity: 0→1`, `blur(10px)→0` y `translateY(10px)→0`; cada letra dura 620 ms y empieza 38 ms después de la anterior. Un `IntersectionObserver` dispara la secuencia una vez; al terminar, queda el texto original. Con `prefers-reduced-motion: reduce` se muestra el original directamente.
+- La posición de cada letra se mide sobre el texto original y se actualiza si cambia el ancho o termina de cargar la fuente. No se modificaron texto, tipografía, colores, saltos, CTA ni otros bloques.
+- Validación local: lint, seis pruebas del sitio, build y `git diff --check` PASS. En escritorio a 1280 px y móvil a 390 px, la altura del H1 y la posición del párrafo coinciden exactamente con la preview anterior; a 320 px no hay desborde horizontal. El título mantiene un único nombre accesible. Recarga fuera de pantalla: preparado sin iniciar; al volver arriba: secuencia ejecutada. Regla de movimiento reducido verificada en CSS; su emulación visual no estuvo disponible en el navegador de prueba.
+- Gate final: comprobar la nueva preview Netlify del PR #76 y recibir la revisión visual de Alan. Sin merge ni producción; rollback por reversión del commit.

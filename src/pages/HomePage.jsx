@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { CALENDLY_LINK } from "../config/constants";
@@ -34,6 +34,97 @@ const platforms = [
   { name: "Tableau", logo: "/assets/platform-logos/tableau.svg" },
   { name: "Power BI", logo: "/assets/platform-logos/powerbi.svg", icon: true },
 ];
+
+function HomeHeroTitle() {
+  const titleRef = useRef(null);
+  const baseRef = useRef(null);
+  const [letters, setLetters] = useState([]);
+  const [ready, setReady] = useState(false);
+  const [started, setStarted] = useState(false);
+  const [complete, setComplete] = useState(false);
+
+  useLayoutEffect(() => {
+    if (complete) return undefined;
+    const title = titleRef.current;
+    const base = baseRef.current;
+    if (!title || !base) return undefined;
+
+    let mounted = true;
+    const measure = () => {
+      if (!mounted) return;
+      const titleRect = title.getBoundingClientRect();
+      const plainText = base.firstChild;
+      const accentText = base.querySelector("em")?.firstChild;
+      const segments = [{ node: plainText, accent: false }, { node: accentText, accent: true }];
+      const range = document.createRange();
+      let order = 0;
+      const positions = [];
+
+      for (const { node, accent } of segments) {
+        if (!node || node.nodeType !== Node.TEXT_NODE) continue;
+        let offset = 0;
+        for (const character of node.textContent) {
+          const nextOffset = offset + character.length;
+          if (character.trim()) {
+            range.setStart(node, offset);
+            range.setEnd(node, nextOffset);
+            const rect = range.getBoundingClientRect();
+            positions.push({ character, accent, order, left: rect.left - titleRect.left, top: rect.top - titleRect.top });
+            order += 1;
+          }
+          offset = nextOffset;
+        }
+      }
+      if (positions.length) {
+        setLetters(positions);
+        setReady(true);
+      }
+    };
+
+    measure();
+    const resizeObserver = "ResizeObserver" in window ? new ResizeObserver(measure) : null;
+    resizeObserver?.observe(title);
+    if (!resizeObserver) window.addEventListener("resize", measure);
+    document.fonts?.ready.then(measure);
+    return () => {
+      mounted = false;
+      resizeObserver?.disconnect();
+      if (!resizeObserver) window.removeEventListener("resize", measure);
+    };
+  }, [complete]);
+
+  useEffect(() => {
+    if (!ready || started) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setComplete(true);
+      return undefined;
+    }
+    const title = titleRef.current;
+    if (!("IntersectionObserver" in window)) {
+      setStarted(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setStarted(true);
+      observer.disconnect();
+    }, { threshold: 0.15 });
+    observer.observe(title);
+    return () => observer.disconnect();
+  }, [ready, started]);
+
+  useEffect(() => {
+    if (!started || complete || !letters.length) return undefined;
+    const timer = window.setTimeout(() => setComplete(true), (letters.length - 1) * 38 + 700);
+    return () => window.clearTimeout(timer);
+  }, [started, complete, letters.length]);
+
+  return <h1 ref={titleRef} id="home-title" className={`${styles.heroTitle} ${ready && !complete ? styles.heroTitlePrepared : ""} ${started ? styles.heroTitleStarted : ""}`}>
+    <span ref={baseRef} className={styles.heroTitleBase}>Hacemos que tu negocio online <em>genere más ingresos.</em></span>
+    {ready && !complete && <span className={styles.heroTitleOverlay} aria-hidden="true">{letters.map(({ character, accent, order, left, top }) => <span key={order} className={`${styles.heroTitleLetter} ${accent ? styles.heroTitleAccent : ""}`} style={{ left, top, animationDelay: `${order * 38}ms` }}>{character}</span>)}</span>}
+  </h1>;
+}
+
 export default function HomePage() {
   const methodRef = useRef(null);
   useEffect(() => {
@@ -67,7 +158,7 @@ export default function HomePage() {
     <section className={styles.hero} aria-labelledby="home-title"><div className={styles.shell}><div className={styles.heroGrid}>
       <div className={styles.heroCopy}>
         <span className={styles.heroEyebrow}>ECOMMERCE + CONSULTORÍA DE NEGOCIO</span>
-        <h1 id="home-title">Hacemos que tu negocio online <em>genere más ingresos.</em></h1>
+        <HomeHeroTitle />
         <p>Escalamos tu ecommerce, Mercado Libre y redes sociales, con equipo, procesos y tecnología. Porque generar ingresos no alcanza si no se traducen en ganancia real.</p>
         <div className={styles.heroActions}><a className={styles.primary} href="#contacto">Contanos tu caso <ArrowRight size={18} /></a></div>
         <div className={styles.heroProof}><p><strong>+10 años ayudando negocios a crecer sus canales digitales de manera sostenida.</strong></p></div>
