@@ -304,3 +304,17 @@
 - La posición de cada letra se mide sobre el texto original y se actualiza si cambia el ancho o termina de cargar la fuente. No se modificaron texto, tipografía, colores, saltos, CTA ni otros bloques.
 - Validación local: lint, seis pruebas del sitio, build y `git diff --check` PASS. En escritorio a 1280 px y móvil a 390 px, la altura del H1 y la posición del párrafo coinciden exactamente con la preview anterior; a 320 px no hay desborde horizontal. El título mantiene un único nombre accesible. Recarga fuera de pantalla: preparado sin iniciar; al volver arriba: secuencia ejecutada. Regla de movimiento reducido verificada en CSS; su emulación visual no estuvo disponible en el navegador de prueba.
 - Gate de preview: [Netlify](https://deploy-preview-76--webnexops.netlify.app/) abrió la versión de código `d66ab5e`. Se observaron 43 letras con estado inicial `opacity: 0`, `blur(10px)` y desplazamiento vertical de 10 px en la página remota; el resultado final se revisó a 1280 y 390 px, con ancho sin desborde. `validate`, Vercel y Netlify PASS en el PR #76. Pendiente la aceptación visual de Alan; PR draft, sin merge ni producción. Rollback por reversión del commit.
+
+## CIERRE DE CONSULTORÍA — PREFLIGHT / PATCH MODE (2026-10-13)
+
+- Rol y superficie: corrección visual de `/consultoria` en el PR draft #76, sobre el tramo «Cómo trabajamos» → enlace a Ecommerce → CTA final mostrado por Alan. Fuente canónica AlanOS `origin/main` en `ba06ecc`; contrato de ejecución versión 2026-09-20 y decisión vigente de Consultoría consultados. Rama web `85f23df`, limpia y coincidente con remoto.
+- Resultado autorizado: resolver el espacio vacío bajo los pasos y la franja blanca que interrumpe el cierre. Conservar las tres etapas, el texto, el enlace a Ecommerce y el CTA, pero componerlos como una secuencia visual compacta.
+- Budget/riesgo: S / T1 / R1, edición reversible. Dentro: JSX de ese tramo de Consultoría, CSS específico y este receipt. Fuera: hero, seis señales, Ecommerce/Experiencia/Home, rutas, Radar/editorial, automatizaciones y producción.
+- Aceptación: método y cierre balanceados en escritorio, lectura ordenada en móvil, sin banda blanca entre dos bloques oscuros ni desborde; enlaces y CTA conservan destino. Validación: lint, pruebas del sitio, build, `git diff --check`, revisión local y preview del PR.
+- Permisos/recuperación: publicar sólo en rama draft, sin merge ni producción. Rollback por reversión del commit. STOP si la corrección requiere alterar la propuesta comercial o páginas adyacentes.
+
+## CIERRE DE CONSULTORÍA — RECEIPT LOCAL (2026-10-13)
+
+- Se reunieron «Cómo trabajamos», los tres pasos, el CTA y la referencia a Ecommerce en una sola sección lila. Se eliminó la banda blanca intermedia y se mantuvieron los textos y destinos originales.
+- Validación local: `npm run lint`, `npm run site:test` (6/6), `npm run build` y `git diff --check` PASS. Vista local revisada en escritorio y móvil; a 390 px el contenido se apila en orden y a 320 px el ancho del documento coincide con el viewport, sin desborde horizontal.
+- Gate: cambio para el PR draft #76 y su preview; no autorizado para merge ni producción. Rollback por reversión del commit.
