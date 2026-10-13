@@ -6,10 +6,27 @@ export default function ScrollToTop() {
 
     useEffect(() => {
         if (hash) {
-            const animationFrame = window.requestAnimationFrame(() => {
-                document.querySelector(hash)?.scrollIntoView({ behavior: "auto" });
+            let animationFrame;
+            const observer = new MutationObserver(() => {
+                const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+                if (!target) return;
+                observer.disconnect();
+                animationFrame = window.requestAnimationFrame(() => {
+                    target.scrollIntoView({ behavior: "auto" });
+                });
             });
-            return () => window.cancelAnimationFrame(animationFrame);
+            observer.observe(document.getElementById("root"), { childList: true, subtree: true });
+            const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+            if (target) {
+                observer.disconnect();
+                animationFrame = window.requestAnimationFrame(() => {
+                    target.scrollIntoView({ behavior: "auto" });
+                });
+            }
+            return () => {
+                observer.disconnect();
+                window.cancelAnimationFrame(animationFrame);
+            };
         }
 
         window.scrollTo({

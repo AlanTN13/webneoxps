@@ -1,7 +1,7 @@
 // src/main.jsx
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
 import App from "./App.jsx";
 
@@ -23,6 +23,9 @@ const ProcessAutomation = lazy(() => import("./pages/servicios/ProcessAutomation
 const FrontEndUX = lazy(() => import("./pages/servicios/FrontEndUX.jsx"));
 const RadarControlCenter = lazy(() => import("./pages/radar/RadarControlCenter.jsx"));
 const SolutionLanding = lazy(() => import("./pages/SolutionLanding.jsx"));
+const EcommercePage = lazy(() => import("./pages/CommercialPages.jsx").then((module) => ({ default: module.EcommercePage })));
+const ConsultingPage = lazy(() => import("./pages/CommercialPages.jsx").then((module) => ({ default: module.ConsultingPage })));
+const ExperiencePage = lazy(() => import("./pages/CommercialPages.jsx").then((module) => ({ default: module.ExperiencePage })));
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -35,6 +38,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         {/* Landing principal */}
         <Route path="/" element={<App />} />
+
+        {/* Páginas institucionales */}
+        <Route path="/ecommerce" element={<EcommercePage />} />
+        <Route path="/implementacion" element={<Navigate to="/ecommerce" replace />} />
+        <Route path="/consultoria" element={<ConsultingPage />} />
+        <Route path="/experiencia" element={<ExperiencePage />} />
+        {/* Formación permanece desarrollada, pero fuera de la Web pública. */}
+        <Route path="/formacion" element={<Navigate to="/" replace />} />
 
         {/* Nueva arquitectura comercial */}
         <Route path="/soluciones/:slug" element={<SolutionLanding />} />
