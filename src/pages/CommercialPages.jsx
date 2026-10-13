@@ -77,7 +77,7 @@ export function EcommercePage() {
 
 const consultingSignals = [
   ["Tu equipo comercial recibe consultas, pero algunas oportunidades quedan sin respuesta.", "Seguimiento comercial", "Revisamos entrada de contactos, responsables, próximos pasos y registro en CRM."],
-  ["Dos personas clave tienen que aprobar o destrabar casi todo.", "Dependencia operativa", "Mapeamos decisiones, responsables y excepciones para que el trabajo no dependa de su memoria."],
+  ["El trabajo se frena esperando decisiones o aprobaciones.", "Dependencia operativa", "Identificamos qué decisiones necesitan aprobación, quién puede tomarlas y cómo resolver excepciones sin frenar al equipo."],
   ["Los sistemas muestran datos distintos y el equipo copia información entre ellos.", "Sistemas e integraciones", "Trazamos de dónde sale cada dato y dónde se corta el flujo entre herramientas."],
   ["Nadie confía del todo en los números de ventas o margen.", "Datos y decisiones", "Acordamos indicadores útiles y contrastamos las fuentes antes de armar otro tablero."],
   ["Querés usar IA, pero no sabés en qué tarea aportaría valor.", "IA aplicada", "Elegimos un caso de uso concreto y definimos contexto, permisos y revisión humana."],

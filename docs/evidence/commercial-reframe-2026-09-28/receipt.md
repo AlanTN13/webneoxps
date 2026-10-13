@@ -320,3 +320,12 @@
 - Gate: cambio para el PR draft #76 y su preview; no autorizado para merge ni producción. Rollback por reversión del commit.
 - Gate verificado: [`c88c86d`](https://github.com/AlanTN13/webneoxps/commit/c88c86d) visible en la [preview de Consultoría](https://deploy-preview-76--webnexops.netlify.app/consultoria). Se revisó visualmente escritorio y móvil a 390 px, sin desborde, con CTA a Calendly y enlace a `/ecommerce`; Netlify, Vercel y los dos `validate` del PR PASS. Pendiente sólo aceptación visual de Alan; sin merge ni producción.
 - Knowledge Delta: decisión y evidencia sincronizadas en AlanOS `Alan/02_ProyectosPropios/NexOps/NexOps_Decisiones.md`, commit [`9316de2`](https://github.com/AlanTN13/Alanos/commit/9316de2), `origin/main` verificado.
+
+## CONSULTORÍA — SEÑAL 02, PREFLIGHT / PATCH MODE (2026-10-13)
+
+- Rol y superficie: corrección de copy solicitada por Alan en la segunda señal de `/consultoria`, dentro del PR draft #76. Contrato AlanOS 2026-09-20 consultado en `origin/main` `9316de2`; rama web `d687e82`, limpia y coincidente con remoto.
+- Resultado autorizado: reemplazar sólo el título y el texto «Qué revisamos» de la señal 02. Baseline a preservar: las otras cinco señales, el rótulo interno del tema, el diseño completo y las demás páginas.
+- Budget/riesgo: S / T1 / R1, reversible. Superficie permitida: dos cadenas de `consultingSignals` y este receipt. Aceptación: mensaje más claro y menos centrado en personas, sin cambio visual o funcional; validación focalizada de contenido, lint, build y preview del PR.
+- Gate: rama draft y preview únicamente; sin merge ni producción. Rollback por reversión del commit. STOP si para cumplir el pedido hubiera que modificar otras señales o la oferta.
+- Delta: señal 02 «El trabajo se frena esperando decisiones o aprobaciones.»; «Qué revisamos: Identificamos qué decisiones necesitan aprobación, quién puede tomarlas y cómo resolver excepciones sin frenar al equipo.» Ninguna otra señal ni estilo cambió.
+- Validación local: `npm run lint`, `npm run build` y `git diff --check` PASS. El cambio de texto no requiere pruebas nuevas que reproduzcan las cadenas; CI del PR valida la integración. Pendiente la verificación de la preview de Netlify y la aceptación de Alan.
